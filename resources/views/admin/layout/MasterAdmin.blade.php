@@ -84,13 +84,11 @@
         })
     </script>
 
-    @flasher_render()
 
     @livewireScripts()
 
     @stack('scripts')
 
-    @flasher_livewire_render
 </body>
 
 </html>

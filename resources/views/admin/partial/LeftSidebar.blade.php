@@ -53,13 +53,13 @@
                 </div>
             </li>
 
-            {{-- <li @class(['active' => request()->routeIs('admin.home')])>
+            <li @class(['active' => request()->routeIs('admin.home')])>
                 <a href="{{ route('admin.home') }}"><i class="zmdi zmdi-view-dashboard zmdi-hc-1x"></i><span>
                         داشبورد</span>
                 </a>
-            </li> --}}
+            </li>
 
-            {{-- @canany(['users', 'roles', 'permissions'])
+            @canany(['users', 'roles', 'permissions'])
                 <li @class([
                     'active open' => request()->routeIs(
                         'admin.users.*',
@@ -79,7 +79,7 @@
                         @endcan
                     </ul>
                 </li>
-            @endcanany --}}
+            @endcanany
             @canany(['products', 'categories', 'attributes', 'coupons'])
                 <li @class([
                     'active open' => request()->routeIs(
