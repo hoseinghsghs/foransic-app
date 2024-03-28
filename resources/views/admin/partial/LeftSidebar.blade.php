@@ -14,8 +14,8 @@
                     <a class="image" href="#"><img
                             src="{{ auth()->user()->avatar ? asset('storage/profile/' . auth()->user()->avatar) : asset('img/profile.png') }}"></a>
                     <div class="detail">
-                        <h6><strong>{{ auth()->user()->name ?? auth()->user()->cellphone }}</strong></h6>
-                        <small>{{ auth()->user()->roles->first()->display_name }}</small>
+                        {{-- <h6><strong>{{ auth()->user()->name ?? auth()->user()->cellphone }}</strong></h6> --}}
+                        {{-- <small>{{ auth()->user()->roles->first()->name }}</small> --}}
                     </div>
                     <div class="w-100 d-flex justify-content-around d-md-none">
                         <span class="dropdown">
@@ -53,13 +53,13 @@
                 </div>
             </li>
 
-            <li @class(['active' => request()->routeIs('admin.home')])>
+            {{-- <li @class(['active' => request()->routeIs('admin.home')])>
                 <a href="{{ route('admin.home') }}"><i class="zmdi zmdi-view-dashboard zmdi-hc-1x"></i><span>
                         داشبورد</span>
                 </a>
-            </li>
+            </li> --}}
 
-            @canany(['users', 'roles', 'permissions'])
+            {{-- @canany(['users', 'roles', 'permissions'])
                 <li @class([
                     'active open' => request()->routeIs(
                         'admin.users.*',
@@ -79,7 +79,7 @@
                         @endcan
                     </ul>
                 </li>
-            @endcanany
+            @endcanany --}}
             @canany(['products', 'categories', 'attributes', 'coupons'])
                 <li @class([
                     'active open' => request()->routeIs(
@@ -100,52 +100,11 @@
 
                             <li @class(['active' => request()->routeIs('admin.products.create')])><a href={{ route('admin.products.create') }}>ایجاد محصول</a></li>
                         @endcan
-                        @can('categories')
-                            <li @class(['active' => request()->routeIs('admin.categories.index')])><a href={{ route('admin.categories.index') }}>دسته بندی ها</a>
-                            </li>
-                        @endcan
-                        @can('attributes')
-                            <li @class(['active' => request()->routeIs('admin.attributes.index')])><a href={{ route('admin.attributes.index') }}>ویژگی ها</a></li>
-                        @endcan
-                        @can('coupons')
-                            <li @class(['active' => request()->routeIs('admin.coupons.index')])><a href={{ route('admin.coupons.index') }}>کد تخفیف</a></li>
-                        @endcan
-                        @can('prices')
-                            <li @class(['active' => request()->routeIs('admin.prices.index')])><a href={{ route('admin.prices.index') }}>ویرایش قیمت ها</a></li>
-                        @endcan
+
                     </ul>
                 </li>
             @endcanany
-            @canany(['shop'])
-                <li @class([
-                    'active open' => request()->routeIs('admin.shop.*'),
-                ])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-accounts-outline"></i><span>چند فروشندگی</span></a>
-                    <ul class="ml-menu">
-                        @can('shop')
-                            <li @class(['active' => request()->routeIs('admin.shop.index')])><a href={{ route('admin.shop.index') }}>لیست فروشگاه ها</a></li>
-                        @endcan
-                    </ul>
-                </li>
-            @endcanany
-            @canany(['orders', 'transactions'])
-                <li @class([
-                    'active open' => request()->routeIs(
-                        'admin.orders.*',
-                        'admin.transactions.*'),
-                ])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-assignment-o"></i><span>سفارشات</span></a>
-                    <ul class="ml-menu">
-                        @can('orders')
-                            <li @class(['active' => request()->routeIs('admin.orders.index')])><a href={{ route('admin.orders.index') }}>لیست سفارشات</a></li>
-                        @endcan
-                        @can('transactions')
-                            <li @class(['active' => request()->routeIs('admin.transactions.index')])><a href={{ route('admin.transactions.index') }}>لیست تراکنش
-                                    ها</a></li>
-                        @endcan
-                    </ul>
-                </li>
-            @endcanany
+
 
             @can('galeries')
                 <li @class(['active open' => request()->routeIs('admin.galeries.*')])><a href="javascript:void(0);" class="menu-toggle"><i
@@ -156,78 +115,8 @@
                 </li>
             @endcan
 
-            @can('posts')
-                <li @class(['active open' => request()->routeIs('admin.posts.*')])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-border-color"></i><span>وبلاگ</span></a>
-                    <ul class="ml-menu">
-                        <li @class(['active' => request()->routeIs('admin.posts.index')])><a href={{ route('admin.posts.index') }}>لیست مطالب</a></li>
-                        <li @class(['active' => request()->routeIs('admin.posts.create')])><a href={{ route('admin.posts.create') }}>ایجاد مطلب</a></li>
-                    </ul>
-                </li>
-            @endcan
-            @can('brands')
-                <li @class(['active open' => request()->routeIs('admin.brands.*')])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-star-circle"></i><span>برند
-                            ها</span></a>
-                    <ul class="ml-menu">
-                        <li @class(['active' => request()->routeIs('admin.brands.index')])><a href={{ route('admin.brands.index') }}>لیست برند ها</a></li>
-                        <li @class(['active' => request()->routeIs('admin.brands.create')])><a href={{ route('admin.brands.create') }}>ایجاد برند</a></li>
-                    </ul>
-                </li>
-            @endcan
 
-            @can('banners')
-                <li @class(['active open' => request()->routeIs('admin.banners.*')])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-aspect-ratio-alt"></i><span>بنر
-                            ها</span></a>
-                    <ul class="ml-menu">
-                        <li @class(['active' => request()->routeIs('admin.banners.index')])><a href={{ route('admin.banners.index') }}>لیست بنر ها</a></li>
-                        <li @class(['active' => request()->routeIs('admin.banners.create')])><a href={{ route('admin.banners.create') }}>ایجاد بنر</a></li>
-                    </ul>
-                </li>
-            @endcan
-            @can('services')
-                <li @class(['active open' => request()->routeIs('admin.services.*')])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-check-circle-u"></i><span>سرویس
-                            ها</span></a>
-                    <ul class="ml-menu">
-                        <li @class(['active' => request()->routeIs('admin.services.index')])><a href={{ route('admin.services.index') }}>لیست سرویس ها</a>
-                        </li>
-                        <li @class(['active' => request()->routeIs('admin.services.create')])><a href={{ route('admin.services.create') }}>ایجاد سرویس</a></li>
-                    </ul>
-                </li>
-            @endcan
-            @can('analytics')
-                <li @class(['active' => request()->routeIs('admin.analytics.*')])><a href={{ route('admin.analytics.show') }}><i
-                            class="zmdi zmdi-chart"></i><span>آنالیز بازدید ها
-                        </span></a>
-                </li>
-            @endcan
-            @can('tags')
-                <li @class(['active' => request()->routeIs('admin.tags.*')])><a href={{ route('admin.tags.create') }}><i
-                            class="zmdi zmdi-label"></i><span>تگ
-                            ها</span></a>
-                </li>
-            @endcan
 
-            @can('keywords')
-                <li @class(['active' => request()->routeIs('admin.keywords.*')])><a href={{ route('admin.keywords.create') }}><i
-                            class="zmdi zmdi-badge-check"></i><span>
-                            کلمات کلیدی</span></a>
-                </li>
-            @endcan
-
-            <li>
-                <a target="_blank" href="https://www.goftino.com/login?r=/app/dashboard"><i
-                        class="zmdi zmdi-comments"></i>
-                    <span>چت آنلاین</span>
-                </a>
-            </li>
-            @can('comments')
-                <li @class(['active' => request()->routeIs('admin.comments.*')])><a href={{ route('admin.comments.index') }}>
-                        <i class="zmdi zmdi-quote"></i><span>نظرات</span></a>
-                </li>
-            @endcan
 
             @can('events')
                 <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
@@ -235,11 +124,7 @@
                 </li>
             @endcan
 
-            @can('questions')
-                <li @class(['active' => request()->routeIs('admin.questions.*')])><a href={{ route('admin.questions.index') }}>
-                        <i class="zmdi zmdi-help-outline"></i><span>پرسش و پاسخ</span></a>
-                </li>
-            @endcan
+
 
             @can('sms')
                 <li @class(['active' => request()->routeIs('admin.sms.*')])><a href={{ route('admin.sms.create') }}>

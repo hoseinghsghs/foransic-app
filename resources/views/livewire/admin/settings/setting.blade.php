@@ -11,19 +11,19 @@
                         </ul>
                     </div>
                 @endif
-                <form wire:submit.prevent="save" id="form_advanced_validation">
+                <form wire:submit="save" id="form_advanced_validation">
                     @csrf
                     <div class="row">
                         <div class="form-group form-float col-md-4">
                             <div class="form-line">
                                 <label class="form-label">عنوان سایت</label>
-                                <input wire:model.defer="site_name" type="text" name="title" class="form-control">
+                                <input wire:model="site_name" type="text" name="title" class="form-control">
                             </div>
                         </div>
                         <div class="form-group form-float col-md-4">
                             <label class="form-label">ایمیل</label>
                             <div class="input-group mb-1">
-                                <input wire:model.defer="email" type="email" class="form-control">
+                                <input wire:model="email" type="email" class="form-control">
                                 <div class="input-group-append">
                                     <button wire:click="addEmail" wire:loading.attr="disabled" wire:target="addEmail"
                                             class="btn btn-info m-0" type="button">
@@ -56,7 +56,7 @@
                         <div class="form-group form-float col-md-4">
                             <label class="form-label">شماره تماس</label>
                             <div class="input-group mb-1">
-                                <input wire:model.defer="phone" type="number" class="form-control without-spin">
+                                <input wire:model="phone" type="number" class="form-control without-spin">
                                 <div class="input-group-append">
                                     <button wire:click="addPhone" wire:loading.attr="disabled" wire:target="addPhone"
                                             class="btn btn-info m-0" type="button">
@@ -90,33 +90,33 @@
                         <div class="form-group form-float col-md-4">
                             <div class="form-line">
                                 <label class="form-label">لینک اینستاگرام </label>
-                                <input type="text" wire:model="instagram" class="form-control">
+                                <input type="text" wire:model.live="instagram" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group form-float col-md-4">
                             <div class="form-line">
                                 <label class="form-label">لینک واتس آپ</label>
-                                <input type="text" wire:model="whatsapp" class="form-control">
+                                <input type="text" wire:model.live="whatsapp" class="form-control">
                             </div>
                         </div>
                         <div class="form-group form-float col-md-4">
                             <div class="form-line">
                                 <label class="form-label">لینک تلگرام</label>
-                                <input type="text" wire:model="telegram" class="form-control">
+                                <input type="text" wire:model.live="telegram" class="form-control">
                             </div>
                         </div>
                         <div class="w-100"></div>
                         <div class="form-group form-float col-md-6">
                             <div class="form-line">
                                 <label class="form-label">آدرس</label>
-                                <input wire:model.defer="address" type="text" class="form-control">
+                                <input wire:model="address" type="text" class="form-control">
                             </div>
                         </div>
                         <div class="form-group form-float col-md-6">
                             <div class="form-line">
                                 <label class="form-label">ساعات کاری</label>
-                                <input type="text" class="form-control" wire:model.defer="work_days">
+                                <input type="text" class="form-control" wire:model="work_days">
                             </div>
                         </div>
                         <div class="w-100"></div>
@@ -125,27 +125,27 @@
                         <div class="form-group form-float col-md-6">
                             <small>طول جغرافیایی</small>
                             <div class="form-line">
-                                <input type="number" step=any wire:model.defer="longitude" class="form-control">
+                                <input type="number" step=any wire:model="longitude" class="form-control">
                             </div>
                         </div>
                         <div class="form-group form-float col-md-6">
                             <div class="form-line">
                                 <small>عرض جغرافیایی</small>
-                                <input type="number" step=any wire:model.defer="latitude" class="form-control">
+                                <input type="number" step=any wire:model="latitude" class="form-control">
                             </div>
                         </div>
                         <div class="w-100"></div>
                         <div class="form-group col-md-12">
                             <div class="form-line">
                                 <label class="form-label">توضیحات</label>
-                                <textarea wire:model.defer="description" rows="4"
+                                <textarea wire:model="description" rows="4"
                                           class="form-control no-resize">{{ $description }}</textarea>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
                             <div class="form-line">
                                 <label class="form-label">توضیحات سئو سایت (120~320 کاراکتر) </label>
-                                <textarea wire:model="seo_description"
+                                <textarea wire:model.live="seo_description"
                                           rows="3" @class(["form-control no-resize","is-warning"=>$seo_description && (strlen($seo_description) < 120 || strlen($seo_description) > 320)])></textarea>
                                 @if($seo_description)
                                     <small class="mr-2 text-muted"> {{strlen($seo_description)}} کاراکتر </small>
@@ -173,7 +173,7 @@
                             <label class="form-label">لینک های مفید</label>
                             <div class="input-group mb-2 col-md-6">
                                 <input type="text" class="form-control @error('group_name') is-invalid @enderror"
-                                       wire:model.defer="group_name" placeholder="عنوان دسته"/>
+                                       wire:model="group_name" placeholder="عنوان دسته"/>
                                 <div class="input-group-append">
                                     <button wire:click="addGroupName" wire:loading.attr="disabled"
                                             wire:target="addGroupName" class="btn btn-info m-0" type="button">
@@ -196,7 +196,7 @@
                                                                 <div class="col-md">
                                                                     <div class="input-group my-1">
                                                                         <input type="text"
-                                                                               @class(['form-control','is-invalid'=>$errors->has('links.'.$index.'.name')]) wire:model.defer="links.{{$index}}.name"/>
+                                                                               @class(['form-control','is-invalid'=>$errors->has('links.'.$index.'.name')]) wire:model="links.{{$index}}.name"/>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-auto">
@@ -249,11 +249,11 @@
                                                             <div class="input-group mb-2 mr-2"
                                                                  wire:key="body-{{$index}}-{{$key}}">
                                                                 <input
-                                                                    wire:model.defer="links.{{$index}}.children.{{$key}}.title"
+                                                                    wire:model="links.{{$index}}.children.{{$key}}.title"
                                                                     type="text"
                                                                     @class(['form-control','is-invalid'=>$errors->has('links.'.$index.'.children.'.$key.'.title')]) placeholder="عنوان لینک">
                                                                 <input
-                                                                    wire:model.defer="links.{{$index}}.children.{{$key}}.url"
+                                                                    wire:model="links.{{$index}}.children.{{$key}}.url"
                                                                     type="url"
                                                                     @class(['form-control','is-invalid'=>$errors->has('links.'.$index.'.children.'.$key.'.url')]) placeholder="آدرس لینک">
                                                                 <div class="input-group-append">
@@ -290,7 +290,7 @@
                                                                                                            role="status"
                                                                                                            aria-hidden="true"></span></label>
                             <div class="custom-file d-flex flex-row-reverse">
-                                <input wire:model="logo" type="file" class="custom-file-input" id="customFile" lang="ar"
+                                <input wire:model.live="logo" type="file" class="custom-file-input" id="customFile" lang="ar"
                                        dir="rtl">
                                 <label class="custom-file-label text-right" for="customFile">انتخاب عکس</label>
                             </div>

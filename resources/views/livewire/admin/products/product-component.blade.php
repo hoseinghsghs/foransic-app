@@ -1,7 +1,7 @@
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card">
-            <form wire:submit.prevent="$refresh">
+            <form wire:submit="$refresh">
                 <div class="header">
                     <h2>
                         جست و جو
@@ -12,7 +12,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <input type="text" class="form-control" wire:model.debounce.500ms="name"
+                                    <input type="text" class="form-control" wire:model.live.debounce.500ms="name"
                                         placeholder="نام محصول، کد انبار">
                                 </div>
                             </div>
@@ -20,7 +20,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select class="form-control ms" wire:model.deferred="category">
+                                    <select class="form-control ms" wire:modelred="category">
                                         <option value="">دسته بندی</option>
                                         @foreach ($categories->where('parent_id', 0)->sortBy('order') as $category1)
                                             <optgroup label="{{ $category1->name }}">
@@ -48,7 +48,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select data-placeholder="وضعیت" wire:model.deferred="status"
+                                    <select data-placeholder="وضعیت" wire:modelred="status"
                                         class="form-control ms">
                                         <option value="">وضعیت</option>
                                         <option value="1">انتشار</option>
@@ -60,7 +60,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select data-placeholder="موجودی" wire:model.deferred="stock"
+                                    <select data-placeholder="موجودی" wire:modelred="stock"
                                         class="form-control ms">
                                         <option value="">موجودی</option>
                                         <option value="1">موجود</option>

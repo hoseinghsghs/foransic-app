@@ -26,7 +26,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="body">
-                            <form wire:submit.prevent="edit">
+                            <form wire:submit="edit">
                                 <div class="header p-0">
                                     <h2><strong>اطلاعات اصلی محصول</strong></h2>
                                 </div>
@@ -35,7 +35,7 @@
                                     <div class="col-sm-6">
                                         <label> نام محصول <abbr class="text-danger" title="ضروری">*</abbr> </label>
                                         <div class="form-group">
-                                            <input type="text" wire:model.defer="name" required
+                                            <input type="text" wire:model="name" required
                                                 class="form-control @error('name') is-invalid @enderror" />
                                             @error('name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -65,7 +65,7 @@
                                     <div class="form-group col-md-3 col-auto">
                                         <label for="is_active">وضعیت</label>
                                         <div class="switchToggle">
-                                            <input type="checkbox" id="switch" wire:model="status">
+                                            <input type="checkbox" id="switch" wire:model.live="status">
                                             <label for="switch">Toggle</label>
                                         </div>
                                         @error('is_active')
@@ -117,7 +117,7 @@
                                                 title="ضروری">*</abbr>
                                         </label>
                                         <div class="form-group">
-                                            <input type="text" wire:model.defer="seo_title" id="seo-title"
+                                            <input type="text" wire:model="seo_title" id="seo-title"
                                                 onkeyup="Count()" required
                                                 class="form-control @error('seo_title') is-invalid @enderror" />
                                             <span id="seo-title-display" class="text-warning"></span>
@@ -134,7 +134,7 @@
                                                 title="ضروری">*</abbr>
                                         </label>
                                         <div>
-                                            <textarea wire:model.defer="seo_description" class="form-control" rows="3" required onkeyup="CountD()"
+                                            <textarea wire:model="seo_description" class="form-control" rows="3" required onkeyup="CountD()"
                                                 id="seo-description">{!! $seo_description !!}</textarea>
                                         </div>
                                         <span id="seo-description-display" class="text-warning"></span>
@@ -190,7 +190,7 @@
                                     <div class="form-group col-md-3 col-auto">
                                         <label for="contact">حالت تماس با ما</label>
                                         <div class="switchToggle">
-                                            <input type="checkbox" wire:model="contact" id="switch-1">
+                                            <input type="checkbox" wire:model.live="contact" id="switch-1">
                                             <label for="switch-1">Toggle</label>
                                         </div>
                                         @error('contact')
@@ -209,7 +209,7 @@
                                                 'is-invalid' => $errors->has("attribute_values.$key.value"),
                                             ]) type="text" required
                                                 id="attribute-{{ $key }}"
-                                                wire:model.defer="attribute_values.{{ $key }}.value">
+                                                wire:model="attribute_values.{{ $key }}.value">
                                             @error("attribute_values.$key.value")
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -257,7 +257,7 @@
                                                         'is-invalid' => $errors->has("variations.$id.name"),
                                                     ])
                                                         id="variation_values-{{ $id }}"
-                                                        wire:model.defer="variations.{{ $id }}.name">
+                                                        wire:model="variations.{{ $id }}.name">
                                                     @error("variations.$id.name")
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -269,7 +269,7 @@
                                                         'form-control without-spin',
                                                         'is-invalid' => $errors->has("variations.$id.base_price"),
                                                     ])
-                                                        wire:model="variations.{{ $id }}.base_price"
+                                                        wire:model.live="variations.{{ $id }}.base_price"
                                                         wire:keydown.debounce.150ms="updateFinalPrice({{ $id }})"
                                                         required>
                                                     @if (key_exists('base_price', $variation) && $variation['base_price'])
@@ -294,7 +294,7 @@
                                                                 'form-control without-spin',
                                                                 'is-invalid' => $errors->has("variations.$id.percent_price"),
                                                             ])
-                                                            wire:model="variations.{{ $id }}.percent_price"
+                                                            wire:model.live="variations.{{ $id }}.percent_price"
                                                             wire:keydown.debounce.150ms="updateFinalPrice({{ $id }})">
                                                     </div>
                                                     @error("variations.$id.percent_price")
@@ -308,7 +308,7 @@
                                                         'form-control without-spin',
                                                         'is-invalid' => $errors->has("variations.$id.price"),
                                                     ])
-                                                        wire:model="variations.{{ $id }}.price" required>
+                                                        wire:model.live="variations.{{ $id }}.price" required>
                                                     @if (key_exists('price', $variation) && $variation['price'])
                                                         <span class="pt-1">{{ number_format($variation['price']) }}
                                                             تومان </span>
@@ -325,7 +325,7 @@
                                                         'form-control',
                                                         'is-invalid' => $errors->has("variations.$id.shop_id"),
                                                     ])
-                                                        wire:model="variations.{{ $id }}.shop_id"
+                                                        wire:model.live="variations.{{ $id }}.shop_id"
                                                         data-placeholder="انتخاب فروشنده">
                                                         <option value="0">انتخاب فروشنده</option>
                                                         @foreach ($shops as $shop)
@@ -348,7 +348,7 @@
                                                         'form-control without-spin',
                                                         'is-invalid' => $errors->has("variations.$id.quantity"),
                                                     ])
-                                                        wire:model.defer="variations.{{ $id }}.quantity"
+                                                        wire:model="variations.{{ $id }}.quantity"
                                                         type="number" required>
                                                 </div>
                                                 <div class="form-group col-md-3 col-sm-4">
@@ -357,7 +357,7 @@
                                                         'form-control',
                                                         'is-invalid' => $errors->has("variations.$id.sku"),
                                                     ])
-                                                        wire:model="variations.{{ $id }}.sku">
+                                                        wire:model.live="variations.{{ $id }}.sku">
                                                     @error("variations.$id.sku")
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -368,7 +368,7 @@
                                                         'form-control',
                                                         'is-invalid' => $errors->has("variations.$id.guarantee"),
                                                     ])
-                                                        wire:model.defer="variations.{{ $id }}.guarantee">
+                                                        wire:model="variations.{{ $id }}.guarantee">
                                                     @error("variations.$id.guarantee")
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -379,7 +379,7 @@
                                                         'form-control',
                                                         'is-invalid' => $errors->has("variations.$id.time_guarantee"),
                                                     ])
-                                                        wire:model.defer="variations.{{ $id }}.time_guarantee">
+                                                        wire:model="variations.{{ $id }}.time_guarantee">
                                                     @error("variations.$id.time_guarantee")
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -394,7 +394,7 @@
                                                         'form-control without-spin',
                                                         'is-invalid' => $errors->has("variations.$id.sale_price"),
                                                     ])
-                                                        wire:model="variations.{{ $id }}.sale_price">
+                                                        wire:model.live="variations.{{ $id }}.sale_price">
                                                     @if (key_exists('sale_price', $variation) && $variation['sale_price'])
                                                         <span
                                                             class="pt-1">{{ number_format($variation['sale_price']) }}
@@ -477,7 +477,7 @@
                                                 title="ضروری">*</abbr></label>
                                         <input
                                             class="form-control without-spin @error('delivery_amount') is-invalid @enderror"
-                                            id="delivery_amount" wire:model="delivery_amount" type="number"
+                                            id="delivery_amount" wire:model.live="delivery_amount" type="number"
                                             dir="ltr">
                                         @if ($delivery_amount)
                                             <span class="pt-1">{{ number_format($delivery_amount) }} تومان </span>
@@ -491,7 +491,7 @@
                                             <abbr class="text-danger" title="ضروری">*</abbr></label>
                                         <input class="form-control without-spin" dir="ltr"
                                             id="delivery_amount_per_product" required type="number"
-                                            wire:model="delivery_amount_per_product">
+                                            wire:model.live="delivery_amount_per_product">
                                         @if ($delivery_amount_per_product)
                                             <span class="pt-1">{{ number_format($delivery_amount_per_product) }}
                                                 تومان </span>

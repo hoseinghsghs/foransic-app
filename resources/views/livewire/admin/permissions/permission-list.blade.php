@@ -10,7 +10,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>نام نمایشی</label>
-                                <input type="text" name="display_name" class="form-control @error('display_name') is-invalid @enderror" wire:model.defer="display_name">
+                                <input type="text" name="display_name" class="form-control @error('display_name') is-invalid @enderror" wire:model="display_name">
                                 @error('display_name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -19,7 +19,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-6">
                             <div class="form-group">
                                 <label>عنوان مجوز</label>
-                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" wire:model.defer="name">
+                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" wire:model="name">
                                 @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror

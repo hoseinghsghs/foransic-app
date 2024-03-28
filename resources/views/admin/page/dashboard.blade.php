@@ -1,30 +1,30 @@
 @extends('admin.layout.MasterAdmin')
-@section('title','داشبورد')
+@section('title', 'داشبورد')
 @section('Content')
-<section class="content">
-    <div class="">
-        <div class="block-header">
-            <div class="row">
-                <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2>داشبورد</h2>
-                    </br>
-                    <ul class="breadcrumb">
-                    </ul>
-                    <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
-                            class="zmdi zmdi-sort-amount-desc"></i></button>
-                </div>
-                <div class="col-lg-5 col-md-6 col-sm-12">
-                    <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i
-                            class="zmdi zmdi-arrow-right"></i></button>
+    <section class="content">
+        <div class="">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-7 col-md-6 col-sm-12">
+                        <h2>داشبورد</h2>
+                        </br>
+                        <ul class="breadcrumb">
+                        </ul>
+                        <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
+                                class="zmdi zmdi-sort-amount-desc"></i></button>
+                    </div>
+                    <div class="col-lg-5 col-md-6 col-sm-12">
+                        <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i
+                                class="zmdi zmdi-arrow-right"></i></button>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row clearfix">
+            <div class="container-fluid">
+                {{-- <div class="row clearfix">
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="card widget_2 big_icon traffic">
                         <div class="body">
-                            <h6>سفارشات ارسالی</h6>
+                            <h6>دیوایس های بررسیده نشده</h6>
                             <h2>{{$successsend_order}}<small class="info"> از {{$all_order}} </small></h2>
                             <small> {{(int)(($successsend_order/($all_order>0 ? $all_order : 1))*100)}}% تراکنش
                                 موفق </small>
@@ -80,8 +80,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row clearfix">
+            </div> --}}
+                {{-- <div class="row clearfix">
                 <div class="col-lg-12">
                     <cart>
                         <div class="header">
@@ -164,13 +164,13 @@
                 </div>
 
             </div>
-            
+             --}}
+            </div>
         </div>
-    </div>
-</section>
-@push('scripts')
-<!-- نمودار درصد ترافیک -->
-<script>
+    </section>
+    @push('scripts')
+        <!-- نمودار درصد ترافیک -->
+        {{-- <script>
 initC3Chart();
 function initC3Chart() {
     setTimeout(function() {
@@ -234,6 +234,6 @@ function initC3Chart() {
         });
     }, 500);
 }
-</script>
-@endpush
+</script> --}}
+    @endpush
 @endsection

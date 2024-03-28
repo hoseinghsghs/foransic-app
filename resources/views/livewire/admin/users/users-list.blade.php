@@ -10,7 +10,7 @@
                             <i class="zmdi zmdi-hc-fw zmdi-hc-spin input-icon" wire:loading wire:target="search"></i>
                             <input type="text" name="search"
                                 class="form-control @error('search') is-invalid @enderror"
-                                wire:model.debounce.500ms="search" placeholder=" نام، ایمیل، تلفن">
+                                wire:model.live.debounce.500ms="search" placeholder=" نام، ایمیل، تلفن">
                         </div>
                         @error('search')
                             <div class="invalid-feedback">{{ $message }}</div>
