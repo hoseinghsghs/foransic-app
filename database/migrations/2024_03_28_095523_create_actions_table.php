@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('actions', function (Blueprint $table) {
-            $table->id();
+              $table->id();
+
+              $table->text('description');
+              $table->string('start_date');
+              $table->string('end_date');
+              $table->boolean('status');
+              $table->boolean('is_print');
 
               $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
               $table->foreignId('device_id')->nullable()->constrained('devices')->cascadeOnDelete();

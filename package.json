@@ -29,6 +29,7 @@
         "persian-datepicker": "^1.2.0",
         "popper.js": "^1.16.1",
         "pusher-js": "^7.4.0",
+        "uuid": "^9.0.1",
         "webpack": "^5.70.0"
     }
 }

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
+            $table->string('code');
 
             $table->string('delivery_name')->nullable();
             $table->string('delivery_code')->nullable();
