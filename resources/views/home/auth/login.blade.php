@@ -674,7 +674,7 @@
                         'cellphone': input
                     },
                     function(response, status) {
-                        window.location.replace("{{ route('home') }}");
+                        window.location.replace("{{ route('admin.home') }}");
                     }, 'json').fail(function(response) {
                     if (response.responseJSON.errors && response.responseJSON.errors.password) {
                         $('#reset-password input[name=password]').addClass("is-invalid");

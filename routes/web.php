@@ -123,7 +123,6 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 Route::view('admin/login', 'admin.page.auth.login')->middleware('guest')->name('admin.login');
 
 // home routes
-Route::get('Admin-panel/managment/', [DashboardController::class, 'index'])->name('home');
 // Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('contact-us');
 
 // Route::get('/products/{product:slug}', [HomeDeviceController::class, 'show'])->name('home.products.show');
