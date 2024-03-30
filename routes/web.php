@@ -51,8 +51,7 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 //fortify routes
 require_once __DIR__ . '/fortify.php';
 //admin routes
-Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has_role'])->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('home');
+Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth'])->group(function () {
     Route::get('/timeline', [EventController::class, 'index'])->name('timeline')->middleware('permission:events');
     Route::delete('/timeline/{event}', [EventController::class, 'destroy'])->name('timeline.destroy')->middleware('permission:events');
     Route::resource('galeries',         GaleryController::class)->middleware('permission:galeries');
@@ -70,6 +69,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
     Route::view('/settings', 'admin.page.settings.setting')->name('settings.show')->middleware('permission:settings');
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
     // Route::resource('brands',         BrandController::class)->middleware('permission:brands');
     // Route::resource('attributes',     AttributeController::class)->except(['show', 'destroy'])->middleware('permission:attributes');
     // Route::post('/categories/order', [CategoryController::class, 'saveOrder'])->name('category.order');
@@ -120,7 +120,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 //end
 
 //admin auth
-Route::view('admin/login', 'admin.page.auth.login')->middleware('guest')->name('admin.login');
+// Route::view('admin/login', 'admin.page.auth.login')->middleware('guest')->name('admin.login');
 
 // home routes
 // Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('contact-us');

@@ -9,7 +9,7 @@
                     <i class="mdi mdi-home"></i>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">خانه</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">خانه</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('home.user_profile') }}">پروفایل</a></li>
                             <li class="breadcrumb-item active open" aria-current="page">لیست مقایسه</li>
                         </ol>

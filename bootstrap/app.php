@@ -11,7 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+         $middleware->alias([
+            'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+            'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+            'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+            'has_role' => \App\Http\Middleware\EnsureUserHasRole::class,
+            'has_free_plan' => \App\Http\Middleware\UserHasFreePlan::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

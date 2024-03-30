@@ -6,7 +6,7 @@
             <i class="mdi mdi-home"></i>
             <nav aria-label="breadcrumb" class="p-1">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">خانه</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">خانه</a></li>
                     <li class="breadcrumb-item"><a
                             href="{{ route('home.posts.list', $post->category) }}">{{ $post->category }}</a></li>
                     <li class="breadcrumb-item"><a
@@ -37,9 +37,9 @@
                                         <a href="{{ route('home.posts.list', $post->category) }}">{{ $post->category }}</a>
                                     </div>
                                     <!-- <div class="post-meta Visit">
-                                                                                                                                    <i class="mdi mdi-eye"></i>
-                                                                                                                                    996 بازدید
-                                                                                                                                </div> -->
+                                                                                                                                        <i class="mdi mdi-eye"></i>
+                                                                                                                                        996 بازدید
+                                                                                                                                    </div> -->
                                 </header>
                                 <div class="post-thumbnail my-4" style="margin: auto">
                                     <img src="{{ url('storage/' . $post->image->url) }}" alt="{{ $post->title }}">

@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
-import VitePluginRequire from "vite-plugin-require";
+// import VitePluginRequire from "vite-plugin-require";
 
 export default defineConfig({
     plugins: [
@@ -13,11 +13,12 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        VitePluginRequire.default(),
+        // VitePluginRequire.default(),
     ],
     resolve: {
         alias: {
             $: "jQuery",
+            $: "jquery",
         },
     },
 });

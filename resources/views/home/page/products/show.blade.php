@@ -8,7 +8,8 @@
                     <div id="breadcrumb">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb mb-0">
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="mdi mdi-home"></i>خانه
+                                <li class="breadcrumb-item"><a href="{{ route('admin.home') }}"><i
+                                            class="mdi mdi-home"></i>خانه
                                     </a></li>
                                 @foreach (product_categories($product) as $category)
                                     <li class="breadcrumb-item"><a
@@ -541,7 +542,10 @@
                                                 @if (auth()->user())
                                                     @foreach (auth()->user()->orders as $order)
                                                         @php
-                                                            $cheak_item = App\Models\OrderItem::where('order_id', $order->id)
+                                                            $cheak_item = App\Models\OrderItem::where(
+                                                                'order_id',
+                                                                $order->id,
+                                                            )
                                                                 ->where('product_id', $product->id)
                                                                 ->first();
                                                         @endphp
@@ -591,7 +595,11 @@
                                                                             <span>نقاط قوت</span>
                                                                             <ul>
                                                                                 @php
-                                                                                    $comment['advantages'] = json_decode($comment->advantages);
+                                                                                    $comment[
+                                                                                        'advantages'
+                                                                                    ] = json_decode(
+                                                                                        $comment->advantages,
+                                                                                    );
                                                                                 @endphp
                                                                                 @foreach ($comment->advantages as $item)
                                                                                     <li>
@@ -604,7 +612,11 @@
                                                                             <span>نقاط ضعف</span>
                                                                             <ul>
                                                                                 @php
-                                                                                    $comment['disadvantages'] = json_decode($comment->disadvantages);
+                                                                                    $comment[
+                                                                                        'disadvantages'
+                                                                                    ] = json_decode(
+                                                                                        $comment->disadvantages,
+                                                                                    );
                                                                                 @endphp
                                                                                 @foreach ($comment->disadvantages as $item)
                                                                                     <li>

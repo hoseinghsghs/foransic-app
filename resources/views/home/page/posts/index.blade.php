@@ -7,7 +7,7 @@
             <i class="mdi mdi-home"></i>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
-                    <li class="breadcrumb-item"><a href="{{ route('home') }}">خانه</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">خانه</a></li>
                     <li class="breadcrumb-item"><a href="{{ route('home.posts.index') }}">بلاگ</a>
                     </li>
                 </ol>

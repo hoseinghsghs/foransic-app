@@ -97,7 +97,6 @@ class DashboardController extends Controller
         // $unsuccessTransactionsChart = $this->chart($unsuccessTransactions, $month);
         // array_unshift($unsuccessTransactionsChart, "data2");
         //پربازدید ترین صفحات
-
         return view(
             'admin.page.dashboard'
             // ,

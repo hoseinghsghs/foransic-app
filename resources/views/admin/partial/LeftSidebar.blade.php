@@ -2,7 +2,7 @@
 
     <div class="navbar-brand">
         <button class="btn-menu ls-toggle-btn" type="button"><i class="zmdi zmdi-menu"></i></button>
-        <a href="{{ route('home') }}"><img
+        <a href="{{ route('admin.home') }}"><img
                 src="{{ $setting->logo ? asset('storage/logo/' . $setting->logo) : '/images/logo.png' }}"
                 style="margin-right:20px;max-height: 3rem;" height="37px" alt="meta-webs"><span
                 class="m-l-10"></span></a>
