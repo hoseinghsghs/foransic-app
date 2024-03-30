@@ -41,7 +41,7 @@ class UserHasFreePlan
                 }
 
                 alert()->error('خطا', 'مهلت تست شما به اتمام رسیده است')->showConfirmButton('تایید')->timerProgressBar();
-                return redirect()->route('home');
+                return redirect()->route('admin.home');
             }
 
             DB::disconnect('mysql');
