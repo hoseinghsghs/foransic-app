@@ -1,5 +1,6 @@
 @extends('home.layout.MasterHome')
 @section('title', 'خانه - پست ها')
+
 @section('content')
     <!-- Start of Main -->
     <main class="main-row">
