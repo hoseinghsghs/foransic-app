@@ -9,9 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable , HasRoles ;
+    use HasFactory, Notifiable , HasRoles, HasApiTokens ;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +22,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'cellphone',
+        'avatar',
+        'provider_name',
     ];
 
     /**
@@ -45,5 +48,14 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
+
+    public function events1()
+    {
+        return $this->belongsToMany(EventUser::class);
     }
 }

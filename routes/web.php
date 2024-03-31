@@ -51,17 +51,17 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 //fortify routes
 require_once __DIR__ . '/fortify.php';
 //admin routes
-Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth'])->group(function () {
+Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_role'])->group(function () {
     Route::get('/timeline', [EventController::class, 'index'])->name('timeline')->middleware('permission:events');
     Route::delete('/timeline/{event}', [EventController::class, 'destroy'])->name('timeline.destroy')->middleware('permission:events');
     Route::resource('galeries',         GaleryController::class)->middleware('permission:galeries');
-    Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:products')->name('products.edit');
+    Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices')->name('devices.edit');
 
-    Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:products')->name('products.create');
-    Route::resource('devices',         DeviceController::class)->middleware('permission:products')->only(['index', 'show']);
-    Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:products');
-    Route::resource('users',            UserController::class)->except('create', 'destroy')->middleware('permission:users');
-    Route::resource('roles',   RoleController::class)->except('show')->middleware('permission:roles');
+    Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices')->name('devices.create');
+    Route::resource('devices',         DeviceController::class)->middleware('permission:devices')->only(['index', 'show']);
+    Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
+    Route::resource('users',            UserController::class)->except('create', 'destroy')->middleware('permission:users');;
+    Route::resource('roles',   RoleController::class)->except('show')->middleware('permission:roles');;
     Route::post('/sms/send-sms',   [SmsController::class,'sendSms'])->name('sms.sendSms')->middleware('permission:sms');
     Route::resource('sms',   SmsController::class)->only('create','store')->middleware('permission:sms');
     Route::view('permissions', 'admin.page.permissions.index')->name('permissions')->middleware('permission:permissions');

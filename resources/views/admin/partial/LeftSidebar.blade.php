@@ -90,15 +90,15 @@
                         'admin.coupons.*'),
                 ])>
                     <a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-hc-fw"></i><span>فروشگاه</span></a>
+                            class="zmdi zmdi-hc-fw"></i><span>دیوایس</span></a>
                     <ul class="ml-menu">
                         @can('products')
-                            <li @class(['active' => request()->routeIs('admin.products.index')])><a href={{ route('admin.products.index') }}>لیست محصولات</a></li>
+                            <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دیوایس</a></li>
 
-                            <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست محصولات بایگانی شده</a>
+                            <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست دیوایس بایگانی شده</a>
                             </li>
 
-                            <li @class(['active' => request()->routeIs('admin.products.create')])><a href={{ route('admin.products.create') }}>ایجاد محصول</a></li>
+                            <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ایجاد دیوایس</a></li>
                         @endcan
 
                     </ul>

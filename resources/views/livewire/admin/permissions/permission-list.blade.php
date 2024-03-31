@@ -31,9 +31,9 @@
                                 <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="addPermission"></span>
                             </button>
                             @if ($is_edit)
-                            <button class="btn btn-raised btn-info waves-effect mt-md-3" wire:loading.attr="disabled" wire:click="ref">صرف نظر
-                                <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="ref"></span>
-                            </button>
+                                <button class="btn btn-raised btn-info waves-effect mt-md-3" wire:loading.attr="disabled" wire:click="ref">صرف نظر
+                                    <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="ref"></span>
+                                </button>
                             @endif
                         </div>
                     </div>
@@ -48,40 +48,40 @@
                     <h2><strong>لیست مجوزها</strong></h2>
                 </div>
                 @if(count($permissions)===0)
-                <p>هیچ رکوردی وجود ندارد</p>
+                    <p>هیچ رکوردی وجود ندارد</p>
                 @else
-                <div class="table-responsive">
-                    <table class="table table-hover c_table theme-color">
-                        <thead>
+                    <div class="table-responsive">
+                        <table class="table table-hover c_table theme-color">
+                            <thead>
                             <tr>
                                 <th>#</th>
                                 <th>نام نمایشی</th>
                                 <th>نام</th>
                                 <th class="text-center">عملیات</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             @foreach ($permissions as $key => $permission)
-                            <tr wire:key={{$key}}>
-                                <td scope="row">{{$permissions->firstItem() + $key}}</td>
-                                <td>{{$permission->display_name}}</td>
-                                <td>{{$permission->name}}</td>
-                                <td class="text-center">
-                                    <button wire:click="edit_permission({{$permission->id}})" wire:loading.attr="disabled" {{$display}} class="btn btn-raised btn-info waves-effect scroll">
-                                        <i class="zmdi zmdi-edit"></i>
-                                        <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="edit_permission({{$permission->id}}) "></span>
-                                    </button>
-                                    <button class="btn btn-raised btn-danger waves-effect" wire:loading.attr="disabled" wire:click="del_permission({{$permission->id}})" {{$display}}>
-                                        <i class="zmdi zmdi-delete"></i>
-                                        <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="del_permission({{$permission->id}})"></span>
-                                    </button>
-                                </td>
-                            </tr>
+                                <tr wire:key={{$key}}>
+                                    <td scope="row">{{$permissions->firstItem() + $key}}</td>
+                                    <td>{{$permission->display_name}}</td>
+                                    <td>{{$permission->name}}</td>
+                                    <td class="text-center">
+                                        <button wire:click="edit_permission({{$permission->id}})" wire:loading.attr="disabled" {{$display}} class="btn btn-raised btn-info waves-effect scroll">
+                                            <i class="zmdi zmdi-edit"></i>
+                                            <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="edit_permission({{$permission->id}}) "></span>
+                                        </button>
+                                        <button class="btn btn-raised btn-danger waves-effect" wire:loading.attr="disabled" wire:click="del_permission({{$permission->id}})" {{$display}}>
+                                            <i class="zmdi zmdi-delete"></i>
+                                            <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="del_permission({{$permission->id}})"></span>
+                                        </button>
+                                    </td>
+                                </tr>
                             @endforeach
 
-                        </tbody>
-                    </table>
-                </div>
+                            </tbody>
+                        </table>
+                    </div>
                 @endif
             </div>
             {{ $permissions->onEachSide(1)->links() }}
