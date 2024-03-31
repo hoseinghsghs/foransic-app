@@ -1,4 +1,7 @@
-require("../assets/home/js/vendor/jquery-3.2.1.min.js");
+window.$ =
+    window.jQuery =
+    window.jquery =
+        require("../assets/home/js/vendor/jquery-3.2.1.min.js");
 require("../assets/home/js/vendor/owl.carousel.min.js");
 require("../assets/home/js/vendor/jquery.countdown.js");
 require("../assets/home/js/vendor/ResizeSensor.min.js");
@@ -20,7 +23,7 @@ require("../assets/home/js/vendor/lightgallery.js");
 require("../assets/home/js/vendor/jquery.ez-plus.js");
 require("../assets/home/js/main.js");
 
-//require Echo from "laravel-echo";
+//import Echo from "laravel-echo";
 
 //window.Pusher = require("pusher-js");
 

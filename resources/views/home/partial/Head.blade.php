@@ -25,5 +25,4 @@
 </script>
 <title> @yield('title')
 </title>
-@vite('resources/css/home.css')
-{{-- <link rel="stylesheet" href="{{ asset('css/home.css') }}"> --}}
+ <link rel="stylesheet" href="{{ asset('css/home.css') }}">

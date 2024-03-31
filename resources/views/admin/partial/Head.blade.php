@@ -6,4 +6,3 @@
 {{-- <link rel="icon" href="{{asset('/favicon.ico')}}" type="image/x-icon"> <!-- Favicon--> --}}
 <link href="{{ asset('fonts/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
 <!-- Custom Css -->
-@vite('resources/css/admin.css')

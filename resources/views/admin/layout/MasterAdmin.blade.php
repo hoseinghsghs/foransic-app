@@ -4,9 +4,9 @@
 
 <head>
     @include('admin.partial.Head')
+    <link rel="stylesheet" href="{{ mix('css/admin.css') }}">
     @stack('styles')
     @livewireStyles()
-    <script src="{{ asset('assets/admin/jquery-3.2.1.min.js') }}"></script>
 </head>
 
 <body class="theme-blush" id="cheack_collapsed">
@@ -32,8 +32,8 @@
     @yield('Content')
 
     <!-- Jquery Core Js -->
-    {{-- <script src="{{ asset('js/admin.js') }}"></script> --}}
-    @vite('resources/js/admin.js')
+     <script src="{{ asset('js/admin.js') }}"></script>
+{{--    @vite('resources/js/admin.js')--}}
     @include('sweetalert::alert')
     <script>
         @if (session('status'))
