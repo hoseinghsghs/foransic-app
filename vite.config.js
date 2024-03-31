@@ -13,12 +13,11 @@ export default defineConfig({
             ],
             refresh: true,
         }),
-        // VitePluginRequire.default(),
+         // VitePluginRequire.default(),
     ],
     resolve: {
         alias: {
             $: "jQuery",
-            $: "jquery",
         },
     },
 });

@@ -2,8 +2,12 @@
 //import Echo from "laravel-echo";
 
 //window.Pusher = import("pusher-js");
-
+// import jQuery from "jquery";
+//
+window.$ = window.jQuery = window.jquery = jQuery;
 window.c3 = import("c3");
+// window.$ = window.jQuery = window.jquery = import("jquery");
+
 import("node-waves");
 import("bootstrap-fileinput");
 import("lightbox2");

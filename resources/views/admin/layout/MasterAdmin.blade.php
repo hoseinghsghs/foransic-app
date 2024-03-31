@@ -6,6 +6,7 @@
     @include('admin.partial.Head')
     @stack('styles')
     @livewireStyles()
+    <script src="{{ asset('assets/admin/jquery-3.2.1.min.js') }}"></script>
 </head>
 
 <body class="theme-blush" id="cheack_collapsed">
@@ -32,7 +33,6 @@
 
     <!-- Jquery Core Js -->
     {{-- <script src="{{ asset('js/admin.js') }}"></script> --}}
-    <script src="{{ asset('assets/admin/jquery-3.2.1.min.js') }}"></script>
     @vite('resources/js/admin.js')
     @include('sweetalert::alert')
     <script>

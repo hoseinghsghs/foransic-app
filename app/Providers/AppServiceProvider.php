@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
-        View::share('setting', Setting::firstOrNew());
+        if (Schema::hasTable('settings'))
+            View::share('setting', Setting::firstOrNew());
     }
 }
