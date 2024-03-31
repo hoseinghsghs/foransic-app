@@ -1,0 +1,1 @@
+(function(){window.addEventListener("load",function(){var e=document.getElementsByClassName("needs-validation");Array.prototype.filter.call(e,function(a){a.addEventListener("submit",function(t){a.checkValidity()===!1&&(t.preventDefault(),t.stopPropagation()),a.classList.add("was-validated")},!1)})},!1)})();
