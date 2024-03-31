@@ -65,10 +65,9 @@
     {{-- @include('home.partial.Loader') --}}
 
     <script src="{{ asset('assets/admin/jquery-3.2.1.min.js') }}"></script>
-    @vite('resources/js/home.js')
 
 
-    {{-- <script type="text/javascript" src="{{asset('js/home.js')}}"></script> --}}
+     <script type="text/javascript" src="{{asset('js/home.js')}}"></script>
 
     @include('sweetalert::alert')
     @livewireScripts()

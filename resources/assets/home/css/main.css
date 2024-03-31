@@ -11223,7 +11223,7 @@ span.show-less {
 }
 
 .info-page-box-headline-question {
-    background-image: url(../images/page-faq/question.svg);
+    /*background-image: url(../images/page-faq/question.svg);*/
     background-repeat: no-repeat;
 }
 
