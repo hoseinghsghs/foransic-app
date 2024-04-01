@@ -32,8 +32,8 @@
     @yield('Content')
 
     <!-- Jquery Core Js -->
-     <script src="{{ asset('js/admin.js') }}"></script>
-{{--    @vite('resources/js/admin.js')--}}
+    <script src="{{ asset('js/admin.js') }}"></script>
+    {{--    @vite('resources/js/admin.js') --}}
     @include('sweetalert::alert')
     <script>
         @if (session('status'))
@@ -85,9 +85,14 @@
     </script>
 
 
+    @flasher_render()
+
     @livewireScripts()
 
     @stack('scripts')
+
+    @flasher_livewire_render
+
 
 </body>
 

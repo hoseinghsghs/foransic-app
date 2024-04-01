@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('code');
+            $table->bigInteger('user_category_id');
 
             $table->string('delivery_name')->nullable();
             $table->string('delivery_code')->nullable();

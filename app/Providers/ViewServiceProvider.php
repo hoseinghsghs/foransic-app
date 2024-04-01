@@ -26,22 +26,22 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->composer('home.partial.Header', function ($view) {
-            $categories = Category::where('parent_id', 0)->where('is_active', 1)->get();
-            $menue_banner = Banner::active()->where('type', 'منو')->where('is_active', 1)->first();
-            $top_menue = Banner::active()->where('type', 'بالای منو')->where('is_active', 1)->first();
+        // view()->composer('home.partial.Header', function ($view) {
+        //     $categories = Category::where('parent_id', 0)->where('is_active', 1)->get();
+        //     $menue_banner = Banner::active()->where('type', 'منو')->where('is_active', 1)->first();
+        //     $top_menue = Banner::active()->where('type', 'بالای منو')->where('is_active', 1)->first();
 
-            $view->with([
-                'categories' => $categories,
-                'menue_banner' => $menue_banner,
-                'top_menue' => $top_menue,
-            ]);
-        });
-        view()->composer('home.partial.Footer', function ($view) {
-            $services = Service::all();
-            $view->with([
-                'services' => $services,
-            ]);
-        });
+        //     $view->with([
+        //         'categories' => $categories,
+        //         'menue_banner' => $menue_banner,
+        //         'top_menue' => $top_menue,
+        //     ]);
+        // });
+        // view()->composer('home.partial.Footer', function ($view) {
+        //     $services = Service::all();
+        //     $view->with([
+        //         'services' => $services,
+        //     ]);
+        // });
     }
 }

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Response;
 use Intervention\Image\Facades\Image;
 use App\Http\Controllers\Controller;
-use App\Models\Product;
-use App\Models\ProductImage;
+use App\Models\Device;
+use App\Models\DeviceImage;
 use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -24,7 +24,7 @@ class ImageController extends Controller
             //مسیر ذخیره سازی درایور پیش فرض
             $pach = config('filesystems.disks.' . $filesystem)['root'];
             //پسوند تصویر
-            
+
             $extension = $image->extension();
 
             //ساخت نام تصویر از هلپر فانکشن
@@ -53,9 +53,9 @@ class ImageController extends Controller
 
     //////////////////ویرایش تصویر
 
-    public function edit(Product $product)
+    public function edit(Device $device)
     {
-        return view('admin.page.products.edit_images', compact('product'));
+        return view('admin.page.devices.edit_images', compact('device'));
     }
 
     public function edit_uploadImage(Request $request)
@@ -63,11 +63,11 @@ class ImageController extends Controller
         $images = $request->file();
         if (count($images) > 0) {
             foreach ($images as $image) {
-                $image_upload = ProductImage::where('image', $image)->get();
+                $image_upload = DeviceImage::where('image', $image)->get();
                 $ImageController = new ImageController();
-                $image_name = $ImageController->UploadeImage($image, "other_product_image", 900, 800);
-                ProductImage::create([
-                    'product_id' => $request->product,
+                $image_name = $ImageController->UploadeImage($image, "other_device_image", 900, 800);
+                DeviceImage::create([
+                    'device_id' => $request->device,
                     'image' => $image_name
                 ]);
 
@@ -82,18 +82,18 @@ class ImageController extends Controller
     public function edit_deleteImage(Request $request)
     {
 
-        $product = Product::find($request->id);
+        $device = Device::find($request->id);
         $namefile = $request->name;
-        ProductImage::where('image', $namefile)->delete();
+        DeviceImage::where('image', $namefile)->delete();
         Storage::delete('test/' . $namefile);
         return response()->json(['success' => "تصویر حذف شد"]);
     }
 
 
-    public function setPrimary(Request $request, Product $product, ToastrFactory $flasher)
+    public function setPrimary(Request $request, Device $device, ToastrFactory $flasher)
     {
 
-        $product = Product::find($request->product);
+        $device = Device::find($request->device);
 
         if ($request->has('primary_image')) {
 
@@ -103,7 +103,7 @@ class ImageController extends Controller
             $small_image_name = $ImageController->UploadeImage($request->primary_image, "small_primary_image", 320, 284);
 
 
-            $product->update([
+            $device->update([
                 'primary_image' => $image_name,
                 'small_primary_image' => $small_image_name,
             ]);

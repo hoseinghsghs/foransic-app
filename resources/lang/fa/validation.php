@@ -170,7 +170,7 @@ return array(
         "attribute_is_filter_ids" => "ویژگی های قابل فیلتر",
         "attribute_is_filter_ids.*" => "ویژگی های قابل فیلتر",
         "parent_id"=>"والد",
-        "code" => "کد تخفیف",
+        "code" => "کد دیوایس",
         "cellphone" => "شماره تماس",
         "province_id" => "استان",
         "city_id" => "شهر",
@@ -181,5 +181,9 @@ return array(
         "cellphone2" => "تلفن ثابت",
         "lastaddress" => "آدرس جایگزین",
         "unit" => 'واحد',
+        "status" => 'وضعیت',
+        "delivery_name" => 'نام تحویل دهنده',
+        "delivery_code" => 'کد پرسنلی تحویل دهنده',
+        "accessories" => 'لوازم جانبی',
     ),
 );
