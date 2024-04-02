@@ -121,7 +121,7 @@
                                 <div class="form-group col-md-3 col-auto">
                                     <label for="is_active">وضعیت</label>
                                     <div class="switchToggle">
-                                        <input type="checkbox" wire:model="status" id="switch">
+                                        <input type="checkbox" wire:model="is_active" id="switch">
                                         <label for="switch">Toggle</label>
                                     </div>
                                     @error('is_active')

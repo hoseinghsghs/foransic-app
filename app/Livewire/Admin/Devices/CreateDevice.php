@@ -20,11 +20,12 @@ class CreateDevice extends Component
     public string $name = '';
     public string $code = '';
     public string $delivery_code = '';
-     public  $user_category_id ;
+    public  $user_category_id ;
     public string $delivery_name = '';
     public string $status = 'پیش فرض';
     public string $description = '';
     public string $accessories = '';
+    public bool $is_active = false;
     public $primary_image;
 
 
@@ -82,7 +83,7 @@ class CreateDevice extends Component
                 'receiver_staff_id' => auth()->user()->id,
                 'delivery_date' => "0",
                 'receiver_date' => verta()->formatJalaliDatetime(),
-                'is_active' => 1,
+                'is_active' => $this->is_active,
                 'is_archive' => 0,
             ]);
 
