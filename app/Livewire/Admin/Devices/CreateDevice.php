@@ -20,7 +20,7 @@ class CreateDevice extends Component
     public string $name = '';
     public string $code = '';
     public string $delivery_code = '';
-     public  $user_category_id ;
+    public $user_category_id;
     public string $delivery_name = '';
     public string $status = 'پیش فرض';
     public string $description = '';
@@ -60,10 +60,8 @@ class CreateDevice extends Component
 
                 $image_name = $ImageController->UploadeImage($this->primary_image, "primary_image", 900, 800);
 
-
             } else {
                 $image_name = null;
-                $small_image_name = null;
                 $this->addError('primary_image', 'مشکل در ذخیره سازی عکس');
             }
             $device = Device::create([
@@ -76,16 +74,15 @@ class CreateDevice extends Component
                 'code' => $this->code,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
-                'receiver_name' => "0",
+                'receiver_name' => "",
                 'receiver_code' => "0",
                 'delivery_staff_id' => "0",
                 'receiver_staff_id' => auth()->user()->id,
-                'delivery_date' => "0",
-                'receiver_date' => verta()->formatJalaliDatetime(),
+                'delivery_date' => "",
+                'receiver_date' => verta()->format('H:i Y/n/j'),
                 'is_active' => 1,
                 'is_archive' => 0,
             ]);
-
             $imagesStore = Session::pull('images', []);
             foreach ($imagesStore as $imageStore) {
                 DeviceImage::create([
@@ -105,7 +102,7 @@ class CreateDevice extends Component
     }
 
 
-       public function render()
+    public function render()
     {
         $users = User::all();
         // dd($users->hasRole('super-admin'));

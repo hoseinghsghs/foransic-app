@@ -1,19 +1,19 @@
 @extends('admin.layout.MasterAdmin')
-@section('title', 'مشاهده محصول')
+@section('title', 'مشاهده دیوایس')
 @section('Content')
     <section class="content">
         <div class="body_scroll">
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-6 col-sm-12">
-                        <h2>نمایش محصول</h2>
+                        <h2>نمایش دیوایس</h2>
                         <br>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                     خانه</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0);"><a
-                                        href={{ route('admin.products.index') }}>لیست محصولات</a></li>
-                            <li class="breadcrumb-item active">نمایش محصول</li>
+                                        href={{ route('admin.devices.index') }}>لیست دیوایسات</a></li>
+                            <li class="breadcrumb-item active">نمایش دیوایس</li>
                         </ul>
                         <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
                                 class="zmdi zmdi-sort-amount-desc"></i></button>
@@ -31,43 +31,67 @@
                         <div class="card">
                             <div class=" list-group">
                                 <button type="button" class="list-group-item list-group-item-primary">
-                                    مشخصات اصلی محصول
+                                    مشخصات اصلی دیوایس
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
-                                        <div class="col-6"><strong>نام محصول:</strong></div>
-                                        <div class="col-6">{{ $product->name }}</div>
+                                        <div class="col-6"><strong>نام دیوایس:</strong></div>
+                                        <div class="col-6">{{ $device->name }}</div>
+                                    </div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <div class="row clearfix">
+                                        <div class="col-6"><strong>وضعیت بررسی:</strong></div>
+                                        <div class="col-6">
+                                            @switch($device->status)
+                                                @case('0')
+                                                    دریافت دیوایس
+                                                @break
+                                                @case('1')
+                                                    در حال بررسی
+                                                @break
+                                                @case('2')
+                                                    تکمیل بررسی
+                                                @case('3')
+                                                    تحویل دیوایس
+                                            @endswitch
+                                        </div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>وضعیت:</strong></div>
-                                        @if ($product->is_active)
+                                        @if ($device->is_active)
                                             <spam class=" badge badge-success badge-pill">فعال</spam>
                                         @else
                                             <spam class=" badge badge-danger badge-pill">غیر فعال</spam>
                                         @endif
                                     </div>
                                 </button>
-
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <div class="row clearfix">
+                                        <div class="col-6"><strong>رده:</strong></div>
+                                        <div class="col-6">{{ $device->name }}</div>
+                                    </div>
+                                </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>تاریخ ایجاد :</strong></div>
-                                        <div class="col-6">{{ verta($product->created_at) }}</div>
+                                        <div class="col-6">{{ verta($device->created_at) }}</div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong> آخرین تاریخ بروزرسانی :</strong></div>
-                                        <div class="col-6">{{ verta($product->updated_at) }}</div>
+                                        <div class="col-6">{{ verta($device->updated_at) }}</div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نام برند :</strong></div>
                                         <div class="col-6">
-                                            @if ($product->brand)
-                                                {{ $product->brand->name }}
+                                            @if ($device->brand)
+                                                {{ $device->brand->name }}
                                             @endif
                                         </div>
                                     </div>
@@ -75,7 +99,7 @@
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نام دسته بندی :</strong></div>
-                                        <div class="col-6">{{ $product->category->name }}</div>
+                                        <div class="col-6">{{ $device->category->name }}</div>
                                     </div>
                                 </button>
                             </div>
@@ -91,18 +115,18 @@
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
                                                 <div class="col-6"><strong>هزینه ارسال:</strong></div>
-                                                @if ($product->delivery_amount)
-                                                    <div class="col-6">{{ number_format($product->delivery_amount) }} تومان
+                                                @if ($device->delivery_amount)
+                                                    <div class="col-6">{{ number_format($device->delivery_amount) }} تومان
                                                     </div>
                                                 @endif
                                             </div>
                                         </button>
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
-                                                <div class="col-6"><strong>هزینه ارسال به ازای محصول:</strong></div>
-                                                @if ($product->delivery_amount_per_product)
+                                                <div class="col-6"><strong>هزینه ارسال به ازای دیوایس:</strong></div>
+                                                @if ($device->delivery_amount_per_device)
                                                     <div class="col-6">
-                                                        {{ number_format($product->delivery_amount_per_product) }}
+                                                        {{ number_format($device->delivery_amount_per_device) }}
                                                         تومان</div>
                                                 @endif
                                             </div>
@@ -110,13 +134,13 @@
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
                                                 <div class="col-6"><strong>محل قرار گیری :</strong></div>
-                                                <div class="col-6">{{ $product->position }}</div>
+                                                <div class="col-6">{{ $device->position }}</div>
                                             </div>
                                         </button>
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
                                                 <div class="col-6"><strong>slug:</strong></div>
-                                                <div class="col-6">{{ $product->slug }}</div>
+                                                <div class="col-6">{{ $device->slug }}</div>
                                             </div>
                                         </button>
 
@@ -134,14 +158,14 @@
                             <div class=" list-group">
                                 <button type="button" class="list-group-item list-group-item-primary">
                                     ویژگی ها </button>
-                                @if (!$product_attributes->isEmpty())
-                                    @foreach ($product_attributes as $product_attribute)
+                                @if (!$device_attributes->isEmpty())
+                                    @foreach ($device_attributes as $device_attribute)
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
                                                 <div class="col-6">
-                                                    <strong>{{ $product_attribute->attribute->name }}:</strong>
+                                                    <strong>{{ $device_attribute->attribute->name }}:</strong>
                                                 </div>
-                                                <div class="col-6">{{ $product_attribute->value }}</div>
+                                                <div class="col-6">{{ $device_attribute->value }}</div>
                                             </div>
 
                                         </button>
@@ -181,7 +205,7 @@
                                     توضیحات</button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
-                                        <div class="col-12">{!! $product->description !!}}</div>
+                                        <div class="col-12">{!! $device->description !!}}</div>
                                     </div>
                                 </button>
 
@@ -194,7 +218,7 @@
                         </div>
                         <hr>
                         <div class="row clearfix mb-5 m-2">
-                            @foreach ($product_variation as $variation)
+                            @foreach ($device_variation as $variation)
                                 <div class="col-md-12">
                                     <div class="d-flex">
                                         <p class="mb-0"> </p>
@@ -300,11 +324,11 @@
                                 <div class="card">
                                     <div class="blogitem mb-5">
                                         <div class="blogitem-image">
-                                            <a href="{{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $product->primary_image) }}"
+                                            <a href="{{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}"
                                                 target="_blank"><img
-                                                    src={{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $product->primary_image) }}
-                                                    alt="{{ $product->name }}"></a>
-                                            <span class="blogitem-date">{{ verta($product->created_at) }} <span
+                                                    src={{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
+                                                    alt="{{ $device->name }}"></a>
+                                            <span class="blogitem-date">{{ verta($device->created_at) }} <span
                                                     class="text-success">اصلی</span></span>
                                         </div>
                                     </div>
@@ -314,11 +338,11 @@
                                 <div class="card">
                                     <div class="blogitem mb-5">
                                         <div class="blogitem-image">
-                                            <a href="{{ url(env('SMALL_PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $product->small_primary_image) }}"
+                                            <a href="{{ url(env('SMALL_PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->small_primary_image) }}"
                                                 target="_blank"><img
-                                                    src={{ url(env('SMALL_PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $product->small_primary_image) }}
-                                                    alt="{{ $product->name }}"></a>
-                                            <span class="blogitem-date">{{ verta($product->created_at) }} <span
+                                                    src={{ url(env('SMALL_PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->small_primary_image) }}
+                                                    alt="{{ $device->name }}"></a>
+                                            <span class="blogitem-date">{{ verta($device->created_at) }} <span
                                                     class="text-success">تصویر کم حجم</span></span>
                                         </div>
                                     </div>

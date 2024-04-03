@@ -16,15 +16,22 @@ class DeviceComponent extends Component
     public $device;
 
     protected $paginationTheme = 'bootstrap';
-    public $name;
-    public $status;
+    public $title = '';
+    public $company_user = '';
+    public $status = '';
+    public $is_active = '';
 
-    public function updatingName()
+    public function updatingTitle()
     {
         $this->resetPage();
     }
 
     public function updatingStatus()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingIsActive()
     {
         $this->resetPage();
     }
@@ -55,11 +62,17 @@ class DeviceComponent extends Component
 
     public function render()
     {
-        $devices = Device::where('name', 'like', '%' . $this->name . '%')
-            ->where('is_active', 'like', '%' . $this->status . '%')
-            ->where('is_archive', 0)->latest()
-            ->paginate(10);
+        $company_users = User::Role('company')->get();
+        $devices = Device::whereAny(['name', 'code'], 'like', '%' . $this->title . '%')
+            ->when($this->company_user != '', function ($query) {
+                $query->where('user_category_id', $this->company_user);
+            })
+            ->when($this->status != '', function ($query) {
+                $query->where('status', $this->status);
+            })->when($this->is_active != '', function ($query) {
+                $query->where('is_active', $this->is_active);
+            })->latest()->paginate(10);
 
-        return view('livewire.admin.devices.device-component', ['devices' => $devices]);
+        return view('livewire.admin.devices.device-component', compact(['devices', 'company_users']));
     }
 }

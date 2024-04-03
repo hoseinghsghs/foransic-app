@@ -45,7 +45,6 @@
 
                                 <div class="form-group col-md-3">
                                     <label> کد دیوایس</label>
-
                                     <div class="form-group">
                                         <input type="text" wire:model.defer="code" id="code"
                                             class="form-control @error('code') is-invalid @enderror" required />
@@ -61,10 +60,10 @@
                                     <div wire:ignore>
                                         <select id="statusSelect" data-placeholder="انتخاب وضعیت"
                                             class="form-control ms select2">
-                                            <option selected>دریافت دیوایس</option>
-                                            <option disabled>در حال بررسی</option>
-                                            <option disabled>تکمیل بررسی</option>
-                                            <option disabled>تحویل دیوایس</option>
+                                            <option value="0" selected>دریافت دیوایس</option>
+                                            <option value="1" disabled>در حال بررسی</option>
+                                            <option value="2" disabled>تکمیل بررسی</option>
+                                            <option value="3" disabled>تحویل دیوایس</option>
                                         </select>
                                     </div>
                                     @error('status')
@@ -76,7 +75,7 @@
                                 <div class="form-group col-md-4 col-sm-4 @error('use_id') is-invalid @enderror">
                                     <label for="userSelect">رده</label>
                                     <div wire:ignore>
-                                        <select id="userSelect" name="user_category_id"data-placeholder="انتخاب رده"
+                                        <select id="userSelect" name="user_category_id" data-placeholder="انتخاب رده"
                                             class="form-control ms search-select">
                                             <option></option>
                                             @foreach ($users as $user)
@@ -296,7 +295,6 @@
                 });
             },
         };
-
 
         $(document).ready(function() {
             $('#statusSelect').on('change', function(e) {
