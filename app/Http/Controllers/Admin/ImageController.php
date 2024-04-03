@@ -100,14 +100,12 @@ class ImageController extends Controller
 
             $ImageController = new ImageController();
             $image_name = $ImageController->UploadeImage($request->primary_image, "primary_image", 900, 800);
-            $small_image_name = $ImageController->UploadeImage($request->primary_image, "small_primary_image", 320, 284);
 
 
             $device->update([
                 'primary_image' => $image_name,
-                'small_primary_image' => $small_image_name,
             ]);
-            $flasher->addSuccess('محصول مورد نظر ویرایش شد');
+            $flasher->addSuccess('دیوایس مورد نظر ویرایش شد');
             return redirect()->back();
         }
         $flasher->addSuccess('تصویر قبلی بدون ویرایش');

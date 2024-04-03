@@ -93,22 +93,22 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     // Route::get('tags/create',                         [TagControll::class, "createTag"])->name('tags.create')->middleware('permission:tags');
     // Route::get('keywords/create',                         [KeywordControll::class, "createKeyword"])->name('keywords.create')->middleware('permission:keywords');
     // Route::get('/category-attributes/{category}',     [CategoryController::class, 'getCategoryAttributes']);
-    Route::get('/products/{product}/images-edit',     [ImageController::class, 'edit'])->name('products.images.edit');
+    Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
 
-    // Edit Device Category
-    Route::get('/products/{product}/category-edit',   [DeviceController::class, 'editCategory'])->name('products.category.edit');
-    Route::put('/products/{product}/category-update', [DeviceController::class, 'updateCategory'])->name('products.category.update');
+    // // Edit Device Category
+    // Route::get('/devices/{device}/category-edit',   [DeviceController::class, 'editCategory'])->name('devices.category.edit');
+    // Route::put('/devices/{device}/category-update', [DeviceController::class, 'updateCategory'])->name('devices.category.update');
 
     //image routes
     Route::post('/upl',       [DeviceController::class, 'uploadImage'])->name('uploade');
     Route::post('/del',       [DeviceController::class, 'deleteImage'])->name('del');
     Route::post('/editupl',   [ImageController::class, 'edit_uploadImage'])->name('edit_uploade');
     Route::post('/editdel',   [ImageController::class, 'edit_deleteImage'])->name('edit_del');
-    Route::post('/add_image', [ImageController::class, 'setPrimary'])->name('product.images.add');
+    Route::post('/add_image', [ImageController::class, 'setPrimary'])->name('device.images.add');
 
     //excel backup
-    Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->name('file-product');
-    Route::get('/export-Device2', [BackupController::class, 'ExportDevices2'])->name('file-product2');
+    Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->name('file-device');
+    Route::get('/export-Device2', [BackupController::class, 'ExportDevices2'])->name('file-device2');
     Route::get('/export-UserAddress', [BackupController::class, 'ExportUserAddresses'])->name('file-address');
     Route::get('/export-Transactions', [BackupController::class, 'TransactionExport'])->name('file-transactions');
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->name('file-users');
@@ -125,19 +125,19 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
 // home routes
 // Route::get('/contact-us', [HomeController::class, 'contactUs'])->name('contact-us');
 
-// Route::get('/products/{product:slug}', [HomeDeviceController::class, 'show'])->name('home.products.show');
+// Route::get('/devices/{device:slug}', [HomeDeviceController::class, 'show'])->name('home.devices.show');
 
-// Route::get('/search/{slug?}', DevicesList::class)->name('home.products.search');
-// Route::get('/main/{slug}', DevicesList::class)->name('home.products.index');
+// Route::get('/search/{slug?}', DevicesList::class)->name('home.devices.search');
+// Route::get('/main/{slug}', DevicesList::class)->name('home.devices.index');
 
 // //comments
-// Route::get('home/question/{product}', [HomeCommentController::class, 'create'])->name('home.comments.index');
-// Route::post('/comments/{product}', [HomeCommentController::class, 'store'])->name('home.comments.store');
+// Route::get('home/question/{device}', [HomeCommentController::class, 'create'])->name('home.comments.index');
+// Route::post('/comments/{device}', [HomeCommentController::class, 'store'])->name('home.comments.store');
 // Route::post('/reply/store', [HomeCommentController::class, 'replyStore'])->name('reply.add');
 // Route::post('/postcomments/{post}', [HomeCommentController::class, 'poststore'])->name('home.comments.poststore');
 
 // //questions
-// Route::post('/question/{product}', [HomeQuestionController::class, 'store'])->name('home.questions.store');
+// Route::post('/question/{device}', [HomeQuestionController::class, 'store'])->name('home.questions.store');
 // Route::post('/question/reply/store', [HomeQuestionController::class, 'replyStore'])->name('questions.reply.add');
 
 // otp auth
@@ -158,7 +158,7 @@ Route::get('/assets/ajax', function () {
 //     Route::get('/editProfile', [UserProfileController::class, 'editProfile'])->name('user_profile.edit');
 //     //    Route::post('/forgot-password', [UserProfileController::class, 'forgetPassword'])->name('password.email');
 //     Route::get('/wishlist', [WishListController::class, 'usersProfileIndex'])->name('profile.wishlist.index');
-//     Route::get('/add-to-wishlist/{product:id}', [WishListController::class, 'add'])->name('home.wishlist.add');
+//     Route::get('/add-to-wishlist/{device:id}', [WishListController::class, 'add'])->name('home.wishlist.add');
 //     Route::get('/addreses',  [AddressController::class, 'index'])->name('addreses.index');
 //     Route::get('/addreses/create',  [AddressController::class, 'create'])->name('addreses.create');
 //     Route::post('/addreses', [AddressController::class, 'store'])->name('addreses.store');
@@ -171,10 +171,10 @@ Route::get('/assets/ajax', function () {
 // });
 
 //user route
-// Route::get('/add-to-compare/{product:id}', [CompareController::class, 'add'])->name('home.compare.add');
+// Route::get('/add-to-compare/{device:id}', [CompareController::class, 'add'])->name('home.compare.add');
 
 // Route::get('/compare', [CompareController::class, 'index'])->name('home.compare.index');
-// Route::get('/remove-from-compare/{product}', [CompareController::class, 'remove'])->name('home.compare.remove');
+// Route::get('/remove-from-compare/{device}', [CompareController::class, 'remove'])->name('home.compare.remove');
 
 // //cart
 // Route::post('/add-to-cart', [CartController::class, 'add'])->name('home.cart.add');
