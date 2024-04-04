@@ -25,7 +25,7 @@ Route::group(['middleware' => config('fortify.middleware', ['web'])], function (
 
     // Authentication...
     if ($enableViews) {
-        Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+        Route::get('/', [AuthenticatedSessionController::class, 'create'])
             ->middleware(['guest:' . config('fortify.guard')])
             ->name('login');
     }

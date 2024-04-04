@@ -46,16 +46,23 @@
                                             @switch($device->status)
                                                 @case('0')
                                                     دریافت دیوایس
-                                                @break
+                                                    @break
                                                 @case('1')
                                                     در حال بررسی
-                                                @break
+                                                    @break
                                                 @case('2')
                                                     تکمیل بررسی
                                                 @case('3')
                                                     تحویل دیوایس
                                             @endswitch
                                         </div>
+                                    </div>
+                                </button>
+                                <button type="button" class="list-group-item list-group-item-action">
+                                    <div class="row clearfix">
+                                        <div class="col-6"><strong>رده:</strong></div>
+                                        <div
+                                            class="col-6">{{ \App\Models\User::find($device->user_category_id)->cellphone }}</div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
@@ -70,36 +77,24 @@
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
-                                        <div class="col-6"><strong>رده:</strong></div>
-                                        <div class="col-6">{{ $device->name }}</div>
+                                        <div class="col-6"><strong>وضعیت بایگانی:</strong></div>
+                                        @if ($device->is_archive)
+                                            <spam class=" badge badge-danger badge-pill">بایگانی</spam>
+                                        @else
+                                            <spam class=" badge badge-success badge-pill">انتشار</spam>
+                                        @endif
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
-                                        <div class="col-6"><strong>تاریخ ایجاد :</strong></div>
-                                        <div class="col-6">{{ verta($device->created_at) }}</div>
+                                        <div class="col-6"><strong>تاریخ دریافت:</strong></div>
+                                        <div class="col-6">{{$device->receiver_date}}</div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
-                                        <div class="col-6"><strong> آخرین تاریخ بروزرسانی :</strong></div>
-                                        <div class="col-6">{{ verta($device->updated_at) }}</div>
-                                    </div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action">
-                                    <div class="row clearfix">
-                                        <div class="col-6"><strong>نام برند :</strong></div>
-                                        <div class="col-6">
-                                            @if ($device->brand)
-                                                {{ $device->brand->name }}
-                                            @endif
-                                        </div>
-                                    </div>
-                                </button>
-                                <button type="button" class="list-group-item list-group-item-action">
-                                    <div class="row clearfix">
-                                        <div class="col-6"><strong>نام دسته بندی :</strong></div>
-                                        <div class="col-6">{{ $device->category->name }}</div>
+                                        <div class="col-6"><strong>تاریخ تحویل:</strong></div>
+                                        <div class="col-6">{{$device->delivery_date}}</div>
                                     </div>
                                 </button>
                             </div>
@@ -108,211 +103,52 @@
                     <div class="col-lg-6">
                         <div class="row clearfix">
                             <div class="col-lg-12">
-                                <div class="card">
+                                <div class="card card-body">
                                     <div class=" list-group">
                                         <button type="button" class="list-group-item list-group-item-primary">
-                                            هزینه حمل </button>
+                                            دریافت و تحویل
+                                        </button>
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
-                                                <div class="col-6"><strong>هزینه ارسال:</strong></div>
-                                                @if ($device->delivery_amount)
-                                                    <div class="col-6">{{ number_format($device->delivery_amount) }} تومان
-                                                    </div>
-                                                @endif
+                                                <div class="col-6"><strong>نام تحویل دهنده:</strong></div>
+                                                <div class="col-6">{{$device->delivery_name }}</div>
                                             </div>
                                         </button>
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
-                                                <div class="col-6"><strong>هزینه ارسال به ازای دیوایس:</strong></div>
-                                                @if ($device->delivery_amount_per_device)
-                                                    <div class="col-6">
-                                                        {{ number_format($device->delivery_amount_per_device) }}
-                                                        تومان</div>
-                                                @endif
+                                                <div class="col-6"><strong>کد پرسنلی تحویل دهنده:</strong></div>
+                                                <div class="col-6">{{ $device->delivery_code}}</div>
                                             </div>
                                         </button>
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
-                                                <div class="col-6"><strong>محل قرار گیری :</strong></div>
-                                                <div class="col-6">{{ $device->position }}</div>
+                                                <div class="col-6"><strong>نام تحویل گیرنده:</strong></div>
+                                                <div class="col-6">{{$device->receiver_name }}</div>
                                             </div>
                                         </button>
                                         <button type="button" class="list-group-item list-group-item-action">
                                             <div class="row clearfix">
-                                                <div class="col-6"><strong>slug:</strong></div>
-                                                <div class="col-6">{{ $device->slug }}</div>
+                                                <div class="col-6"><strong>کد پرسنلی تحویل گیرنده:</strong></div>
+                                                <div class="col-6">{{ $device->receiver_code}}</div>
                                             </div>
                                         </button>
-
+                                        <button type="button" class="list-group-item list-group-item-action">
+                                            <div class="row clearfix">
+                                                <div class="col-6"><strong>لوازم جانبی :</strong></div>
+                                                <div class="col-6">{{ $device->accessories }}</div>
+                                            </div>
+                                        </button>
+                                        <button type="button" class="list-group-item list-group-item-action">
+                                            <div class="row clearfix">
+                                                <div class="col-6"><strong>توضیحات:</strong></div>
+                                                <div class="col-6">{!! $device->description !!}</div>
+                                            </div>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class=" list-group">
-                                <button type="button" class="list-group-item list-group-item-primary">
-                                    ویژگی ها </button>
-                                @if (!$device_attributes->isEmpty())
-                                    @foreach ($device_attributes as $device_attribute)
-                                        <button type="button" class="list-group-item list-group-item-action">
-                                            <div class="row clearfix">
-                                                <div class="col-6">
-                                                    <strong>{{ $device_attribute->attribute->name }}:</strong>
-                                                </div>
-                                                <div class="col-6">{{ $device_attribute->value }}</div>
-                                            </div>
-
-                                        </button>
-                                    @endforeach
-                                @else
-                                    <button type="button" class="list-group-item list-group-item-action">
-                                        وجود ندارد
-                                    </button>
-                                @endif
-                            </div>
                         </div>
                     </div>
-
-                    <div class="col-lg-6">
-                        <div class="card">
-                            <div class=" list-group">
-                                <button type="button" class="list-group-item list-group-item-primary">
-                                    تگ ها </button>
-                                @if (!$tags->isEmpty())
-                                    @foreach ($tags as $tag)
-                                        <button type="button" class="list-group-item list-group-item-action">
-                                            <center>{{ $tag->name }}</center>
-                                        </button>
-                                    @endforeach
-                                @else
-                                    <button type="button" class="list-group-item list-group-item-action">
-                                        وجود ندارد
-                                    </button>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class=" list-group">
-                                <button type="button" class="list-group-item list-group-item-primary">
-                                    توضیحات</button>
-                                <button type="button" class="list-group-item list-group-item-action">
-                                    <div class="row clearfix">
-                                        <div class="col-12">{!! $device->description !!}}</div>
-                                    </div>
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="body">
-                        <div class="header p-0">
-                            <strong>دسته بندی ها </strong>
-                        </div>
-                        <hr>
-                        <div class="row clearfix mb-5 m-2">
-                            @foreach ($device_variation as $variation)
-                                <div class="col-md-12">
-                                    <div class="d-flex">
-                                        <p class="mb-0"> </p>
-                                        <p class="mb-0 mr-3">
-                                            <span>مشاهده قیمت و موجودی برای متغیر (
-                                                {{ $variation->value }} ) </span>
-                                            <a class="waves-effect btn btn-primary" type="button" data-toggle="collapse"
-                                                data-target="#collapse-{{ $variation->id }}">
-
-                                                <i class="zmdi zmdi-chevron-down" style="color: white;"> </i>
-
-                                            </a>
-
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <div class="collapse mt-2" id="collapse-{{ $variation->id }}">
-                                        <div class="card card-body">
-                                            <div class="row">
-                                                <div class="form-group col-md-3">
-                                                    <label> قیمت </label>
-                                                    @if ($variation->price != null)
-                                                        <input type="text" disabled class="form-control"
-                                                            value="{{ number_format($variation->price) }} تومان">
-                                                    @endif
-
-                                                </div>
-
-                                                <div class="form-group col-md-3">
-                                                    <label> تعداد </label>
-                                                    <input type="text" disabled class="form-control"
-                                                        value="{{ $variation->quantity }}">
-                                                </div>
-
-                                                <div class="form-group col-md-3">
-                                                    <label> sku </label>
-                                                    <input type="text" disabled class="form-control"
-                                                        value="{{ $variation->sku }}">
-                                                </div>
-
-                                                <div class="form-group col-md-4">
-                                                    <label> قیمت پایه </label>
-                                                    <input type="text" disabled class="form-control"
-                                                        value="{{ $variation->base_price }}">
-                                                </div>
-
-                                                <div class="form-group col-md-4">
-                                                    <label> درصد افزاریش </label>
-                                                    <input type="text" disabled class="form-control"
-                                                        value="{{ $variation->percent_price }}">
-                                                </div>
-
-
-                                                {{-- Sale Section --}}
-                                                <div class="col-md-12">
-                                                    <p> حراج : </p>
-                                                </div>
-
-                                                <div class="form-group col-md-3">
-                                                    <label> قیمت حراجی </label>
-                                                    @if ($variation->sale_price)
-                                                        <input type="text"
-                                                            value="{{ number_format($variation->sale_price) }} تومان"
-                                                            disabled class="form-control">
-                                                    @else
-                                                        <input type="text" disabled class="form-control">
-                                                    @endif
-
-                                                </div>
-
-                                                <div class="form-group col-md-3">
-                                                    <label> تاریخ شروع حراجی </label>
-                                                    <input type="text"
-                                                        value="{{ $variation->date_on_sale_from == null ? null : verta($variation->date_on_sale_from) }}"
-                                                        disabled class="form-control">
-                                                </div>
-
-                                                <div class="form-group col-md-3">
-                                                    <label> تاریخ پایان حراجی </label>
-                                                    <input type="text"
-                                                        value="{{ $variation->date_on_sale_to == null ? null : verta($variation->date_on_sale_to) }}"
-                                                        disabled class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-
-                        </div>
-                    </div>
-
 
                     <div class="body">
                         <div class="header p-0">
@@ -324,26 +160,12 @@
                                 <div class="card">
                                     <div class="blogitem mb-5">
                                         <div class="blogitem-image">
-                                            <a href="{{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}"
-                                                target="_blank"><img
-                                                    src={{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
+                                            <a href="{{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}"
+                                               target="_blank"><img
+                                                    src={{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
                                                     alt="{{ $device->name }}"></a>
                                             <span class="blogitem-date">{{ verta($device->created_at) }} <span
                                                     class="text-success">اصلی</span></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-12">
-                                <div class="card">
-                                    <div class="blogitem mb-5">
-                                        <div class="blogitem-image">
-                                            <a href="{{ url(env('SMALL_PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->small_primary_image) }}"
-                                                target="_blank"><img
-                                                    src={{ url(env('SMALL_PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->small_primary_image) }}
-                                                    alt="{{ $device->name }}"></a>
-                                            <span class="blogitem-date">{{ verta($device->created_at) }} <span
-                                                    class="text-success">تصویر کم حجم</span></span>
                                         </div>
                                     </div>
                                 </div>
@@ -353,9 +175,9 @@
                                     <div class="card">
                                         <div class="blogitem mb-5">
                                             <div class="blogitem-image">
-                                                <a href="{{ url(env('PRODUCT_IMAGES_UPLOAD_PATCH') . $item->image) }}"
-                                                    target="_blank"><img
-                                                        src="{{ url(env('PRODUCT_IMAGES_UPLOAD_PATCH') . $item->image) }}"
+                                                <a href="{{ url(env('DEVICE_IMAGES_UPLOAD_PATCH') . $item->image) }}"
+                                                   target="_blank"><img
+                                                        src="{{ url(env('DEVICE_IMAGES_UPLOAD_PATCH') . $item->image) }}"
                                                         alt="blog image"></a>
                                                 <span class="blogitem-date">{{ verta($item->created_at) }}</span>
                                             </div>
@@ -367,8 +189,6 @@
                     </div>
                 </div>
             </div>
-
-
-
+        </div>
     </section>
 @endsection

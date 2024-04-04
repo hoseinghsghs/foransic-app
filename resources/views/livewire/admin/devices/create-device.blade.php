@@ -85,7 +85,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('brand_id')
+                                    @error('user_category_id')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>

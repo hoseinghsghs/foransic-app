@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Device;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -14,7 +15,6 @@ class DeviceController extends Controller
     }
     public function show(Device $device)
     {
-        $device_attributes = $device->attributes()->with('attribute')->get();
         $images = $device->images;
         return view('admin.page.devices.show', compact('device', 'images'));
     }
