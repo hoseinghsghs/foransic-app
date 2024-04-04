@@ -28,7 +28,6 @@ class CreateDevice extends Component
     public bool $is_active = false;
     public $primary_image;
 
-
     public function rules(): array
     {
         return [

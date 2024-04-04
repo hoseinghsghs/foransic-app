@@ -200,8 +200,6 @@
 </section>
 @push('styles')
     <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
-
-
     <style>
         .dropzone {
             border-radius: 5px;
@@ -214,7 +212,6 @@
 @endpush
 
 @push('scripts')
-    <!-- dropzone script start -->
     <script>
         Dropzone.options.myDropzone = {
             parallelUploads: 5,

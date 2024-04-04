@@ -47,7 +47,6 @@ class EditDevice extends Component
 
     public function mount()
     {
-
         $this->name=$this->device->name;
         $this->code=$this->device->code;
         $this->status=$this->device->status;
@@ -63,7 +62,6 @@ class EditDevice extends Component
 
     public function edit()
     {
-
         $this->validate();
            $this->device->update([
                 'name' => $this->name,

@@ -13,7 +13,7 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" class="form-control" wire:model.live.debounce.500ms="title"
-                                           placeholder="نام دیوایس، کد">
+                                        placeholder="نام دیوایس، کد">
                                 </div>
                             </div>
                         </div>
@@ -22,8 +22,9 @@
                                 <div class="form-line">
                                     <select class="form-control ms" wire:model.live="company_user">
                                         <option value="">نام رده</option>
-                                        @foreach($company_users as $company_user)
-                                            <option value="{{$company_user->id}}">{{$company_user->cellphone}}</option>
+                                        @foreach ($company_users as $company_user)
+                                            <option value="{{ $company_user->id }}">{{ $company_user->cellphone }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -33,7 +34,7 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <select data-placeholder="وضعیت" wire:model.live="is_active"
-                                            class="form-control ms">
+                                        class="form-control ms">
                                         <option value="">وضعیت</option>
                                         <option value="1">فعال</option>
                                         <option value="0">غیرفعال</option>
@@ -44,8 +45,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <div class="form-line">
-                                    <select data-placeholder="موجودی" wire:model.live="status"
-                                            class="form-control ms">
+                                    <select data-placeholder="موجودی" wire:model.live="status" class="form-control ms">
                                         <option value="">وضعیت بررسی</option>
                                         <option value="0">دریافت دیوایس</option>
                                         <option value="1">در حال بررسی</option>
@@ -62,11 +62,11 @@
                 <h2><strong>لیست محصولات </strong> ( {{ $devices->total() }} )</h2>
                 <div class="mr-auto">
                     <a onclick="loadbtn(event)" href="{{ route('admin.devices.create') }}"
-                       class="btn btn-raised btn-info waves-effect mr-auto">
+                        class="btn btn-raised btn-info waves-effect mr-auto">
                         افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
-                    {{--<a onclick="window.open('{{ route('admin.file-device2') }}');"
+                    {{-- <a onclick="window.open('{{ route('admin.file-device2') }}');"
                         href="{{ route('admin.file-device') }}" class="btn btn-raised btn-warning waves-effect ">
-                        خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a>--}}
+                        خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
                 </div>
             </div>
             <div class="body">
@@ -79,75 +79,75 @@
                     <div class="table-responsive">
                         <table class="table table-hover c_table theme-color">
                             <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>نام</th>
-                                <th>کد</th>
-                                <th>نام تحویل دهنده</th>
-                                <th>نام تحویل گیرنده</th>
-                                <th> تاریخ دریافت</th>
-                                <th> تاریخ تحویل</th>
-                                <th>وضعیت</th>
-                                <th>بایگانی</th>
-                                <th class="text-center">عملیات</th>
-                            </tr>
+                                <tr>
+                                    <th>#</th>
+                                    <th>نام</th>
+                                    <th>کد</th>
+                                    <th>نام تحویل دهنده</th>
+                                    <th>نام تحویل گیرنده</th>
+                                    <th> تاریخ دریافت</th>
+                                    <th> تاریخ تحویل</th>
+                                    <th>وضعیت</th>
+                                    <th>بایگانی</th>
+                                    <th class="text-center">عملیات</th>
+                                </tr>
                             </thead>
                             <tbody>
-                            @foreach ($devices as $key => $device)
-                                <tr wire:key="name_{{ $device->id }}">
-                                    <td scope="row">{{ $key + 1 }}</td>
-                                    <td>
-                                        {{$device->name}}
-                                    </td>
-                                    <td>
-                                        {{$device->code}}
-                                    </td>
-                                    <td>
-                                        {{$device->delivery_name}}
-                                    </td>
-                                    <td>
-                                        {{$device->receiver_name}}
-                                    </td>
-                                    <td>
-                                        {{$device->receiver_date}}
-                                    </td>
-                                    <td>
-                                        {{$device->delivery_date}}
-                                    </td>
-                                    <td>
-                                        <button wire:click="ChangeActive_device({{ $device->id }})"
+                                @foreach ($devices as $key => $device)
+                                    <tr wire:key="name_{{ $device->id }}">
+                                        <td scope="row">{{ $key + 1 }}</td>
+                                        <td>
+                                            {{ $device->name }}
+                                        </td>
+                                        <td>
+                                            {{ $device->code }}
+                                        </td>
+                                        <td>
+                                            {{ $device->delivery_name }}
+                                        </td>
+                                        <td>
+                                            {{ $device->receiver_name }}
+                                        </td>
+                                        <td>
+                                            {{ $device->receiver_date }}
+                                        </td>
+                                        <td>
+                                            {{ $device->delivery_date }}
+                                        </td>
+                                        <td>
+                                            <button wire:click="ChangeActive_device({{ $device->id }})"
                                                 wire:loading.attr="disabled" @class([
                                                     'btn btn-raised waves-effect',
                                                     'btn-success' => $device->is_active,
                                                     'btn-danger' => !$device->is_active,
                                                 ])>
-                                            {{ $device->is_active ? 'فعال' : 'غیرفعال' }}
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <button wire:click="ChangeArchive_device({{ $device->id }})"
+                                                {{ $device->is_active ? 'فعال' : 'غیرفعال' }}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button wire:click="ChangeArchive_device({{ $device->id }})"
                                                 wire:loading.attr="disabled"
                                                 class="btn btn-raised btn-danger waves-effect">بایگانی کردن
-                                        </button>
-                                    </td>
-                                    <td class="text-center">
-                                        <a onclick="loadbtn(event)"
-                                           href="{{ route('admin.devices.edit', $device->id) }}"
-                                           class="btn btn-raised btn-warning waves-effect">
-                                            <i class="zmdi zmdi-edit"></i>
-                                        </a>
-                                        <a onclick="loadbtn(event)"
-                                           href="{{ route('admin.devices.show', $device->id) }}"
-                                           class="btn btn-raised btn-info waves-effect">
-                                            <i class="zmdi zmdi-eye"></i>
-                                        </a>
-                                        {{-- <div class="btn-group">
+                                            </button>
+                                        </td>
+                                        <td class="text-center">
+                                            <a onclick="loadbtn(event)"
+                                                href="{{ route('admin.devices.edit', $device->id) }}"
+                                                class="btn btn-raised btn-warning waves-effect">
+                                                <i class="zmdi zmdi-edit"></i>
+                                            </a>
+                                            <a onclick="loadbtn(event)"
+                                                href="{{ route('admin.devices.show', $device->id) }}"
+                                                class="btn btn-raised btn-info waves-effect">
+                                                <i class="zmdi zmdi-eye"></i>
+                                            </a>
+                                            {{-- <div class="btn-group">
                                              <button type="button"
                                                      class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
                                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                  <i class="zmdi zmdi-edit"></i>
                                              </button>
-                                             {{--<div class="dropdown-menu">
+                                             {{-- <div class="dropdown-menu">
                                                  <a href="{{ route('admin.ces.edit', ['device' => $device->id]) }}"
                                                     class="dropdown-item text-right"> ویرایش </a>
                                                  <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
@@ -155,10 +155,10 @@
                                                  <a href="{{ route('admin.devices.category.edit', ['device' => $device->id]) }}"
                                                      class="dropdown-item text-right"> ویرایش دسته بندی و ویژگی </a>
                                              </div>
-                                         </div>--}}
-                                    </td>
-                                </tr>
-                            @endforeach
+                                         </div> --}}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
