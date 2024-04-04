@@ -12,7 +12,7 @@
                             <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                     خانه</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0);"><a
-                                        href={{ route('admin.devices.index') }}>لیست دیوایسات</a></li>
+                                        href={{ route('admin.devices.index') }}>لیست دیوایس ها</a></li>
                             <li class="breadcrumb-item active">نمایش دیوایس</li>
                         </ul>
                         <button class="btn btn-primary btn-icon mobile_menu" type="button"><i

@@ -63,7 +63,7 @@ class DeviceComponent extends Component
     public function render()
     {
         $company_users = User::Role('company')->get();
-        $devices = Device::whereAny(['name', 'code'], 'like', '%' . $this->title . '%')
+        $devices = Device::where('is_archive',false)->whereAny(['name', 'code'], 'like', '%' . $this->title . '%')
             ->when($this->company_user != '', function ($query) {
                 $query->where('user_category_id', $this->company_user);
             })

@@ -59,7 +59,7 @@
                 </div>
             </form>
             <div class="header d-flex align-items-center">
-                <h2><strong>لیست محصولات </strong> ( {{ $devices->total() }} )</h2>
+                <h2><strong>لیست دیوایس </strong> ( {{ $devices->total() }} )</h2>
                 <div class="mr-auto">
                     <a onclick="loadbtn(event)" href="{{ route('admin.devices.create') }}"
                         class="btn btn-raised btn-info waves-effect mr-auto">
@@ -131,7 +131,7 @@
                                             </button>
                                         </td>
                                         <td class="text-center">
-                                            <a onclick="loadbtn(event)"
+                                            {{--<a onclick="loadbtn(event)"
                                                 href="{{ route('admin.devices.edit', $device->id) }}"
                                                 class="btn btn-raised btn-warning waves-effect">
                                                 <i class="zmdi zmdi-edit"></i>
@@ -140,22 +140,24 @@
                                                 href="{{ route('admin.devices.show', $device->id) }}"
                                                 class="btn btn-raised btn-info waves-effect">
                                                 <i class="zmdi zmdi-eye"></i>
-                                            </a>
-                                            {{-- <div class="btn-group">
+                                            </a>--}}
+                                             <div class="btn-group">
                                              <button type="button"
                                                      class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
                                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                  <i class="zmdi zmdi-edit"></i>
                                              </button>
-                                             {{-- <div class="dropdown-menu">
-                                                 <a href="{{ route('admin.ces.edit', ['device' => $device->id]) }}"
+                                             <div class="dropdown-menu">
+                                                 <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
                                                     class="dropdown-item text-right"> ویرایش </a>
                                                  <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
-                                                     class="dropdown-item text-right"> ویرایش تصاویر </a>
-                                                 <a href="{{ route('admin.devices.category.edit', ['device' => $device->id]) }}"
-                                                     class="dropdown-item text-right"> ویرایش دسته بندی و ویژگی </a>
+                                                    class="dropdown-item text-right"> ویرایش تصویر </a>
+                                                 <a href="{{ route('admin.devices.show', $device->id) }}"
+                                                     class="dropdown-item text-right"> مشاهده </a>
+                                                 <a href=""
+                                                     class="dropdown-item text-right"> اقدامات </a>
                                              </div>
-                                         </div> --}}
+                                         </div>
                                         </td>
                                     </tr>
                                 @endforeach

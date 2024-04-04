@@ -12,7 +12,7 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                     خانه</a></li>
-                            <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}>لیست محصولات </a></li>
+                            <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}>لیست دیوایس ها </a></li>
                             <li class="breadcrumb-item active">ویرایش تصاویر</li>
                         </ul>
                         <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
@@ -41,8 +41,8 @@
                                         <p>عکس را فقط با فرمت jpg و png آپلود نمایید. </p>
                                         <div class="form-group">
                                             <input type="file" class="dropify" name="primary_image" id="primary_image"
-                                                value={{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
-                                                data-default-file={{ url(env('PRODUCT_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
+                                                value={{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
+                                                data-default-file={{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
                                                 data-allowed-file-extensions="jpg png">
                                         </div>
                                     </div>

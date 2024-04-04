@@ -1,17 +1,17 @@
 @extends('admin.layout.MasterAdmin')
-@section('title','لیست محصولات')
+@section('title','لیست دیوایس')
 @section('Content')
 <section class="content">
     <div class="body_scroll">
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2>لیست محصولات بایگانی</h2>
+                    <h2>لیست دیوایس بایگانی</h2>
                     </br>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href={{route('admin.home')}}><i class="zmdi zmdi-home"></i>
                                 خانه</a></li>
-                        <li class="breadcrumb-item active">لیست محصولات بایگانی شده</li>
+                        <li class="breadcrumb-item active">لیست دیوایس بایگانی شده</li>
                     </ul>
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
                             class="zmdi zmdi-sort-amount-desc"></i></button>
@@ -25,7 +25,7 @@
 
         <div class="container-fluid">
             <!-- Hover Rows -->
-            @livewire('admin.products.archive-component')
+            @livewire('admin.devices.archive-device')
             <!-- #END# Hover Rows -->
         </div>
     </div>
