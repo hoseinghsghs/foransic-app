@@ -42,7 +42,7 @@ class ActionControll extends Component
 
     public function render()
     {
-        return view('livewire.admin.actions.action-controll',['actions'=>Action::latest()->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.actions.action-controll',['actions'=>Action::latest()->where('device_id' , $this->device->id)->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
     }
 
 
@@ -133,7 +133,15 @@ class ActionControll extends Component
                 'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
                ]);
-               toastr()->livewire()->addSuccess('ویژگی با موفقیت ایجاد شد');
+
+        $this->reset("description");
+        $this->reset("start_date");
+        $this->reset("end_date");
+        $this->reset("status");
+        $this->reset("is_print");
+        $this->reset("display");
+
+               toastr()->livewire()->addSuccess('اقدام با موفقیت ایجاد شد');
 
         }
 
@@ -148,7 +156,7 @@ class ActionControll extends Component
 
 
      public function createAction(){
-      $actions=Action::latest()->paginate(10);
+      $actions=Action::latest()->where('device_id' , $this->device->id)->paginate(10);
       return view('livewire.admin.actions.action-controll', compact('actions'));
      }
 }
