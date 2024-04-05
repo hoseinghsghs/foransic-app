@@ -131,33 +131,32 @@
                                             </button>
                                         </td>
                                         <td class="text-center">
-                                            {{--<a onclick="loadbtn(event)"
+                                            {{-- <a onclick="loadbtn(event)"
                                                 href="{{ route('admin.devices.edit', $device->id) }}"
                                                 class="btn btn-raised btn-warning waves-effect">
                                                 <i class="zmdi zmdi-edit"></i>
-                                            </a>
+                                            </a> --}}
                                             <a onclick="loadbtn(event)"
-                                                href="{{ route('admin.devices.show', $device->id) }}"
+                                                href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
                                                 class="btn btn-raised btn-info waves-effect">
-                                                <i class="zmdi zmdi-eye"></i>
-                                            </a>--}}
-                                             <div class="btn-group">
-                                             <button type="button"
-                                                     class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                 <i class="zmdi zmdi-edit"></i>
-                                             </button>
-                                             <div class="dropdown-menu">
-                                                 <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
-                                                    class="dropdown-item text-right"> ویرایش </a>
-                                                 <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
-                                                    class="dropdown-item text-right"> ویرایش تصویر </a>
-                                                 <a href="{{ route('admin.devices.show', $device->id) }}"
-                                                     class="dropdown-item text-right"> مشاهده </a>
-                                                 <a href=""
-                                                     class="dropdown-item text-right"> اقدامات </a>
-                                             </div>
-                                         </div>
+                                                <i class="zmdi zmdi-file-plus" style="font-size: 1.2rem"></i>
+                                            </a>
+                                            <div class="btn-group">
+                                                <button type="button"
+                                                    class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="zmdi zmdi-edit" style="font-size: 1.2rem"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
+                                                        class="dropdown-item text-right"> ویرایش </a>
+                                                    <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
+                                                        class="dropdown-item text-right"> ویرایش تصویر </a>
+                                                    <a href="{{ route('admin.devices.show', $device->id) }}"
+                                                        class="dropdown-item text-right"> مشاهده </a>
+                                                    <a href="" class="dropdown-item text-right"> اقدامات </a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach

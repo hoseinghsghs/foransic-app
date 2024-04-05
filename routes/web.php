@@ -41,6 +41,7 @@ use App\Http\Controllers\Home\WishListController;
 use App\Http\Livewire\Admin\Keywords\KeywordControll;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Admin\Tags\TagControll;
+use App\Livewire\Admin\Actions\ActionControll;
 use App\Http\Livewire\Home\Cart\ShowCart;
 use App\Livewire\Home\DevicesList;
 use App\Models\Question;
@@ -70,6 +71,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
     Route::view('/settings', 'admin.page.settings.setting')->name('settings.show')->middleware('permission:settings');
     Route::get('/', [DashboardController::class, 'index'])->name('home');
+    Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware('permission:actions');
     // Route::resource('brands',         BrandController::class)->middleware('permission:brands');
     // Route::resource('attributes',     AttributeController::class)->except(['show', 'destroy'])->middleware('permission:attributes');
     // Route::post('/categories/order', [CategoryController::class, 'saveOrder'])->name('category.order');
@@ -90,7 +92,6 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     // Route::post('update-guarantee',     [PriceController::class, 'updateGuarantee'])->name('updateguarantee')->middleware('permission:guarantee');
     // Route::post('update-delivery',     [PriceController::class, 'updateDelivery'])->name('updatedelivery')->middleware('permission:delivery');
 
-    // Route::get('tags/create',                         [TagControll::class, "createTag"])->name('tags.create')->middleware('permission:tags');
     // Route::get('keywords/create',                         [KeywordControll::class, "createKeyword"])->name('keywords.create')->middleware('permission:keywords');
     // Route::get('/category-attributes/{category}',     [CategoryController::class, 'getCategoryAttributes']);
     Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');

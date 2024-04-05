@@ -49,6 +49,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
     public function events()
     {
         return $this->morphMany(Event::class, 'eventable');
@@ -58,4 +59,10 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->belongsToMany(EventUser::class);
     }
+
+        public function actions()
+    {
+        return $this->hasMany(Action::class , 'user_id');
+    }
+
 }
