@@ -63,13 +63,13 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
     Route::resource('users',            UserController::class)->except('create', 'destroy')->middleware('permission:users');
     Route::resource('roles',   RoleController::class)->except('show')->middleware('permission:roles');
-    Route::post('/sms/send-sms',   [SmsController::class,'sendSms'])->name('sms.sendSms')->middleware('permission:sms');
-    Route::resource('sms',   SmsController::class)->only('create','store')->middleware('permission:sms');
+//    Route::post('/sms/send-sms',   [SmsController::class,'sendSms'])->name('sms.sendSms')->middleware('permission:sms');
+//    Route::resource('sms',   SmsController::class)->only('create','store')->middleware('permission:sms');
     Route::view('permissions', 'admin.page.permissions.index')->name('permissions')->middleware('permission:permissions');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
-    Route::view('/settings', 'admin.page.settings.setting')->name('settings.show')->middleware('permission:settings');
+//    Route::view('/settings', 'admin.page.settings.setting')->name('settings.show')->middleware('permission:settings');
     Route::get('/', [DashboardController::class, 'index'])->name('home');
     Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware('permission:actions');
     // Route::resource('brands',         BrandController::class)->middleware('permission:brands');
@@ -119,7 +119,10 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');
 });
 //end
-
+Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function() {
+    Route::view('/','home.page.users_profile.index')->name('home');
+    Route::put('/edit', [ProfileController::class, 'update'])->name('profile.update');
+});
 //admin auth
 // Route::view('admin/login', 'admin.page.auth.login')->middleware('guest')->name('admin.login');
 
@@ -157,7 +160,7 @@ Route::get('/assets/ajax', function () {
 // Route::prefix('profile')->name('home.')->middleware(['auth'])->group(function () {
 //     Route::get('/', [UserProfileController::class, 'index'])->name('user_profile');
 //     Route::get('/editProfile', [UserProfileController::class, 'editProfile'])->name('user_profile.edit');
-//     //    Route::post('/forgot-password', [UserProfileController::class, 'forgetPassword'])->name('password.email');
+//     Route::post('/forgot-password', [UserProfileController::class, 'forgetPassword'])->name('password.email');
 //     Route::get('/wishlist', [WishListController::class, 'usersProfileIndex'])->name('profile.wishlist.index');
 //     Route::get('/add-to-wishlist/{device:id}', [WishListController::class, 'add'])->name('home.wishlist.add');
 //     Route::get('/addreses',  [AddressController::class, 'index'])->name('addreses.index');

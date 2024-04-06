@@ -30,6 +30,7 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="row">
+                                    @isset(auth()->user()->password)
                                     <div class="col-md-4">
                                         <label class="p-1">رمز عبور فعلی *</label>
                                         <div class="mb-3">
@@ -39,6 +40,7 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    @endisset
                                     <div class="col-md-4">
                                         <label class="p-1">رمز عبور جدید *</label>
                                         <div class="mb-3">

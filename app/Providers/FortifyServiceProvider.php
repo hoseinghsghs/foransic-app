@@ -23,6 +23,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LogoutResponse;
+use Spatie\Permission\Models\Role;
 
 
 class FortifyServiceProvider extends ServiceProvider
@@ -48,7 +49,7 @@ class FortifyServiceProvider extends ServiceProvider
             {
                 return $request->wantsJson()
                     ? response()->json(['two_factor' => false, 'redirect' => request()->session()->get('url.intended') ?? '/'])
-                    : (url()->previous() == url('admin/login') ? redirect()->route('admin.home') : redirect()->intended());
+                    : (auth()->user()->hasRole(Role::all()->pluck('name')->toArray()) ? redirect()->route('admin.home') : redirect()->route('user.home'));
             }
         });
 

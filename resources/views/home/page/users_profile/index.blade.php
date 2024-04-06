@@ -1,95 +1,122 @@
-@extends('home.layout.MasterHome')
-@section('title' , 'پروفایل کاربری')
-@section('content')
-
-<!-- profile------------------------------->
-<div class="container-main">
-    <div class="d-block">
-        <section class="profile-home">
-            <div class="col-lg">
-                <div class="post-item-profile order-1 d-block">
-                    @include('home.page.users_profile.partial.right_side')
-                    <div class="col-lg-9 col-12 pl">
-                        <div class="profile-content">
-                            <div class="profile-stats">
-                                <table class="table table-profile">
-                                    <tbody>
-                                        <tr>
-                                            <td class="w-50">
-                                                <div class="title">نام و نام خانوادگی:</div>
-                                                <div class="value">{{auth()->user()->name}}</div>
-                                            </td>
-                                            <td>
-                                                <div class="title">پست الکترونیک :</div>
-                                                <div class="value">{{auth()->user()->email}}</div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="title">شماره تلفن همراه:</div>
-                                                <div class="value">{{auth()->user()->cellphone}}</div>
-                                            </td>
-                                            <td>
-                                                <div class="title">تاریخ عضویت:</div>
-                                                <div class="value">
-                                                    {{Hekmatinasser\Verta\Verta::instance(auth()->user()->created_at)->format('Y/n/j')}}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div class="title"> دریافت خبرنامه :</div>
-                                                <div class="value">بله</div>
-                                            </td>
-                                            <td>
-                                                <div class="title"> کد ملی :</div>
-                                                <div class="value">-</div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="profile">
-                                    <ul class="mb-0">
-                                        <li class="profile-item">
-                                            <div class="title">نام و نام خانوادگی:</div>
-                                            <div class="value">{{auth()->user()->name}}</div>
-                                        </li>
-                                        <li class="profile-item">
-                                            <div class="title">پست الکترونیک :</div>
-                                            <div class="value">{{auth()->user()->email}}</div>
-                                        </li>
-                                        <li class="profile-item">
-                                            <div class="title">شماره تلفن همراه:</div>
-                                            <div class="value">{{auth()->user()->cellphone}}1</div>
-                                        </li>
-                                        <li class="profile-item">
-                                            <div class="title">تاریخ عضویت:</div>
-                                            <div class="value">
-                                                {{Hekmatinasser\Verta\Verta::instance(auth()->user()->created_at)->format('Y/n/j')}}
+@extends('admin.layout.MasterAdmin')
+@section('title','پروفایل کاربری')
+@section('Content')
+    <section class="content">
+        <div class="body_scroll">
+            <div class="block-header">
+                <div class="row">
+                    <div class="col-lg-7 col-md-6 col-sm-12">
+                        <h2>ویرایش پروفایل</h2>
+                        </br>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><i class="zmdi zmdi-home"></i>
+                                    خانه</li>
+                        </ul>
+                        <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
+                    </div>
+                    <div class="col-lg-5 col-md-6 col-sm-12">
+                        <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i class="zmdi zmdi-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row clearfix">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="body">
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
+                                <form action="{{route('user.profile.update')}}" method="POST" enctype="multipart/form-data" novalidate>
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="row clearfix">
+                                        <div class="col-md-4">
+                                            <label>نام و نام خانوادگی</label>
+                                            <div class="form-group">
+                                                <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" value="{{auth()->user()->name}}" placeholder="">
                                             </div>
-                                        </li>
-                                        <li class="profile-item">
-                                            <div class="title"> دریافت خبرنامه :</div>
-                                            <div class="value">بله</div>
-                                        </li>
-                                        <li class="profile-item">
-                                            <div class="title"> کد ملی :</div>
-                                            <div class="value">-</div>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="profile-edit-action">
-                                    <a href="{{route('home.user_profile.edit')}}"
-                                        class="link-spoiler-edit btn btn-secondary">ویرایش اطلاعات</a>
-                                </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>شماره تماس</label>
+                                            <div class="form-group">
+                                                <input name="cellphone" type="number" maxlength="11" class="form-control without-spin @error('cellphone') is-invalid @enderror" value="{{auth()->user()->cellphone}}" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>ایمیل</label>
+                                            <div class="form-group">
+                                                <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" value="{{auth()->user()->email}}" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">عکس پروفایل</label>
+                                            <div class="form-group ">
+                                                <input type="file" class="dropify" name="avatar" id="dropifyt" data-default-file="{{auth()->user()->avatar ? asset('storage/profile/'.auth()->user()->avatar) : asset('img/profile.png') }}" data-max-file-size="1024K" data-allowed-file-extensions="jpg png jpeg" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button onclick="loadbtn(event)" type="submit" class="btn btn-raised btn-primary waves-effect">
+                                            ذخیره
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="body">
+                                <form id="form_advanced_validation" class="needs-validation" action="{{route('user-password.update')}}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="row">
+                                        @isset(auth()->user()->password)
+                                            <div class="col-md-4">
+                                                <label class="p-1">رمز عبور فعلی *</label>
+                                                <div class="mb-3">
+                                                    <input name="current_password" type="password" class="form-control @error('current_password','updatePassword') is-invalid @enderror" placeholder="" required>
+                                                    @error('current_password','updatePassword')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        @endisset
+                                        <div class="col-md-4">
+                                            <label class="p-1">رمز عبور جدید *</label>
+                                            <div class="mb-3">
+                                                <input name="password" type="password" class="form-control @error('password','updatePassword') is-invalid @enderror" placeholder="" required>
+                                                @error('password','updatePassword')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="p-1">تکرار رمز عبور * </label>
+                                            <div class="mb-3">
+                                                <input name="password_confirmation" type="password" class="form-control @error('password_confirmation','updatePassword') is-invalid @enderror" placeholder="" required>
+                                                @error('password_confirmation','updatePassword')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-auto align-self-center">
+                                            <button type="submit" class="btn btn-raised btn-primary waves-effect">ذخیره</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
-</div>
-<!-- profile------------------------------->
-
+        </div>
+    </section>
 @endsection
