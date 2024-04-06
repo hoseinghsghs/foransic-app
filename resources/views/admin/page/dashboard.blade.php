@@ -94,7 +94,7 @@
                         <div class="col-sm-12">
                             <div class="card">
                                 <div class="header">
-                                    <h2>کاربران</h2>
+                                    <h2>پرسنل آزمایشگاه</h2>
                                     <ul class="header-dropdown">
                                         <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle"
                                                 data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -114,6 +114,7 @@
                                                 <th>نام</th>
                                                 <th>شماره تماس</th>
                                                 <th>وضعیت</th>
+                                                <th>نقش</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -126,6 +127,14 @@
                                                     </td>
                                                     <td>{{ $user->cellphone }}</td>
                                                     <td>{{ $user->status }}</td>
+                                                    <td>
+                                                        @if ($user->getRoleNames()[0] == 'personel')
+                                                            پرسنل آزمایشگاه
+                                                        @else
+                                                            {{ $user->getRoleNames() }}
+                                                        @endif
+
+                                                    </td>
 
                                                 </tr>
                                             @endforeach
