@@ -7,8 +7,10 @@ use Analytics;
 use App\Models\Device;
 use App\Models\User;
 use App\Models\Action;
+use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
 use Spatie\Analytics\Period;
+
 use Verta;
 
 use function PHPUnit\Framework\isNull;
@@ -77,8 +79,7 @@ class DashboardController extends Controller
         $status_device_2 = Device::whereBetween('created_at', [$from, $to])->where('status', 2)->count();
         $status_device_3 = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->count();
         $status_device_4 = Device::whereBetween('created_at', [$from, $to])->where('status', 4)->count();
-        $users=User::all();
-
+        $users = User::role('personel')->get();
 
         // $all_order = Order::whereBetween('created_at', [$from, $to])->count();
 

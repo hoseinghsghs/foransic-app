@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Comment;
-use App\Models\Order;
+
 use App\Models\User;
+use App\Models\Action;
 use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -56,9 +56,7 @@ class UserController extends Controller
     }
     public function show(User $user)
     {
-        $orders = Order::where('user_id', $user->id)->latest()->paginate(10, ['*'], 'orders')->withQueryString();
-        $comments = Comment::where('user_id', $user->id)->latest()->paginate(10, ['*'], 'comments')->withQueryString();
-
-        return view('admin.page.users.show', compact('user', 'orders', 'comments'));
+        $actions=Action::where('user_id', $user->id)->take(10)->get();
+        return view('admin.page.users.show', compact('user', 'actions'));
     }
 }

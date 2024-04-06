@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Device;
+use App\Models\Action;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -16,7 +17,8 @@ class DeviceController extends Controller
     public function show(Device $device)
     {
         $images = $device->images;
-        return view('admin.page.devices.show', compact('device', 'images'));
+        $actions=Action::where('device_id' , $device->id)->get();
+        return view('admin.page.devices.show', compact('device', 'images' ,'actions'));
     }
 
     public function uploadImage(Request $request)
