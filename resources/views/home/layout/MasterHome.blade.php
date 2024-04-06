@@ -67,10 +67,10 @@
     <script src="{{ asset('assets/admin/jquery-3.2.1.min.js') }}"></script>
 
 
-     <script type="text/javascript" src="{{asset('js/home.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/home.js') }}"></script>
 
-    @include('sweetalert::alert')
     @livewireScripts()
+    @include('sweetalert::alert')
     @stack('scripts')
 
     <!---start GOFTINO code--->

@@ -15847,13 +15847,13 @@ section.content {
 
 .bootstrap-tagsinput {
     width: 100%;
-   /* -webkit-box-shadow: none !important;
+    /* -webkit-box-shadow: none !important;
     -moz-box-shadow: none !important;
     -ms-box-shadow: none !important;
     box-shadow: none !important;
     border: none !important;*/
 }
-.bootstrap-tagsinput .badge-info{
+.bootstrap-tagsinput .badge-info {
     font-size: 13px;
     font-weight: 400;
 }
@@ -21060,9 +21060,28 @@ section.content {
     right: 20px;
 }
 
+.cbp_tmtimeline > li .cbp_tmtime_1 {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    border-radius: 3px;
+    background: #292a33;
+    color: #fff;
+    padding: 0px 7px;
+    position: absolute;
+    top: -10px;
+    right: 40px;
+}
+
 @media only screen and (max-width: 767px) {
     .cbp_tmtimeline > li .cbp_tmtime {
         left: 20px;
+        right: auto;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .cbp_tmtimeline > li .cbp_tmtime_1 {
+        left: 40px;
         right: auto;
     }
 }

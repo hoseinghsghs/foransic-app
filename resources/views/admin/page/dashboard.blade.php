@@ -20,67 +20,122 @@
                 </div>
             </div>
             <div class="container-fluid">
-                {{-- <div class="row clearfix">
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="card widget_2 big_icon traffic">
-                        <div class="body">
-                            <h6>دیوایس های بررسیده نشده</h6>
-                            <h2>{{$successsend_order}}<small class="info"> از {{$all_order}} </small></h2>
-                            <small> {{(int)(($successsend_order/($all_order>0 ? $all_order : 1))*100)}}% تراکنش
-                                موفق </small>
-                            <div class="progress">
-                                <div class="progress-bar l-blue" role="progressbar" aria-valuenow="45"
-                                    aria-valuemin="0" aria-valuemax="{{$all_order}}"
-                                    style="width: {{($successsend_order/($all_order>0 ? $all_order : 1))*100}}%;"></div>
+                <div class="row clearfix">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card widget_2 big_icon domains">
+                            <div class="body">
+                                <h6>دیوایس های بررسی نشده</h6>
+                                <h2>{{ $status_device_1 }}<small class="info"> از {{ $all_devices }} </small></h2>
+                                <small> {{ (int) (($status_device_1 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
+                                    دیوایس های بررسی نشده</small>
+                                <div class="progress">
+                                    <div class="progress-bar l-blue" role="progressbar" aria-valuenow="45" aria-valuemin="0"
+                                        aria-valuemax="{{ $all_devices }}"
+                                        style="width: {{ ($status_device_1 / ($all_devices > 0 ? $all_devices : 1)) * 100 }}%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card widget_2 big_icon domains">
+                            <div class="body">
+                                <h6>دیوایس های در حال بررسی</h6>
+                                <h2>{{ $status_device_2 }} <small class="info">از {{ $all_devices }}</small></h2>
+                                <small>{{ (int) (($status_device_2 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
+                                    دیوایس های در حال بررسی</small>
+                                <div class="progress">
+                                    <div class="progress-bar l-green" role="progressbar" aria-valuenow="38"
+                                        aria-valuemin="0" aria-valuemax="{{ $all_devices }}"
+                                        style="width: {{ ($status_device_2 / ($all_devices > 0 ? $all_devices : 1)) * 100 }}%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card widget_2 big_icon domains">
+                            <div class="body">
+                                <h6>تکمیل بررسی دیوایس</h6>
+                                <h2>{{ $status_device_3 }} <small class="info">از {{ $all_devices }}</small></h2>
+                                <small> {{ (int) (($status_device_3 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
+                                    تکمیل بررسی دیوایس
+                                </small>
+                                <div class="progress">
+                                    <div class="progress-bar l-amber" role="progressbar" aria-valuenow="39"
+                                        aria-valuemin="{{ $all_devices }}" aria-valuemax="100"
+                                        style="width: {{ ($status_device_3 / ($all_devices > 0 ? $all_devices : 1)) * 100 }}%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div class="card widget_2 big_icon domains">
+                            <div class="body">
+                                <h6>دیوایس های تحویل داده شده</h6>
+                                <h2>{{ $status_device_4 }} <small class="info">از {{ $all_devices }}</small></h2>
+                                <small>{{ (int) (($status_device_4 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
+                                    دیوایس های تحویل داده شده
+                                </small>
+                                <div class="progress">
+                                    <div class="progress-bar l-purple" role="progressbar" aria-valuenow="89"
+                                        aria-valuemin="0" aria-valuemax="{{ $all_devices }}"
+                                        style="width: {{ ($status_device_4 / ($all_devices > 0 ? $all_devices : 1)) * 100 }}%;">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="card widget_2 big_icon sales">
-                        <div class="body">
-                            <h6>آماده به ارسال</h6>
-                            <h2>{{$successpay_order}} <small class="info">از {{$all_order}}</small></h2>
-                            <small>{{(int)(($successpay_order/($all_order>0 ? $all_order : 1))*100)}}% سفارشات آماده
-                                برای ارسال</small>
-                            <div class="progress">
-                                <div class="progress-bar l-green" role="progressbar" aria-valuenow="38" aria-valuemin="0"
-                                    aria-valuemax="{{$all_order}}"
-                                    style="width: {{($successpay_order/($all_order>0 ? $all_order : 1))*100}}%;"></div>
+
+                @if ($users->count())
+                    <div class="row clearfix">
+                        <div class="col-sm-12">
+                            <div class="card">
+                                <div class="header">
+                                    <h2>کاربران</h2>
+                                    <ul class="header-dropdown">
+                                        <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle"
+                                                data-toggle="dropdown" role="button" aria-haspopup="true"
+                                                aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+
+                                        </li>
+                                        <li class="remove">
+                                            <a role="button" class="boxs-close"><i class="zmdi zmdi-close"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="table-responsive social_media_table">
+                                    <table class="table table-hover c_table">
+                                        <thead>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>نام</th>
+                                                <th>شماره تماس</th>
+                                                <th>وضعیت</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users as $user)
+                                                <tr>
+                                                    <td><span class="social_icon linkedin">{{ $user->id }}</span>
+                                                    </td>
+                                                    <td><span class="list-name">{{ $user->name }}</span>
+                                                        <span class="text-muted"></span>
+                                                    </td>
+                                                    <td>{{ $user->cellphone }}</td>
+                                                    <td>{{ $user->status }}</td>
+
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="card widget_2 big_icon email">
-                        <div class="body">
-                            <h6>سفارشات مرجوعی</h6>
-                            <h2>{{$returned_order}} <small class="info">از {{$all_order}}</small></h2>
-                            <small> {{(int)(($returned_order/($all_order>0 ? $all_order : 1))*100)}}% سفارشات
-                                مرجوعی</small>
-                            <div class="progress">
-                                <div class="progress-bar l-amber" role="progressbar" aria-valuenow="39"
-                                    aria-valuemin="{{$all_order}}" aria-valuemax="100"
-                                    style="width: {{($returned_order/($all_order>0 ? $all_order : 1))*100}}%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div class="card widget_2 big_icon domains">
-                        <div class="body">
-                            <h6>پرداخت نشده</h6>
-                            <h2>{{$notpay_order}} <small class="info">از {{$all_order}}</small></h2>
-                            <small>{{(int)(($notpay_order/($all_order>0 ? $all_order : 1))*100)}}% پرداخت نشده</small>
-                            <div class="progress">
-                                <div class="progress-bar l-purple" role="progressbar" aria-valuenow="89"
-                                    aria-valuemin="0" aria-valuemax="{{$all_order}}"
-                                    style="width: {{($notpay_order/($all_order>0 ? $all_order : 1))*100}}%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
+                @endif
                 {{-- <div class="row clearfix">
                 <div class="col-lg-12">
                     <cart>

@@ -42,7 +42,7 @@ class ActionControll extends Component
 
     public function render()
     {
-        return view('livewire.admin.actions.action-controll',['actions'=>Action::latest()->where('device_id' , $this->device->id)->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.actions.action-controll',['actions'=>Action::orderBy('created_at', 'desc')->where('device_id' , $this->device->id)->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
     }
 
 
@@ -64,11 +64,8 @@ class ActionControll extends Component
 
         try {
           $this->action=$action;
-          sweetAlert()
-              ->livewire()
-              ->showDenyButton(true,'انصراف')->confirmButtonText("تایید")
-              ->addInfo('از حذف رکورد مورد نظر اطمینان دارید؟');
-
+      $this->action->delete();
+            toastr()->livewire()->addSuccess('اقدام با موفقیت حذف شد');
 
 
           } catch (\Exception $e) {

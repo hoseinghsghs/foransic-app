@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Analytics;
-use App\Models\Order;
-use App\Models\Transaction;
+use App\Models\Device;
+use App\Models\User;
+use App\Models\Action;
 use Carbon\Carbon;
 use Spatie\Analytics\Period;
 use Verta;
@@ -66,22 +67,18 @@ class DashboardController extends Controller
         // }
 
 
-        // $from = Carbon::now()->subDays(30);
-        // $to = Carbon::now();
+        $from = Carbon::now()->subDays(30);
+        $to = Carbon::now();
 
-        // //هزینه های سفارشات
-        // $amunt_success_orders =  Order::whereBetween('created_at', [$from, $to])->where('payment_status', '1')->sum('paying_amount');
-        // $amunt_total_orders =    Order::whereBetween('created_at', [$from, $to])->where('payment_status', '1')->sum('total_amount');
-        // $amunt_coupon_orders =   Order::whereBetween('created_at', [$from, $to])->where('payment_status', '1')->sum('coupon_amount');
-        // $amunt_delivery_orders = Order::whereBetween('created_at', [$from, $to])->where('payment_status', '1')->sum('delivery_amount');
-        // //تراکنش های سفارشات
-        // $success_transaction = Transaction::whereBetween('created_at', [$from, $to])->where('status', 1)->count();
-        // $all_transaction = Transaction::whereBetween('created_at', [$from, $to])->count();
-        // //تعداد سفارشات
-        // $notpay_order = Order::whereBetween('created_at', [$from, $to])->where('status', 0)->count();
-        // $successpay_order = Order::whereBetween('created_at', [$from, $to])->where('status', 1)->count();
-        // $successsend_order = Order::whereBetween('created_at', [$from, $to])->where('status', 2)->count();
-        // $returned_order = Order::whereBetween('created_at', [$from, $to])->where('status', 3)->count();
+        //هزینه های سفارشات
+        $all_devices =  Device::whereBetween('created_at', [$from, $to])->count();
+        $all_actions =  Action::whereBetween('created_at', [$from, $to])->count();
+        $status_device_1 = Device::whereBetween('created_at', [$from, $to])->where('status', 1)->count();
+        $status_device_2 = Device::whereBetween('created_at', [$from, $to])->where('status', 2)->count();
+        $status_device_3 = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->count();
+        $status_device_4 = Device::whereBetween('created_at', [$from, $to])->where('status', 4)->count();
+        $users=User::all();
+
 
         // $all_order = Order::whereBetween('created_at', [$from, $to])->count();
 
@@ -99,22 +96,22 @@ class DashboardController extends Controller
         //پربازدید ترین صفحات
         return view(
             'admin.page.dashboard'
-            // ,
-            // compact(
+             ,
+            compact(
 
-            //     'success_transaction',
-            //     'all_transaction',
-            //     'notpay_order',
-            //     'successpay_order',
-            //     'all_order',
-            //     'amunt_success_orders',
-            //     'amunt_total_orders',
-            //     'amunt_coupon_orders',
-            //     'amunt_delivery_orders',
-            //     'successsend_order',
-            //     'returned_order',
+                'status_device_1',
+                'status_device_2',
+                'status_device_3',
+                'status_device_4',
+                'all_actions',
+                'all_devices',
+                'users',
+                // 'amunt_coupon_orders',
+                // 'amunt_delivery_orders',
+                // 'successsend_order',
+                // 'returned_order',
 
-            // ),
+            ),
 
             // [
             //     'successTransactions' => array_values($successTransactionsChart),
