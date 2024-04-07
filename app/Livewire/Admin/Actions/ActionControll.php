@@ -11,6 +11,7 @@ use Livewire\WithPagination;
 class ActionControll extends Component
 {
     use WithPagination;
+
     public Device $device;
     protected $paginationTheme = 'bootstrap';
     public $description;
@@ -19,16 +20,16 @@ class ActionControll extends Component
     public $status;
     public $is_print;
     public $action;
-    public $is_edit=false;
+    public $is_edit = false;
     public $display;
     protected $listeners = [
-      'sweetAlertConfirmed', // only when confirm button is clicked
-  ];
+        'sweetAlertConfirmed', // only when confirm button is clicked
+    ];
 
 
     public function ref()
     {
-        $this->is_edit=false;
+        $this->is_edit = false;
 
         $this->reset("description");
         $this->reset("start_date");
@@ -37,57 +38,58 @@ class ActionControll extends Component
         $this->reset("is_print");
         $this->reset("display");
         $this->resetValidation();
+        $this->dispatch('destroy-date-picker');
     }
 
 
     public function render()
     {
-        return view('livewire.admin.actions.action-controll',['actions'=>Action::orderBy('created_at', 'desc')->where('device_id' , $this->device->id)->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.actions.action-controll', ['actions' => Action::orderBy('created_at', 'desc')->where('device_id', $this->device->id)->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
     }
 
 
     public function edit_action(Action $action)
     {
-     $this->is_edit=true;
-     $this->description=$action->description;
-     $this->start_date=$action->start_date;
-     $this->end_date=$action->end_date;
-     $this->status=$action->status;
-     $this->is_print=$action->is_print;
-     $this->action=$action;
-     $this->display="disabled";
+        $this->is_edit = true;
+        $this->description = $action->description;
+        $this->start_date = $action->start_date;
+        $this->end_date = $action->end_date;
+        $this->status = $action->status;
+        $this->is_print = $action->is_print;
+        $this->action = $action;
+        $this->display = "disabled";
+        $this->dispatch('edit-action', start_date: $this->start_date, end_date: $this->end_date);
     }
 
 
-
-    public function del_action(Action $action){
-
+    public function del_action(Action $action)
+    {
         try {
-          $this->action=$action;
-      $this->action->delete();
+            $this->action = $action;
+            $this->action->delete();
             toastr()->livewire()->addSuccess('اقدام با موفقیت حذف شد');
 
 
-          } catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             redirect('admin.actions.create');
-         }
+        }
 
     }
 
-    public function addAction(){
+    public function addAction()
+    {
+        if ($this->is_edit) {
 
-        if($this->is_edit){
-
-          $this->validate([
+            $this->validate([
                 'description' => 'required|string',
                 'start_date' => 'required|string',
                 'end_date' => 'required|string',
                 'status' => 'required',
                 'is_print' => 'required',
-          ]);
+            ]);
 
-        $this->action->update([
+            $this->action->update([
                 "description" => $this->description,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
@@ -95,23 +97,20 @@ class ActionControll extends Component
                 'is_print' => $this->is_print,
                 'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
-        ]);
+            ]);
 
-        $this->is_edit=false;
+            $this->is_edit = false;
 
-        $this->reset("description");
-        $this->reset("start_date");
-        $this->reset("end_date");
-        $this->reset("status");
-        $this->reset("is_print");
-        $this->reset("display");
+            $this->reset("description");
+            $this->reset("start_date");
+            $this->reset("end_date");
+            $this->reset("status");
+            $this->reset("is_print");
+            $this->reset("display");
 
-        toastr()->livewire()->addSuccess('تغییرات با موفقیت ذخیره شد');
+            toastr()->livewire()->addSuccess('تغییرات با موفقیت ذخیره شد');
 
-
-        }
-
-        else{
+        } else {
             $this->validate([
                 'description' => 'required|string',
                 'start_date' => 'required|string',
@@ -119,7 +118,7 @@ class ActionControll extends Component
                 'status' => 'required',
                 'is_print' => 'required',
 
-              ]);
+            ]);
 
             Action::create([
                 "description" => $this->description,
@@ -129,31 +128,31 @@ class ActionControll extends Component
                 'is_print' => $this->is_print,
                 'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
-               ]);
+            ]);
 
-        $this->reset("description");
-        $this->reset("start_date");
-        $this->reset("end_date");
-        $this->reset("status");
-        $this->reset("is_print");
-        $this->reset("display");
+            $this->reset("description");
+            $this->reset("start_date");
+            $this->reset("end_date");
+            $this->reset("status");
+            $this->reset("is_print");
+            $this->reset("display");
 
-               toastr()->livewire()->addSuccess('اقدام با موفقیت ایجاد شد');
+            toastr()->livewire()->addSuccess('اقدام با موفقیت ایجاد شد');
 
         }
-
-
+        $this->dispatch('destroy-date-picker');
     }
 
     public function sweetAlertConfirmed(array $data)
     {
-            $this->action->delete();
-            toastr()->livewire()->addSuccess('ویژگی با موفقیت حذف شد');
+        $this->action->delete();
+        toastr()->livewire()->addSuccess('ویژگی با موفقیت حذف شد');
     }
 
 
-     public function createAction(){
-      $actions=Action::latest()->where('device_id' , $this->device->id)->paginate(10);
-      return view('livewire.admin.actions.action-controll', compact('actions'));
-     }
+    public function createAction()
+    {
+        $actions = Action::latest()->where('device_id', $this->device->id)->paginate(10);
+        return view('livewire.admin.actions.action-controll', compact('actions'));
+    }
 }

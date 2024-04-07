@@ -47,8 +47,18 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
             public function toResponse($request)
             {
+                $roles=Role::all()->pluck('name')->toArray();
+                if ($request->user()->hasRole($roles)){
+                    if (request()->session()->get('url.intended') && str_contains(request()->session()->get('url.intended'),'Admin-panel/managment')){
+                        $redirect=request()->session()->get('url.intended');
+                    }else{
+                        $redirect=route('admin.home');
+                    }
+                }else{
+                    $redirect=route('user.home');
+                }
                 return $request->wantsJson()
-                    ? response()->json(['two_factor' => false, 'redirect' => request()->session()->get('url.intended') ?? '/'])
+                    ? response()->json(['two_factor' => false, 'redirect' => $redirect])
                     : (auth()->user()->hasRole(Role::all()->pluck('name')->toArray()) ? redirect()->route('admin.home') : redirect()->route('user.home'));
             }
         });

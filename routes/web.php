@@ -156,7 +156,7 @@ Route::post('/otp/verfiy-phone', [OtpController::class, 'verfiyPhone'])->middlew
 Route::get('/assets/ajax', function () {
     return view('home.partial.login');
 });
-
+Route::redirect('/','/login')->middleware('guest');
 // Route::prefix('profile')->name('home.')->middleware(['auth'])->group(function () {
 //     Route::get('/', [UserProfileController::class, 'index'])->name('user_profile');
 //     Route::get('/editProfile', [UserProfileController::class, 'editProfile'])->name('user_profile.edit');
