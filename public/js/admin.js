@@ -37772,16 +37772,6 @@ __webpack_require__(/*! ../assets/admin/js/rating.js */ "./resources/assets/admi
 window.Swal = __webpack_require__(/*! ../assets/home/js/vendor/sweetalert2.all.min.js */ "./resources/assets/home/js/vendor/sweetalert2.all.min.js");
 __webpack_require__(/*! ../assets/admin/js/pages/ecommerce */ "./resources/assets/admin/js/pages/ecommerce.js"); // custom javascript
 
-//window.Echo = new Echo({
-//   broadcaster: "pusher",
-//    key: process.env.MIX_PUSHER_APP_KEY,
-//   wsHost: window.location.hostname,
-//   wsPort: 6001,
-//   forceTLS: false,
-//   disableStats: true,
-//});
-// index
-
 /***/ }),
 
 /***/ "./node_modules/bootstrap-fileinput/js/fileinput.js":
