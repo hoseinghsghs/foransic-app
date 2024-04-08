@@ -164,7 +164,7 @@
                                     <div class="body @error('primary_image') is-invalid @enderror">
                                         <div class="form-group" wire:ignore>
                                             <input wire:model="primary_image" id="primary_image" type="file"
-                                                class="dropify form-control" required
+                                                class="dropify form-control"
                                                 data-allowed-file-extensions="jpg png" data-max-file-size="2M">
                                         </div>
                                         @error('primary_image')

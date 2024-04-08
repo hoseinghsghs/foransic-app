@@ -185,5 +185,6 @@ return array(
         "delivery_name" => 'نام تحویل دهنده',
         "delivery_code" => 'کد پرسنلی تحویل دهنده',
         "accessories" => 'لوازم جانبی',
+        "user_category_id"=>'رده'
     ),
 );
