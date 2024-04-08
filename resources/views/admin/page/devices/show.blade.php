@@ -259,8 +259,10 @@
                             </div>
                         </div>
                         <!-- پایان لیست -->
+                        <a class="btn" href="{{ route('admin.print.device', ['device' => $device->id]) }}">pp</a>
                     </div>
                 </div>
             </div>
         </section>
+
     @endsection

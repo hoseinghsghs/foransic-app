@@ -9219,7 +9219,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AM
 } /*(this, function (a) {
     !(function (a) {
         "use strict";
-         function b(b) {
+          function b(b) {
             var c = [
                 {
                     re: /[\xC0-\xC6]/g,
@@ -9281,7 +9281,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AM
                 b
             );
         }
-         function c(b) {
+          function c(b) {
             var c = arguments,
                 d = b;
             [].shift.apply(c);
@@ -37771,6 +37771,7 @@ __webpack_require__(/*! ../assets/admin/js/jquery.czMore-latest.js */ "./resourc
 __webpack_require__(/*! ../assets/admin/js/rating.js */ "./resources/assets/admin/js/rating.js");
 window.Swal = __webpack_require__(/*! ../assets/home/js/vendor/sweetalert2.all.min.js */ "./resources/assets/home/js/vendor/sweetalert2.all.min.js");
 __webpack_require__(/*! ../assets/admin/js/pages/ecommerce */ "./resources/assets/admin/js/pages/ecommerce.js"); // custom javascript
+
 //window.Echo = new Echo({
 //   broadcaster: "pusher",
 //    key: process.env.MIX_PUSHER_APP_KEY,

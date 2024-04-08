@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Storage;
 
 class DeviceComponent extends Component
 {
@@ -60,6 +61,10 @@ class DeviceComponent extends Component
         ]);
     }
 
+       public function export()
+    {
+        return Storage::disk('exports')->download('export.csv');
+    }
     public function render()
     {
         $company_users = User::Role('company')->get();

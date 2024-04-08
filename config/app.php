@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Facade;
 
 return [
 
@@ -106,6 +107,12 @@ return [
             explode(',', env('APP_PREVIOUS_KEYS', ''))
         ),
     ],
+
+    RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+
+    'aliases' => Facade::defaultAliases()->merge([
+        'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+    ])->toArray(),
 
     /*
     |--------------------------------------------------------------------------
