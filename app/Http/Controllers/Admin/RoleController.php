@@ -125,7 +125,7 @@ class RoleController extends Controller
     public function destroy(Role $role)
     {
         $role->delete();
-        alert()->success('نقش مورد نظر با موفقیت حذف گردید.')->timerProgressBar()->toToast();
+        toastr()->addSuccess('نقش مورد نظر با موفقیت حذف گردید.')->timerProgressBar();
         return redirect()->back();
     }
 }

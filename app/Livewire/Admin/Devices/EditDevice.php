@@ -39,9 +39,19 @@ class EditDevice extends Component
             'status' => 'required',
             'description' => 'required|string',
             'accessories' => 'required|string',
-            'code' => 'required|string',
+            'code' => ['required','string',Rule::unique('devices')->ignore($this->device)],
             'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
+            'receiver_name' => 'required_if:status,3|string',
+            'receiver_code' => 'required_if:status,3|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'receiver_name.required_if' => 'نام تحویل گیرنده ضروری است.',
+            'receiver_code.required_if' => 'کد تحویل گیرنده ضروری است.',
         ];
     }
 
@@ -78,9 +88,8 @@ class EditDevice extends Component
                 'delivery_date' => verta()->formatJalaliDatetime(),
                 'is_active' => !$this->is_active,
             ]);
-
-
-        alert()->success('دیوایس مورد نظر دریافت شد')->toToast();
+        toastr()->rtl(true)->addInfo('دیوایس مورد نظر ویرایش شد',' ');
+//        flash()->addSuccess('دیوایس مورد نظر دریافت شد');
         return redirect()->route('admin.devices.index');
     }
 

@@ -182,7 +182,7 @@ class OtpController extends Controller
             if(!auth()->check()){
                 Auth::login($user);
             }
-            alert()->success('رمزعبور با موفقیت تغییر یافت.')->timerProgressBar()->toToast();
+            toastr()->addSuccess('رمزعبور با موفقیت تغییر یافت.');
             return response()->json(['message' => 'رمزعبور با موفقیت تغییر یافت.']);
         } else {
             return response()->json(['error' => 'شما دسترسی ندارید'], 422);

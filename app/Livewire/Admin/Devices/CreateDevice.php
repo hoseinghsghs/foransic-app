@@ -35,7 +35,7 @@ class CreateDevice extends Component
             'status' => 'required',
             'description' => 'required|string',
             'accessories' => 'required|string',
-            'code' => 'required|string',
+            'code' => 'required|string|unique:devices',
             'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'required|image|mimes:jpg,jpeg,png,svg|max:2000',
@@ -92,12 +92,12 @@ class CreateDevice extends Component
             }
             DB::commit();
         } catch (\Exception $ex) {
-            alert()->error('خطا', $ex->getMessage())->showConfirmButton('تایید');
+            toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage())->showConfirmButton('تایید');
             DB::rollBack();
             return redirect()->back();
         }
         Session::forget('images');
-        alert()->success('دیوایس مورد نظر دریافت شد')->toToast();
+        toastr()->rtl(true)->addSuccess('دیوایس مورد نظر دریافت شد', ' ');
         return redirect()->route('admin.devices.index');
     }
 
