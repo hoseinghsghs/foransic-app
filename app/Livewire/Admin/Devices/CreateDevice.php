@@ -27,7 +27,9 @@ class CreateDevice extends Component
     public string $accessories = '';
     public bool $is_active = false;
     public $primary_image;
-
+    protected $listeners = [
+      'sweetAlertConfirmed', // only when confirm button is clicked
+  ];
     public function rules(): array
     {
         return [
@@ -35,7 +37,7 @@ class CreateDevice extends Component
             'status' => 'required',
             'description' => 'required|string',
             'accessories' => 'required|string',
-            'code' => 'required|string|unique:devices',
+            'code' => 'required|string|unique:devices,code',
             'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'required|image|mimes:jpg,jpeg,png,svg|max:2000',
@@ -49,7 +51,6 @@ class CreateDevice extends Component
 
     public function create()
     {
-
         $this->validate();
         try {
 
@@ -80,7 +81,7 @@ class CreateDevice extends Component
                 'receiver_staff_id' => auth()->user()->id,
                 'delivery_date' => "",
                 'receiver_date' => verta()->format('H:i Y/n/j'),
-                'is_active' => $this->is_active,
+                'is_active' => !$this->is_active,
                 'is_archive' => 0,
             ]);
             $imagesStore = Session::pull('images', []);
@@ -97,14 +98,23 @@ class CreateDevice extends Component
             return redirect()->back();
         }
         Session::forget('images');
-        toastr()->rtl(true)->addSuccess('دیوایس مورد نظر دریافت شد', ' ');
-        return redirect()->route('admin.devices.index');
+
+
+
+        toastr()->rtl()->addSuccess('دیوایس مورد نظر دریافت شد',' ');
+        return redirect()->route('admin.print.device.show' , ['device' => $device->id]);
+        // return redirect()->route('admin.devices.index');
     }
 
+    public function sweetAlertConfirmed(array $data)
+    {
+
+            toastr()->livewire()->addSuccess('ویژگی با موفقیت حذف شد');
+    }
 
     public function render()
     {
-        $users = User::all();
+        $users = User::role('company')->get();
         // dd($users->hasRole('super-admin'));
         return view('livewire.admin.devices.create-device', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
     }

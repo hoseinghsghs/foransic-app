@@ -142,11 +142,14 @@
                                                 <i class="zmdi zmdi-file-plus" style="font-size: 1.2rem"></i>
                                             </a>
                                             <div class="btn-group">
+
+
                                                 <button type="button"
                                                     class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="zmdi zmdi-edit" style="font-size: 1.2rem"></i>
                                                 </button>
+
                                                 <div class="dropdown-menu">
                                                     <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
                                                         class="dropdown-item text-right"> ویرایش </a>

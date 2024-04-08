@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-dompdf": "^2.1",
         "econea/nusoap": "^0.9.12",
         "guzzlehttp/guzzle": "^7.2",
         "hekmatinasser/verta": "^8.4",

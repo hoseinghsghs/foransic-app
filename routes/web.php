@@ -48,7 +48,7 @@ use App\Models\Question;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Artesaos\SEOTools\Facades\SEOMeta;
-
+use App\Http\Controllers\PrintController;
 //fortify routes
 require_once __DIR__ . '/fortify.php';
 //admin routes
@@ -57,6 +57,8 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::delete('/timeline/{event}', [EventController::class, 'destroy'])->name('timeline.destroy')->middleware('permission:events');
     Route::resource('galeries',         GaleryController::class)->middleware('permission:galeries');
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices')->name('devices.edit');
+    Route::get('/prnpriview/{device}',[PrintController::class , 'prnpriview'])->name('print.device');
+    Route::get('/prnprishow/{device}',[PrintController::class , 'show'])->name('print.device.show');
 
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices')->name('devices.create');
     Route::resource('devices',         DeviceController::class)->middleware('permission:devices')->only(['index', 'show']);

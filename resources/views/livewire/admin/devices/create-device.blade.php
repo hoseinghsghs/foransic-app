@@ -80,7 +80,7 @@
                                             <option></option>
                                             @foreach ($users as $user)
                                                 <option value="{{ $user->id }}">
-                                                    {{ $user->cellphone }}
+                                                    {{ $user->name }} - {{ $user->cellphone }}
                                                 </option>
                                             @endforeach
                                         </select>
