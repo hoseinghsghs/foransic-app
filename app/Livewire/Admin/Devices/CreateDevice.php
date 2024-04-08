@@ -17,10 +17,11 @@ class CreateDevice extends Component
 {
     use WithFileUploads;
 
+    public Device $device;
     public string $name = '';
     public string $code = '';
     public string $delivery_code = '';
-    public  $user_category_id ;
+    public $user_category_id;
     public string $delivery_name = '';
     public string $status = 'پیش فرض';
     public string $description = '';
@@ -28,19 +29,22 @@ class CreateDevice extends Component
     public bool $is_active = false;
     public $primary_image;
     protected $listeners = [
-      'sweetAlertConfirmed', // only when confirm button is clicked
-  ];
+        'sweetalertConfirmed',// only when confirm button is clicked
+        'sweetalertDenied'
+    ];
+
     public function rules(): array
     {
         return [
             'name' => 'required|string|max:100',
             'status' => 'required',
+            'user_category_id'=>'required',
             'description' => 'required|string',
             'accessories' => 'required|string',
             'code' => 'required|string|unique:devices,code',
             'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
-            'primary_image' => 'required|image|mimes:jpg,jpeg,png,svg|max:2000',
+            'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
         ];
     }
 
@@ -80,7 +84,7 @@ class CreateDevice extends Component
                 'delivery_staff_id' => "0",
                 'receiver_staff_id' => auth()->user()->id,
                 'delivery_date' => "",
-                'receiver_date' => verta()->format('H:i Y/n/j'),
+                'receiver_date' => verta()->format('Y/n/j H:i'),
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,
             ]);
@@ -93,25 +97,29 @@ class CreateDevice extends Component
             }
             DB::commit();
         } catch (\Exception $ex) {
-
-            alert()->error('خطا', $ex->getMessage())->showConfirmButton('تایید');
+            toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());
             DB::rollBack();
             return redirect()->back();
         }
         Session::forget('images');
 
-
-
-        alert()->success('دیوایس مورد نظر دریافت شد')->toToast();
-        return redirect()->route('admin.print.device.show' , ['device' => $device->id]);
-        // return redirect()->route('admin.devices.index');
+        $this->device=$device;
+        sweetalert()
+            ->showDenyButton()->timerProgressBar(false)->persistent()
+            ->addInfo('مایل به پرینت دیوایس هستید؟');
+//        toastr()->rtl()->addSuccess('دیوایس مورد نظر دریافت شد', ' ');
+         return redirect()->route('admin.devices.index');
     }
 
-    public function sweetAlertConfirmed(array $data)
+    public function sweetalertConfirmed(array $payload)
     {
-
-            toastr()->livewire()->addSuccess('ویژگی با موفقیت حذف شد');
+        return redirect()->route('admin.print.device.show', ['device' => $this->device->id]);
+//        toastr()->addSuccess('ویژگی با موفقیت حذف شد');
     }
+    /*public function sweetalertDenied(array $data)
+    {
+        toastr()->addSuccess('ویژگی با موفقیت حذف شد');
+    }*/
 
     public function render()
     {

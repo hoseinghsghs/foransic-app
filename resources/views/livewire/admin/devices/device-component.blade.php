@@ -108,10 +108,10 @@
                                         <td>
                                             {{ $device->receiver_name }}
                                         </td>
-                                        <td>
+                                        <td dir="ltr">
                                             {{ $device->receiver_date }}
                                         </td>
-                                        <td>
+                                        <td dir="ltr">
                                             {{ $device->delivery_date }}
                                         </td>
                                         <td>

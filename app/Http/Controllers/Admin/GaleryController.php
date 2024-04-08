@@ -63,13 +63,13 @@ class GaleryController extends Controller
             }
             }
         }
-        alert()->success('تصاویر با موفقیت آپلود گردید')->showConfirmButton('تایید');
+             toastr()->rtl(true)->persistent()->closeButton()->addSuccess('تصاویر با موفقیت آپلود گردید');
         return redirect()->route('admin.galeries.index');
         } catch (\Throwable $th) {
             alert()->warning('مشکل در آپلود تصویر ')->showConfirmButton('تایید');
         return redirect()->route('admin.galeries.index');
         }
-       
+
     }
 
     /**

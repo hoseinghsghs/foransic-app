@@ -67,14 +67,12 @@ class ActionControll extends Component
         try {
             $this->action = $action;
             $this->action->delete();
-            toastr()->livewire()->addSuccess('اقدام با موفقیت حذف شد');
-
+            toastr()->rtl()->addSuccess('اقدام با موفقیت حذف شد',' ');
 
         } catch (\Exception $e) {
 
             redirect('admin.actions.create');
         }
-
     }
 
     public function addAction()
@@ -108,7 +106,7 @@ class ActionControll extends Component
             $this->reset("is_print");
             $this->reset("display");
 
-            toastr()->livewire()->addSuccess('تغییرات با موفقیت ذخیره شد');
+            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد',' ');
 
         } else {
             $this->validate([
@@ -137,7 +135,7 @@ class ActionControll extends Component
             $this->reset("is_print");
             $this->reset("display");
 
-            toastr()->livewire()->addSuccess('اقدام با موفقیت ایجاد شد');
+            toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد',' ');
 
         }
         $this->dispatch('destroy-date-picker');
@@ -146,7 +144,7 @@ class ActionControll extends Component
     public function sweetAlertConfirmed(array $data)
     {
         $this->action->delete();
-        toastr()->livewire()->addSuccess('ویژگی با موفقیت حذف شد');
+        toastr()->rtl(true)->addSuccess('ویژگی با موفقیت حذف شد',' ');
     }
 
 
