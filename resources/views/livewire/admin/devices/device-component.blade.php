@@ -1,6 +1,7 @@
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card">
+
             <form wire:submit.prevent="$refresh">
                 <div class="header">
                     <h2>
@@ -64,6 +65,11 @@
                     <a onclick="loadbtn(event)" href="{{ route('admin.devices.create') }}"
                         class="btn btn-raised btn-info waves-effect mr-auto">
                         افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
+
+                    <a onclick="loadbtn(event)" href="{{ route('admin.file-device') }}"
+                        class="btn btn-raised btn-warning waves-effect ">
+                        خروجی دیوایس<i class="zmdi zmdi-developer-board mr-1"></i></a>
+
                     {{-- <a onclick="window.open('{{ route('admin.file-device2') }}');"
                         href="{{ route('admin.file-device') }}" class="btn btn-raised btn-warning waves-effect ">
                         خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
@@ -155,7 +161,7 @@
                                                     <a href="{{ route('admin.devices.show', $device->id) }}"
                                                         class="dropdown-item text-right"> مشاهده </a>
                                                     <a href="{{ route('admin.print.device.show', $device->id) }}"
-                                                        class="dropdown-item text-right" target=”_blank”> پرینت رسید
+                                                        class="dropdown-item text-right" target="_blank"> پرینت رسید
                                                     </a>
                                                 </div>
                                             </div>
@@ -168,6 +174,8 @@
                 @endif
             </div>
         </div>
-        {{ $devices->onEachSide(1)->links() }}
+        <div dir="ltr">
+            {{ $devices->onEachSide(1)->links() }}
+        </div>
     </div>
 </div>

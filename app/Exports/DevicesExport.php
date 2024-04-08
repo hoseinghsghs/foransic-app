@@ -2,19 +2,19 @@
 
 namespace App\Exports;
 
-use App\Models\Product;
+use App\Models\Device;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ProductExport implements FromQuery, WithHeadings
+class DevicesExport implements FromQuery, WithHeadings
 {
     /**
      * @return \Illuminate\Support\Collection
      */
     public function query()
     {
-        return Product::query();
+        return Device::query();
     }
     public function headings(): array
     {
