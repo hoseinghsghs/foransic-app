@@ -320,7 +320,8 @@
                         icon: 'success',
                         showConfirmButton: false
                     });
-                    window.location.replace("{{ request()->session()->get('url.intended') }}");
+                    // console.log(response.redirect);
+                    window.location.replace(response.redirect);
 
                 }, 'json').fail(function(response) {
                 if (response.responseJSON.errors.otp_code) {
