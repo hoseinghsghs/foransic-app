@@ -3911,7 +3911,7 @@ header.header-main {
 /* Mobile Phone Ads---------------*/
 
 aside.main-row-bg {
-    background-image: url(../images/cover/4k-vs-1080p-laptops-scaled.jpg);
+    /* background-image: url(../images/cover/4k-vs-1080p-laptops-scaled.jpg); */
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -3919,7 +3919,6 @@ aside.main-row-bg {
     height: auto;
     float: right;
     position: relative;
-    margin-bottom: 20px;
     padding-bottom: 80px;
 }
 
@@ -10141,7 +10140,7 @@ span.show-less {
 
 .about .about-us-head {
     min-height: 500px;
-    background: url(../images/head-about.jpg) no-repeat 50%;
+    /* background: url(../images/head-about.jpg) no-repeat 50%; */
     background-size: cover;
     margin-bottom: 0;
 }
@@ -11305,7 +11304,7 @@ footer.footer-main-site {
     position: relative;
     padding: 0;
     float: left;
-    background: #dee2e6 url("../images/cities-footer.png") no-repeat bottom;
+    /* background: #dee2e6 url("../images/cities-footer.png") no-repeat bottom; */
     background-size: 100%;
 }
 

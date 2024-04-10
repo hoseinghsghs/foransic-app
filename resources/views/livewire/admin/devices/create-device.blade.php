@@ -1,16 +1,17 @@
-@section('title', 'ایجاد دیوایس')
+@section('title', 'ایجاد دستگاه / قطعه')
 <section class="content">
     <div class="body_scroll">
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2>دریافت دیوایس</h2>
+                    <h2>دریافت دستگاه / قطعه</h2>
                     </br>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                 خانه</a></li>
-                        <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}>لیست دیوایس ها </a></li>
-                        <li class="breadcrumb-item active">دریافت دیوایس</li>
+                        <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}>لیست دستگاه / قطعه ها </a>
+                        </li>
+                        <li class="breadcrumb-item active">دریافت دستگاه / قطعه</li>
                     </ul>
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
                             class="zmdi zmdi-sort-amount-desc"></i></button>
@@ -28,12 +29,12 @@
                     <div class="card">
                         <div class="body">
                             <div class="header p-0">
-                                <h2><strong>اطلاعات اصلی دیوایس</strong></h2>
+                                <h2><strong>اطلاعات اصلی دستگاه / قطعه</strong></h2>
                             </div>
                             <hr>
                             <div class="row clearfix">
                                 <div class="col-sm-6">
-                                    <label>نام دیوایس *</label>
+                                    <label>نام دستگاه / قطعه *</label>
                                     <div class="form-group">
                                         <input type="text" wire:model.defer="name"
                                             class="form-control @error('name') is-invalid @enderror" required />
@@ -44,7 +45,7 @@
                                 </div>
 
                                 <div class="form-group col-md-3">
-                                    <label> کد دیوایس</label>
+                                    <label> سریال یا شماره اموال دستگاه / قطعه</label>
                                     <div class="form-group">
                                         <input type="text" wire:model.defer="code" id="code"
                                             class="form-control @error('code') is-invalid @enderror" required />
@@ -60,10 +61,11 @@
                                     <div wire:ignore>
                                         <select id="statusSelect" data-placeholder="انتخاب وضعیت"
                                             class="form-control ms select2">
-                                            <option value="0" selected>دریافت دیوایس</option>
+                                            <option value="0" selected>پذیرش دستگاه / قطعه</option>
                                             <option value="1" disabled>در حال بررسی</option>
-                                            <option value="2" disabled>تکمیل بررسی</option>
-                                            <option value="3" disabled>تحویل دیوایس</option>
+                                            <option value="2" disabled> تکمیل تجزیه و تحلیل
+                                            </option>
+                                            <option value="3" disabled>تحویل دستگاه / قطعه</option>
                                         </select>
                                     </div>
                                     @error('status')
@@ -128,6 +130,19 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            <div class="row clearfix">
+                                <div class="form-group col-md-12 @error('trait') is-invalid @enderror">
+                                    <label> مشخصات (ظرفیت ، مدل و...) *</label>
+                                    <div>
+                                        <textarea class="form-control" rows="6" wire:model.defer="trait"></textarea>
+                                    </div>
+                                    @error('trait')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="row clearfix">
                                 <div class="form-group col-md-12 @error('accessories') is-invalid @enderror">
                                     <label> لوازم جانبی *</label>
@@ -142,7 +157,7 @@
 
                             <div class="row clearfix">
                                 <div class="form-group col-md-12 @error('description') is-invalid @enderror">
-                                    <label for="summernote">توضیحات</label>
+                                    <label for="summernote">توضیحات و اظهارات درخواست کننده :</label>
                                     <div wire:ignore>
                                         <textarea class="form-control summernote-editor" id="summernote"></textarea>
                                     </div>
@@ -164,8 +179,8 @@
                                     <div class="body @error('primary_image') is-invalid @enderror">
                                         <div class="form-group" wire:ignore>
                                             <input wire:model="primary_image" id="primary_image" type="file"
-                                                class="dropify form-control"
-                                                data-allowed-file-extensions="jpg png" data-max-file-size="2M">
+                                                class="dropify form-control" data-allowed-file-extensions="jpg png"
+                                                data-max-file-size="2M">
                                         </div>
                                         @error('primary_image')
                                             <small class="text-danger">{{ $message }}</small>
@@ -175,7 +190,7 @@
                             </div>
                             <div class="col-lg-12 col-md-12" wire:ignore>
                                 <div class="header mt-0">
-                                    <label class="mb-1"> تصاویر دیوایس</label>
+                                    <label class="mb-1"> تصاویر دستگاه / قطعه</label>
                                 </div>
                                 <div class="form-group">
                                     <form action="{{ route('admin.uploade') }}" id="myDropzone" class="dropzone"

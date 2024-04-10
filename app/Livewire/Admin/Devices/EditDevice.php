@@ -20,6 +20,7 @@ class EditDevice extends Component
     public Device $device;
     public string $name = '';
     public string $code = '';
+    public string $trait = '';
     public string $delivery_code = '';
     public  $user_category_id ;
     public string $delivery_name = '';
@@ -38,12 +39,14 @@ class EditDevice extends Component
             'name' => 'required|string|max:100',
             'status' => 'required',
             'description' => 'required|string',
-            'accessories' => 'required|string',
-            'code' => ['required','string',Rule::unique('devices')->ignore($this->device)],
-            'delivery_code' => 'required|string',
+            // 'accessories' => 'required|string',
+            'accessories' => 'string',
+            'code' => 'string',
+            'delivery_code' => 'string',
+            'trait' => 'string',
             'delivery_name' => 'required|string',
             'receiver_name' => 'required_if:status,3|string',
-            'receiver_code' => 'required_if:status,3|string',
+            'receiver_code' => 'string',
         ];
     }
 
@@ -59,6 +62,7 @@ class EditDevice extends Component
     {
         $this->name=$this->device->name;
         $this->code=$this->device->code;
+        $this->trait=$this->device->trait;
         $this->status=$this->device->status;
         $this->delivery_name=$this->device->delivery_name;
         $this->delivery_code=$this->device->delivery_code;
@@ -79,6 +83,7 @@ class EditDevice extends Component
                 'status' => $this->status,
                 'description' => $this->description,
                 'accessories' => $this->accessories,
+                'trait' => $this->trait,
                 'code' => $this->code,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
@@ -88,8 +93,8 @@ class EditDevice extends Component
                 'delivery_date' => verta()->formatJalaliDatetime(),
                 'is_active' => !$this->is_active,
             ]);
-        toastr()->rtl(true)->addInfo('دیوایس مورد نظر ویرایش شد',' ');
-//        flash()->addSuccess('دیوایس مورد نظر دریافت شد');
+        toastr()->rtl(true)->addInfo('دستگاه / قطعه مورد نظر ویرایش شد',' ');
+//        flash()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد');
         return redirect()->route('admin.devices.index');
     }
 

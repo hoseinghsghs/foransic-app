@@ -34,7 +34,7 @@
                      src="{{ $setting->logo ? asset('storage/logo/' . $setting->logo) : '/images/logo.png' }}"
                      alt="logo" height="45px" /></div>
              <div class="col-6 text-center">
-                 <h5 class="font-weight-bold">رسید دیوایس</h5>
+                 <h5 class="font-weight-bold">رسید پذیرش آزمایشگاه جرم یابی دیجیتال</h5>
              </div>
              <div class="col-3 text-right">
                  <h6>شماره رسید: {{ $device->id }}</h6>
@@ -105,13 +105,14 @@
                  </tbody>
                  <thead>
                      <tr>
-                         <th class="text-center" colspan="11">مشخصات دیوایس</th>
+                         <th class="text-center" colspan="11"> دستگاه / قطعه</th>
                      </tr>
                  </thead>
                  <tr class="text-center">
                      <th>id</th>
-                     <th>کد دیوایس</th>
+                     <th>سریال یا شماره اموال دستگاه / قطعه</th>
                      <th>عنوان کالا</th>
+                     <th> مشخصات </th>
                  </tr>
 
                  <tbody>
@@ -119,15 +120,17 @@
                          <td>{{ $device->id }}</td>
                          <td>{{ $device->code }}</td>
                          <td>{{ $device->name }}</td>
+                         <td></td>
                      </tr>
 
                      <tr>
-                         <th colspan="6" class="text-right" style="padding-bottom:5rem ">اکسسوری ها:
+                         <th colspan="6" class="text-right" style="padding-bottom:5rem "> لوازم جانبی:
                              {!! $device->accessories !!} </th>
                      </tr>
                      <tr>
 
-                         <th colspan="6" class="text-right">توضیحات: {!! $device->description !!} </th>
+                         <th colspan="6" class="text-right">توضیحات و اظهارات درخواست کننده : {!! $device->description !!}
+                         </th>
                      </tr>
 
                      <tr style="padding: 60px 0;">

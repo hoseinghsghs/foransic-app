@@ -59,41 +59,23 @@
                     </a>
                 </li>
 
-                @canany(['users', 'roles', 'permissions'])
-                    <li @class([
-                        'active open' => request()->routeIs(
-                            'admin.users.*',
-                            'admin.permissions',
-                            'admin.roles.*'),
-                    ])><a href="javascript:void(0);" class="menu-toggle"><i
-                                class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
-                        <ul class="ml-menu">
-                            @can('users')
-                                <li @class(['active' => request()->routeIs('admin.users.*')])><a href={{ route('admin.users.index') }}>لیست کاربران</a></li>
-                            @endcan
-                            @can('roles')
-                                <li @class(['active' => request()->routeIs('admin.roles.*')])><a href={{ route('admin.roles.index') }}>گروه های کاربری</a></li>
-                            @endcan
-                            @can('permissions')
-                                <li @class(['active' => request()->routeIs('admin.permissions')])><a href={{ route('admin.permissions') }}>مجوز ها</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcanany
                 @canany(['products', 'categories', 'attributes', 'coupons'])
                     <li @class([
                         'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
                     ])>
-                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دیوایس
+                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه / قطعه
                                 ها</span></a>
                         <ul class="ml-menu">
                             @can('products')
-                                <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دیوایس</a></li>
-
-                                <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست دیوایس بایگانی شده</a>
+                                <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دستگاه / قطعه</a>
                                 </li>
 
-                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ایجاد دیوایس</a></li>
+                                <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست دستگاه / قطعه بایگانی
+                                        شده</a>
+                                </li>
+
+                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ایجاد دستگاه /
+                                        قطعه</a></li>
                             @endcan
 
                         </ul>
@@ -116,6 +98,28 @@
                             <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>
                     </li>
                 @endcan
+
+                @canany(['users', 'roles', 'permissions'])
+                    <li @class([
+                        'active open' => request()->routeIs(
+                            'admin.users.*',
+                            'admin.permissions',
+                            'admin.roles.*'),
+                    ])><a href="javascript:void(0);" class="menu-toggle"><i
+                                class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
+                        <ul class="ml-menu">
+                            @can('users')
+                                <li @class(['active' => request()->routeIs('admin.users.*')])><a href={{ route('admin.users.index') }}>لیست کاربران</a></li>
+                            @endcan
+                            @can('roles')
+                                <li @class(['active' => request()->routeIs('admin.roles.*')])><a href={{ route('admin.roles.index') }}>گروه های کاربری</a></li>
+                            @endcan
+                            @can('permissions')
+                                <li @class(['active' => request()->routeIs('admin.permissions')])><a href={{ route('admin.permissions') }}>مجوز ها</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
                 <li @class(['active' => request()->routeIs('admin.profile.edit')])><a href={{ route('admin.profile.edit') }}>
                         <i class="zmdi zmdi-account-box"></i><span>ویرایش پروفایل</span></a>
                 </li>

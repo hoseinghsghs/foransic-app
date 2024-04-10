@@ -105,7 +105,7 @@ class ImageController extends Controller
             $device->update([
                 'primary_image' => $image_name,
             ]);
-            $flasher->addSuccess('دیوایس مورد نظر ویرایش شد');
+            $flasher->addSuccess('دستگاه / قطعه مورد نظر ویرایش شد');
             return redirect()->back();
         }
         $flasher->addSuccess('تصویر قبلی بدون ویرایش');

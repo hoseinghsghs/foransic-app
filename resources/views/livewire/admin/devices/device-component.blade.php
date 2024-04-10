@@ -14,7 +14,7 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" class="form-control" wire:model.live.debounce.500ms="title"
-                                        placeholder="نام دیوایس، کد">
+                                        placeholder="نام دستگاه / قطعه، کد">
                                 </div>
                             </div>
                         </div>
@@ -48,10 +48,11 @@
                                 <div class="form-line">
                                     <select data-placeholder="موجودی" wire:model.live="status" class="form-control ms">
                                         <option value="">وضعیت بررسی</option>
-                                        <option value="0">دریافت دیوایس</option>
+                                        <option value="0">پذیرش دستگاه / قطعه</option>
                                         <option value="1">در حال بررسی</option>
-                                        <option value="2">تکمیل بررسی</option>
-                                        <option value="3">تحویل دیوایس</option>
+                                        <option value="2"> تکمیل تجزیه و تحلیل
+                                        </option>
+                                        <option value="3">تحویل دستگاه / قطعه</option>
                                     </select>
                                 </div>
                             </div>
@@ -60,7 +61,7 @@
                 </div>
             </form>
             <div class="header d-flex align-items-center">
-                <h2><strong>لیست دیوایس </strong> ( {{ $devices->total() }} )</h2>
+                <h2><strong>لیست دستگاه / قطعه </strong> ( {{ $devices->total() }} )</h2>
                 <div class="mr-auto">
                     <a onclick="loadbtn(event)" href="{{ route('admin.devices.create') }}"
                         class="btn btn-raised btn-info waves-effect mr-auto">
@@ -68,7 +69,7 @@
 
                     <a onclick="loadbtn(event)" href="{{ route('admin.file-device') }}"
                         class="btn btn-raised btn-warning waves-effect ">
-                        خروجی دیوایس<i class="zmdi zmdi-developer-board mr-1"></i></a>
+                        خروجی دستگاه / قطعه<i class="zmdi zmdi-developer-board mr-1"></i></a>
 
                     {{-- <a onclick="window.open('{{ route('admin.file-device2') }}');"
                         href="{{ route('admin.file-device') }}" class="btn btn-raised btn-warning waves-effect ">
