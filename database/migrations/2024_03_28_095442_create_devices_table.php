@@ -31,6 +31,7 @@ return new class extends Migration
 
             $table->text('accessories')->nullable();
             $table->text('description')->nullable();
+            $table->text('attributes')->nullable();
 
 
             $table->string('primary_image')->nullable();

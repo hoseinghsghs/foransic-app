@@ -20,6 +20,7 @@ class CreateDevice extends Component
     public Device $device;
     public string $name = '';
     public string $code = '';
+    public string $trait = '';
     public string $delivery_code = '';
     public $user_category_id;
     public string $delivery_name = '';
@@ -39,10 +40,15 @@ class CreateDevice extends Component
             'name' => 'required|string|max:100',
             'status' => 'required',
             'user_category_id'=>'required',
-            'description' => 'required|string',
-            'accessories' => 'required|string',
-            'code' => 'required|string|unique:devices,code',
-            'delivery_code' => 'required|string',
+            // 'description' => 'required|string',
+            'description' => 'string',
+            'accessories' => 'string',
+            // 'accessories' => 'required|string',
+            'code' => 'required|string',
+            // 'code' => 'required|string|unique:devices,code',
+            'delivery_code' => 'string',
+            'trait' => 'string',
+            // 'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
         ];
@@ -73,6 +79,7 @@ class CreateDevice extends Component
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
                 'status' => $this->status,
+                'trait' => $this->trait,
                 'primary_image' => $image_name,
                 'description' => $this->description,
                 'accessories' => $this->accessories,
@@ -80,8 +87,8 @@ class CreateDevice extends Component
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
                 'receiver_name' => "",
-                'receiver_code' => null,
-                'delivery_staff_id' => null,
+                'receiver_code' => 0,
+                'delivery_staff_id' => 0,
                 'receiver_staff_id' => auth()->user()->id,
                 'delivery_date' => "",
                 'receiver_date' => verta()->format('Y/n/j H:i'),
@@ -106,8 +113,8 @@ class CreateDevice extends Component
         $this->device=$device;
         sweetalert()
             ->showDenyButton()->timerProgressBar(false)->persistent()
-            ->addInfo('مایل به پرینت دیوایس هستید؟');
-//        toastr()->rtl()->addSuccess('دیوایس مورد نظر دریافت شد', ' ');
+            ->addInfo('مایل به پرینت دستگاه / قطعه هستید؟');
+//        toastr()->rtl()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد', ' ');
          return redirect()->route('admin.devices.index');
     }
 

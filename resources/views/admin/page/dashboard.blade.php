@@ -24,10 +24,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card widget_2 big_icon domains">
                             <div class="body">
-                                <h6>دیوایس های بررسی نشده</h6>
+                                <h6>دستگاه / قطعه های بررسی نشده</h6>
                                 <h2>{{ $status_device_1 }}<small class="info"> از {{ $all_devices }} </small></h2>
                                 <small> {{ (int) (($status_device_1 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
-                                    دیوایس های بررسی نشده</small>
+                                    دستگاه / قطعه های بررسی نشده</small>
                                 <div class="progress">
                                     <div class="progress-bar l-blue" role="progressbar" aria-valuenow="45" aria-valuemin="0"
                                         aria-valuemax="{{ $all_devices }}"
@@ -40,10 +40,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card widget_2 big_icon domains">
                             <div class="body">
-                                <h6>دیوایس های در حال بررسی</h6>
+                                <h6>دستگاه / قطعه های در حال بررسی</h6>
                                 <h2>{{ $status_device_2 }} <small class="info">از {{ $all_devices }}</small></h2>
                                 <small>{{ (int) (($status_device_2 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
-                                    دیوایس های در حال بررسی</small>
+                                    دستگاه / قطعه های در حال بررسی</small>
                                 <div class="progress">
                                     <div class="progress-bar l-green" role="progressbar" aria-valuenow="38"
                                         aria-valuemin="0" aria-valuemax="{{ $all_devices }}"
@@ -56,10 +56,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card widget_2 big_icon domains">
                             <div class="body">
-                                <h6>تکمیل بررسی دیوایس</h6>
+                                <h6>تکمیل بررسی دستگاه / قطعه</h6>
                                 <h2>{{ $status_device_3 }} <small class="info">از {{ $all_devices }}</small></h2>
                                 <small> {{ (int) (($status_device_3 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
-                                    تکمیل بررسی دیوایس
+                                    تکمیل بررسی دستگاه / قطعه
                                 </small>
                                 <div class="progress">
                                     <div class="progress-bar l-amber" role="progressbar" aria-valuenow="39"
@@ -73,10 +73,10 @@
                     <div class="col-lg-3 col-md-6 col-sm-12">
                         <div class="card widget_2 big_icon domains">
                             <div class="body">
-                                <h6>دیوایس های تحویل داده شده</h6>
+                                <h6>دستگاه / قطعه های تحویل داده شده</h6>
                                 <h2>{{ $status_device_4 }} <small class="info">از {{ $all_devices }}</small></h2>
                                 <small>{{ (int) (($status_device_4 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
-                                    دیوایس های تحویل داده شده
+                                    دستگاه / قطعه های تحویل داده شده
                                 </small>
                                 <div class="progress">
                                     <div class="progress-bar l-purple" role="progressbar" aria-valuenow="89"
