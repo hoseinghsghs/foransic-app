@@ -75,6 +75,8 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+
+
                                     {{-- تحویل گیرنده --}}
                                     @if ($status == '3')
                                         <div class="form-group col-md-6">
@@ -106,24 +108,26 @@
                                     @endif
                                 </div>
                                 <div class="row clearfix">
+
                                     <div class="form-group col-md-4 col-sm-4 @error('use_id') is-invalid @enderror">
-                                        <label for="userSelect">رده</label>
+                                        <label for="userSelect">الحاق به پرونده</label>
                                         <div wire:ignore>
-                                            <select id="userSelect" name="user_category_id"
-                                                data-placeholder="انتخاب رده" class="form-control ms search-select">
+                                            <select id="userSelect" name="dossier_id" data-placeholder="انتخاب پرونده"
+                                                class="form-control ms search-select">
                                                 <option></option>
-                                                @foreach ($users as $user)
-                                                    <option value="{{ $user->id }}"
-                                                        {{ $device->user_category_id == $user->id ? 'selected' : '' }}>
-                                                        {{ $user->cellphone }} {{ $user->name }}
+                                                @foreach ($dossiers as $dossier)
+                                                    <option value="{{ $dossier->id }}" @selected($device->dossier_id == $dossier->id)>
+                                                        {{ $dossier->name }} - {{ $dossier->number_dossier }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        @error('brand_id')
+                                        @error('dossier_id')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+
+
 
                                     <div class="form-group col-md-4">
                                         <label> نام تحویل دهنده</label>
@@ -151,18 +155,19 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-3 col-auto">
+                                        <label for="is_active">وضعیت</label>
+                                        <div class="switchToggle">
+                                            <input type="checkbox" wire:model="is_active" id="switch">
+                                            <label for="switch">Toggle</label>
+                                        </div>
+                                        @error('is_active')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
 
-                                <div class="form-group col-md-3 col-auto">
-                                    <label for="is_active">وضعیت</label>
-                                    <div class="switchToggle">
-                                        <input type="checkbox" wire:model="is_active" id="switch">
-                                        <label for="switch">Toggle</label>
-                                    </div>
-                                    @error('is_active')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+
 
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('trait') is-invalid @enderror">
@@ -231,9 +236,9 @@
             $('#userSelect').on('change', function(e) {
                 let data = $('#userSelect').select2("val");
                 if (data === '') {
-                    @this.set('user_category_id', null);
+                    @this.set('dossier_id', null);
                 } else {
-                    @this.set('user_category_id', data);
+                    @this.set('dossier_id', data);
                 }
             });
             $('#summernote').on('summernote.change', function(we, contents, $editable) {

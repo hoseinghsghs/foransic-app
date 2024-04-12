@@ -16,7 +16,6 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('code');
-            $table->bigInteger('user_category_id');
 
             $table->string('delivery_name')->nullable();
             $table->string('delivery_code')->nullable();
@@ -31,7 +30,7 @@ return new class extends Migration
 
             $table->text('accessories')->nullable();
             $table->text('description')->nullable();
-            $table->text('attributes')->nullable();
+            $table->text('trait')->nullable();
 
 
             $table->string('primary_image')->nullable();
@@ -39,8 +38,8 @@ return new class extends Migration
             $table->string('status')->default(0);
 
             $table->boolean('is_active')->default(1);
-
             $table->boolean('is_archive')->default(0);
+            $table->foreignId('dossier_id')->nullable()->constrained('dossiers')->cascadeOnDelete();
 
             $table->timestamps();
         });

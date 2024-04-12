@@ -1,23 +1,23 @@
 <?php
 
-namespace App\Livewire\Admin\Devices;
-
-use App\Models\Device;
-use App\Models\User;
+namespace App\Livewire\Admin\Dossiers;
 use Livewire\Component;
+use App\Models\Dossier;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Storage;
 
-class ArchiveDevice extends Component
+class DossierComponnet extends Component
 {
     use WithFileUploads, WithPagination;
 
-    public $device;
+    public $dossier;
 
     protected $paginationTheme = 'bootstrap';
     public $title = '';
     public $company_user = '';
-    public $status = '';
     public $is_active = '';
 
     public function updatingTitle()
@@ -38,31 +38,41 @@ class ArchiveDevice extends Component
     protected $listeners = [
         'sweetAlertConfirmed', // only when confirm button is clicked
     ];
-    public function ChangeActive_device(Device $device)
+
+    public function mount(Dossier $dossier)
     {
-        $device->update([
-            "is_active" => !$device->is_active
+
+    }
+
+
+    public function ChangeActive_dossier(Dossier $dossier)
+    {
+        $dossier->update([
+            "is_active" => !$dossier->is_active
         ]);
     }
 
-    public function ChangeArchive_device(Device $device)
+    public function ChangeArchive_dossier(Dossier $dossier)
     {
-        $device->update([
+        $dossier->update([
             "is_archive" => true
         ]);
+    }
+
+       public function export()
+    {
+        return Storage::disk('exports')->download('export.csv');
     }
     public function render()
     {
         $company_users = User::Role('company')->get();
-        $devices = Device::where('is_archive',true)->whereAny(['name', 'code'], 'like', '%' . $this->title . '%')
+        $dossiers = Dossier::where('is_archive',false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')
             ->when($this->company_user != '', function ($query) {
                 $query->where('user_category_id', $this->company_user);
             })
-            ->when($this->status != '', function ($query) {
-                $query->where('status', $this->status);
-            })->when($this->is_active != '', function ($query) {
+            ->when($this->is_active != '', function ($query) {
                 $query->where('is_active', $this->is_active);
             })->latest()->paginate(10);
-        return view('livewire.admin.devices.archive-device',compact(['devices', 'company_users']));
+        return view('livewire.admin.dossiers.dossier-componnet', compact(['dossiers', 'company_users']));
     }
 }

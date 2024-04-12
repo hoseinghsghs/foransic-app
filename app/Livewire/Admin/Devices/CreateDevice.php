@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Devices;
 
 use App\Http\Controllers\Admin\ImageController;
 use App\Models\Device;
+use App\Models\Dossier;
 use App\Models\DeviceImage;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -21,8 +22,8 @@ class CreateDevice extends Component
     public string $name = '';
     public string $code = '';
     public string $trait = '';
+    public $dossier_id;
     public string $delivery_code = '';
-    public $user_category_id;
     public string $delivery_name = '';
     public string $status = 'پیش فرض';
     public string $description = '';
@@ -39,7 +40,6 @@ class CreateDevice extends Component
         return [
             'name' => 'required|string|max:100',
             'status' => 'required',
-            'user_category_id'=>'required',
             // 'description' => 'required|string',
             'description' => 'string',
             'accessories' => 'string',
@@ -77,9 +77,9 @@ class CreateDevice extends Component
             }
             $device = Device::create([
                 'name' => $this->name,
-                'user_category_id' => $this->user_category_id,
                 'status' => $this->status,
                 'trait' => $this->trait,
+                'dossier_id' => $this->dossier_id,
                 'primary_image' => $image_name,
                 'description' => $this->description,
                 'accessories' => $this->accessories,
@@ -131,8 +131,9 @@ class CreateDevice extends Component
     public function render()
     {
         $users = User::role('company')->get();
+        $dossiers = Dossier::all();
         // dd($users->hasRole('super-admin'));
-        return view('livewire.admin.devices.create-device', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.create-device', compact('users' , 'dossiers'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\DeviceController;
+use App\Http\Controllers\Admin\DossierController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
@@ -32,12 +33,18 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('/timeline', [EventController::class, 'index'])->name('timeline')->middleware('permission:events');
     Route::delete('/timeline/{event}', [EventController::class, 'destroy'])->name('timeline.destroy')->middleware('permission:events');
     Route::resource('galeries',         GaleryController::class)->middleware('permission:galeries');
-    Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices')->name('devices.edit');
     Route::get('/prnpriview/{device}',[PrintController::class , 'prnpriview'])->name('print.device');
     Route::get('/prnprishow/{device}',[PrintController::class , 'show'])->name('print.device.show');
-
+//livewire
+    Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices')->name('devices.edit');
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices')->name('devices.create');
+
+    Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers')->name('dossiers.create');
+    Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers')->name('dossiers.edit');
+    Route::get('dossiers/archives',         [DossierController::class, 'archive'])->name('dossiers.archive')->middleware('permission:dossiers');
+
     Route::resource('devices',         DeviceController::class)->middleware('permission:devices')->only(['index', 'show']);
+    Route::resource('dossiers',         DossierController::class)->middleware('permission:dossiers')->only(['index', 'show']);
     Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
     Route::resource('users',            UserController::class)->except('create', 'destroy')->middleware('permission:users');
     Route::resource('roles',   RoleController::class)->except('show')->middleware('permission:roles');

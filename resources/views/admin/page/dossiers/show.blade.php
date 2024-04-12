@@ -106,7 +106,7 @@
                         <div class="col-lg-6">
                             <div class="row clearfix">
                                 <div class="col-lg-12">
-                                    <div class="card card-body p-0">
+                                    <div class="card card-body">
                                         <div class=" list-group">
                                             <button type="button" class="list-group-item list-group-item-primary">
                                                 دریافت و تحویل
@@ -143,30 +143,7 @@
                                             </button>
                                             <button type="button" class="list-group-item list-group-item-action">
                                                 <div class="row clearfix">
-                                                    <div class="col-6"><strong>شماره پرونده :</strong></div>
-                                                    <div class="col-6">{!! $device->dossier->number_dossier !!}</div>
-                                                </div>
-                                            </button>
-                                            <button type="button" class="list-group-item list-group-item-action">
-                                                <div class="row clearfix">
-                                                    <div class="col-6"><strong>عنوان پرونده :</strong></div>
-                                                    <div class="col-6">{!! $device->dossier->name !!}</div>
-                                                </div>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="row clearfix">
-                                <div class="col-lg-12">
-                                    <div class="card card-body p-0">
-                                        <div class=" list-group">
-                                            <button type="button" class="list-group-item list-group-item-primary">
-                                                توضیحات و اظهارات درخواست کننده : </button>
-                                            <button type="button" class="list-group-item list-group-item-action">
-                                                <div class="row clearfix">
+                                                    <div class="col-6"><strong>توضیحات و اظهارات درخواست کننده :</strong></div>
                                                     <div class="col-6">{!! $device->description !!}</div>
                                                 </div>
                                             </button>
@@ -175,9 +152,10 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="body">
                             <div class="header p-0">
-                                <strong>تصویر مکاتبه </strong>
+                                <strong>تصاویر </strong>
                             </div>
                             <hr>
                             <div class="row">
@@ -195,15 +173,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                        <div class="body">
-                            <div class="header p-0">
-                                <strong>تصاویر دستگاه / قطعه </strong>
-                            </div>
-                            <hr>
-                            <div class="row">
                                 @foreach ($images as $item)
                                     <div class="col-lg-4 col-md-12">
                                         <div class="card">

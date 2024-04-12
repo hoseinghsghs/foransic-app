@@ -75,19 +75,19 @@
 
 
                                 <div class="form-group col-md-4 col-sm-4 @error('use_id') is-invalid @enderror">
-                                    <label for="userSelect">رده</label>
+                                    <label for="userSelect">الحاق به پرونده</label>
                                     <div wire:ignore>
-                                        <select id="userSelect" name="user_category_id" data-placeholder="انتخاب رده"
+                                        <select id="userSelect" name="dossier_id" data-placeholder="انتخاب پرونده"
                                             class="form-control ms search-select">
                                             <option></option>
-                                            @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">
-                                                    {{ $user->name }} - {{ $user->cellphone }}
+                                            @foreach ($dossiers as $dossier)
+                                                <option value="{{ $dossier->id }}">
+                                                    {{ $dossier->name }} - {{ $dossier->number_dossier }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('user_category_id')
+                                    @error('dossier_id')
                                         <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -317,9 +317,9 @@
             $('#userSelect').on('change', function(e) {
                 let data = $('#userSelect').select2("val");
                 if (data === '') {
-                    @this.set('user_category_id', null);
+                    @this.set('dossier_id', null);
                 } else {
-                    @this.set('user_category_id', data);
+                    @this.set('dossier_id', data);
                 }
             });
             $('#summernote').on('summernote.change', function(we, contents, $editable) {

@@ -15,4 +15,8 @@ class Device extends Model
     {
         return $this->hasMany(DeviceImage::class);
     }
+            public function dossier()
+    {
+        return $this->belongsTo(Dossier::class);
+    }
 }

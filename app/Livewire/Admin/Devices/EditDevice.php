@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ImageController;
 use App\Models\Device;
 use App\Models\DeviceImage;
 use App\Models\User;
+use App\Models\Dossier;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -21,8 +22,8 @@ class EditDevice extends Component
     public string $name = '';
     public string $code = '';
     public string $trait = '';
+    public $dossier_id;
     public string $delivery_code = '';
-    public  $user_category_id ;
     public string $delivery_name = '';
     public string $receiver_name = '';
     public string $receiver_code = '';
@@ -63,6 +64,7 @@ class EditDevice extends Component
         $this->name=$this->device->name;
         $this->code=$this->device->code;
         $this->trait=$this->device->trait;
+        $this->dossier_id=$this->device->dossier_id;
         $this->status=$this->device->status;
         $this->delivery_name=$this->device->delivery_name;
         $this->delivery_code=$this->device->delivery_code;
@@ -71,7 +73,6 @@ class EditDevice extends Component
         $this->is_active=!$this->device->is_active;
         $this->accessories=$this->device->accessories;
         $this->description=$this->device->description;
-        $this->user_category_id=$this->device->user_category_id;
     }
 
     public function edit()
@@ -79,11 +80,11 @@ class EditDevice extends Component
         $this->validate();
            $this->device->update([
                 'name' => $this->name,
-                'user_category_id' => $this->user_category_id,
                 'status' => $this->status,
                 'description' => $this->description,
                 'accessories' => $this->accessories,
                 'trait' => $this->trait,
+                'dossier_id' => $this->dossier_id,
                 'code' => $this->code,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
@@ -102,8 +103,9 @@ class EditDevice extends Component
        public function render()
     {
         $users = User::all();
+        $dossiers = Dossier::all();
         // dd($users->hasRole('super-admin'));
-        return view('livewire.admin.devices.edit-device', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.edit-device', compact('users' , 'dossiers'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

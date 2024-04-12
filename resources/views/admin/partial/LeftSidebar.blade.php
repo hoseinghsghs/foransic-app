@@ -59,28 +59,55 @@
                     </a>
                 </li>
 
-                @canany(['products', 'categories', 'attributes', 'coupons'])
+
+                @canany(['dossiers'])
                     <li @class([
-                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
+                        'active open' => request()->routeIs(
+                            'admin.dossiers.archive',
+                            'admin.dossiers.*'),
                     ])>
-                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه / قطعه
+                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>پرونده
                                 ها</span></a>
                         <ul class="ml-menu">
                             @can('products')
-                                <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دستگاه / قطعه</a>
+                                <li @class(['active' => request()->routeIs('admin.dossiers.index')])><a href={{ route('admin.dossiers.index') }}>لیست پرونده ها</a>
                                 </li>
 
-                                <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست دستگاه / قطعه بایگانی
-                                        شده</a>
+                                <li @class(['active' => request()->routeIs('admin.dossiers.archive')])><a href={{ route('admin.dossiers.archive') }}>لیست پرونده های
+                                        بایگانی</a>
                                 </li>
 
-                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ایجاد دستگاه /
+                                <li @class(['active' => request()->routeIs('admin.dossiers.create')])><a href={{ route('admin.dossiers.create') }}>ثبت پرونده</a></li>
+                            @endcan
+
+                        </ul>
+                    </li>
+                @endcanany
+
+                @canany(['devices', 'actions'])
+                    <li @class([
+                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
+                    ])>
+                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
+                                ها</span></a>
+                        <ul class="ml-menu">
+                            @can('products')
+                                <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دستگاه و قطعه</a>
+                                </li>
+
+                                <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست دستگاه و قطعه بایگانی
+                                    </a>
+                                </li>
+
+                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ثبت پذیرش دستگاه و
                                         قطعه</a></li>
                             @endcan
 
                         </ul>
                     </li>
                 @endcanany
+
+
 
                 {{-- @can('galeries')
                 <li @class(['active open' => request()->routeIs('admin.galeries.*')])><a href="javascript:void(0);"
@@ -93,11 +120,7 @@
                 </li>
             @endcan --}}
 
-                @can('events')
-                    <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
-                            <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>
-                    </li>
-                @endcan
+
 
                 @canany(['users', 'roles', 'permissions'])
                     <li @class([
@@ -120,6 +143,13 @@
                         </ul>
                     </li>
                 @endcanany
+
+                @can('events')
+                    <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
+                            <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>
+                    </li>
+                @endcan
+
                 <li @class(['active' => request()->routeIs('admin.profile.edit')])><a href={{ route('admin.profile.edit') }}>
                         <i class="zmdi zmdi-account-box"></i><span>ویرایش پروفایل</span></a>
                 </li>
