@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\Models\Role;
 
 class OtpController extends Controller
 {
@@ -158,8 +159,20 @@ class OtpController extends Controller
             } catch (\Throwable $th) {
             }
 
+            $roles=Role::all()->pluck('name')->toArray();
+            if ($request->user()->hasRole($roles)){
+                if (request()->session()->get('url.intended') && str_contains(request()->session()->get('url.intended'),'Admin-panel/managment')){
+                    $redirect=request()->session()->get('url.intended');
+                }else{
+                    $redirect=route('admin.home');
+                }
+            }else{
+                $redirect=route('user.home');
+            }
+
             return response()->json([
-                'message' => 'کد تایید صحیح است'
+                'message' => 'کد تایید صحیح است',
+                'redirect'=>$redirect
             ], 200);
         } else {
             return abort(404);
