@@ -69,32 +69,36 @@ class DashboardController extends Controller
         // }
 
 
-        $from = Carbon::now()->subDays(30);
+        $from = Carbon::now()->subDays(365);
         $to = Carbon::now();
 
-        //هزینه های سفارشات
         $all_devices =  Device::whereBetween('created_at', [$from, $to])->count();
         $all_actions =  Action::whereBetween('created_at', [$from, $to])->count();
-        $status_device_1 = Device::whereBetween('created_at', [$from, $to])->where('status', 1)->count();
-        $status_device_2 = Device::whereBetween('created_at', [$from, $to])->where('status', 2)->count();
-        $status_device_3 = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->count();
-        $status_device_4 = Device::whereBetween('created_at', [$from, $to])->where('status', 4)->count();
+        $status_device_1 = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->count();
+        $status_device_2 = Device::whereBetween('created_at', [$from, $to])->where('status', 1)->count();
+        $status_device_3 = Device::whereBetween('created_at', [$from, $to])->where('status', 2)->count();
+        $status_device_4 = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->count();
         $users = User::role('personel')->get();
+        //دستگاه ها ی برسسی نشده
+        $status_device_checks = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+
+        $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(3)->get();
 
         // $all_order = Order::whereBetween('created_at', [$from, $to])->count();
 
-        // //تعداد سفارشات بر اساس زمان
-        // $month = 12;
-
-        // $successTransactions = Transaction::getData($month, 1);
-        // $successTransactionsChart = $this->chart($successTransactions, $month);
-        // array_unshift($successTransactionsChart, "data1");
-        // $lable = $this->chart($successTransactions, $month);
-
-        // $unsuccessTransactions = Transaction::getData($month, 0);
-        // $unsuccessTransactionsChart = $this->chart($unsuccessTransactions, $month);
-        // array_unshift($unsuccessTransactionsChart, "data2");
+        // // بر اساس زمان
+        $month = 12;
+        $successDevice = Device::getData($month, 0);
+        // dd( $successDevice);
+        $successDeviceChart = $this->chart($successDevice, $month);
+        // dd ($successDeviceChart);
+        array_unshift($successDeviceChart, "data1");
+        $lable = $this->chart($successDevice, $month);
+        // $unsuccessDevice = Device::getData($month, 0);
+        // $unsuccessDeviceChart = $this->chart($unsuccessDevice, $month);
+        // array_unshift($unsuccessDeviceChart, "data2");
         //پربازدید ترین صفحات
+        // dd(array_values($successDeviceChart));
         return view(
             'admin.page.dashboard'
              ,
@@ -107,34 +111,35 @@ class DashboardController extends Controller
                 'all_actions',
                 'all_devices',
                 'users',
-                // 'amunt_coupon_orders',
+                'status_device_checks',
+                'actions',
                 // 'amunt_delivery_orders',
                 // 'successsend_order',
                 // 'returned_order',
 
             ),
 
-            // [
-            //     'successTransactions' => array_values($successTransactionsChart),
-            //     'unsuccessTransactions' => array_values($unsuccessTransactionsChart),
-            //     'labels' => array_keys($lable),
-            //     'transactionsCount' => [$successTransactions->count(), $unsuccessTransactions->count()]
-            // ]
+            [
+                'successDevice' => array_values($successDeviceChart),
+                // 'unsuccessDevice' => array_values($unsuccessDeviceChart),
+                'labels' => array_keys($lable),
+            //     'transactionsCount' => [$successDevice->count(), $unsuccessDevice->count()]
+            ]
 
         );
     }
 
 
 
-    public function chart($transactions, $month)
+    public function chart($devices, $month)
     {
         $result = [];
-        $monthName = $transactions->map(function ($item) {
+        $monthName = $devices->map(function ($item) {
             return verta($item->created_at)->format('%B %y');
         });
 
-        $amount = $transactions->map(function ($item) {
-            return $item->amount;
+        $amount = $devices->map(function ($item) {
+            return $item->count();
         });
 
         foreach ($monthName as $i => $v) {
@@ -143,6 +148,7 @@ class DashboardController extends Controller
             }
             $result[$v] += $amount[$i];
         }
+
         if (count($result) != $month) {
             for ($i = 0; $i < $month; $i++) {
                 $monthName = verta()->subMonth($i)->format('%B %y');

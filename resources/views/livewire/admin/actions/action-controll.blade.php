@@ -40,42 +40,37 @@
                                                         <label for="">توضیحات اقدام *</label>
                                                         <div>
                                                             @if ($is_edit)
-                                                                <textarea class="form-control"
-                                                                          wire:model.defer="description">{!! $action->description !!}</textarea>
+                                                                <textarea class="form-control" wire:model.defer="description">{!! $action->description !!}</textarea>
                                                             @else
-                                                                <textarea class="form-control"
-                                                                          wire:model.defer="description">
+                                                                <textarea class="form-control" wire:model.defer="description">
                                                                 </textarea>
                                                             @endif
                                                         </div>
                                                         @error('description')
-                                                        <small class="text-danger">{{ $message }}</small>
+                                                            <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label> تاریخ و زمان شروع</label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
-                                                                 onclick="$('#startDate').focus();">
-                                                            <span class="input-group-text" id="basic-addon1"><i
-                                                                    class="zmdi zmdi-calendar-alt"></i></span>
+                                                                onclick="$('#startDate').focus();">
+                                                                <span class="input-group-text" id="basic-addon1"><i
+                                                                        class="zmdi zmdi-calendar-alt"></i></span>
                                                             </div>
-                                                            <input type="hidden"
-                                                                   id="startDate-alt"
-                                                                   name="variation_values" value="">
-                                                            <input type="text" class="form-control"
-                                                                   id="startDate"
-                                                                   value=""
-                                                                   autocomplete="off">
+                                                            <input type="hidden" id="startDate-alt"
+                                                                name="variation_values" value="">
+                                                            <input type="text" class="form-control" id="startDate"
+                                                                value="" autocomplete="off">
                                                             <div class="input-group-append">
-                                                            <span class="input-group-text" id="basic-addon1"
-                                                                  style="cursor: pointer;"
-                                                                  onclick="destroyDatePicker('from')"><i
-                                                                    class="zmdi zmdi-close"></i></span>
+                                                                <span class="input-group-text" id="basic-addon1"
+                                                                    style="cursor: pointer;"
+                                                                    onclick="destroyDatePicker('from')"><i
+                                                                        class="zmdi zmdi-close"></i></span>
                                                             </div>
                                                             <span id="start_date-display" class="text-warning"></span>
                                                             @error('start_date')
-                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -84,26 +79,23 @@
                                                         <label>تاریخ و زمان پایان</label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
-                                                                 onclick="$('#endDate').focus();">
-                                                            <span class="input-group-text" id="basic-addon1"><i
-                                                                    class="zmdi zmdi-calendar-alt"></i></span>
+                                                                onclick="$('#endDate').focus();">
+                                                                <span class="input-group-text" id="basic-addon1"><i
+                                                                        class="zmdi zmdi-calendar-alt"></i></span>
                                                             </div>
-                                                            <input type="hidden"
-                                                                   id="endDate-alt"
-                                                                   name="variation_values">
-                                                            <input type="text" class="form-control"
-                                                                   id="endDate"
-                                                                   value="{{ $end_date ?? null }}"
-                                                                   autocomplete="off">
+                                                            <input type="hidden" id="endDate-alt"
+                                                                name="variation_values">
+                                                            <input type="text" class="form-control" id="endDate"
+                                                                value="{{ $end_date ?? null }}" autocomplete="off">
                                                             <div class="input-group-append">
-                                                            <span class="input-group-text" id="basic-addon1"
-                                                                  style="cursor: pointer;"
-                                                                  onclick="destroyDatePicker('to')"><i
-                                                                    class="zmdi zmdi-close"></i></span>
+                                                                <span class="input-group-text" id="basic-addon1"
+                                                                    style="cursor: pointer;"
+                                                                    onclick="destroyDatePicker('to')"><i
+                                                                        class="zmdi zmdi-close"></i></span>
                                                             </div>
                                                             <span id="start_date-display" class="text-warning"></span>
                                                             @error('end_date')
-                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -112,8 +104,7 @@
                                                             <label>وضعیت</label>
                                                             <div class="form-line">
                                                                 <select data-placeholder="وضعیت"
-                                                                        wire:model.live="status"
-                                                                        class="form-control ms">
+                                                                    wire:model.live="status" class="form-control ms">
                                                                     <option value="">وضعیت</option>
                                                                     <option value="1">فعال</option>
                                                                     <option value="0">غیرفعال</option>
@@ -127,8 +118,7 @@
                                                             <label>نمایش در گزارش و پرینت</label>
                                                             <div class="form-line">
                                                                 <select data-placeholder="وضعیت"
-                                                                        wire:model.live="is_print"
-                                                                        class="form-control ms">
+                                                                    wire:model.live="is_print" class="form-control ms">
                                                                     <option value="">وضعیت</option>
                                                                     <option value="1">فعال</option>
                                                                     <option value="0">غیرفعال</option>
@@ -139,14 +129,14 @@
 
                                                     <div class="col-md-12 col-sm-12">
                                                         <button wire:click="addAction" wire:loading.attr="disabled"
-                                                                class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
+                                                            class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
                                                             {{ $is_edit ? 'ویرایش' : 'افزودن' }}
                                                             <span class="spinner-border spinner-border-sm text-light"
-                                                                  wire:loading wire:target="addAction"></span>
+                                                                wire:loading wire:target="addAction"></span>
                                                         </button>
                                                         @if ($is_edit)
                                                             <button class="btn btn-raised btn-info waves-effect"
-                                                                    wire:loading.attr="disabled" wire:click="ref">صرف
+                                                                wire:loading.attr="disabled" wire:click="ref">صرف
                                                                 نظر
                                                                 <span
                                                                     class="spinner-border spinner-border-sm text-light"
@@ -179,79 +169,75 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover c_table theme-color">
                                         <thead>
-                                        <tr>
-                                            <th>id</th>
-                                            <th>نام پرسنل</th>
-                                            <th>تاریخ و زمان شروع</th>
-                                            <th>تاریخ و زمان پایان</th>
-                                            <th>نمایش در گزارش</th>
-                                            <th>توضیح</th>
-                                            <th class="text-center js-sweetalert">عملیات</th>
-                                        </tr>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>نام پرسنل</th>
+                                                <th>تاریخ و زمان شروع</th>
+                                                <th>تاریخ و زمان پایان</th>
+                                                <th>نمایش در گزارش</th>
+                                                <th>توضیح</th>
+                                                <th class="text-center js-sweetalert">عملیات</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($actions as $key => $action)
-                                            <tr wire:key="{{ $action->description }} {{ $action->id }}"
-                                                wire:loading.attr="disabled">
-                                                <td scope="row">{{ $action->id }}</td>
-                                                <td scope="row">{{ $action->user->name }} -
-                                                    {{ $action->user->cellphone }}</td>
-                                                <td dir="ltr">{{ $action->start_date }}</td>
-                                                <td dir="ltr">{{ $action->end_date }}</td>
-                                                <td>
-                                                    @if ($action->is_print)
-                                                        <sapn class='badge badge-success'> فعال </span>
+                                            @foreach ($actions as $key => $action)
+                                                <tr wire:key="{{ $action->description }} {{ $action->id }}"
+                                                    wire:loading.attr="disabled">
+                                                    <td scope="row">{{ $action->id }}</td>
+                                                    <td scope="row">{{ $action->user->name }} -
+                                                        {{ $action->user->cellphone }}</td>
+                                                    <td dir="ltr">{{ $action->start_date }}</td>
+                                                    <td dir="ltr">{{ $action->end_date }}</td>
+                                                    <td>
+                                                        @if ($action->is_print)
+                                                            <sapn class='badge badge-success'> فعال </span>
                                                             @else
                                                                 <sapn class='badge badge-danger'>غیر فعال </span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn bg-teal waves-effect"
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn bg-teal waves-effect"
                                                             data-toggle="modal"
                                                             data-target="#defaultModal-{{ $key }}"><i
-                                                            class="zmdi zmdi-eye"></i></button>
-                                                </td>
-                                                <td class="text-center js-sweetalert">
-
-                                                    <button wire:click="edit_action({{ $action->id }})"
+                                                                class="zmdi zmdi-eye"></i></button>
+                                                    </td>
+                                                    <td class="text-center js-sweetalert">
+                                                        <button wire:click="edit_action({{ $action->id }})"
                                                             wire:loading.attr="disabled" {{ $display }}
                                                             class="btn btn-raised btn-info waves-effect scroll">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                        <span class="spinner-border spinner-border-sm text-light"
-                                                              wire:loading
-                                                              wire:target="edit_action({{ $action->id }}) "></span>
-                                                    </button>
-
-                                                    <button class="btn btn-raised btn-danger waves-effect"
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="edit_action({{ $action->id }}) "></span>
+                                                        </button>
+                                                        <button class="btn btn-raised btn-danger waves-effect"
                                                             wire:loading.attr="disabled"
                                                             wire:click="del_action({{ $action->id }})"
-                                                        {{ $display }}>
-                                                        <i class="zmdi zmdi-delete"></i>
+                                                            {{ $display }}>
+                                                            <i class="zmdi zmdi-delete"></i>
 
-                                                        <span class="spinner-border spinner-border-sm text-light"
-                                                              wire:loading
-                                                              wire:target="del_action({{ $action->id }})"></span>
-                                                    </button>
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="del_action({{ $action->id }})"></span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <div class="modal fade" id="defaultModal-{{ $key }}"
+                                                    tabindex="-1" role="dialog">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">{{ $action->description }}</div>
+                                                            <div class="modal-footer">
 
-                                                </td>
-
-                                            </tr>
-                                            <div class="modal fade" id="defaultModal-{{ $key }}"
-                                                 tabindex="-1" role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body">{{ $action->description }}</div>
-                                                        <div class="modal-footer">
-
-                                                            <button type="button"
+                                                                <button type="button"
                                                                     class="btn btn-danger waves-effect"
                                                                     data-dismiss="modal">بستن
-                                                            </button>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -335,21 +321,21 @@
 @push('styles')
     <!-- تاریخ -->
     <link rel="stylesheet" type="text/css"
-          href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
+        href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
     <!-- تاریخ پایان-->
 @endpush
 @push('scripts')
     <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
     <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
     <script>
-        $('.scroll').click(function () {
+        $('.scroll').click(function() {
             $("html, body").animate({
                 scrollTop: 0
             }, 600);
             return false;
         });
 
-
+        $('#startDate').bootstrapMaterialDatePicker();
     </script>
     <script>
         let dateTimePicker = {
@@ -367,7 +353,7 @@
                     minDate: "new persianDate().unix()",
                     initialValue: false
                 }
-            @this.set(`start_date`, null, true);
+                @this.set(`start_date`, null, true);
             } else {
                 $(`#endDate`).val(null);
                 $(`#endDate-alt`).val(null);
@@ -376,7 +362,7 @@
                     maxDate: null,
                     initialValue: false
                 }
-            @this.set(`end_date`, null, true);
+                @this.set(`end_date`, null, true);
             }
         }
 
@@ -392,7 +378,7 @@
             let s_string = data.start_date.split(' ');
             let s_date = s_string[0].split('/');
             let s_time = s_string[1].split(':');
-            let s_dateTime = [...s_date, ...s_time, '0','0']
+            let s_dateTime = [...s_date, ...s_time, '0', '0']
             s_dateTime = s_dateTime.map((item, index) => Number(item))
             let s_unix = new persianDate(s_dateTime).valueOf();
             dateTimePicker.from.setDate(s_unix)
@@ -400,13 +386,13 @@
             let e_string = data.end_date.split(' ');
             let e_date = e_string[0].split('/');
             let e_time = e_string[1].split(':');
-            let e_dateTime = [...e_date, ...e_time, '0','0']
+            let e_dateTime = [...e_date, ...e_time, '0', '0']
             e_dateTime = e_dateTime.map((item, index) => Number(item))
             let e_unix = new persianDate(e_dateTime).valueOf();
             dateTimePicker.to.setDate(e_unix)
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             dateTimePicker.from = $(`#startDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',
@@ -420,7 +406,7 @@
                         enabled: false
                     },
                 },
-                altFieldFormatter: function (unixDate) {
+                altFieldFormatter: function(unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
@@ -437,9 +423,10 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function (unix) {
+                onSelect: function(unix) {
                     dateTimePicker.from.touched = true;
-                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options.minDate != unix) {
+                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options
+                        .minDate != unix) {
                         let cachedValue = dateTimePicker.to.getState().selected.unixDate;
                         dateTimePicker.to.options = {
                             minDate: unix
@@ -448,7 +435,7 @@
                             dateTimePicker.to.setDate(cachedValue);
                         }
                     }
-                @this.set(`start_date`, $(`#startDate-alt`).val(), true);
+                    @this.set(`start_date`, $(`#startDate-alt`).val(), true);
                 },
             });
 
@@ -465,7 +452,7 @@
                         enabled: false
                     },
                 },
-                altFieldFormatter: function (unixDate) {
+                altFieldFormatter: function(unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
@@ -482,9 +469,10 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function (unix) {
+                onSelect: function(unix) {
                     dateTimePicker.to.touched = true;
-                    if (dateTimePicker.from && dateTimePicker.from.options && dateTimePicker.from.options.maxDate != unix) {
+                    if (dateTimePicker.from && dateTimePicker.from.options && dateTimePicker.from
+                        .options.maxDate != unix) {
                         let cachedValue = dateTimePicker.from.getState().selected.unixDate;
                         dateTimePicker.from.options = {
                             maxDate: unix
@@ -493,7 +481,7 @@
                             dateTimePicker.from.setDate(cachedValue);
                         }
                     }
-                @this.set(`end_date`, $(`#endDate-alt`).val(), true);
+                    @this.set(`end_date`, $(`#endDate-alt`).val(), true);
                 },
             });
         });

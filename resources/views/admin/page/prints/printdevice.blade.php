@@ -120,7 +120,7 @@
                          <td>{{ $device->id }}</td>
                          <td>{{ $device->code }}</td>
                          <td>{{ $device->name }}</td>
-                         <td></td>
+                         <td>{{ $device->trait }}</td>
                      </tr>
 
                      <tr>

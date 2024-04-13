@@ -167,11 +167,49 @@
                                 </div>
                             </div>
                             <div class="header p-0 mt-3">
-                                <h2><strong>تصاویر</strong></h2>
+                                <h2><strong>مشخصات مکاتبه</strong></h2>
                             </div>
                             <hr>
                             <div class="row clearfix">
-                                <div class="col-lg-12 col-md-12">
+
+                                <div class="form-group col-md-6">
+                                    <label> شماره خودکار ساز نامه درخواست</label>
+
+                                    <div class="form-group">
+                                        <input type="text" wire:model.defer="correspondence_number"
+                                            id="correspondence_number"
+                                            class="form-control @error('correspondence_number') is-invalid @enderror"
+                                            required />
+                                        <span id="correspondence_number-display" class="text-warning"></span>
+                                        @error('correspondence_number')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>تاریخ مکاتبه</label>
+                                    <div class="input-group" wire:ignore>
+                                        <div class="input-group-prepend" onclick="$('#startDate').focus();">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="zmdi zmdi-calendar-alt"></i></span>
+                                        </div>
+                                        <input type="hidden" id="startDate-alt" name="variation_values"
+                                            value="">
+                                        <input type="text" class="form-control" id="startDate" value=""
+                                            autocomplete="off">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon1" style="cursor: pointer;"
+                                                onclick="destroyDatePicker('from')"><i
+                                                    class="zmdi zmdi-close"></i></span>
+                                        </div>
+                                        <span id="start_date-display" class="text-warning"></span>
+                                        @error('start_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
                                     <div class="header">
                                         <label for="primary_image">تصویر مکاتبه * <small>(عکس با فرمت jpg و
                                                 png)</small></label>
@@ -188,15 +226,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12 col-md-12" wire:ignore>
-                                <div class="header mt-0">
-                                    <label class="mb-1"> تصاویر دستگاه / قطعه</label>
-                                </div>
-                                <div class="form-group">
-                                    <form action="{{ route('admin.uploade') }}" id="myDropzone" class="dropzone"
-                                        method="POST" id="my-awesome-dropzone">
-                                        @csrf
-                                    </form>
+                            <div class="header p-0 mt-3">
+                                <h2><strong>تصاویر دستگاه یا قطعه</strong></h2>
+                            </div>
+                            <hr>
+                            <div class="row clearfix">
+                                <div class="col-lg-12 col-md-12" wire:ignore>
+                                    <div class="header mt-0">
+                                        <label class="mb-1"> تصاویر دستگاه / قطعه</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <form action="{{ route('admin.uploade') }}" id="myDropzone" class="dropzone"
+                                            method="POST" id="my-awesome-dropzone">
+                                            @csrf
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -213,7 +257,12 @@
         </div>
     </div>
 </section>
+
 @push('styles')
+    <!-- تاریخ -->
+    <link rel="stylesheet" type="text/css"
+        href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
+    <!-- تاریخ پایان-->
     <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
     <style>
         .dropzone {
@@ -227,6 +276,16 @@
 @endpush
 
 @push('scripts')
+    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+    <script>
+        $('.scroll').click(function() {
+            $("html, body").animate({
+                scrollTop: 0
+            }, 600);
+            return false;
+        });
+    </script>
     <script>
         Dropzone.options.myDropzone = {
             parallelUploads: 5,
@@ -324,6 +383,56 @@
             });
             $('#summernote').on('summernote.change', function(we, contents, $editable) {
                 @this.set('description', contents);
+            });
+        });
+    </script>
+    {{-- دیتا پیکر --}}
+    <script>
+        $(document).ready(function() {
+            dateTimePicker.from = $(`#startDate`).pDatepicker({
+                initialValue: false,
+                initialValueType: 'persian',
+                format: 'LLLL',
+                altField: `#startDate-alt`,
+                altFormat: 'g',
+                minDate: "new persianDate().unix()",
+                timePicker: {
+                    enabled: true,
+                    second: {
+                        enabled: false
+                    },
+                },
+                altFieldFormatter: function(unixDate) {
+                    var self = this;
+                    var thisAltFormat = self.altFormat.toLowerCase();
+                    if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
+                        persianDate.toLocale('en');
+                        let p = new persianDate(unixDate).format(
+                            'YYYY/MM/DD HH:mm');
+                        return p;
+                    }
+                    if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
+                        return unixDate;
+                    } else {
+                        let pd = new persianDate(unixDate);
+                        pd.formatPersian = this.persianDigit;
+                        return pd.format(self.altFormat);
+                    }
+                },
+                onSelect: function(unix) {
+                    dateTimePicker.from.touched = true;
+                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options
+                        .minDate != unix) {
+                        let cachedValue = dateTimePicker.to.getState().selected.unixDate;
+                        dateTimePicker.to.options = {
+                            minDate: unix
+                        };
+                        if (dateTimePicker.to.touched) {
+                            dateTimePicker.to.setDate(cachedValue);
+                        }
+                    }
+                    @this.set(`start_date`, $(`#startDate-alt`).val(), true);
+                },
             });
         });
     </script>

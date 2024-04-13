@@ -75,7 +75,7 @@ class CreateDossier extends Component
             ->showDenyButton()->timerProgressBar(false)->persistent()
             ->addInfo('مایل به پرینت دستگاه / قطعه هستید؟');
 //        toastr()->rtl()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد', ' ');
-         return redirect()->route('admin.devices.index');
+         return redirect()->route('admin.dossiers.index');
     }
 
     public function sweetalertConfirmed(array $payload)
