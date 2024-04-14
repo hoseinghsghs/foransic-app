@@ -46,7 +46,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::resource('devices',         DeviceController::class)->middleware('permission:devices')->only(['index', 'show']);
     Route::resource('dossiers',         DossierController::class)->middleware('permission:dossiers')->only(['index', 'show']);
     Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
-    Route::resource('users',            UserController::class)->except('create', 'destroy')->middleware('permission:users');
+    Route::resource('users',            UserController::class)->except( 'destroy')->middleware('permission:users');
     Route::resource('roles',   RoleController::class)->except('show')->middleware('permission:roles');
 //    Route::post('/sms/send-sms',   [SmsController::class,'sendSms'])->name('sms.sendSms')->middleware('permission:sms');
 //    Route::resource('sms',   SmsController::class)->only('create','store')->middleware('permission:sms');

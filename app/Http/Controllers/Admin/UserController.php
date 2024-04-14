@@ -10,6 +10,8 @@ use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -19,6 +21,46 @@ class UserController extends Controller
     {
         $users = User::latest()->paginate(10);
         return view('admin.page.users.index', compact('users'));
+    }
+
+    public function create()
+    {
+        $roles=Role::all();
+        return view('admin.page.users.create',compact('roles'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name'=>'nullable|string|max:255',
+            'role'=>'required|string',
+            'email'=>[
+                'nullable',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique(User::class),
+            ],
+            'cellphone' => 'required|unique:users,cellphone|ir_mobile:zero',
+            'password' => 'required|min:8',
+        ]);
+        try {
+            DB::beginTransaction();
+            $user=User::create([
+                'name'=>$request->name,
+                'email'=>$request->email,
+                'cellphone' => $request->cellphone,
+                'password' => Hash::make($request->password),
+            ]);
+            $user->syncRoles($request->role != 'false' ? [$request->role] : []);
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            toastr()->rtl(true)->addError($ex->getMessage(), ' ');
+            return redirect()->route('admin.users.index');
+        }
+        toastr()->rtl(true)->addSuccess('کاربر با موفقیت افزوده شد', ' ');
+        return redirect()->route('admin.users.index');
     }
 
     public function edit(User $user)
@@ -31,7 +73,6 @@ class UserController extends Controller
 
     public function update(Request $request, User $user, ToastrFactory $flasher)
     {
-
         $data = $request->validate([
             'name' => 'nullable|string',
             'email' => 'required_without:cellphone|nullable|email|unique:users,email,' . $user->id,
@@ -54,9 +95,10 @@ class UserController extends Controller
         $flasher->addSuccess('کاربر با موفقیت ویرایش شد');
         return redirect()->back();
     }
+
     public function show(User $user)
     {
-        $actions=Action::where('user_id', $user->id)->take(10)->get();
+        $actions = Action::where('user_id', $user->id)->take(10)->get();
         return view('admin.page.users.show', compact('user', 'actions'));
     }
 }

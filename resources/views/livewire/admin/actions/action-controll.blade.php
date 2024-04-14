@@ -335,9 +335,6 @@
             return false;
         });
 
-        $('#startDate').bootstrapMaterialDatePicker();
-    </script>
-    <script>
         let dateTimePicker = {
             from: null,
             to: null
@@ -350,7 +347,6 @@
                 $(`#startDate-alt`).val(null);
                 dateTimePicker.from.touched = false;
                 dateTimePicker.to.options = {
-                    minDate: "new persianDate().unix()",
                     initialValue: false
                 }
                 @this.set(`start_date`, null, true);
@@ -399,7 +395,6 @@
                 format: 'LLLL',
                 altField: `#startDate-alt`,
                 altFormat: 'g',
-                minDate: "new persianDate().unix()",
                 timePicker: {
                     enabled: true,
                     second: {
@@ -425,8 +420,7 @@
                 },
                 onSelect: function(unix) {
                     dateTimePicker.from.touched = true;
-                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options
-                        .minDate != unix) {
+                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options.minDate != unix) {
                         let cachedValue = dateTimePicker.to.getState().selected.unixDate;
                         dateTimePicker.to.options = {
                             minDate: unix
@@ -445,7 +439,6 @@
                 format: 'LLLL',
                 altField: `#endDate-alt`,
                 altFormat: 'g',
-                minDate: "new persianDate().unix()",
                 timePicker: {
                     enabled: true,
                     second: {
