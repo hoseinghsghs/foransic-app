@@ -185,6 +185,12 @@ return array(
         "delivery_name" => 'نام تحویل دهنده',
         "delivery_code" => 'کد پرسنلی تحویل دهنده',
         "accessories" => 'لوازم جانبی',
-        "user_category_id"=>'رده'
+        "user_category_id"=>'رده',
+        "subject"=> 'موضوع',
+        "number_dossier"=>'شماره پرونده',
+        "dossier_date"=>'تاریخ پرونده',
+        "section"=>'بخش یا معاونت',
+        "summary_description"=>"خلاصه توضیحات",
+        "expert"=>"کازشناس یا متخصص"
     ),
 );

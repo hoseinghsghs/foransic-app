@@ -190,9 +190,9 @@
                                                     <td dir="ltr">{{ $action->end_date }}</td>
                                                     <td>
                                                         @if ($action->is_print)
-                                                            <sapn class='badge badge-success'> فعال </span>
+                                                            <span class='badge badge-success'> فعال </span>
                                                             @else
-                                                                <sapn class='badge badge-danger'>غیر فعال </span>
+                                                                <span class='badge badge-danger'>غیر فعال </span>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -247,74 +247,6 @@
 
                 </div>
             </div>
-
-            {{-- <div class="container-fluid">
-                <div class="row clearfix">
-                    <div class="col-sm-12">
-                        @if (count($actions) === 0)
-                            <p>هیچ رکوردی وجود ندارد</p>
-                        @else
-                            <ul class="cbp_tmtimeline">
-                                @foreach ($actions as $action)
-                                    @php
-                                        $v2 = Hekmatinasser\Verta\Verta::instance($action->created_at);
-                                        $v3 = $v2->diffMinutes();
-                                        $v4 = $v3 . ' ' . 'دقیقه';
-                                        if ($v3 <= 0) {
-                                            $v4 = ' لحظاتی پیش ';
-                                        }
-                                        if ($v3 > 60) {
-                                            $v3 = $v2->diffHours();
-                                            $v4 = $v3 . ' ' . 'ساعت';
-                                            if ($v3 > 60) {
-                                                $v3 = $v2->diffDays();
-                                                $v4 = $v3 . ' ' . 'روز';
-                                            }
-                                        }
-
-                                    @endphp
-                                    <li wire:key="{{ $action->description }} {{ $action->id }}"
-                                        wire:loading.attr="disabled">
-                                        <div class="cbp_tmicon"><i class="zmdi zmdi-account"></i>
-                                        </div>
-                                        <div class="cbp_tmlabel empty">
-                                            <div class="cbp_tmtime" style="background-color: #f170ff ">
-                                                <span style=" font-size: 1rem">{{ $v2 }}</span> -- <span>
-                                                    <span class="mt-2"><i class="zmdi zmdi-time"></i><span
-                                                            style=" font-size: 1rem"> {{ $v4 }} پیش
-                                                        </span></span>
-                                                </span>
-                                            </div>
-                                            <span style="float: right">
-                                                <td class="text-center js-sweetalert" style="float: left">
-                                                    @if ($action->is_print)
-                                                        <button class="btn btn-success">فعال در گزارش</button>
-                                                    @else
-                                                        <button class="btn btn-danger">غیر فعال در گزارش</button>
-                                                    @endif
-                                                    <button class="btn btn-default">تاریخ و زمان شروع:
-                                                        {{ $action->start_date }}</button>
-                                                    <button class="btn btn-default">تاریخ و زمان پایان:
-                                                        {{ $action->end_date }}</button>
-
-                                            </span>
-                                            </td>
-                                            </span>
-                                            <h5 class="mt-5"><a href="#">توسط {{ $action->user->name }} </a>
-                                            </h5>
-
-                                            <div>
-                                                {{ $action->description }}
-                                            </div>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                    </div>
-                    @endif
-                </div>
-            </div> --}}
-            <!-- پایان لیست -->
         </div>
     </div>
 </section>
@@ -341,7 +273,6 @@
         }
 
         function destroyDatePicker(type) {
-            console.log(dateTimePicker);
             if (type === 'from') {
                 $(`#startDate`).val(null);
                 $(`#startDate-alt`).val(null);

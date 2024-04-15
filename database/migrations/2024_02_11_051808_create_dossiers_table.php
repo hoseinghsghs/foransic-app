@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('dossiers', function (Blueprint $table) {
             $table->id();
             $table->string('number_dossier');
+            $table->string('dossier_date');
             $table->string('name');
             $table->string('subject');
             $table->string('section');
