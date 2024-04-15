@@ -339,8 +339,9 @@
     </section>
     @push('scripts')
         <!-- نمودار درصد ترافیک -->
-        {{-- <script>
+        <script>
             initC3Chart();
+            alert(@json($labels));
 
             function initC3Chart() {
                 setTimeout(function() {
@@ -352,17 +353,17 @@
                                 columns: [
                                     // each columns data
                                     [$success[0], $success[1], $success[2],
-                                        $success[3],
-                                        $success[4],
-                                        $success[5], $success[6], $success[7], $success[8],
-                                        $success[9],
-                                        $success[10], $success[11], $success[12]
+                                        0,
+                                        0,
+                                        0, 0, 0, 0,
+                                        0,
+                                        0, 0, 0
                                     ],
 
                                 ],
                                 type: "area-spline", // default type of chart
                                 groups: [
-                                    ["data1", "data2"]
+                                    ["data1"]
                                 ],
                                 colors: {
                                     data1: Aero.colors["teal"],
@@ -382,7 +383,7 @@
                                     show: false,
                                     tick: {
                                         format: function(d) {
-                                            return number_format(d) + ' ' + 'عدد';
+                                            return d + ' ' + 'عدد';
                                         },
                                     }
                                 }
@@ -398,18 +399,20 @@
                     });
                 }, 500);
             }
-        </script> --}}
-        <script>
+        </script>
+        {{-- <script>
             $success = @json($successDevice);
             var chart = c3.generate({
                 bindto: '#chart-area-spline-device',
                 data: {
                     columns: [
-                        [$success[0], $success[1], $success[2], $success[3], 400, 150, 250],
-                        ['data2', 50, 20, 10, 40, 15, 25]
+                        [$success[0], $success[1], $success[2], $success[3], $success[4], $success[5], $success[6],
+                            $success[7], $success[8], $success[9], $success[10], $success[11], $success[12]
+                        ],
+                        // ['data2', 50, 20, 10, 40, 15, 25]
                     ]
                 }
             });
-        </script>
+        </script> --}}
     @endpush
 @endsection

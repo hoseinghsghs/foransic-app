@@ -20,11 +20,11 @@ class DashboardController extends Controller
 
     public function index()
     {
-        // $v = verta();
-        // $year = $v->year;
-        // $m_1 = $v->month(1)->day(1)->toCarbon();
-        // $m_13 = $v->month(12)->day(30)->toCarbon();
-        // $now = Carbon::now();
+        $v = verta();
+        $year = $v->year;
+        $m_1 = $v->month(1)->day(1)->toCarbon();
+        $m_13 = $v->month(12)->day(30)->toCarbon();
+        $now = Carbon::now();
         // try {
         //     if (Analytics::fetchVisitorsAndPageViews(Period::create($m_1, $m_13))->count()) {
         //         $lastyear = Analytics::fetchVisitorsAndPageViews(Period::create($m_1, $m_13));
@@ -91,9 +91,10 @@ class DashboardController extends Controller
         $successDevice = Device::getData($month, 0);
         // dd( $successDevice);
         $successDeviceChart = $this->chart($successDevice, $month);
-        // dd ($successDeviceChart);
+
         array_unshift($successDeviceChart, "data1");
         $lable = $this->chart($successDevice, $month);
+        // dd ($successDevice,$month);
         // $unsuccessDevice = Device::getData($month, 0);
         // $unsuccessDeviceChart = $this->chart($unsuccessDevice, $month);
         // array_unshift($unsuccessDeviceChart, "data2");
@@ -137,6 +138,7 @@ class DashboardController extends Controller
         $monthName = $devices->map(function ($item) {
             return verta($item->created_at)->format('%B %y');
         });
+        // dd($monthName);
 
         $amount = $devices->map(function ($item) {
             return $item->count();
