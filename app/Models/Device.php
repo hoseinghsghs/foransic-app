@@ -10,18 +10,21 @@ use Verta;
 class Device extends Model
 {
     use HasFactory;
+
     protected $table = "devices";
     protected $guarded = [];
 
-        public function images()
+    public function images()
     {
         return $this->hasMany(DeviceImage::class);
     }
-            public function dossier()
+
+    public function dossier()
     {
         return $this->belongsTo(Dossier::class);
     }
-        public function scopeGetData($query, $month, $status)
+
+    public function scopeGetData($query, $month, $status)
     {
         $v = verta()->startMonth()->subMonth($month - 1);
         $date = verta()->jalaliToGregorian($v->year, $v->month, $v->day);

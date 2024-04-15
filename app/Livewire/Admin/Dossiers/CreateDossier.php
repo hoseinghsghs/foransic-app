@@ -35,11 +35,11 @@ class CreateDossier extends Component
     {
         return [
             'name' => 'required|string|max:100',
-            'user_category_id'=>'required',
+            'user_category_id'=>'required|integer',
             'subject' => 'required|string',
-            'expert' => 'string',
-            'section' => 'string',
-            'number_dossier' => 'string',
+            'expert' => 'required|string',
+            'section' => 'required|string',
+            'number_dossier' => 'required|string|unique:dossiers,number_dossier',
             'summary_description' => 'required|string',
         ];
     }

@@ -59,7 +59,6 @@
                     </a>
                 </li>
 
-
                 @canany(['dossiers'])
                     <li @class([
                         'active open' => request()->routeIs(
@@ -132,6 +131,7 @@
                                 class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
                         <ul class="ml-menu">
                             @can('users')
+                                <li @class(['active' => request()->routeIs('admin.users.create')])><a href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
                                 <li @class(['active' => request()->routeIs('admin.users.*')])><a href={{ route('admin.users.index') }}>لیست کاربران</a></li>
                             @endcan
                             @can('roles')

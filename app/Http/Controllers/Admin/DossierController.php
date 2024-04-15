@@ -8,15 +8,17 @@ use App\Models\Dossier;
 
 class DossierController extends Controller
 {
-           public function index()
+    public function index()
     {
         return view('admin.page.dossiers.index');
     }
+
     public function archive()
     {
         return view('admin.page.dossiers.archive');
     }
-        public function show(Dossier $dossier)
+
+    public function show(Dossier $dossier)
     {
         return view('admin.page.dossiers.show', compact('dossier'));
     }

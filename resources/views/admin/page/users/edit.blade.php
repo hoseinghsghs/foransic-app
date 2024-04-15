@@ -56,15 +56,15 @@
                                         </div>
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="text">شماره تلفن</label>
-                                        <div class="form-group">
-                                            <input type="number" name="cellphone" class="form-control without-spin @error('cellphone') is-invalid @enderror" value="{{old('cellphone') ?? $user->cellphone}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
                                         <label for="text">ایمیل</label>
                                         <div class="form-group">
                                             <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email') ?? $user->email}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="text">شماره تلفن</label>
+                                        <div class="form-group">
+                                            <input type="number" name="cellphone" class="form-control without-spin @error('cellphone') is-invalid @enderror" value="{{old('cellphone') ?? $user->cellphone}}">
                                         </div>
                                     </div>
                                     <div class="col-md-3">

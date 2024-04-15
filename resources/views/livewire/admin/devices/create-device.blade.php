@@ -171,10 +171,8 @@
                             </div>
                             <hr>
                             <div class="row clearfix">
-
                                 <div class="form-group col-md-6">
                                     <label> شماره خودکار ساز نامه درخواست</label>
-
                                     <div class="form-group">
                                         <input type="text" wire:model.defer="correspondence_number"
                                             id="correspondence_number"
@@ -187,27 +185,28 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-6">
-                                    <label>تاریخ مکاتبه</label>
+                                <div class="form-group col-md-3">
+                                    <label>تاریخ مکاتبه </label>
                                     <div class="input-group" wire:ignore>
-                                        <div class="input-group-prepend" onclick="$('#startDate').focus();">
-                                            <span class="input-group-text" id="basic-addon1"><i
-                                                    class="zmdi zmdi-calendar-alt"></i></span>
+                                        <div class="input-group-prepend"
+                                             onclick="$('#correspondenceDate').focus();">
+                                                                <span class="input-group-text" id="basic-addon1"><i
+                                                                        class="zmdi zmdi-calendar-alt"></i></span>
                                         </div>
-                                        <input type="hidden" id="startDate-alt" name="variation_values"
-                                            value="">
-                                        <input type="text" class="form-control" id="startDate" value=""
-                                            autocomplete="off">
+                                        <input type="hidden" id="correspondenceDate-alt"
+                                               name="correspondence_date">
+                                        <input type="text" class="form-control" id="correspondenceDate"
+                                               value="{{ $correspondence_date ?? null }}" autocomplete="off">
                                         <div class="input-group-append">
-                                            <span class="input-group-text" id="basic-addon1" style="cursor: pointer;"
-                                                onclick="destroyDatePicker('from')"><i
-                                                    class="zmdi zmdi-close"></i></span>
+                                                                <span class="input-group-text" id="basic-addon1"
+                                                                      style="cursor: pointer;"
+                                                                      onclick="destroyDatePicker()"><i
+                                                                        class="zmdi zmdi-close"></i></span>
                                         </div>
-                                        <span id="start_date-display" class="text-warning"></span>
-                                        @error('start_date')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
                                     </div>
+                                    @error('correspondence_date')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
                                 <div class="form-group col-md-12">
                                     <div class="header">
@@ -388,27 +387,37 @@
     </script>
     {{-- دیتا پیکر --}}
     <script>
+        let correspondenceDate;
+
+        function destroyDatePicker() {
+            $(`#correspondenceDate`).val(null);
+            $(`#correspondenceDate-alt`).val(null);
+            correspondenceDate.touched = false;
+            correspondenceDate.options = {
+                initialValue: false
+            }
+        @this.set(`correspondence_date`, null, true);
+        }
         $(document).ready(function() {
-            dateTimePicker.from = $(`#startDate`).pDatepicker({
+            correspondenceDate = $(`#correspondenceDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',
-                format: 'LLLL',
-                altField: `#startDate-alt`,
+                format: 'L',
+                altField: `#correspondenceDate-alt`,
                 altFormat: 'g',
-                minDate: "new persianDate().unix()",
                 timePicker: {
                     enabled: true,
                     second: {
                         enabled: false
                     },
                 },
-                altFieldFormatter: function(unixDate) {
+                altFieldFormatter: function (unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
                         persianDate.toLocale('en');
                         let p = new persianDate(unixDate).format(
-                            'YYYY/MM/DD HH:mm');
+                            'YYYY/MM/DD');
                         return p;
                     }
                     if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
@@ -419,19 +428,8 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function(unix) {
-                    dateTimePicker.from.touched = true;
-                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options
-                        .minDate != unix) {
-                        let cachedValue = dateTimePicker.to.getState().selected.unixDate;
-                        dateTimePicker.to.options = {
-                            minDate: unix
-                        };
-                        if (dateTimePicker.to.touched) {
-                            dateTimePicker.to.setDate(cachedValue);
-                        }
-                    }
-                    @this.set(`start_date`, $(`#startDate-alt`).val(), true);
+                onSelect: function (unix) {
+                @this.set(`correspondence_date`, $(`#correspondenceDate-alt`).val(), true);
                 },
             });
         });

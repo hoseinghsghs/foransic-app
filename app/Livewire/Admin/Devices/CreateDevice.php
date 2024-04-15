@@ -22,6 +22,8 @@ class CreateDevice extends Component
     public string $name = '';
     public string $code = '';
     public string $trait = '';
+    public string $correspondence_number='';
+    public string $correspondence_date='';
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
@@ -30,6 +32,7 @@ class CreateDevice extends Component
     public string $accessories = '';
     public bool $is_active = false;
     public $primary_image;
+
     protected $listeners = [
         'sweetalertConfirmed',// only when confirm button is clicked
         'sweetalertDenied'
@@ -48,6 +51,8 @@ class CreateDevice extends Component
             // 'code' => 'required|string|unique:devices,code',
             'delivery_code' => 'string',
             'trait' => 'string',
+            'correspondence_number'=>'nullable|string',
+            'correspondence_date'=>'nullable|string',
             // 'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
@@ -84,6 +89,8 @@ class CreateDevice extends Component
                 'description' => $this->description,
                 'accessories' => $this->accessories,
                 'code' => $this->code,
+                'correspondence_number'=>$this->correspondence_number,
+                'correspondence_date'=>$this->correspondence_date,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
                 'receiver_name' => "",
