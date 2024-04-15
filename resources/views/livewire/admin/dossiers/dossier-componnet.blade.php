@@ -106,7 +106,7 @@
                                             {{ App\Models\User::find($dossier->user_category_id)->name }}
                                         </td>
                                         <td dir="ltr">
-                                            {{ $dossier->dossier_date }}
+                                            {{ verta($dossier->created_at)->format('Y/n/j') }}
                                         </td>
                                         <td>
                                             <button wire:click="ChangeActive_dossier({{ $dossier->id }})"

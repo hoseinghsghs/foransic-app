@@ -72,29 +72,6 @@
                                         @enderror
                                     </div>
                                 </div>
-                                <div class="form-group col-md-3">
-                                    <label>تاریخ پرونده <abbr class="required text-danger" title="ضروری">*</abbr></label>
-                                    <div class="input-group" wire:ignore>
-                                        <div class="input-group-prepend"
-                                             onclick="$('#dossierDate').focus();">
-                                                                <span class="input-group-text" id="basic-addon1"><i
-                                                                        class="zmdi zmdi-calendar-alt"></i></span>
-                                        </div>
-                                        <input type="hidden" id="dossierDate-alt"
-                                               name="dossier_date">
-                                        <input type="text" class="form-control" id="dossierDate"
-                                               value="{{ $dossier_date ?? null }}" autocomplete="off">
-                                        <div class="input-group-append">
-                                                                <span class="input-group-text" id="basic-addon1"
-                                                                      style="cursor: pointer;"
-                                                                      onclick="destroyDatePicker()"><i
-                                                                        class="zmdi zmdi-close"></i></span>
-                                        </div>
-                                    </div>
-                                    @error('dossier_date')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
                                 {{-- <div class="form-group col-md-3 col-sm-3 @error('status') is-invalid @enderror">
                                     <label for="statusSelect">وضعیت بررسی</label>
                                     <div wire:ignore>
@@ -216,8 +193,6 @@
 </section>
 @push('styles')
     <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css"/>
-    <link rel="stylesheet" type="text/css"
-          href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
     <style>
         .dropzone {
             border-radius: 5px;
@@ -230,21 +205,7 @@
 @endpush
 
 @push('scripts')
-    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
     <script>
-        let dossierDate;
-
-        function destroyDatePicker() {
-            $(`#dossierDate`).val(null);
-            $(`#dossierDate-alt`).val(null);
-            dossierDate.touched = false;
-            dossierDate.options = {
-                initialValue: false
-            }
-        @this.set(`dossier_date`, null, true);
-        }
-
         $(document).ready(function () {
             $('#is_active').on('change', function (e) {
                 let data = $('#is_active').select2("val");
@@ -261,40 +222,6 @@
 
             $('#summernote').on('summernote.change', function (we, contents, $editable) {
             @this.set('summary_description', contents);
-            });
-            // date time picker
-            dossierDate = $(`#dossierDate`).pDatepicker({
-                initialValue: false,
-                initialValueType: 'persian',
-                format: 'L',
-                altField: `#dossierDate-alt`,
-                altFormat: 'g',
-                timePicker: {
-                    enabled: true,
-                    second: {
-                        enabled: false
-                    },
-                },
-                altFieldFormatter: function (unixDate) {
-                    var self = this;
-                    var thisAltFormat = self.altFormat.toLowerCase();
-                    if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
-                        persianDate.toLocale('en');
-                        let p = new persianDate(unixDate).format(
-                            'YYYY/MM/DD');
-                        return p;
-                    }
-                    if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
-                        return unixDate;
-                    } else {
-                        let pd = new persianDate(unixDate);
-                        pd.formatPersian = this.persianDigit;
-                        return pd.format(self.altFormat);
-                    }
-                },
-                onSelect: function (unix) {
-                @this.set(`dossier_date`, $(`#dossierDate-alt`).val(), true);
-                },
             });
         });
     </script>

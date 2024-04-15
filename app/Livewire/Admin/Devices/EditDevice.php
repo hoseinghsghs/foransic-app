@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Livewire\Admin\Devices;
 
 use App\Http\Controllers\Admin\ImageController;
@@ -22,6 +23,8 @@ class EditDevice extends Component
     public string $name = '';
     public string $code = '';
     public string $trait = '';
+    public string $correspondence_number = '';
+    public string $correspondence_date = '';
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
@@ -45,6 +48,8 @@ class EditDevice extends Component
             'code' => 'string',
             'delivery_code' => 'string',
             'trait' => 'string',
+            'correspondence_number' => 'nullable|string',
+            'correspondence_date' => 'nullable|string',
             'delivery_name' => 'required|string',
             'receiver_name' => 'required_if:status,3|string',
             'receiver_code' => 'string',
@@ -61,51 +66,55 @@ class EditDevice extends Component
 
     public function mount()
     {
-        $this->name=$this->device->name;
-        $this->code=$this->device->code;
-        $this->trait=$this->device->trait;
-        $this->dossier_id=$this->device->dossier_id;
-        $this->status=$this->device->status;
-        $this->delivery_name=$this->device->delivery_name;
-        $this->delivery_code=$this->device->delivery_code;
-        $this->receiver_name=$this->device->receiver_name;
-        $this->receiver_code=$this->device->receiver_code;
-        $this->is_active=!$this->device->is_active;
-        $this->accessories=$this->device->accessories;
-        $this->description=$this->device->description;
+        $this->name = $this->device->name;
+        $this->code = $this->device->code;
+        $this->trait = $this->device->trait;
+        $this->dossier_id = $this->device->dossier_id;
+        $this->status = $this->device->status;
+        $this->correspondence_number = $this->device->correspondence_number;
+        $this->correspondence_date = $this->device->correspondence_date;
+        $this->delivery_name = $this->device->delivery_name;
+        $this->delivery_code = $this->device->delivery_code;
+        $this->receiver_name = $this->device->receiver_name;
+        $this->receiver_code = $this->device->receiver_code;
+        $this->is_active = !$this->device->is_active;
+        $this->accessories = $this->device->accessories;
+        $this->description = $this->device->description;
     }
 
     public function edit()
     {
         $this->validate();
-           $this->device->update([
-                'name' => $this->name,
-                'status' => $this->status,
-                'description' => $this->description,
-                'accessories' => $this->accessories,
-                'trait' => $this->trait,
-                'dossier_id' => $this->dossier_id,
-                'code' => $this->code,
-                'delivery_code' => $this->delivery_code,
-                'delivery_name' => $this->delivery_name,
-                'receiver_name' => $this->receiver_name,
-                'receiver_code' => $this->receiver_code,
-                'delivery_staff_id' => auth()->user()->id,
-                'delivery_date' => verta()->formatJalaliDatetime(),
-                'is_active' => !$this->is_active,
-            ]);
-        toastr()->rtl(true)->addInfo('دستگاه / قطعه مورد نظر ویرایش شد',' ');
+        $this->device->update([
+            'name' => $this->name,
+            'status' => $this->status,
+            'description' => $this->description,
+            'accessories' => $this->accessories,
+            'trait' => $this->trait,
+            'dossier_id' => $this->dossier_id,
+            'code' => $this->code,
+            'correspondence_number' => $this->correspondence_number,
+            'correspondence_date' => $this->correspondence_date,
+            'delivery_code' => $this->delivery_code,
+            'delivery_name' => $this->delivery_name,
+            'receiver_name' => $this->receiver_name,
+            'receiver_code' => $this->receiver_code,
+            'delivery_staff_id' => auth()->user()->id,
+            'delivery_date' => verta()->formatJalaliDatetime(),
+            'is_active' => !$this->is_active,
+        ]);
+        toastr()->rtl(true)->addInfo('دستگاه / قطعه مورد نظر ویرایش شد', ' ');
 //        flash()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد');
         return redirect()->route('admin.devices.index');
     }
 
 
-       public function render()
+    public function render()
     {
         $users = User::all();
         $dossiers = Dossier::all();
         // dd($users->hasRole('super-admin'));
-        return view('livewire.admin.devices.edit-device', compact('users' , 'dossiers'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

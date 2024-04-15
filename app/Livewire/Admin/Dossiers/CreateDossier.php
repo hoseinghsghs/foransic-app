@@ -19,7 +19,6 @@ class CreateDossier extends Component
     public Dossier $dossier;
     public string $name = '';
     public string $number_dossier = '';
-    public string $dossier_date='';
     public string $subject = '';
     public string $section = '';
     public string $expert = '';
@@ -36,12 +35,11 @@ class CreateDossier extends Component
     {
         return [
             'name' => 'required|string|max:100',
-            'dossier_date' => 'required|integer',
-            'user_category_id'=>'required',
+            'user_category_id'=>'required|integer',
             'subject' => 'required|string',
             'expert' => 'required|string',
             'section' => 'required|string',
-            'number_dossier' => 'required|string',
+            'number_dossier' => 'required|string|unique:dossiers,number_dossier',
             'summary_description' => 'required|string',
         ];
     }
@@ -60,7 +58,6 @@ class CreateDossier extends Component
                 'subject' => $this->subject,
                 'expert' => $this->expert,
                 'number_dossier' => $this->number_dossier,
-                'dossier_date'=>$this->dossier_date,
                 'summary_description' => $this->summary_description,
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,

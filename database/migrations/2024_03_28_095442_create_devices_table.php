@@ -31,7 +31,8 @@ return new class extends Migration
             $table->text('accessories')->nullable();
             $table->text('description')->nullable();
             $table->text('trait')->nullable();
-
+            $table->text('correspondence_number')->nullable();
+            $table->text('correspondence_date')->nullable();
 
             $table->string('primary_image')->nullable();
 

@@ -20,7 +20,6 @@ class EditDossier extends Component
     public Dossier $dossier;
     public string $name = '';
     public string $number_dossier = '';
-    public string $dossier_date = '';
     public string $subject = '';
     public string $section = '';
     public string $expert = '';
@@ -43,8 +42,7 @@ class EditDossier extends Component
             'subject' => 'required|string',
             'expert' => 'required|string',
             'section' => 'required|string',
-            'number_dossier' => 'required|string',
-            'dossier_date' => 'required|string',
+            'number_dossier' => 'required|string|unique:dossiers,number_dossier,'.$this->dossier->id,
             'summary_description' => 'required|string',
         ];
     }
@@ -57,7 +55,6 @@ class EditDossier extends Component
         $this->subject = $this->dossier->subject;
         $this->expert = $this->dossier->expert;
         $this->number_dossier = $this->dossier->number_dossier;
-        $this->dossier_date = $this->dossier->dossier_date;
         $this->summary_description = $this->dossier->summary_description;
         $this->is_active = !$this->dossier->is_active;
     }
@@ -72,7 +69,6 @@ class EditDossier extends Component
             'subject' => $this->subject,
             'expert' => $this->expert,
             'number_dossier' => $this->number_dossier,
-            'dossier_date' => $this->dossier_date,
             'summary_description' => $this->summary_description,
             'is_active' => !$this->is_active,
             'is_archive' => 0,
