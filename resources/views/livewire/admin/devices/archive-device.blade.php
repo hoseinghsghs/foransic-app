@@ -82,7 +82,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>نام</th>
+                                    <th>عنوان دستگاه یا قطعه</th>
                                     <th>کد</th>
                                     <th>نام تحویل دهنده</th>
                                     <th>نام تحویل گیرنده</th>
@@ -98,7 +98,7 @@
                                     <tr wire:key="name_{{ $device->id }}">
                                         <td scope="row">{{ $key + 1 }}</td>
                                         <td>
-                                            {{ $device->name }}
+                                            {{ $device->titleManagement->title }}
                                         </td>
                                         <td>
                                             {{ $device->code }}

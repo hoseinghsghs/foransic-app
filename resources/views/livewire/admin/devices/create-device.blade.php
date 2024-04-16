@@ -32,16 +32,25 @@
                                 <h2><strong>اطلاعات اصلی دستگاه / قطعه</strong></h2>
                             </div>
                             <hr>
+
                             <div class="row clearfix">
-                                <div class="col-sm-6">
-                                    <label>نام دستگاه / قطعه *</label>
-                                    <div class="form-group">
-                                        <input type="text" wire:model.defer="name"
-                                            class="form-control @error('name') is-invalid @enderror" required />
-                                        @error('name')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                <div class="form-title-device col-sm-6 col-sm-6 @error('use_id') is-invalid @enderror">
+                                    <label for="userSelect">انتخاب دستگاه یا قطعه</label>
+                                    <div wire:ignore>
+                                        <select id="title-device" name="title_managements_id"
+                                            data-placeholder="انتخاب پرونده" required
+                                            class="form-control ms search-select  @error('title_managements_id') is-invalid @enderror">
+                                            <option></option>
+                                            @foreach ($titles_device as $title_device)
+                                                <option value="{{ $title_device->id }}">
+                                                    {{ $title_device->title }} - {{ $title_device->id }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    @error('title_managements_id')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group col-md-3">
@@ -188,24 +197,20 @@
                                 <div class="form-group col-md-3">
                                     <label>تاریخ مکاتبه </label>
                                     <div class="input-group" wire:ignore>
-                                        <div class="input-group-prepend"
-                                             onclick="$('#correspondenceDate').focus();">
-                                                                <span class="input-group-text" id="basic-addon1"><i
-                                                                        class="zmdi zmdi-calendar-alt"></i></span>
+                                        <div class="input-group-prepend" onclick="$('#correspondenceDate').focus();">
+                                            <span class="input-group-text" id="basic-addon1"><i
+                                                    class="zmdi zmdi-calendar-alt"></i></span>
                                         </div>
-                                        <input type="hidden" id="correspondenceDate-alt"
-                                               name="correspondence_date">
+                                        <input type="hidden" id="correspondenceDate-alt" name="correspondence_date">
                                         <input type="text" class="form-control" id="correspondenceDate"
-                                               value="{{ $correspondence_date ?? null }}" autocomplete="off">
+                                            value="{{ $correspondence_date ?? null }}" autocomplete="off">
                                         <div class="input-group-append">
-                                                                <span class="input-group-text" id="basic-addon1"
-                                                                      style="cursor: pointer;"
-                                                                      onclick="destroyDatePicker()"><i
-                                                                        class="zmdi zmdi-close"></i></span>
+                                            <span class="input-group-text" id="basic-addon1" style="cursor: pointer;"
+                                                onclick="destroyDatePicker()"><i class="zmdi zmdi-close"></i></span>
                                         </div>
                                     </div>
                                     @error('correspondence_date')
-                                    <small class="text-danger">{{ $message }}</small>
+                                        <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
                                 <div class="form-group col-md-12">
@@ -372,6 +377,12 @@
                 let data = $('#statusSelect').select2("val");
                 @this.set('status', data);
             });
+
+            $('#title-device').on('change', function(e) {
+                let data = $('#title-device').select2("val");
+                @this.set('title_managements_id', data);
+            });
+
             $('#userSelect').on('change', function(e) {
                 let data = $('#userSelect').select2("val");
                 if (data === '') {
@@ -396,7 +407,7 @@
             correspondenceDate.options = {
                 initialValue: false
             }
-        @this.set(`correspondence_date`, null, true);
+            @this.set(`correspondence_date`, null, true);
         }
         $(document).ready(function() {
             correspondenceDate = $(`#correspondenceDate`).pDatepicker({
@@ -411,7 +422,7 @@
                         enabled: false
                     },
                 },
-                altFieldFormatter: function (unixDate) {
+                altFieldFormatter: function(unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
@@ -428,8 +439,8 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function (unix) {
-                @this.set(`correspondence_date`, $(`#correspondenceDate-alt`).val(), true);
+                onSelect: function(unix) {
+                    @this.set(`correspondence_date`, $(`#correspondenceDate-alt`).val(), true);
                 },
             });
         });

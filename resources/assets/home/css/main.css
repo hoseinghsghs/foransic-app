@@ -20,7 +20,9 @@
 }
 
 body {
-    background: #ffffff !important;
+    background-image: url(/assets/admin/images/bg-login.jpg) !important ;
+    background-repeat: no-repeat;
+    background-size: cover;
     direction: rtl;
     overflow-x: hidden;
     font-family: IRANSans !important;
@@ -5168,7 +5170,7 @@ span.shipping-destination {
     position: relative;
     margin: 70px auto 30px;
     display: block;
-    background: #fff;
+    background: #00000061;
     border-radius: 20px;
 }
 
@@ -5184,7 +5186,7 @@ span.shipping-destination {
     padding: 5px 0;
     width: 50%;
     text-align: right;
-    color: #999;
+    color: #ffffff;
     float: right;
     line-height: 25px;
     height: 100%;
@@ -5248,12 +5250,12 @@ span.shipping-destination {
     .account-box-content
     h4 {
     font-size: 18px;
-    border-bottom: #ccc 1px dashed;
+    border-bottom: #ffffff 1px dashed;
     display: inline-block;
     padding-bottom: 10px;
     font-weight: 400;
     /* margin-bottom: 30px; */
-    color: #999;
+    color: #ffffff;
 }
 
 .page-account-box
@@ -5311,7 +5313,7 @@ span.shipping-destination {
 
 .account-box-content .form-account-title label {
     font-size: 14px;
-    color: #989898;
+    color: #ffffff;
 }
 
 .account-box-content a.account-link-password {

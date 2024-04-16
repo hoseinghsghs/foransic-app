@@ -50,14 +50,6 @@
                                                     </label>
                                                     <label for="remember" class="remember-me mr-0">مرا به خاطر
                                                         بسپار</label>
-                                                    <div class="mr-auto">
-                                                        <a class="account-link-password" onclick="otpLogin(event)">ورود
-                                                            با رمز یکبار مصرف</a>
-                                                        <br>
-                                                        <a class="account-link-password" onclick="setUsername()"
-                                                            data-toggle="modal" data-target="#resetModal">رمز خود
-                                                            را فراموش کرده ام</a>
-                                                    </div>
                                                 </div>
                                                 <div class="form-row-account">
                                                     <button class="btn bg-secondary text-light ml-md-2 return-btn"

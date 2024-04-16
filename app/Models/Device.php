@@ -19,7 +19,11 @@ class Device extends Model
         return $this->hasMany(DeviceImage::class);
     }
 
-    public function dossier()
+    public function titleManagement()
+    {
+        return $this->belongsTo(TitleManagement::class, 'title_managements_id');
+    }
+        public function dossier()
     {
         return $this->belongsTo(Dossier::class);
     }

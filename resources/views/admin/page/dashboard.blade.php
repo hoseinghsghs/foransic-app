@@ -115,7 +115,7 @@
                                 <div class="table-responsive social_media_table">
                                     <table class="table table-hover c_table">
                                         <thead>
-                                            <tr style="background-color: #61c0fe">
+                                            <tr style="background-color: #ffa3bb">
                                                 <th>id</th>
                                                 <th>نام</th>
                                                 <th>رده</th>
@@ -127,7 +127,7 @@
                                             @foreach ($status_device_checks as $status_device_check)
                                                 <tr>
                                                     <td><span class="social_icon linkedin"
-                                                            style="background-color: red">{{ $status_device_check->id }}</span>
+                                                            style="background-color: #f54171">{{ $status_device_check->id }}</span>
                                                     </td>
                                                     <td><span class="list-name">{{ $status_device_check->name }}</span>
                                                         <span class="text-muted"></span>
@@ -174,7 +174,7 @@
                                 <div class="table-responsive social_media_table">
                                     <table class="table table-hover c_table">
                                         <thead>
-                                            <tr style="background-color: #61c0fe">
+                                            <tr style="background-color: #b2e0ff">
                                                 <th>id</th>
                                                 <th>توسط</th>
                                                 <th>وضعیت</th>
@@ -341,30 +341,24 @@
         <!-- نمودار درصد ترافیک -->
         <script>
             initC3Chart();
-            alert(@json($labels));
 
             function initC3Chart() {
                 setTimeout(function() {
                     $success = @json($successDevice);
                     $(document).ready(function() {
+                        var i;
                         var chart = c3.generate({
                             bindto: "#chart-area-spline-device", // id of chart wrapper
                             data: {
                                 columns: [
-                                    // each columns data
-                                    [$success[0], $success[1], $success[2],
-                                        0,
-                                        0,
-                                        0, 0, 0, 0,
-                                        0,
-                                        0, 0, 0
-                                    ],
-
+                                    $.each($success, function(key, val) {
+                                        $success[key]
+                                    })
                                 ],
-                                type: "area-spline", // default type of chart
-                                groups: [
-                                    ["data1"]
-                                ],
+                                axes: {
+                                    data2: 'y2'
+                                },
+                                type: "bar", // default type of chart
                                 colors: {
                                     data1: Aero.colors["teal"],
                                 },

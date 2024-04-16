@@ -7,6 +7,7 @@ use App\Models\Device;
 use App\Models\DeviceImage;
 use App\Models\User;
 use App\Models\Dossier;
+use App\Models\TitleManagement;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -20,7 +21,7 @@ class EditDevice extends Component
 
 
     public Device $device;
-    public string $name = '';
+    public string $title_managements_id = '';
     public string $code = '';
     public string $trait = '';
     public string $correspondence_number = '';
@@ -40,7 +41,7 @@ class EditDevice extends Component
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:100',
+            'title_managements_id' => 'required',
             'status' => 'required',
             'description' => 'required|string',
             // 'accessories' => 'required|string',
@@ -66,7 +67,7 @@ class EditDevice extends Component
 
     public function mount()
     {
-        $this->name = $this->device->name;
+        $this->title_managements_id = $this->device->title_managements_id;
         $this->code = $this->device->code;
         $this->trait = $this->device->trait;
         $this->dossier_id = $this->device->dossier_id;
@@ -86,7 +87,7 @@ class EditDevice extends Component
     {
         $this->validate();
         $this->device->update([
-            'name' => $this->name,
+            'title_managements_id' => $this->title_managements_id,
             'status' => $this->status,
             'description' => $this->description,
             'accessories' => $this->accessories,
@@ -113,8 +114,9 @@ class EditDevice extends Component
     {
         $users = User::all();
         $dossiers = Dossier::all();
+        $titles_device = TitleManagement::all();
         // dd($users->hasRole('super-admin'));
-        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers' , 'titles_device'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

@@ -135,9 +135,10 @@
                                                             <?php
                                                             $device = \App\Models\Device::find($action->device_id);
                                                             ?>
+
                                                             <a href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
                                                                 class="btn btn-default"> دستگاه / قطعه:
-                                                                {{ $device->name }}</a>
+                                                                {{ $device->titleManagement->title }}</a>
 
                                                     </span>
                                                     </td>

@@ -36,7 +36,7 @@
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نام دستگاه / قطعه:</strong></div>
-                                        <div class="col-6">{{ $device->name }}</div>
+                                        <div class="col-6">{{ $device->titleManagement->title }}</div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">

@@ -69,14 +69,14 @@
                                 ها</span></a>
                         <ul class="ml-menu">
                             @can('products')
+                                <li @class(['active' => request()->routeIs('admin.dossiers.create')])><a href={{ route('admin.dossiers.create') }}>ثبت پرونده</a></li>
+
                                 <li @class(['active' => request()->routeIs('admin.dossiers.index')])><a href={{ route('admin.dossiers.index') }}>لیست پرونده ها</a>
                                 </li>
 
                                 <li @class(['active' => request()->routeIs('admin.dossiers.archive')])><a href={{ route('admin.dossiers.archive') }}>لیست پرونده های
                                         بایگانی</a>
                                 </li>
-
-                                <li @class(['active' => request()->routeIs('admin.dossiers.create')])><a href={{ route('admin.dossiers.create') }}>ثبت پرونده</a></li>
                             @endcan
 
                         </ul>
@@ -91,6 +91,9 @@
                                 ها</span></a>
                         <ul class="ml-menu">
                             @can('products')
+                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ثبت پذیرش دستگاه و
+                                        قطعه</a></li>
+
                                 <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دستگاه و قطعه</a>
                                 </li>
 
@@ -98,8 +101,10 @@
                                     </a>
                                 </li>
 
-                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ثبت پذیرش دستگاه و
-                                        قطعه</a></li>
+                                <li @class(['active' => request()->routeIs('admin.createtitle.create')])><a href={{ route('admin.createtitle.create') }}>ایجاد عنوان دستگاه
+                                        یا
+                                        قطعه</a>
+                                </li>
                             @endcan
 
                         </ul>

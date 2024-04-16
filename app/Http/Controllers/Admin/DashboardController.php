@@ -134,30 +134,33 @@ class DashboardController extends Controller
 
     public function chart($devices, $month)
     {
-        $result = [];
-        $monthName = $devices->map(function ($item) {
-            return verta($item->created_at)->format('%B %y');
-        });
-        // dd($monthName);
+        $result =  [
+  "اسفند" => 0,
+  "بهمن" => 0,
+  "دی" => 0,
+  "آذز" => 0,
+  "آبان" => 0,
+  "مهر" => 0,
+  "شهریور" => 0,
+  "مرداد" => 0,
+  "تیر" => 0,
+  "خرداد" => 0,
+  "اردیبهشت" => 0,
+  "فروردین" => 0,
+];
 
-        $amount = $devices->map(function ($item) {
-            return $item->count();
+        $monthName = $devices->map(function ($item) {
+            return verta($item->created_at)->format('%B');
         });
 
         foreach ($monthName as $i => $v) {
             if (!isset($result[$v])) {
                 $result[$v] = 0;
             }
-            $result[$v] += $amount[$i];
+            $result[$v] += 1;
         }
 
-        if (count($result) != $month) {
-            for ($i = 0; $i < $month; $i++) {
-                $monthName = verta()->subMonth($i)->format('%B %y');
-                $shamsiMonths[$monthName] = 0;
-            }
-            return array_reverse(array_merge($shamsiMonths, $result));
-        }
-        return $result;
+
+        return array_reverse($result);
     }
 }
