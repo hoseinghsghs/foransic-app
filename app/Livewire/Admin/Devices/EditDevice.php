@@ -45,15 +45,15 @@ class EditDevice extends Component
             'status' => 'required',
             'description' => 'required|string',
             // 'accessories' => 'required|string',
-            'accessories' => 'string',
-            'code' => 'string',
-            'delivery_code' => 'string',
-            'trait' => 'string',
+            'accessories' => 'nullable|string',
+            'code' => 'nullable|string',
+            'delivery_code' => 'nullable|string',
+            'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
             'delivery_name' => 'required|string',
             'receiver_name' => 'required_if:status,3|string',
-            'receiver_code' => 'string',
+            'receiver_code' => 'nullable|string',
         ];
     }
 

@@ -22,16 +22,11 @@ class OtpController extends Controller
     {
         if (is_numeric($request->username)) {
             $data = $request->validate([
-                'username' => 'required|ir_mobile:zero'
+                'username' => 'required|ir_mobile:zero|exists:users,cellphone'
             ]);
         } else {
             $data = $request->validate([
-                'username' => ['required', 'email', 'exists:users,email', function ($attribute, $value, $fail) {
-                    $user = User::where('email', $value)->first();
-                    if (empty($user->email_verified_at)) {
-                        $fail('ایمیل تایید نشده است');
-                    }
-                }]
+                'username' => ['required', 'email', 'exists:users,email']
             ]);
         }
 
@@ -106,78 +101,50 @@ class OtpController extends Controller
                 $otp->delete();
                 return response()->json(['message' => 'check successfull']);
             }
-            //find or create user if user not exists
-            if ($otp->user_id) {
-                $user = User::findOrFail($otp->user_id);
-            } else {
-                $user = User::create([
-                    'cellphone' => $otp->cellphone,
-                ]);
-                //broudcast
-                $event= Event::create([
-                    'title' => 'کاربر جدید ثبت نام کرد',
-                    'body' => 'کاربر'  . " " .  $user->cellphone,
-                    'user_id' => $user->id,
-                    'eventable_id' =>$user->id,
-                    'eventable_type' => User::class,
-                ]);
 
-                //try {
-                //    broadcast(new NotificationMessage($event))->toOthers();
-                //} catch (\Throwable $th) {
-                //}
-                try {
-                    Log::info("کابر جدید ثبت شد" , [  'title' => 'کاربر جدید ثبت نام کرد',
-                    'body' => 'کاربر'  . " " .  $user->cellphone,
-                    'user_id' => $user->id,
-                    'eventable_id' =>$user->id,
-                    'eventable_type' => User::class,
-                    ]);
-                } catch (\Throwable $th) {
-                }
-                //endbroudcast
-            }
+            $user = User::findOrFail($otp->user_id);
             // login user
             Auth::login($user, $request->has('remember') ? $data['remember'] : null);
             $otp->delete();
 
-               $event= Event::create([
-                    'title' => 'کاربر وارد سایت شد',
-                    'body' => 'کاربر'  . " " .  $user->cellphone,
-                    'user_id' => $user->id,
-                    'eventable_id' =>$user->id,
-                    'eventable_type' => User::class,
-                ]);
+            $event = Event::create([
+                'title' => 'کاربر وارد سایت شد',
+                'body' => 'کاربر' . " " . $user->cellphone,
+                'user_id' => $user->id,
+                'eventable_id' => $user->id,
+                'eventable_type' => User::class,
+            ]);
 
             try {
-                Log::info("کاربر وارد سایت شد" , [  'title' => 'کاربر وارد سایت شد',
-                'body' => 'کاربر'  . " " .  $user->cellphone,
-                'user_id' => $user->id,
-                'eventable_id' =>$user->id,
-                'eventable_type' => User::class,
+                Log::info("کاربر وارد سایت شد", ['title' => 'کاربر وارد سایت شد',
+                    'body' => 'کاربر' . " " . $user->cellphone,
+                    'user_id' => $user->id,
+                    'eventable_id' => $user->id,
+                    'eventable_type' => User::class,
                 ]);
             } catch (\Throwable $th) {
             }
 
-            $roles=Role::all()->pluck('name')->toArray();
-            if ($request->user()->hasRole($roles)){
-                if (request()->session()->get('url.intended') && str_contains(request()->session()->get('url.intended'),'Admin-panel/managment')){
-                    $redirect=request()->session()->get('url.intended');
-                }else{
-                    $redirect=route('admin.home');
+            $roles = Role::all()->pluck('name')->toArray();
+            if ($request->user()->hasRole($roles)) {
+                if (request()->session()->get('url.intended') && str_contains(request()->session()->get('url.intended'), 'Admin-panel/managment')) {
+                    $redirect = request()->session()->get('url.intended');
+                } else {
+                    $redirect = route('admin.home');
                 }
-            }else{
-                $redirect=route('user.home');
+            } else {
+                $redirect = route('user.home');
             }
 
             return response()->json([
                 'message' => 'کد تایید صحیح است',
-                'redirect'=>$redirect
+                'redirect' => $redirect
             ], 200);
         } else {
             return abort(404);
         }
     }
+
     // reset password
     public function resetPassword(Request $request)
     {
@@ -192,7 +159,7 @@ class OtpController extends Controller
             }
             $user = User::where('cellphone', $request->cellphone)->first();
             $user->update(['password' => Hash::make($request->password)]);
-            if(!auth()->check()){
+            if (!auth()->check()) {
                 Auth::login($user);
             }
             toastr()->addSuccess('رمزعبور با موفقیت تغییر یافت.');
@@ -211,7 +178,7 @@ class OtpController extends Controller
             ]);
 
             $otp = Otp::create([
-                'user_id' =>  null,
+                'user_id' => null,
                 'cellphone' => $data['phone'],
             ]);
             if ($otp->sendCode($data['phone'])) {

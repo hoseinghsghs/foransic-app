@@ -139,6 +139,7 @@
                                                 class="form-control @error('delivery_name') is-invalid @enderror"
                                                 required />
                                             <span id="delivery-name-display" class="text-warning"></span>
+
                                             @error('delivery_name')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror

@@ -45,7 +45,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers')->name('dossiers.edit');
     Route::get('dossiers/archives',         [DossierController::class, 'archive'])->name('dossiers.archive')->middleware('permission:dossiers');
 
-    Route::resource('devices',         DeviceController::class)->middleware('permission:devices')->only(['index', 'show']);
+    Route::resource('devices',         DeviceController::class)->middleware(['role_or_permission:devices|personel'])->only(['index', 'show']);
     Route::resource('dossiers',         DossierController::class)->middleware('permission:dossiers')->only(['index', 'show']);
     Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
     Route::resource('users',            UserController::class)->except( 'destroy')->middleware('permission:users');
@@ -56,11 +56,10 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
-//    Route::view('/settings', 'admin.page.settings.setting')->name('settings.show')->middleware('permission:settings');
-    Route::get('/', [DashboardController::class, 'index'])->name('home');
-    Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware('permission:actions');
-
+    Route::get('/settings', \App\Livewire\Admin\Settings\Setting::class)->name('settings.show')->middleware('permission:settings');
+    Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
     Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     //image routes
     Route::post('/upl',       [DeviceController::class, 'uploadImage'])->name('uploade');

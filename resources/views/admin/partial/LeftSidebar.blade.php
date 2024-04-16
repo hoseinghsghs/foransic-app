@@ -118,11 +118,62 @@
                                                                                          class="menu-toggle"><i
                             class="zmdi zmdi-collection-folder-image"></i><span>گالری</span></a>
                     <ul class="ml-menu">
-                        <li @class(['active' => request()->routeIs('admin.galeries.index')])><a
-                                href={{ route('admin.galeries.index') }}>گالری تصاویر</a></li>
+                        @can('products')
+                            <li @class(['active' => request()->routeIs('admin.dossiers.index')])><a
+                                    href={{ route('admin.dossiers.index') }}>لیست پرونده ها</a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.dossiers.archive')])><a
+                                    href={{ route('admin.dossiers.archive') }}>لیست پرونده های
+                                    بایگانی</a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.dossiers.create')])><a
+                                    href={{ route('admin.dossiers.create') }}>ثبت پرونده</a></li>
+                        @endcan
+
                     </ul>
                 </li>
-            @endcan --}}
+            @endcanany
+
+            @canany(['devices', 'actions'])
+                <li @class([
+                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
+                    ])>
+                    <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
+                                ها</span></a>
+                    <ul class="ml-menu">
+                        @can('products')
+                            <li @class(['active' => request()->routeIs('admin.devices.index')])><a
+                                    href={{ route('admin.devices.index') }}>لیست دستگاه و قطعه</a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.archive')])><a
+                                    href={{ route('admin.archive') }}>لیست دستگاه و قطعه بایگانی
+                                </a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.devices.create')])><a
+                                    href={{ route('admin.devices.create') }}>ثبت پذیرش دستگاه و
+                                    قطعه</a></li>
+                        @endcan
+
+                    </ul>
+                </li>
+            @endcanany
+
+
+
+            {{-- @can('galeries')
+            <li @class(['active open' => request()->routeIs('admin.galeries.*')])><a href="javascript:void(0);"
+                                                                                     class="menu-toggle"><i
+                        class="zmdi zmdi-collection-folder-image"></i><span>گالری</span></a>
+                <ul class="ml-menu">
+                    <li @class(['active' => request()->routeIs('admin.galeries.index')])><a
+                            href={{ route('admin.galeries.index') }}>گالری تصاویر</a></li>
+                </ul>
+            </li>
+        @endcan --}}
 
 
 
@@ -161,6 +212,9 @@
 
                 <li @class(['active' => request()->routeIs('admin.profile.change-pass')])><a href={{ route('admin.profile.change-pass') }}>
                         <i class="zmdi zmdi-key"></i><span>تغیر رمزعبور</span></a>
+                </li>
+                <li @class(['active' => request()->routeIs('admin.settings.show')])><a href={{ route('admin.settings.show') }}>
+                        <i class="zmdi zmdi-settings"></i><span>تنظیمات</span></a>
                 </li>
             @endhasanyrole
         </ul>
