@@ -12,6 +12,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -42,7 +43,7 @@ class UserController extends Controller
                 Rule::unique(User::class),
             ],
             'cellphone' => 'required|unique:users,cellphone|ir_mobile:zero',
-            'password' => 'required|min:8',
+            'password' => ['required',Password::min(8)],
         ]);
         try {
             DB::beginTransaction();

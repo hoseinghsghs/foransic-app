@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin\Actions;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use App\Models\Action;
 use App\Models\Device;
@@ -10,15 +12,15 @@ use Livewire\WithPagination;
 
 class ActionControll extends Component
 {
-    use WithPagination;
+    use WithPagination, AuthorizesRequests;
 
     public Device $device;
     protected $paginationTheme = 'bootstrap';
     public $description;
     public $start_date;
     public $end_date;
-    public $status;
-    public $is_print;
+    public $status = true;
+    public $is_print = true;
     public $action;
     public $is_edit = false;
     public $display;
@@ -26,6 +28,16 @@ class ActionControll extends Component
         'sweetAlertConfirmed', // only when confirm button is clicked
     ];
 
+    public function rules(): array
+    {
+        return [
+            'description' => 'required|string',
+            'start_date' => 'required|string',
+            'end_date' => 'required|string',
+            'status' => 'required|boolean',
+            'is_print' => 'required|boolean',
+        ];
+    }
 
     public function ref()
     {
@@ -50,15 +62,20 @@ class ActionControll extends Component
 
     public function edit_action(Action $action)
     {
-        $this->is_edit = true;
-        $this->description = $action->description;
-        $this->start_date = $action->start_date;
-        $this->end_date = $action->end_date;
-        $this->status = $action->status;
-        $this->is_print = $action->is_print;
-        $this->action = $action;
-        $this->display = "disabled";
-        $this->dispatch('edit-action', start_date: $this->start_date, end_date: $this->end_date);
+        if (Gate::allows('update-action',$action)){
+            $this->is_edit = true;
+            $this->description = $action->description;
+            $this->start_date = $action->start_date;
+            $this->end_date = $action->end_date;
+            $this->status = $action->status;
+            $this->is_print = $action->is_print;
+            $this->action = $action;
+            $this->display = "disabled";
+            $this->resetValidation();
+            $this->dispatch('edit-action', start_date: $this->start_date, end_date: $this->end_date);
+        }else{
+            toastr()->rtl()->addInfo('شما اجازه ویرایش این قسمت را ندارید!', ' ');
+        }
     }
 
 
@@ -67,7 +84,7 @@ class ActionControll extends Component
         try {
             $this->action = $action;
             $this->action->delete();
-            toastr()->rtl()->addSuccess('اقدام با موفقیت حذف شد',' ');
+            toastr()->rtl()->addSuccess('اقدام با موفقیت حذف شد', ' ');
 
         } catch (\Exception $e) {
 
@@ -78,14 +95,7 @@ class ActionControll extends Component
     public function addAction()
     {
         if ($this->is_edit) {
-
-            $this->validate([
-                'description' => 'required|string',
-                'start_date' => 'required|string',
-                'end_date' => 'required|string',
-                'status' => 'required',
-                'is_print' => 'required',
-            ]);
+            $this->validate();
 
             $this->action->update([
                 "description" => $this->description,
@@ -93,30 +103,14 @@ class ActionControll extends Component
                 'end_date' => $this->end_date,
                 'status' => $this->status,
                 'is_print' => $this->is_print,
-                'user_id' => auth()->user()->id,
+//                'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
             ]);
 
-            $this->is_edit = false;
-
-            $this->reset("description");
-            $this->reset("start_date");
-            $this->reset("end_date");
-            $this->reset("status");
-            $this->reset("is_print");
-            $this->reset("display");
-
-            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد',' ');
-
+            $this->ref();
+            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
-            $this->validate([
-                'description' => 'required|string',
-                'start_date' => 'required|string',
-                'end_date' => 'required|string',
-                'status' => 'required',
-                'is_print' => 'required',
-
-            ]);
+            $this->validate();
 
             Action::create([
                 "description" => $this->description,
@@ -127,16 +121,8 @@ class ActionControll extends Component
                 'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
             ]);
-
-            $this->reset("description");
-            $this->reset("start_date");
-            $this->reset("end_date");
-            $this->reset("status");
-            $this->reset("is_print");
-            $this->reset("display");
-
-            toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد',' ');
-
+            $this->ref();
+            toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
         }
         $this->dispatch('destroy-date-picker');
     }
@@ -144,7 +130,7 @@ class ActionControll extends Component
     public function sweetAlertConfirmed(array $data)
     {
         $this->action->delete();
-        toastr()->rtl(true)->addSuccess('ویژگی با موفقیت حذف شد',' ');
+        toastr()->rtl(true)->addSuccess('ویژگی با موفقیت حذف شد', ' ');
     }
 
 

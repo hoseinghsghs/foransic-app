@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Action;
 use App\Models\Setting;
+use App\Models\User;
 use GuzzleHttp\Middleware;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -31,6 +34,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
+        // authorization for update action
+        Gate::define('update-action',function (User $user,Action $action){
+            return $user->id==$action->user_id ;
+        });
+        // share settings between views
         if (Schema::hasTable('settings'))
             View::share('setting', Setting::firstOrNew());
     }

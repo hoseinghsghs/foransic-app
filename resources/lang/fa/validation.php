@@ -191,6 +191,9 @@ return array(
         "dossier_date"=>'تاریخ پرونده',
         "section"=>'بخش یا معاونت',
         "summary_description"=>"خلاصه توضیحات",
-        "expert"=>"کازشناس یا متخصص"
+        "expert"=>"کازشناس یا متخصص",
+        "start_date"=>"زمان شروع",
+        "end_date"=>"زمان پایان",
+        "is_print"=>"نمایش در پرینت"
     ),
 );
