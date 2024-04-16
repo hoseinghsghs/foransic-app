@@ -1,3 +1,4 @@
+
 @extends('home.layout.MasterHome')
 @section('title', 'ورود')
 @section('content')
@@ -279,6 +280,19 @@
                     })
                 }
             }, 'json').fail(function(response) {
+                if(response.status == 419){
+                    Swal.fire({
+                        text: response.responseJSON.message,
+                        icon: 'info',
+                        showConfirmButton: false,
+                        position: 'top-right',
+                        toast: true,
+                        timer: 5000,
+                        timerProgressBar: true,
+                        rtl:true
+                    })
+                    setTimeout(()=>location.reload(),2000);
+                }
                 if (response.responseJSON.error) {
                     Swal.fire({
                         text: response.responseJSON.error,
