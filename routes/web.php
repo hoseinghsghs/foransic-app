@@ -54,7 +54,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
-//    Route::view('/settings', 'admin.page.settings.setting')->name('settings.show')->middleware('permission:settings');
+    Route::get('/settings', \App\Livewire\Admin\Settings\Setting::class)->name('settings.show')->middleware('permission:settings');
     Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
     Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
     Route::get('/', [DashboardController::class, 'index'])->name('home');

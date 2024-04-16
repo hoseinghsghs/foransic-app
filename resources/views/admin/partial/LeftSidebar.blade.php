@@ -15,19 +15,20 @@
             <li>
                 <div class="user-info flex-wrap">
                     <a class="image" href="#"><img alt="profile image"
-                            src="{{ auth()->user()->avatar ? asset('storage/profile/' . auth()->user()->avatar) : asset('img/profile.png') }}"></a>
+                                                   src="{{ auth()->user()->avatar ? asset('storage/profile/' . auth()->user()->avatar) : asset('img/profile.png') }}"></a>
                     <div class="detail">
                         {{-- {{ auth()->user()->avatar ? asset('storage/profile/' . auth()->user()->avatar) : asset('img/profile.png') }} --}}
                         <h6><strong>{{ auth()->user()->name ?? auth()->user()->cellphone }}</strong></h6>
                         @hasanyrole($roles)
-                            <small>{{ auth()->user()->roles->first()->name }}</small>
+                        <small>{{ auth()->user()->roles->first()->name }}</small>
                         @endhasanyrole
                     </div>
                     <div class="w-100 d-flex justify-content-around d-md-none">
                         @hasanyrole($roles)
-                            <span class="dropdown">
+                        <span class="dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle p-1" title="Notifications"
-                                    data-toggle="dropdown" role="button"><i class="zmdi zmdi-notifications text-black"></i>
+                                   data-toggle="dropdown" role="button"><i
+                                        class="zmdi zmdi-notifications text-black"></i>
                                     <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
                                 </a>
                                 <ul class="dropdown-menu js-right-sidebar">
@@ -42,8 +43,8 @@
                         <span><a href="javascript:void(0);" class="js-right-sidebar p-1" title="Setting"><i
                                     class="zmdi zmdi-settings zmdi-hc-spin text-black"></i></a></span>
                         <span><a href="#"
-                                onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"
-                                class="p-1" title="Sign Out"><i class="zmdi zmdi-power"></i></a>
+                                 onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"
+                                 class="p-1" title="Sign Out"><i class="zmdi zmdi-power"></i></a>
                             <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
                             </form>
@@ -53,133 +54,149 @@
             </li>
 
             @hasanyrole($roles)
-                <li @class(['active' => request()->routeIs('admin.home')])>
-                    <a href="{{ route('admin.home') }}"><i class="zmdi zmdi-view-dashboard zmdi-hc-1x"></i><span>
+            <li @class(['active' => request()->routeIs('admin.home')])>
+                <a href="{{ route('admin.home') }}"><i class="zmdi zmdi-view-dashboard zmdi-hc-1x"></i><span>
                             داشبورد</span>
-                    </a>
-                </li>
+                </a>
+            </li>
 
-                @canany(['dossiers'])
-                    <li @class([
+            @canany(['dossiers'])
+                <li @class([
                         'active open' => request()->routeIs(
                             'admin.dossiers.archive',
                             'admin.dossiers.*'),
                     ])>
-                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>پرونده
+                    <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>پرونده
                                 ها</span></a>
-                        <ul class="ml-menu">
-                            @can('products')
-                                <li @class(['active' => request()->routeIs('admin.dossiers.index')])><a href={{ route('admin.dossiers.index') }}>لیست پرونده ها</a>
-                                </li>
-
-                                <li @class(['active' => request()->routeIs('admin.dossiers.archive')])><a href={{ route('admin.dossiers.archive') }}>لیست پرونده های
-                                        بایگانی</a>
-                                </li>
-
-                                <li @class(['active' => request()->routeIs('admin.dossiers.create')])><a href={{ route('admin.dossiers.create') }}>ثبت پرونده</a></li>
-                            @endcan
-
-                        </ul>
-                    </li>
-                @endcanany
-
-                @canany(['devices', 'actions'])
-                    <li @class([
-                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
-                    ])>
-                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
-                                ها</span></a>
-                        <ul class="ml-menu">
-                            @can('products')
-                                <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دستگاه و قطعه</a>
-                                </li>
-
-                                <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست دستگاه و قطعه بایگانی
-                                    </a>
-                                </li>
-
-                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ثبت پذیرش دستگاه و
-                                        قطعه</a></li>
-                            @endcan
-
-                        </ul>
-                    </li>
-                @endcanany
-
-
-
-                {{-- @can('galeries')
-                <li @class(['active open' => request()->routeIs('admin.galeries.*')])><a href="javascript:void(0);"
-                                                                                         class="menu-toggle"><i
-                            class="zmdi zmdi-collection-folder-image"></i><span>گالری</span></a>
                     <ul class="ml-menu">
-                        <li @class(['active' => request()->routeIs('admin.galeries.index')])><a
-                                href={{ route('admin.galeries.index') }}>گالری تصاویر</a></li>
+                        @can('products')
+                            <li @class(['active' => request()->routeIs('admin.dossiers.index')])><a
+                                    href={{ route('admin.dossiers.index') }}>لیست پرونده ها</a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.dossiers.archive')])><a
+                                    href={{ route('admin.dossiers.archive') }}>لیست پرونده های
+                                    بایگانی</a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.dossiers.create')])><a
+                                    href={{ route('admin.dossiers.create') }}>ثبت پرونده</a></li>
+                        @endcan
+
                     </ul>
                 </li>
-            @endcan --}}
+            @endcanany
+
+            @canany(['devices', 'actions'])
+                <li @class([
+                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
+                    ])>
+                    <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
+                                ها</span></a>
+                    <ul class="ml-menu">
+                        @can('products')
+                            <li @class(['active' => request()->routeIs('admin.devices.index')])><a
+                                    href={{ route('admin.devices.index') }}>لیست دستگاه و قطعه</a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.archive')])><a
+                                    href={{ route('admin.archive') }}>لیست دستگاه و قطعه بایگانی
+                                </a>
+                            </li>
+
+                            <li @class(['active' => request()->routeIs('admin.devices.create')])><a
+                                    href={{ route('admin.devices.create') }}>ثبت پذیرش دستگاه و
+                                    قطعه</a></li>
+                        @endcan
+
+                    </ul>
+                </li>
+            @endcanany
 
 
 
-                @canany(['users', 'roles', 'permissions'])
-                    <li @class([
+            {{-- @can('galeries')
+            <li @class(['active open' => request()->routeIs('admin.galeries.*')])><a href="javascript:void(0);"
+                                                                                     class="menu-toggle"><i
+                        class="zmdi zmdi-collection-folder-image"></i><span>گالری</span></a>
+                <ul class="ml-menu">
+                    <li @class(['active' => request()->routeIs('admin.galeries.index')])><a
+                            href={{ route('admin.galeries.index') }}>گالری تصاویر</a></li>
+                </ul>
+            </li>
+        @endcan --}}
+
+
+
+            @canany(['users', 'roles', 'permissions'])
+                <li @class([
                         'active open' => request()->routeIs(
                             'admin.users.*',
                             'admin.permissions',
                             'admin.roles.*'),
                     ])><a href="javascript:void(0);" class="menu-toggle"><i
-                                class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
-                        <ul class="ml-menu">
-                            @can('users')
-                                <li @class(['active' => request()->routeIs('admin.users.create')])><a href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
-                                <li @class(['active' => request()->routeIs('admin.users.*')])><a href={{ route('admin.users.index') }}>لیست کاربران</a></li>
-                            @endcan
-                            @can('roles')
-                                <li @class(['active' => request()->routeIs('admin.roles.*')])><a href={{ route('admin.roles.index') }}>گروه های کاربری</a></li>
-                            @endcan
-                            @can('permissions')
-                                <li @class(['active' => request()->routeIs('admin.permissions')])><a href={{ route('admin.permissions') }}>مجوز ها</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcanany
-
-                @can('events')
-                    <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
-                            <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>
-                    </li>
-                @endcan
-
-                <li @class(['active' => request()->routeIs('admin.profile.edit')])><a href={{ route('admin.profile.edit') }}>
-                        <i class="zmdi zmdi-account-box"></i><span>ویرایش پروفایل</span></a>
+                            class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
+                    <ul class="ml-menu">
+                        @can('users')
+                            <li @class(['active' => request()->routeIs('admin.users.create')])><a
+                                    href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
+                            <li @class(['active' => request()->routeIs('admin.users.*')])><a
+                                    href={{ route('admin.users.index') }}>لیست کاربران</a></li>
+                        @endcan
+                        @can('roles')
+                            <li @class(['active' => request()->routeIs('admin.roles.*')])><a
+                                    href={{ route('admin.roles.index') }}>گروه های کاربری</a></li>
+                        @endcan
+                        @can('permissions')
+                            <li @class(['active' => request()->routeIs('admin.permissions')])><a
+                                    href={{ route('admin.permissions') }}>مجوز ها</a></li>
+                        @endcan
+                    </ul>
                 </li>
+            @endcanany
 
-                <li @class(['active' => request()->routeIs('admin.profile.change-pass')])><a href={{ route('admin.profile.change-pass') }}>
-                        <i class="zmdi zmdi-key"></i><span>تغیر رمزعبور</span></a>
+            @can('events')
+                <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
+                        <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>
                 </li>
+            @endcan
+
+            <li @class(['active' => request()->routeIs('admin.profile.edit')])><a
+                    href={{ route('admin.profile.edit') }}>
+                    <i class="zmdi zmdi-account-box"></i><span>ویرایش پروفایل</span></a>
+            </li>
+
+            <li @class(['active' => request()->routeIs('admin.profile.change-pass')])><a
+                    href={{ route('admin.profile.change-pass') }}>
+                    <i class="zmdi zmdi-key"></i><span>تغیر رمزعبور</span></a>
+            </li>
+            <li @class(['active' => request()->routeIs('admin.settings.show')])><a
+                    href={{ route('admin.settings.show') }}>
+                    <i class="zmdi zmdi-settings"></i><span>تنظیمات</span></a>
+            </li>
             @endhasanyrole
         </ul>
     </div>
 </aside>
 @push('scripts')
     <script>
-        $(document).ready(function() {
-            $("#searchInput").on("keyup", function() {
+        $(document).ready(function () {
+            $("#searchInput").on("keyup", function () {
                 var value = $(this).val().toLowerCase();
-                $("#myList li").filter(function() {
+                $("#myList li").filter(function () {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             if ($("#cheack_collapsed").hasClass("ls-toggle-menu")) {
                 $('#search-item').hide();
             } else {
                 $('#search-item').show();
             }
 
-            $('.btn-menu').on('click', function() {
+            $('.btn-menu').on('click', function () {
                 if ($("#cheack_collapsed").hasClass("ls-toggle-menu")) {
                     $('#search-item').hide();
                 } else {

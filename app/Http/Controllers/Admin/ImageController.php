@@ -24,7 +24,6 @@ class ImageController extends Controller
             //مسیر ذخیره سازی درایور پیش فرض
             $pach = config('filesystems.disks.' . $filesystem)['root'];
             //پسوند تصویر
-
             $extension = $image->extension();
 
             //ساخت نام تصویر از هلپر فانکشن
