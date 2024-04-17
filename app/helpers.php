@@ -16,6 +16,7 @@ if (!function_exists('generateImageName')) {
         return $year . $month . $day . $hour . $minute . $second . $microsecond . '.' . $extension;
     }
 }
+
 if (!function_exists('Persian_GenerateImageName')) {
     function Persian_GenerateImageName($extension)
     {
