@@ -188,7 +188,7 @@
                                                 <a href="{{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}"
                                                     target="_blank"><img
                                                         src={{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
-                                                        alt="{{ $device->name }}"></a>
+                                                        alt="{{ $device->titleManagement->title }}"></a>
                                                 <span class="blogitem-date">{{ verta($device->created_at) }} <span
                                                         class="text-success">اصلی</span></span>
                                             </div>

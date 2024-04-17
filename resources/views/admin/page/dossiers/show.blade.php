@@ -36,7 +36,7 @@
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نام دستگاه / قطعه:</strong></div>
-                                        <div class="col-6">{{ $device->name }}</div>
+                                        <div class="col-6">{{ $device->titleManagement->title }}</div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
@@ -166,7 +166,7 @@
                                                 <a href="{{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}"
                                                     target="_blank"><img
                                                         src={{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
-                                                        alt="{{ $device->name }}"></a>
+                                                        alt="{{ $device->titleManagement->title }}"></a>
                                                 <span class="blogitem-date">{{ verta($device->created_at) }} <span
                                                         class="text-success">اصلی</span></span>
                                             </div>

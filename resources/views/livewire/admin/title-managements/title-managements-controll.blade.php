@@ -62,7 +62,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="header">
-                                    <h2><strong>لیست تگ ها </strong>
+                                    <h2><strong>لیست عناوین </strong>
                                         {{ $title_managements->total() }}
                                     </h2>
                                 </div>

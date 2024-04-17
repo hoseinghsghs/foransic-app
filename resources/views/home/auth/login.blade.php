@@ -1,4 +1,3 @@
-
 @extends('home.layout.MasterHome')
 @section('title', 'ورود')
 @section('content')
@@ -16,7 +15,7 @@
                                     <div class="account-box-content">
                                         <!-- auth form -->
                                         <form id="auth-form" class="form-account text-center">
-                                            <h4>ورود / ثبت نام</h4>
+                                            <h4>ورود</h4>
                                             <div class="message-light">
                                                 <div class="form-account-title text-right">
                                                     <label for="username">نام کاربری:</label>
@@ -272,7 +271,7 @@
                     })
                 }
             }, 'json').fail(function(response) {
-                if(response.status == 419){
+                if (response.status == 419) {
                     Swal.fire({
                         text: response.responseJSON.message,
                         icon: 'info',
@@ -281,9 +280,9 @@
                         toast: true,
                         timer: 5000,
                         timerProgressBar: true,
-                        rtl:true
+                        rtl: true
                     })
-                    setTimeout(()=>location.reload(),2000);
+                    setTimeout(() => location.reload(), 2000);
                 }
                 if (response.responseJSON.error) {
                     Swal.fire({
