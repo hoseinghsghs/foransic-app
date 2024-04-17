@@ -85,7 +85,7 @@
 
                 @canany(['devices', 'actions'])
                     <li @class([
-                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
+                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*','admin.createtitle.create'),
                     ])>
                         <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
                                 ها</span></a>
@@ -174,8 +174,6 @@
                 </ul>
             </li>
         @endcan --}}
-
-
 
                 @canany(['users', 'roles', 'permissions'])
                     <li @class([

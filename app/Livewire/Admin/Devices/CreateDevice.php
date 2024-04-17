@@ -23,8 +23,8 @@ class CreateDevice extends Component
     public $title_managements_id = '';
     public string $code = '';
     public string $trait = '';
-    public string $correspondence_number='';
-    public string $correspondence_date='';
+    public string $correspondence_number = '';
+    public string $correspondence_date = '';
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
@@ -42,18 +42,16 @@ class CreateDevice extends Component
     public function rules(): array
     {
         return [
-            'title_managements_id' => 'required',
-            'status' => 'required',
-            // 'description' => 'required|string',
+            'title_managements_id' => 'required|integer',
+            'status' => 'required|integer',
+            'dossier_id' => 'required|integer',
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
-            // 'accessories' => 'required|string',
-            'code' => 'required|string',
-            // 'code' => 'required|string|unique:devices,code',
+            'code' => 'required|string|unique:devices,code',
             'delivery_code' => 'nullable|string',
             'trait' => 'nullable|string',
-            'correspondence_number'=>'nullable|string',
-            'correspondence_date'=>'nullable|string',
+            'correspondence_number' => 'nullable|string',
+            'correspondence_date' => 'nullable|string',
             // 'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
@@ -69,12 +67,10 @@ class CreateDevice extends Component
     {
         $this->validate();
         try {
-
             DB::beginTransaction();
             if ($this->primary_image) {
 
                 $ImageController = new ImageController();
-
                 $image_name = $ImageController->UploadeImage($this->primary_image, "primary_image", 900, 800);
 
             } else {
@@ -90,8 +86,8 @@ class CreateDevice extends Component
                 'description' => $this->description,
                 'accessories' => $this->accessories,
                 'code' => $this->code,
-                'correspondence_number'=>$this->correspondence_number,
-                'correspondence_date'=>$this->correspondence_date,
+                'correspondence_number' => $this->correspondence_number,
+                'correspondence_date' => $this->correspondence_date,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
                 'receiver_name' => "",
@@ -118,12 +114,12 @@ class CreateDevice extends Component
         }
         Session::forget('images');
 
-        $this->device=$device;
+        $this->device = $device;
         sweetalert()
             ->showDenyButton()->timerProgressBar(false)->persistent()
             ->addInfo('مایل به پرینت دستگاه / قطعه هستید؟');
 //        toastr()->rtl()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد', ' ');
-         return redirect()->route('admin.devices.index');
+        return redirect()->route('admin.devices.index');
     }
 
     public function sweetalertConfirmed(array $payload)
@@ -131,6 +127,7 @@ class CreateDevice extends Component
         return redirect()->route('admin.print.device.show', ['device' => $this->device->id]);
 //        toastr()->addSuccess('ویژگی با موفقیت حذف شد');
     }
+
     /*public function sweetalertDenied(array $data)
     {
         toastr()->addSuccess('ویژگی با موفقیت حذف شد');
@@ -141,7 +138,7 @@ class CreateDevice extends Component
         $users = User::role('company')->get();
         $dossiers = Dossier::all();
         $titles_device = TitleManagement::all();
-        return view('livewire.admin.devices.create-device', compact('users' , 'dossiers' , 'titles_device'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.create-device', compact('users', 'dossiers', 'titles_device'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

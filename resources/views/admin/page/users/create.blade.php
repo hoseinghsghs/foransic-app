@@ -58,7 +58,8 @@
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="text">شماره تلفن</label>
+                                            <label for="text">شماره تلفن <abbr class="required"
+                                                                               title="ضروری" style="color:red;">*</abbr></label>
                                             <div class="form-group">
                                                 <input type="number" required name="cellphone"
                                                        class="form-control without-spin @error('cellphone') is-invalid @enderror"
@@ -70,7 +71,8 @@
                                         </div>
 
                                         <div class="col-md-3">
-                                            <label for="password">رمز عبور</label>
+                                            <label for="password">رمز عبور <abbr class="required"
+                                                                                 title="ضروری" style="color:red;">*</abbr></label>
                                             <div class="form-group">
                                                 <input type="text" required name="password" id="password"
                                                        class="form-control @error('password') is-invalid @enderror">

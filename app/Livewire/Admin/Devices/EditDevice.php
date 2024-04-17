@@ -41,12 +41,12 @@ class EditDevice extends Component
     public function rules(): array
     {
         return [
-            'title_managements_id' => 'required',
-            'status' => 'required',
-            'description' => 'required|string',
-            // 'accessories' => 'required|string',
+            'title_managements_id' => 'required|integer',
+            'status' => 'required|integer',
+            'dossier_id'=>'required|integer',
+            'description' => 'nullable|string',
             'accessories' => 'nullable|string',
-            'code' => 'nullable|string',
+            'code' => 'required|string|unique:devices,code,'.$this->device->id,
             'delivery_code' => 'nullable|string',
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
