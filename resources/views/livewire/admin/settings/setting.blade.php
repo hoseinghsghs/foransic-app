@@ -51,13 +51,13 @@
                             <form wire:submit="save" id="form_advanced_validation">
                                 @csrf
                                 <div class="row">
-                                    <div class="form-group form-float col-md-4">
+                                    <div class="form-group col-md-4">
                                         <div class="form-line">
                                             <label class="form-label">عنوان سایت</label>
                                             <input wire:model="site_name" type="text" name="title" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12" wire:ignore>
+                                    <div class="form-group col-md-8" wire:ignore>
                                         <label class="form-label">نام دستگاه/قطعه ها</label>
                                         <input id="device-names" value="{{$device_names}}" class="form-control"
                                                data-role="tagsinput">

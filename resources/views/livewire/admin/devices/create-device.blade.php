@@ -36,7 +36,8 @@
 
                             <div class="row clearfix">
                                 <div class="form-group col-sm-6 col-sm-6">
-                                    <label for="title-device">نام دستگاه یا قطعه</label>
+                                    <label for="title-device">نام دستگاه یا قطعه <abbr class="required"
+                                                                                      title="ضروری" style="color:red;">*</abbr></label>
                                     <div wire:ignore>
                                         <select id="title-device" name="title_managements_id"
                                                 data-placeholder="انتخاب"
@@ -55,7 +56,8 @@
                                 </div>
 
                                 <div class="form-group col-md-3">
-                                    <label> سریال یا شماره اموال دستگاه / قطعه</label>
+                                    <label> سریال یا شماره اموال دستگاه / قطعه <abbr class="required"
+                                                                                     title="ضروری" style="color:red;">*</abbr></label>
                                     <div class="form-group">
                                         <input type="text" wire:model.defer="code" id="code"
                                                class="form-control @error('code') is-invalid @enderror" required/>
@@ -84,7 +86,8 @@
                                 </div>
 
                                 <div class="form-group col-md-4 col-sm-4 @error('use_id') is-invalid @enderror">
-                                    <label for="dossierSelect">الحاق به پرونده</label>
+                                    <label for="dossierSelect">الحاق به پرونده <abbr class="required"
+                                                                                     title="ضروری" style="color:red;">*</abbr></label>
                                     <div wire:ignore>
                                         <select id="dossierSelect" name="dossier_id" data-placeholder="انتخاب پرونده"
                                                 class="form-control ms search-select">
@@ -102,7 +105,8 @@
                                 </div>
 
                                 <div class="form-group col-md-4">
-                                    <label> نام تحویل دهنده</label>
+                                    <label> نام تحویل دهنده <abbr class="required"
+                                                                  title="ضروری" style="color:red;">*</abbr></label>
                                     <div class="form-group">
                                         <input type="text" wire:model.defer="delivery_name" id="delivery-name"
                                                class="form-control @error('delivery_name') is-invalid @enderror"
@@ -116,7 +120,6 @@
 
                                 <div class="form-group col-md-4">
                                     <label> کد پرسنلی تحویل دهنده</label>
-
                                     <div class="form-group">
                                         <input type="text" wire:model.defer="delivery_code" id="delivery_code"
                                                class="form-control @error('delivery_code') is-invalid @enderror"
@@ -142,7 +145,7 @@
 
                             <div class="row clearfix">
                                 <div class="form-group col-md-12 @error('trait') is-invalid @enderror">
-                                    <label> مشخصات (ظرفیت ، مدل و...) *</label>
+                                    <label> مشخصات (ظرفیت ، مدل و...)</label>
                                     <div>
                                         <textarea class="form-control" rows="6" wire:model.defer="trait"></textarea>
                                     </div>
@@ -154,7 +157,7 @@
 
                             <div class="row clearfix">
                                 <div class="form-group col-md-12 @error('accessories') is-invalid @enderror">
-                                    <label> لوازم جانبی *</label>
+                                    <label> لوازم جانبی </label>
                                     <div>
                                         <textarea class="form-control" rows="6"
                                                   wire:model.defer="accessories"></textarea>
@@ -216,7 +219,7 @@
                                 </div>
                                 <div class="form-group col-md-12">
                                     <div class="header">
-                                        <label for="primary_image">تصویر مکاتبه * <small>(عکس با فرمت jpg و
+                                        <label for="primary_image">تصویر مکاتبه <small>(عکس با فرمت jpg و
                                                 png)</small></label>
                                     </div>
                                     <div class="body @error('primary_image') is-invalid @enderror">
