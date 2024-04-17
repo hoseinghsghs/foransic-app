@@ -44,7 +44,7 @@ class CreateDevice extends Component
         return [
             'title_managements_id' => 'required|integer',
             'status' => 'required|integer',
-            'dossier_id' => 'required|integer',
+            // 'dossier_id' => 'required|integer',
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string|unique:devices,code',
@@ -69,7 +69,6 @@ class CreateDevice extends Component
         try {
             DB::beginTransaction();
             if ($this->primary_image) {
-
                 $ImageController = new ImageController();
                 $image_name = $ImageController->UploadeImage($this->primary_image, "primary_image", 900, 800);
 
@@ -90,11 +89,11 @@ class CreateDevice extends Component
                 'correspondence_date' => $this->correspondence_date,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
-                'receiver_name' => "",
-                'receiver_code' => 0,
+                'receiver_name' => "-",
+                'receiver_code' => "-",
                 'delivery_staff_id' => 0,
                 'receiver_staff_id' => auth()->user()->id,
-                'delivery_date' => "",
+                'delivery_date' => "-",
                 'receiver_date' => verta()->format('Y/n/j H:i'),
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,

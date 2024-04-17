@@ -25,6 +25,13 @@ class CreateDossier extends Component
     public $user_category_id;
     public bool $is_active = false;
     public string $summary_description = '';
+    public string $Judicial_number = '';
+    public $Judicial_image = '';
+    public string $Judicial_date = '';
+    public string $dossier_type = '';
+    public string $dossier_case = '';
+    public string $expert_phone = '';
+    public string $expert_cellphone = '';
 
     protected $listeners = [
         'sweetalertConfirmed',// only when confirm button is clicked
@@ -41,6 +48,12 @@ class CreateDossier extends Component
             'section' => 'required|string',
             'number_dossier' => 'required|string|unique:dossiers,number_dossier',
             'summary_description' => 'required|string',
+            'Judicial_date' => 'nullable|string',
+            'Judicial_number' => 'nullable|string',
+            'dossier_case' => 'nullable|string',
+            'dossier_type' => 'nullable|string',
+            'expert_phone' => 'nullable|string',
+            'expert_cellphone' => 'nullable|string',
         ];
     }
 
@@ -50,7 +63,15 @@ class CreateDossier extends Component
         try {
 
             DB::beginTransaction();
+            if ($this->Judicial_image) {
+                $ImageController = new ImageController();
 
+                $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
+
+            } else {
+                $image_name = null;
+                $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
+            }
             $device = Dossier::create([
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
@@ -59,6 +80,13 @@ class CreateDossier extends Component
                 'expert' => $this->expert,
                 'number_dossier' => $this->number_dossier,
                 'summary_description' => $this->summary_description,
+                'Judicial_date' => $this->Judicial_date,
+                'dossier_type' => $this->dossier_type,
+                'dossier_case' => $this->dossier_case,
+                'expert_phone' => $this->expert_phone,
+                'expert_cellphone' => $this->expert_cellphone,
+                'Judicial_number' => $this->Judicial_number,
+                'Judicial_image' => $image_name,
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,
             ]);

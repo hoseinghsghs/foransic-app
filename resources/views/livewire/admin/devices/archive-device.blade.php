@@ -9,7 +9,7 @@
                 </div>
                 <div class="body">
                     <div class="row clearfix">
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" class="form-control" wire:model.live.debounce.500ms="title"
@@ -17,20 +17,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="form-group">
-                                <div class="form-line">
-                                    <select class="form-control ms" wire:model.live="company_user">
-                                        <option value="">نام رده</option>
-                                        @foreach ($company_users as $company_user)
-                                            <option value="{{ $company_user->id }}">{{ $company_user->cellphone }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <div class="form-line">
                                     <select data-placeholder="وضعیت" wire:model.live="is_active"
@@ -42,7 +29,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="form-group">
                                 <div class="form-line">
                                     <select data-placeholder="موجودی" wire:model.live="status" class="form-control ms">
@@ -133,6 +120,30 @@
                                         </td>
                                         <td class="text-center">
                                             <a onclick="loadbtn(event)"
+                                                href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
+                                                class="btn btn-raised btn-info waves-effect">
+                                                <i class="zmdi zmdi-file-plus" style="font-size: 1.2rem"></i>
+                                            </a>
+                                            <div class="btn-group">
+                                                <button type="button"
+                                                    class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="zmdi zmdi-edit" style="font-size: 1.2rem"></i>
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
+                                                        class="dropdown-item text-right"> ویرایش </a>
+                                                    <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
+                                                        class="dropdown-item text-right"> ویرایش تصویر </a>
+                                                    <a href="{{ route('admin.devices.show', $device->id) }}"
+                                                        class="dropdown-item text-right"> مشاهده </a>
+                                                    <a href="{{ route('admin.print.device.show', $device->id) }}"
+                                                        class="dropdown-item text-right" target="_blank"> پرینت رسید
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                            {{-- <a onclick="loadbtn(event)"
                                                 href="{{ route('admin.devices.edit', $device->id) }}"
                                                 class="btn btn-raised btn-warning waves-effect">
                                                 <i class="zmdi zmdi-edit"></i>
@@ -141,7 +152,7 @@
                                                 href="{{ route('admin.devices.show', $device->id) }}"
                                                 class="btn btn-raised btn-info waves-effect">
                                                 <i class="zmdi zmdi-eye"></i>
-                                            </a>
+                                            </a> --}}
                                             {{-- <div class="btn-group">
                                          <button type="button"
                                                  class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"

@@ -54,17 +54,14 @@ class ArchiveDevice extends Component
     }
     public function render()
     {
-        $company_users = User::Role('company')->get();
         $title_ids= TitleManagement::where('title' , 'like', '%' . $this->title . '%')->pluck('id');
         $devices = Device::where('is_archive',true)->where( 'code', 'like', '%' . $this->title . '%')->orWhereIn('title_managements_id',$title_ids)
-            ->when($this->company_user != '', function ($query) {
-                $query->where('user_category_id', $this->company_user);
-            })
+
             ->when($this->status != '', function ($query) {
                 $query->where('status', $this->status);
             })->when($this->is_active != '', function ($query) {
                 $query->where('is_active', $this->is_active);
             })->latest()->paginate(10);
-        return view('livewire.admin.devices.archive-device',compact(['devices', 'company_users']));
+        return view('livewire.admin.devices.archive-device',compact(['devices']));
     }
 }

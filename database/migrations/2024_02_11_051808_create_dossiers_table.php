@@ -17,6 +17,16 @@ return new class extends Migration
             $table->string('name');
             $table->string('subject');
             $table->string('section');
+            // فیلد چهارم
+            $table->string('dossier_type');
+            $table->string('dossier_case');
+            $table->string('expert_phone');
+            $table->string('expert_cellphone');
+            //سه فیلد حکم قضایی
+            $table->string('Judicial_number');
+            $table->string('Judicial_image');
+            $table->string('Judicial_date');
+
             $table->text('summary_description');
             $table->text('expert');
             $table->boolean('is_active')->default(1);

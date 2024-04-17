@@ -85,6 +85,12 @@ class EditDevice extends Component
 
     public function edit()
     {
+        if ($this->status == 3) {
+            $delivery_date = verta()->formatJalaliDatetime();
+        } else {
+            $delivery_date = '-';
+        }
+
         $this->validate();
         $this->device->update([
             'title_managements_id' => $this->title_managements_id,
@@ -101,7 +107,7 @@ class EditDevice extends Component
             'receiver_name' => $this->receiver_name,
             'receiver_code' => $this->receiver_code,
             'delivery_staff_id' => auth()->user()->id,
-            'delivery_date' => verta()->formatJalaliDatetime(),
+            'delivery_date' => $delivery_date,
             'is_active' => !$this->is_active,
         ]);
         toastr()->rtl(true)->addInfo('دستگاه / قطعه مورد نظر ویرایش شد', ' ');

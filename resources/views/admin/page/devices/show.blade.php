@@ -26,6 +26,11 @@
             </div>
 
             <div class="container-fluid">
+                <div class="header p-0">
+                    </br>
+                    <strong style="color:#e47297">مشخصات اصلی دستگاه </strong>
+                </div>
+                <hr>
                 <div class="row clearfix">
                     <div class="col-lg-6">
                         <div class="card">
@@ -164,6 +169,24 @@
                                     <div class="card card-body p-0">
                                         <div class=" list-group">
                                             <button type="button" class="list-group-item list-group-item-primary">
+                                                مشخصات (ظرفیت ، مدل و...)
+                                            </button>
+                                            <button type="button" class="list-group-item list-group-item-action">
+                                                <div class="row clearfix">
+                                                    <div class="col-6">{!! $device->trait !!}</div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="row clearfix">
+                                <div class="col-lg-12">
+                                    <div class="card card-body p-0">
+                                        <div class=" list-group">
+                                            <button type="button" class="list-group-item list-group-item-primary">
                                                 توضیحات و اظهارات درخواست کننده : </button>
                                             <button type="button" class="list-group-item list-group-item-action">
                                                 <div class="row clearfix">
@@ -175,8 +198,45 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="body">
+                        <div class="body" style="width: 100%">
                             <div class="header p-0">
+                                </br>
+                                <strong style="color:#e47297">مشخصات مکاتبه </strong>
+                            </div>
+                            <hr>
+
+                            <div class="row clearfix">
+                                <div class="col-lg-6">
+                                    <div class="card card-body p-0">
+                                        <div class=" list-group">
+                                            <button type="button" class="list-group-item list-group-item-primary">
+                                                شماره خودکار ساز نامه درخواست
+                                            </button>
+                                            <button type="button" class="list-group-item list-group-item-action">
+                                                <div class="row clearfix">
+                                                    <div class="col-12">{!! $device->correspondence_number !!}</div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="card card-body p-0">
+                                        <div class=" list-group">
+                                            <button type="button" class="list-group-item list-group-item-primary">
+                                                تاریخ مکاتبه
+                                            </button>
+                                            <button type="button" class="list-group-item list-group-item-action">
+                                                <div class="row clearfix">
+                                                    <div class="col-12">{!! $device->correspondence_date !!}</div>
+                                                </div>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="header p-0">
+                                </br>
                                 <strong>تصویر مکاتبه </strong>
                             </div>
                             <hr>
@@ -195,11 +255,11 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
-                        <div class="body">
+                        <div class="body" style="width: 100%">
                             <div class="header p-0">
+                                </br>
                                 <strong>تصاویر دستگاه / قطعه </strong>
                             </div>
                             <hr>
@@ -223,6 +283,10 @@
                         </div>
 
                         <div class="container-fluid">
+                            <div class="header p-0">
+                                <strong>اقدامات</strong>
+                            </div>
+                            <hr>
                             <div class="row clearfix">
                                 <div class="col-sm-12">
                                     @if (count($actions) === 0)
