@@ -236,13 +236,13 @@
                                             <label>تاریخ حکم قضایی</label>
                                             <div class="input-group" wire:ignore>
                                                 <div class="input-group-prepend"
-                                                    onclick="$('#correspondenceDate').focus();">
+                                                    onclick="$('#JudicialDate').focus();">
                                                     <span class="input-group-text" id="basic-addon1"><i
                                                             class="zmdi zmdi-calendar-alt"></i></span>
                                                 </div>
-                                                <input type="hidden" id="correspondenceDate-alt"
+                                                <input type="hidden" id="JudicialDate-alt"
                                                     name="Judicial_date">
-                                                <input type="text" class="form-control" id="correspondenceDate"
+                                                <input type="text" class="form-control" id="JudicialDate"
                                                     value="{{ $Judicial_date ?? null }}" autocomplete="off">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text" id="basic-addon1"
@@ -335,24 +335,24 @@
     </script>
     {{-- دیتا پیکر --}}
     <script>
-        let correspondenceDate;
+        let JudicialDate;
 
         function destroyDatePicker() {
-            $(`#correspondenceDate`).val(null);
-            $(`#correspondenceDate-alt`).val(null);
-            correspondenceDate.touched = false;
-            correspondenceDate.options = {
+            $(`#JudicialDate`).val(null);
+            $(`#JudicialDate-alt`).val(null);
+            JudicialDate.touched = false;
+            JudicialDate.options = {
                 initialValue: false
             }
-            @this.set(`correspondence_date`, null, true);
+            @this.set(`Judicial_date`, null, true);
         }
 
         $(document).ready(function() {
-            correspondenceDate = $(`#correspondenceDate`).pDatepicker({
+            JudicialDate = $(`#JudicialDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',
                 format: 'L',
-                altField: `#correspondenceDate-alt`,
+                altField: `#JudicialDate-alt`,
                 altFormat: 'g',
                 timePicker: {
                     enabled: true,
@@ -378,7 +378,7 @@
                     }
                 },
                 onSelect: function(unix) {
-                    @this.set(`Judicial_date`, $(`#correspondenceDate-alt`).val(), true);
+                    @this.set(`Judicial_date`, $(`#JudicialDate-alt`).val(), true);
                 },
             });
         });

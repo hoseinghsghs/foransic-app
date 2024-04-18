@@ -225,7 +225,6 @@
                                                 @enderror
                                             </div>
                                         </div>
-
                                         <div class="form-group col-md-6">
                                             <label>تاریخ حکم قضایی</label>
                                             <div class="input-group" wire:ignore>
@@ -248,22 +247,24 @@
                                             <small class="text-danger">{{ $message }}</small>
                                             @enderror
                                         </div>
-                                    </div>
 
-                                    <div class="form-group col-md-12">
-                                        <div class="header">
-                                            <label for="Judicial_image">تصویر حکم قضایی <small>(عکس با فرمت jpg و
-                                                    png)</small></label>
-                                        </div>
-                                        <div class="body @error('Judicial_image') is-invalid @enderror">
-                                            <div class="form-group" wire:ignore>
-                                                <input wire:model="Judicial_image" id="Judicial_image" type="file"
-                                                       class="dropify form-control" data-default-file="{{ asset('storage/Judicial-image/' . $banner->image) }}"
-                                                       data-allowed-file-extensions="jpg png" data-max-file-size="2M">
+                                        <div class="form-group col-md-12">
+                                            <div class="header">
+                                                <label for="Judicial_image">تصویر حکم قضایی <small>(عکس با فرمت jpg و
+                                                        png)</small></label>
                                             </div>
-                                            @error('Judicial_image')
-                                            <small class="text-danger">{{ $message }}</small>
-                                            @enderror
+                                            <div class="body @error('Judicial_image') is-invalid @enderror">
+                                                <div class="form-group" wire:ignore>
+                                                    <input wire:model="Judicial_image" id="Judicial_image" type="file"
+                                                           class="dropify form-control"
+                                                           data-default-file="{{ asset('storage/Judicial-image/' . $image_url) }}"
+                                                           data-allowed-file-extensions="jpg png"
+                                                           data-max-file-size="2M">
+                                                </div>
+                                                @error('Judicial_image')
+                                                <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -284,6 +285,8 @@
 </section>
 @push('styles')
     <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
     <style>
         .dropzone {
             border-radius: 5px;
@@ -296,7 +299,21 @@
 @endpush
 
 @push('scripts')
+    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
+    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
     <script>
+        let JudicialDate;
+
+        function destroyDatePicker() {
+            $(`#JudicialDate`).val(null);
+            $(`#JudicialDate-alt`).val(null);
+            JudicialDate.touched = false;
+            JudicialDate.options = {
+                initialValue: false
+            }
+        @this.set(`Judicial_date`, null, true);
+        }
+
         $(document).ready(function () {
             $('#is_active').on('change', function (e) {
                 let data = $('#is_active').select2("val");
@@ -315,7 +332,7 @@
             });
             // Judicial Date picker
             JudicialDate = $(`#JudicialDate`).pDatepicker({
-                initialValue: "{{$Judicial_date?true:false}}",
+                initialValue: false,
                 initialValueType: 'persian',
                 format: 'L',
                 altField: `#JudicialDate-alt`,

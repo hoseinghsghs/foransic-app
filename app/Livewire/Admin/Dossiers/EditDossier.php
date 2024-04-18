@@ -28,7 +28,8 @@ class EditDossier extends Component
     public bool $is_archive = false;
     public string $summary_description = '';
     public string $Judicial_number = '';
-    public $Judicial_image = '';
+    public $Judicial_image ;
+    public $image_url='';
     public string $Judicial_date = '';
     public string $dossier_type = '';
     public string $dossier_case = '';
@@ -75,7 +76,7 @@ class EditDossier extends Component
         $this->expert_phone = $this->dossier->expert_phone;
         $this->expert_cellphone = $this->dossier->expert_cellphone;
         $this->Judicial_number = $this->dossier->Judicial_number;
-        $this->Judicial_image = $this->dossier->Judicial_image;
+        $this->image_url = $this->dossier->Judicial_image;
     }
 
     public function edit()
