@@ -1,5 +1,5 @@
 @extends('admin.layout.MasterAdmin')
-@section('title', 'لیست محصولات')
+@section('title', 'لیست رویداد ها')
 @section('Content')
     <section class="content">
         <div class="body_scroll">
