@@ -14,7 +14,6 @@ class ArchiveDossier extends Component
     use WithFileUploads, WithPagination;
 
     public $dossier;
-
     protected $paginationTheme = 'bootstrap';
     public $title = '';
     public $company_user = '';
