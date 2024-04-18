@@ -27,12 +27,18 @@ class EditDossier extends Component
     public bool $is_active = false;
     public bool $is_archive = false;
     public string $summary_description = '';
+    public string $Judicial_number = '';
+    public $Judicial_image = '';
+    public string $Judicial_date = '';
+    public string $dossier_type = '';
+    public string $dossier_case = '';
+    public string $expert_phone = '';
+    public string $expert_cellphone = '';
 
     protected $listeners = [
         'sweetalertConfirmed',// only when confirm button is clicked
         'sweetalertDenied'
     ];
-
 
     public function rules(): array
     {
@@ -42,8 +48,14 @@ class EditDossier extends Component
             'subject' => 'required|string',
             'expert' => 'required|string',
             'section' => 'required|string',
-            'number_dossier' => 'required|string|unique:dossiers,number_dossier,'.$this->dossier->id,
+            'number_dossier' => 'required|string|unique:dossiers,number_dossier,' . $this->dossier->id,
             'summary_description' => 'required|string',
+            'Judicial_date' => 'nullable|string',
+            'Judicial_number' => 'nullable|string',
+            'dossier_case' => 'nullable|string',
+            'dossier_type' => 'nullable|string',
+            'expert_phone' => 'nullable|string',
+            'expert_cellphone' => 'nullable|string',
         ];
     }
 
@@ -57,11 +69,28 @@ class EditDossier extends Component
         $this->number_dossier = $this->dossier->number_dossier;
         $this->summary_description = $this->dossier->summary_description;
         $this->is_active = !$this->dossier->is_active;
+        $this->Judicial_date = $this->dossier->Judicial_date;
+        $this->dossier_type = $this->dossier->dossier_type;
+        $this->dossier_case = $this->dossier->dossier_case;
+        $this->expert_phone = $this->dossier->expert_phone;
+        $this->expert_cellphone = $this->dossier->expert_cellphone;
+        $this->Judicial_number = $this->dossier->Judicial_number;
+        $this->Judicial_image = $this->dossier->Judicial_image;
     }
 
     public function edit()
     {
         $this->validate();
+        if ($this->Judicial_image) {
+            $ImageController = new ImageController();
+
+            $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
+
+        } else {
+            $image_name = null;
+            $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
+        }
+
         $this->dossier->update([
             'name' => $this->name,
             'user_category_id' => $this->user_category_id,
@@ -72,6 +101,13 @@ class EditDossier extends Component
             'summary_description' => $this->summary_description,
             'is_active' => !$this->is_active,
             'is_archive' => 0,
+            'Judicial_date' => $this->Judicial_date,
+            'dossier_type' => $this->dossier_type,
+            'dossier_case' => $this->dossier_case,
+            'expert_phone' => $this->expert_phone,
+            'expert_cellphone' => $this->expert_cellphone,
+            'Judicial_number' => $this->Judicial_number,
+            'Judicial_image' => $image_name,
         ]);
         toastr()->rtl(true)->addInfo('پرونده ویرایش شد', ' ');
 //        flash()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد');

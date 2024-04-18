@@ -131,8 +131,6 @@
                                     @enderror
                                 </div>
                             </div>
-
-
                             <div class="row clearfix">
                                 <div class="form-group col-md-12 @error('summary_description') is-invalid @enderror">
                                     <label for="summernote">خلاصه پرونده <abbr class="required text-danger"
@@ -146,7 +144,6 @@
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12">
-
                                 <div class="header p-0">
                                     <h2><strong>اطلاعات کارشناس پرونده</strong></h2>
                                 </div>
