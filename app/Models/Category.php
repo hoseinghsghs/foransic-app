@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TitleManagement extends Model
+class Category extends Model
 {
     use HasFactory;
-    protected $table = "title_managements";
+    protected $table = "categories";
     protected $guarded = [];
 
       public function devices()
     {
-        return $this->hasMany(Device::class , 'title_managements_id');
+        return $this->hasMany(Device::class , 'category_id');
     }
 }

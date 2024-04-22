@@ -196,6 +196,5 @@ return array(
         "start_date" => "زمان شروع",
         "end_date" => "زمان پایان",
         "is_print" => "نمایش در پرینت",
-        "title_managements_id" => "نام دستگاه یا قطعه"
     ),
 );

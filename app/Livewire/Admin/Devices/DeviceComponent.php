@@ -5,7 +5,7 @@ namespace App\Livewire\Admin\Devices;
 use Livewire\Component;
 use App\Models\Device;
 use App\Models\User;
-use App\Models\TitleManagement;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
@@ -68,8 +68,8 @@ class DeviceComponent extends Component
     }
     public function render()
     {
-                $title_ids= TitleManagement::where('title' , 'like', '%' . $this->title . '%')->pluck('id');
-        $devices = Device::where('is_archive',true)->where( 'code', 'like', '%' . $this->title . '%')->orWhereIn('title_managements_id',$title_ids)
+                $category_ids= Category::where('title' , 'like', '%' . $this->title . '%')->pluck('id');
+        $devices = Device::where('is_archive',true)->where( 'code', 'like', '%' . $this->title . '%')->orWhereIn('category_id',$category_ids)
 
             ->when($this->status != '', function ($query) {
                 $query->where('status', $this->status);

@@ -19,9 +19,9 @@ class Device extends Model
         return $this->hasMany(DeviceImage::class);
     }
 
-    public function titleManagement()
+    public function category()
     {
-        return $this->belongsTo(TitleManagement::class, 'title_managements_id');
+        return $this->belongsTo(Category::class, 'category_id');
     }
         public function dossier()
     {
