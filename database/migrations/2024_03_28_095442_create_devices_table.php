@@ -39,7 +39,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(1);
             $table->boolean('is_archive')->default(0);
             $table->foreignId('dossier_id')->nullable()->constrained('dossiers')->cascadeOnDelete();
-            $table->foreignId('title_managements_id')->nullable()->constrained('title_managements')->cascadeOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
 
             $table->timestamps();
         });

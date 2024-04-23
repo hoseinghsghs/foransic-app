@@ -35,27 +35,27 @@
                                 </div>
                                 <hr>
                                 <div class="row clearfix">
-                                    <div class="form-group col-sm-6 col-sm-6 @error('use_id') is-invalid @enderror">
-                                        <label for="title-device">انتخاب دستگاه یا قطعه</label>
+                                    <div class="form-group col-sm-6 col-sm-6 @error('category_id') is-invalid @enderror">
+                                        <label for="title-device">انتخاب دستگاه یا قطعه <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                         <div wire:ignore>
                                             <select id="title-device" name="title_managements_id"
-                                                    data-placeholder="انتخاب پرونده" required
-                                                    class="form-control ms search-select  @error('title_managements_id') is-invalid @enderror">
+                                                    data-placeholder="انتخاب دسته بندی" required
+                                                    class="form-control ms search-select">
                                                 <option></option>
-                                                @foreach ($titles_device as $title_device)
-                                                    <option value="{{ $title_device->id }}"
-                                                        @selected($device->titleManagement->id == $title_device->id)>
-                                                        {{ $title_device->title }} - {{ $title_device->id }}
+                                                @foreach ($categories as $category)
+                                                    <option value="{{ $category->id }}"
+                                                        @selected($device->category->id == $category->id)>
+                                                        {{ $category->title }} - {{ $category->id }}
                                                     </option>
                                                 @endforeach
                                             </select>
                                         </div>
-                                        @error('title_managements_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @error('category_id')
+                                        <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label> سریال یا شماره اموال دستگاه / قطعه</label>
+                                        <label> سریال یا شماره اموال دستگاه / قطعه <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="code" id="code"
                                                    class="form-control @error('code') is-invalid @enderror" required/>
@@ -88,7 +88,7 @@
                                     {{-- تحویل گیرنده --}}
                                     @if ($status == '3')
                                         <div class="form-group col-md-6">
-                                            <label> نام تحویل گیرنده</label>
+                                            <label> نام تحویل گیرنده </label>
                                             <div class="form-group">
                                                 <input type="text" wire:model.defer="receiver_name"
                                                        id="receiver-name"
@@ -115,8 +115,8 @@
                                     @endif
                                 </div>
                                 <div class="row clearfix">
-                                    <div class="form-group col-md-4 col-sm-4 @error('use_id') is-invalid @enderror">
-                                        <label for="userSelect">الحاق به پرونده</label>
+                                    <div class="form-group col-md-4 col-sm-4 @error('dossier_id') is-invalid @enderror">
+                                        <label for="userSelect">الحاق به پرونده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                         <div wire:ignore>
                                             <select id="userSelect" name="dossier_id" data-placeholder="انتخاب پرونده"
                                                     class="form-control ms search-select">
@@ -134,7 +134,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-4">
-                                        <label> نام تحویل دهنده</label>
+                                        <label> نام تحویل دهنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="delivery_name" id="delivery-name"
                                                    class="form-control @error('delivery_name') is-invalid @enderror"
@@ -171,7 +171,7 @@
                                 </div>
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('trait') is-invalid @enderror">
-                                        <label> مشخصات (ظرفیت ، مدل و...) *</label>
+                                        <label> مشخصات (ظرفیت ، مدل و...)</label>
                                         <div>
                                             <textarea class="form-control" rows="6"
                                                       wire:model.defer="trait">{!! $trait !!}</textarea>
@@ -184,7 +184,7 @@
 
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('accessories') is-invalid @enderror">
-                                        <label> لوازم جانبی *</label>
+                                        <label> لوازم جانبی</label>
                                         <div>
                                             <textarea class="form-control" rows="6" wire:model.defer="accessories">
                                             {!! $accessories !!}
@@ -294,7 +294,7 @@
 
             $('#title-device').on('change', function (e) {
                 let data = $('#title-device').select2("val");
-            @this.set('title_managements_id', data);
+            @this.set('category_id', data);
             });
 
 

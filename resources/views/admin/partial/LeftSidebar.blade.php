@@ -101,18 +101,13 @@
                                     </a>
                                 </li>
 
-                                <li @class(['active' => request()->routeIs('admin.createtitle.create')])><a href={{ route('admin.createtitle.create') }}>ایجاد عنوان دستگاه
-                                        یا
-                                        قطعه</a>
+                                <li @class(['active' => request()->routeIs('admin.category')])><a href={{ route('admin.category') }}>دسته بندی دستگاه یا قطعه ها</a>
                                 </li>
                             @endcan
 
                         </ul>
                     </li>
                 @endcanany
-
-
-
                 {{-- @can('galeries')
                 <li @class(['active open' => request()->routeIs('admin.galeries.*')])><a href="javascript:void(0);"
                                                                                          class="menu-toggle"><i

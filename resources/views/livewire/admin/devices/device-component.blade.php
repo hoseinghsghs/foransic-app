@@ -88,10 +88,10 @@
                             </thead>
                             <tbody>
                                 @foreach ($devices as $key => $device)
-                                    <tr wire:key="name_{{ $device->id }}">
+                                    <tr wire:key="name_{{ $loop->index +1 }}">
                                         <td scope="row">{{ $key + 1 }}</td>
                                         <td>
-                                            {{ $device->titleManagement->title }}
+                                            {{ $device->category->title }}
                                         </td>
                                         <td>
                                             {{ $device->code }}

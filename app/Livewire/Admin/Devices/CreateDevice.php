@@ -5,7 +5,7 @@ namespace App\Livewire\Admin\Devices;
 use App\Http\Controllers\Admin\ImageController;
 use App\Models\Device;
 use App\Models\Dossier;
-use App\Models\TitleManagement;
+use App\Models\Category;
 use App\Models\DeviceImage;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -20,7 +20,7 @@ class CreateDevice extends Component
     use WithFileUploads;
 
     public Device $device;
-    public $title_managements_id = '';
+    public $category_id = '';
     public string $code = '';
     public string $trait = '';
     public string $correspondence_number = '';
@@ -42,9 +42,9 @@ class CreateDevice extends Component
     public function rules(): array
     {
         return [
-            'title_managements_id' => 'required|integer',
+            'category_id' => 'required|integer|exists:categories,id',
             'status' => 'required|integer',
-            // 'dossier_id' => 'required|integer',
+            'dossier_id' => 'nullable|integer|exists:dossiers,id',
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string|unique:devices,code',
@@ -52,7 +52,6 @@ class CreateDevice extends Component
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
-            // 'delivery_code' => 'required|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
         ];
@@ -77,7 +76,7 @@ class CreateDevice extends Component
                 $this->addError('primary_image', 'مشکل در ذخیره سازی عکس');
             }
             $device = Device::create([
-                'title_managements_id' => $this->title_managements_id,
+                'category_id' => $this->category_id,
                 'status' => $this->status,
                 'trait' => $this->trait,
                 'dossier_id' => $this->dossier_id,
@@ -136,8 +135,8 @@ class CreateDevice extends Component
     {
         $users = User::role('company')->get();
         $dossiers = Dossier::all();
-        $titles_device = TitleManagement::all();
-        return view('livewire.admin.devices.create-device', compact('users', 'dossiers', 'titles_device'))->extends('admin.layout.MasterAdmin')->section('Content');
+        $categories = Category::all();
+        return view('livewire.admin.devices.create-device', compact('users', 'dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

@@ -88,7 +88,7 @@ class EditDossier extends Component
             $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
 
         } else {
-            $image_name = null;
+            $image_name = $this->image_url;
             $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
         }
 

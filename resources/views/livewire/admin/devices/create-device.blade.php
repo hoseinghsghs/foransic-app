@@ -35,7 +35,7 @@
                             <hr>
 
                             <div class="row clearfix">
-                                <div class="form-group col-sm-6 col-sm-6">
+                                <div class="form-group col-sm-6 col-sm-6 @error('category_id') is-invalid @enderror">
                                     <label for="title-device">نام دستگاه یا قطعه <abbr class="required"
                                                                                       title="ضروری" style="color:red;">*</abbr></label>
                                     <div wire:ignore>
@@ -43,14 +43,14 @@
                                                 data-placeholder="انتخاب"
                                                 class="form-control ms search-select">
                                             <option></option>
-                                            @foreach ($titles_device as $title_device)
-                                                <option value="{{ $title_device->id }}">
-                                                    {{ $title_device->title }} - {{ $title_device->id }}
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">
+                                                    {{ $category->title }} - {{ $category->id }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('title_managements_id')
+                                    @error('category_id')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
@@ -85,7 +85,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group col-md-4 col-sm-4 @error('use_id') is-invalid @enderror">
+                                <div class="form-group col-md-4 col-sm-4 @error('dossier_id') is-invalid @enderror">
                                     <label for="dossierSelect">الحاق به پرونده <abbr class="required"
                                                                                      title="ضروری" style="color:red;">*</abbr></label>
                                     <div wire:ignore>
@@ -384,7 +384,7 @@
 
             $('#title-device').on('change', function (e) {
                 let data = $('#title-device').select2("val");
-            @this.set('title_managements_id', data);
+            @this.set('category_id', data);
             });
 
             $('#dossierSelect').on('change', function (e) {

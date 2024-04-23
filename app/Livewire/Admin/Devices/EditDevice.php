@@ -7,7 +7,7 @@ use App\Models\Device;
 use App\Models\DeviceImage;
 use App\Models\User;
 use App\Models\Dossier;
-use App\Models\TitleManagement;
+use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -21,7 +21,7 @@ class EditDevice extends Component
 
 
     public Device $device;
-    public string $title_managements_id = '';
+    public string $category_id = '';
     public string $code = '';
     public string $trait = '';
     public string $correspondence_number = '';
@@ -41,9 +41,9 @@ class EditDevice extends Component
     public function rules(): array
     {
         return [
-            'title_managements_id' => 'required|integer',
+            'category_id' => 'required|integer|exists:categories,id',
             'status' => 'required|integer',
-            'dossier_id'=>'required|integer',
+            'dossier_id'=>'nullable|integer|exists:dossiers,id',
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string|unique:devices,code,'.$this->device->id,
@@ -67,7 +67,7 @@ class EditDevice extends Component
 
     public function mount()
     {
-        $this->title_managements_id = $this->device->title_managements_id;
+        $this->category_id = $this->device->category_id;
         $this->code = $this->device->code;
         $this->trait = $this->device->trait;
         $this->dossier_id = $this->device->dossier_id;
@@ -93,7 +93,7 @@ class EditDevice extends Component
 
         $this->validate();
         $this->device->update([
-            'title_managements_id' => $this->title_managements_id,
+            'category_id' => $this->category_id,
             'status' => $this->status,
             'description' => $this->description,
             'accessories' => $this->accessories,
@@ -120,9 +120,9 @@ class EditDevice extends Component
     {
         $users = User::all();
         $dossiers = Dossier::all();
-        $titles_device = TitleManagement::all();
+        $categories = Category::all();
         // dd($users->hasRole('super-admin'));
-        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers' , 'titles_device'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers' , 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 
