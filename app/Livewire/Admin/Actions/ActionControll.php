@@ -7,6 +7,10 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use App\Models\Action;
 use App\Models\Device;
+use App\Http\Controllers\Admin\AttachmentsController;
+use App\Models\ActionAttachment;
+use Illuminate\Support\Facades\Session;
+
 use Livewire\WithPagination;
 
 
@@ -53,6 +57,10 @@ class ActionControll extends Component
         $this->dispatch('destroy-date-picker');
     }
 
+    public function mount()
+    {
+        Session::forget('attachments');
+    }
 
     public function render()
     {
@@ -112,7 +120,7 @@ class ActionControll extends Component
         } else {
             $this->validate();
 
-            Action::create([
+            $action=Action::create([
                 "description" => $this->description,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
@@ -121,10 +129,21 @@ class ActionControll extends Component
                 'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
             ]);
+
+           $attachmentsStore = Session::pull('attachments', []);
+            foreach ($attachmentsStore as $attachmentStore) {
+                ActionAttachment::create([
+                    'action_id' => $action->id,
+                    'url' => $attachmentStore
+                ]);
+            }
+            Session::forget('attachments');
+
             $this->ref();
             toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
         }
         $this->dispatch('destroy-date-picker');
+        $this->dispatch('upfile');
     }
 
     public function sweetAlertConfirmed(array $data)

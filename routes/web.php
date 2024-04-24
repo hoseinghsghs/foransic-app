@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\DeviceController;
+use App\Http\Controllers\Admin\ActionController;
+use App\Http\Controllers\Admin\AttachmentsController;
 use App\Http\Controllers\Admin\DossierController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -20,7 +22,6 @@ use App\Http\Controllers\Home\DeviceController as HomeDeviceController;
 use App\Http\Controllers\Home\QuestionController as HomeQuestionController;
 use App\Http\Controllers\Home\UserProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Admin\Actions\ActionControll;
 use App\Livewire\Home\DevicesList;
 use App\Models\Question;
 use Illuminate\Support\Facades\Log;
@@ -38,13 +39,10 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
 //livewire
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices')->name('devices.edit');
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices')->name('devices.create');
-
     Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:devices')->name('category');
-
     Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers')->name('dossiers.create');
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers')->name('dossiers.edit');
     Route::get('dossiers/archives',         [DossierController::class, 'archive'])->name('dossiers.archive')->middleware('permission:dossiers');
-
     Route::resource('devices',         DeviceController::class)->middleware(['role_or_permission:devices|personel'])->only(['index', 'show']);
     Route::resource('dossiers',         DossierController::class)->middleware('permission:dossiers')->only(['index', 'show']);
     Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
@@ -67,6 +65,13 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::post('/editupl',   [ImageController::class, 'edit_uploadImage'])->name('edit_uploade');
     Route::post('/editdel',   [ImageController::class, 'edit_deleteImage'])->name('edit_del');
     Route::post('/add_image', [ImageController::class, 'setPrimary'])->name('device.images.add');
+    //attached file routes
+
+    Route::post('/attachments-upl',       [ActionController::class, 'uploadAttachment'])->name('attachments_uploade');
+    Route::post('/attachments-del',       [ActionController::class, 'deleteAttachment'])->name('attachments_del');
+    Route::post('/attachments-editupl',   [AttachmentsController::class, 'attachments-edit_uploadImage'])->name('attachments_edit_uploade');
+    Route::post('/attache-editdel',   [AttachmentsController::class, 'attachments-edit_deleteImage'])->name('attachments_edit_del');
+    Route::post('/attachments-add_file',  [AttachmentsController::class, 'attachments-setPrimary'])->name('attachments_device.files.add');
 
     //excel backup
     Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->name('file-device');

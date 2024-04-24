@@ -51,7 +51,6 @@ class ImageController extends Controller
     }
 
     //////////////////ویرایش تصویر
-
     public function edit(Device $device)
     {
         return view('admin.page.devices.edit_images', compact('device'));
@@ -76,8 +75,6 @@ class ImageController extends Controller
         return response()->json($image_name, 200);
     }
 
-
-
     public function edit_deleteImage(Request $request)
     {
 
@@ -87,7 +84,6 @@ class ImageController extends Controller
         Storage::delete('test/' . $namefile);
         return response()->json(['success' => "تصویر حذف شد"]);
     }
-
 
     public function setPrimary(Request $request, Device $device, ToastrFactory $flasher)
     {

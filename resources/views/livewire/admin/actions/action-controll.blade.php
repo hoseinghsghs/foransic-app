@@ -35,43 +35,40 @@
                                         <div class="card">
                                             <div class="body">
                                                 <div class="row clearfix">
-                                                    <div
-                                                        class="form-group col-md-12 col-sm-12">
+                                                    <div class="form-group col-md-12 col-sm-12">
                                                         <label for="">توضیحات اقدام *</label>
                                                         @if ($is_edit)
-                                                            <textarea class="form-control @error('description') is-invalid @enderror"
-                                                                      wire:model.defer="description">{!! $action->description !!}</textarea>
+                                                            <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">{!! $action->description !!}</textarea>
                                                         @else
-                                                            <textarea class="form-control @error('description') is-invalid @enderror"
-                                                                      wire:model.defer="description">
+                                                            <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">
                                                                 </textarea>
                                                         @endif
                                                         @error('description')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                            <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label> تاریخ و زمان شروع</label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
-                                                                 onclick="$('#startDate').focus();">
+                                                                onclick="$('#startDate').focus();">
                                                                 <span class="input-group-text" id="basic-addon1"><i
                                                                         class="zmdi zmdi-calendar-alt"></i></span>
                                                             </div>
                                                             <input type="hidden" id="startDate-alt"
-                                                                   name="variation_values" value="">
+                                                                name="variation_values" value="">
                                                             <input type="text" class="form-control" id="startDate"
-                                                                   value="" autocomplete="off">
+                                                                value="" autocomplete="off">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon1"
-                                                                      style="cursor: pointer;"
-                                                                      onclick="destroyDatePicker('from')"><i
+                                                                    style="cursor: pointer;"
+                                                                    onclick="destroyDatePicker('from')"><i
                                                                         class="zmdi zmdi-close"></i></span>
                                                             </div>
                                                             <span id="start_date-display" class="text-warning"></span>
                                                         </div>
                                                         @error('start_date')
-                                                        <small class="text-danger">{{ $message }}</small>
+                                                            <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
 
@@ -79,66 +76,79 @@
                                                         <label>تاریخ و زمان پایان</label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
-                                                                 onclick="$('#endDate').focus();">
+                                                                onclick="$('#endDate').focus();">
                                                                 <span class="input-group-text" id="basic-addon1"><i
                                                                         class="zmdi zmdi-calendar-alt"></i></span>
                                                             </div>
                                                             <input type="hidden" id="endDate-alt"
-                                                                   name="variation_values">
+                                                                name="variation_values">
                                                             <input type="text" class="form-control" id="endDate"
-                                                                   value="{{ $end_date ?? null }}" autocomplete="off">
+                                                                value="{{ $end_date ?? null }}" autocomplete="off">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon1"
-                                                                      style="cursor: pointer;"
-                                                                      onclick="destroyDatePicker('to')"><i
+                                                                    style="cursor: pointer;"
+                                                                    onclick="destroyDatePicker('to')"><i
                                                                         class="zmdi zmdi-close"></i></span>
                                                             </div>
                                                             <span id="start_date-display" class="text-warning"></span>
                                                         </div>
                                                         @error('end_date')
-                                                        <small class="text-danger">{{ $message }}</small>
+                                                            <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                                    <div class="col-lg-3 col-md-12 col-sm-12">
                                                         <div class="form-group">
                                                             <label>وضعیت</label>
-                                                            <select data-placeholder="وضعیت"
-                                                                    wire:model.live="status"
-                                                                    class="form-control ms @error('status') is-invalid @enderror">
+                                                            <select data-placeholder="وضعیت" wire:model.live="status"
+                                                                class="form-control ms @error('status') is-invalid @enderror">
                                                                 <option value="1">فعال</option>
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('status')
-                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                                    <div class="col-lg-3 col-md-12 col-sm-12">
                                                         <div class="form-group">
                                                             <label>نمایش در گزارش و پرینت</label>
-                                                            <select data-placeholder="وضعیت"
-                                                                    wire:model.live="is_print"
-                                                                    class="form-control ms @error('status') is-invalid @enderror">
+                                                            <select data-placeholder="وضعیت" wire:model.live="is_print"
+                                                                class="form-control ms @error('status') is-invalid @enderror">
                                                                 <option value="1">فعال</option>
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('is_print')
-                                                            <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}</div>
                                                             @enderror
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+
+                                                    <div class="col-lg-12 col-md-12" wire:ignore>
+                                                        <div class="header mt-0">
+                                                            <label class="mb-1"> فایل ضمیمه</label>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <form action="{{ route('admin.attachments_uploade') }}"
+                                                                id="myDropzone" class="dropzone" method="POST"
+                                                                id="my-awesome-dropzone">
+                                                                @csrf
+                                                            </form>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-12 col-sm-12">
-                                                        <button wire:click="addAction" wire:loading.attr="disabled"
-                                                                class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
+                                                        <button wire:click="addAction" onclick="clear()"
+                                                            wire:loading.attr="disabled"
+                                                            class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
                                                             {{ $is_edit ? 'ویرایش' : 'افزودن' }}
                                                             <span class="spinner-border spinner-border-sm text-light"
-                                                                  wire:loading wire:target="addAction"></span>
+                                                                wire:loading wire:target="addAction"></span>
                                                         </button>
                                                         @if ($is_edit)
                                                             <button class="btn btn-raised btn-info waves-effect"
-                                                                    wire:loading.attr="disabled" wire:click="ref">صرف
+                                                                wire:loading.attr="disabled" wire:click="ref">صرف
                                                                 نظر
                                                                 <span
                                                                     class="spinner-border spinner-border-sm text-light"
@@ -171,75 +181,75 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover c_table theme-color">
                                         <thead>
-                                        <tr>
-                                            <th>id</th>
-                                            <th>نام پرسنل</th>
-                                            <th>تاریخ و زمان شروع</th>
-                                            <th>تاریخ و زمان پایان</th>
-                                            <th>نمایش در گزارش</th>
-                                            <th>توضیح</th>
-                                            <th class="text-center js-sweetalert">عملیات</th>
-                                        </tr>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>نام پرسنل</th>
+                                                <th>تاریخ و زمان شروع</th>
+                                                <th>تاریخ و زمان پایان</th>
+                                                <th>نمایش در گزارش</th>
+                                                <th>توضیح</th>
+                                                <th class="text-center js-sweetalert">عملیات</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($actions as $key => $action)
-                                            <tr wire:key="{{ $action->description }} {{ $action->id }}"
-                                                wire:loading.attr="disabled">
-                                                <td scope="row">{{ $action->id }}</td>
-                                                <td scope="row">{{ $action->user->name }} -
-                                                    {{ $action->user->cellphone }}</td>
-                                                <td dir="ltr">{{ $action->start_date }}</td>
-                                                <td dir="ltr">{{ $action->end_date }}</td>
-                                                <td>
-                                                    @if ($action->is_print)
-                                                        <span class='badge badge-success'> فعال </span>
-                                                    @else
-                                                        <span class='badge badge-danger'>غیر فعال </span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn bg-teal waves-effect"
+                                            @foreach ($actions as $key => $action)
+                                                <tr wire:key="{{ $action->description }} {{ $action->id }}"
+                                                    wire:loading.attr="disabled">
+                                                    <td scope="row">{{ $action->id }}</td>
+                                                    <td scope="row">{{ $action->user->name }} -
+                                                        {{ $action->user->cellphone }}</td>
+                                                    <td dir="ltr">{{ $action->start_date }}</td>
+                                                    <td dir="ltr">{{ $action->end_date }}</td>
+                                                    <td>
+                                                        @if ($action->is_print)
+                                                            <span class='badge badge-success'> فعال </span>
+                                                        @else
+                                                            <span class='badge badge-danger'>غیر فعال </span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn bg-teal waves-effect"
                                                             data-toggle="modal"
                                                             data-target="#defaultModal-{{ $key }}"><i
-                                                            class="zmdi zmdi-eye"></i></button>
-                                                </td>
-                                                <td class="text-center js-sweetalert">
-                                                    <button wire:click="edit_action({{ $action->id }})"
+                                                                class="zmdi zmdi-eye"></i></button>
+                                                    </td>
+                                                    <td class="text-center js-sweetalert">
+                                                        <button wire:click="edit_action({{ $action->id }})"
                                                             wire:loading.attr="disabled" {{ $display }}
                                                             class="btn btn-raised btn-info waves-effect scroll">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                        <span class="spinner-border spinner-border-sm text-light"
-                                                              wire:loading
-                                                              wire:target="edit_action({{ $action->id }}) "></span>
-                                                    </button>
-                                                    <button class="btn btn-raised btn-danger waves-effect"
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="edit_action({{ $action->id }}) "></span>
+                                                        </button>
+                                                        <button class="btn btn-raised btn-danger waves-effect"
                                                             wire:loading.attr="disabled"
                                                             wire:click="del_action({{ $action->id }})"
-                                                        {{ $display }}>
-                                                        <i class="zmdi zmdi-delete"></i>
+                                                            {{ $display }}>
+                                                            <i class="zmdi zmdi-delete"></i>
 
-                                                        <span class="spinner-border spinner-border-sm text-light"
-                                                              wire:loading
-                                                              wire:target="del_action({{ $action->id }})"></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <div class="modal fade" id="defaultModal-{{ $key }}"
-                                                 tabindex="-1" role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body">{{ $action->description }}</div>
-                                                        <div class="modal-footer">
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="del_action({{ $action->id }})"></span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <div class="modal fade" id="defaultModal-{{ $key }}"
+                                                    tabindex="-1" role="dialog">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">{{ $action->description }}</div>
+                                                            <div class="modal-footer">
 
-                                                            <button type="button"
+                                                                <button type="button"
                                                                     class="btn btn-danger waves-effect"
                                                                     data-dismiss="modal">بستن
-                                                            </button>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -255,14 +265,24 @@
 @push('styles')
     <!-- تاریخ -->
     <link rel="stylesheet" type="text/css"
-          href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
+        href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
     <!-- تاریخ پایان-->
+    <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
+    <style>
+        .dropzone {
+            border-radius: 5px;
+            border-style: solid !important;
+            border-width: 2px !important;
+            border-color: #D2D5D6 !important;
+            background-color: white !important;
+        }
+    </style>
 @endpush
 @push('scripts')
     <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
     <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
     <script>
-        $('.scroll').click(function () {
+        $('.scroll').click(function() {
             $("html, body").animate({
                 scrollTop: 0
             }, 600);
@@ -282,7 +302,7 @@
                 dateTimePicker.to.options = {
                     initialValue: false
                 }
-            @this.set(`start_date`, null, true);
+                @this.set(`start_date`, null, true);
             } else {
                 $(`#endDate`).val(null);
                 $(`#endDate-alt`).val(null);
@@ -291,7 +311,7 @@
                     maxDate: null,
                     initialValue: false
                 }
-            @this.set(`end_date`, null, true);
+                @this.set(`end_date`, null, true);
             }
         }
 
@@ -321,7 +341,7 @@
             dateTimePicker.to.setDate(e_unix)
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             dateTimePicker.from = $(`#startDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',
@@ -334,7 +354,7 @@
                         enabled: false
                     },
                 },
-                altFieldFormatter: function (unixDate) {
+                altFieldFormatter: function(unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
@@ -351,9 +371,10 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function (unix) {
+                onSelect: function(unix) {
                     dateTimePicker.from.touched = true;
-                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options.minDate != unix) {
+                    if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options
+                        .minDate != unix) {
                         let cachedValue = dateTimePicker.to.getState().selected.unixDate;
                         dateTimePicker.to.options = {
                             minDate: unix
@@ -362,7 +383,7 @@
                             dateTimePicker.to.setDate(cachedValue);
                         }
                     }
-                @this.set(`start_date`, $(`#startDate-alt`).val(), true);
+                    @this.set(`start_date`, $(`#startDate-alt`).val(), true);
                 },
             });
 
@@ -378,7 +399,7 @@
                         enabled: false
                     },
                 },
-                altFieldFormatter: function (unixDate) {
+                altFieldFormatter: function(unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
@@ -395,7 +416,7 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function (unix) {
+                onSelect: function(unix) {
                     dateTimePicker.to.touched = true;
                     if (dateTimePicker.from && dateTimePicker.from.options && dateTimePicker.from
                         .options.maxDate != unix) {
@@ -407,9 +428,95 @@
                             dateTimePicker.from.setDate(cachedValue);
                         }
                     }
-                @this.set(`end_date`, $(`#endDate-alt`).val(), true);
+                    @this.set(`end_date`, $(`#endDate-alt`).val(), true);
                 },
             });
         });
+
+        // uploade file start
+        Livewire.on('upfile', () => {
+            $('#myDropzone').empty();
+        });
+        Dropzone.options.myDropzone = {
+            parallelUploads: 5,
+            maxFiles: 5,
+            maxFilesize: 1,
+            acceptedFiles: ".zip,.rar,.jpeg,.jpg,.png,.pdf,.txt,.xlsx,.csv",
+            addRemoveLinks: true,
+            previewsContainer: ".dropzone",
+            clickable: ".dropzone",
+            success: function(file, response) {
+                $(file.previewTemplate).append(
+                    '<span class="server_file">' + response + "</span>"
+                );
+            },
+            removedfile: function(file) {
+                var server_file = $(file.previewTemplate)
+                    .children(".server_file")
+                    .text();
+                alert(server_file);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ route('admin.del') }}",
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        name: server_file,
+                        request: 2,
+                    },
+                    sucess: function(data) {
+                        console.log("success: " + data);
+                    },
+                });
+
+                var _ref;
+                return (_ref = file.previewElement) != null ?
+                    _ref.parentNode.removeChild(file.previewElement) :
+                    void 0;
+            },
+            headers: {
+                "X-CSRF-Token": "{{ csrf_token() }}",
+            },
+            dictDefaultMessage: "<span style='color:gray'>تصاویر را بکشید و در اینجا رها کنید</span>",
+            dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+            dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+            dictFileTooBig: "File is too big (@{{ filesize }}MiB). Max filesize: @{{ maxFilesize }}MiB.",
+            dictInvalidFileType: "You can't upload files of this type.",
+            dictResponseError: "Server responded with @{{ statusCode }} code.",
+            dictCancelUpload: "توقف آپلود",
+            dictUploadCanceled: "Upload canceled.",
+            dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+            dictRemoveFile: "حذف",
+            dictRemoveFileConfirmation: null,
+            dictMaxFilesExceeded: "You can not upload any more files.",
+            init: function() {
+                dzClosure =
+                    this; // Makes sure that 'this' is understood inside the functions below.
+                // for Dropzone to process the queue (instead of default form behavior):
+                var el = document.getElementById("submit-all");
+                if (el) {
+                    el.addEventListener("click", function(e) {
+                        // Make sure that the form isn't actually being sent.
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dzClosure.processQueue();
+                    });
+                }
+                //send all the form data along with the files:
+                this.on("sendingmultiple", function(data, xhr, formData) {
+                    formData.append("firstname", jQuery("#firstname").val());
+                    formData.append("lastname", jQuery("#lastname").val());
+                });
+                this.on("successmultiple", function(files, response) {
+                    // Gets triggered when the files have successfully been sent.
+                    // Redirect user or notify of success.
+                });
+                this.on("errormultiple", function(files, response) {
+                    // Gets triggered when there was an error sending the files.
+                    // Maybe show form again, and notify user of error
+                    alert("error");
+                });
+            },
+        };
+        // uploade file end
     </script>
 @endpush
