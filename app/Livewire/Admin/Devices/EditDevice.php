@@ -21,7 +21,8 @@ class EditDevice extends Component
 
 
     public Device $device;
-    public string $category_id = '';
+    public string $category_id;
+    public $attribute_values = [];
     public string $code = '';
     public string $trait = '';
     public string $correspondence_number = '';
@@ -42,11 +43,12 @@ class EditDevice extends Component
     {
         return [
             'category_id' => 'required|integer|exists:categories,id',
+            'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
-            'dossier_id'=>'nullable|integer|exists:dossiers,id',
+            'dossier_id' => 'nullable|integer|exists:dossiers,id',
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
-            'code' => 'required|string|unique:devices,code,'.$this->device->id,
+            'code' => 'required|string|unique:devices,code,' . $this->device->id,
             'delivery_code' => 'nullable|string',
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
@@ -65,6 +67,15 @@ class EditDevice extends Component
         ];
     }
 
+    public function getCategoryProperty()
+    {
+        return Category::find($this->category_id);
+    }
+
+    public function updatedCategoryId(){
+        $this->attribute_values=[];
+    }
+
     public function mount()
     {
         $this->category_id = $this->device->category_id;
@@ -81,6 +92,10 @@ class EditDevice extends Component
         $this->is_active = !$this->device->is_active;
         $this->accessories = $this->device->accessories;
         $this->description = $this->device->description;
+        //device attributes
+        foreach ($this->device->attributes as $attribute) {
+            $this->attribute_values[$attribute->attribute_id] = $attribute->value;
+        }
     }
 
     public function edit()
@@ -110,7 +125,19 @@ class EditDevice extends Component
             'delivery_date' => $delivery_date,
             'is_active' => !$this->is_active,
         ]);
-        toastr()->rtl(true)->addInfo('دستگاه / قطعه مورد نظر ویرایش شد', ' ');
+        // update device attributes value
+        $this->device->attributes()->delete();
+        $this->attribute_values = array_filter($this->attribute_values, function ($value) {
+            return !empty($value);
+        });
+        if (count($this->attribute_values) > 0) {
+            $attributesValue = [];
+            foreach ($this->attribute_values as $key => $value) {
+                $attributesValue[] = ['attribute_id' => $key, 'value' => $value];
+            }
+            $this->device->attributes()->createMany($attributesValue);
+        }
+        flash()->addSuccess('دستگاه / قطعه مورد نظر ویرایش شد');
 //        flash()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد');
         return redirect()->route('admin.devices.index');
     }
@@ -122,7 +149,7 @@ class EditDevice extends Component
         $dossiers = Dossier::all();
         $categories = Category::all();
         // dd($users->hasRole('super-admin'));
-        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers' , 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

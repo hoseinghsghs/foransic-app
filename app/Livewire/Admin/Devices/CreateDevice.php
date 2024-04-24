@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Devices;
 
 use App\Http\Controllers\Admin\ImageController;
+use App\Models\Attribute;
 use App\Models\Device;
 use App\Models\Dossier;
 use App\Models\Category;
@@ -20,7 +21,8 @@ class CreateDevice extends Component
     use WithFileUploads;
 
     public Device $device;
-    public $category_id = '';
+    public $category_id;
+    public $attribute_values = [];
     public string $code = '';
     public string $trait = '';
     public string $correspondence_number = '';
@@ -43,6 +45,7 @@ class CreateDevice extends Component
     {
         return [
             'category_id' => 'required|integer|exists:categories,id',
+            'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
             'dossier_id' => 'nullable|integer|exists:dossiers,id',
             'description' => 'nullable|string',
@@ -55,6 +58,11 @@ class CreateDevice extends Component
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
         ];
+    }
+
+    public function getCategoryProperty()
+    {
+        return Category::find($this->category_id);
     }
 
     public function mount()
@@ -97,6 +105,14 @@ class CreateDevice extends Component
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,
             ]);
+
+            if (count($this->attribute_values) > 0) {
+                $attributesValue = [];
+                foreach ($this->attribute_values as $key => $value) {
+                    $attributesValue[] = ['attribute_id' => $key, 'value' => $value];
+                }
+                $device->attributes()->createMany($attributesValue);
+            }
             $imagesStore = Session::pull('images', []);
             foreach ($imagesStore as $imageStore) {
                 DeviceImage::create([

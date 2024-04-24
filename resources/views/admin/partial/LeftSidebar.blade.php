@@ -85,7 +85,7 @@
 
                 @canany(['devices', 'actions'])
                     <li @class([
-                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*','admin.createtitle.create'),
+                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*','admin.category','admin.attribute'),
                     ])>
                         <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
                                 ها</span></a>
@@ -102,6 +102,8 @@
                                 </li>
 
                                 <li @class(['active' => request()->routeIs('admin.category')])><a href={{ route('admin.category') }}>دسته بندی دستگاه یا قطعه ها</a>
+                                </li>
+                                <li @class(['active' => request()->routeIs('admin.attribute')])><a href={{ route('admin.attribute') }}>ویژگی های دسته بندی</a>
                                 </li>
                             @endcan
 

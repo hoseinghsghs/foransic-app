@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+
     protected $table = "categories";
     protected $guarded = [];
 
-      public function devices()
+    public function devices()
     {
-        return $this->hasMany(Device::class , 'category_id');
+        return $this->hasMany(Device::class, 'category_id');
+    }
+
+    public function attributes(){
+        return $this->belongsToMany(Attribute::class, 'attribute_category');
     }
 }

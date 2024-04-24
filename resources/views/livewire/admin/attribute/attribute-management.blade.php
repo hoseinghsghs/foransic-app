@@ -1,16 +1,16 @@
-@section('title','دسته بندی دستگاه یا قطعه')
+@section('title','ویژگی دسته بندی')
 <section class="content">
     <div class="body_scroll">
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2>دسته بندی دستگاه یا قطعه ها</h2>
+                    <h2>ویژگی دسته بندی</h2>
                     </br>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                 خانه</a></li>
                         <li class="breadcrumb-item"><a href="javascript:void(0);">دستگاه و قطعه ها</a></li>
-                        <li class="breadcrumb-item active">دسته بندی</li>
+                        <li class="breadcrumb-item active">ویژگی</li>
                     </ul>
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
                             class="zmdi zmdi-sort-amount-desc"></i></button>
@@ -22,46 +22,25 @@
             </div>
         </div>
         <div class="container-fluid">
-            <!-- add category -->
+            <!-- add attribute -->
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="body">
                             <div class="row clearfix">
-                                <div class="col-lg-3 col-md-4 col-sm-6">
-                                    <div class="form-group">
-                                        <input type="text" placeholder="عنوان دسته بندی" name="title"
-                                               wire:model.defer="title"
-                                               class="form-control @error('title') is-invalid @enderror">
-                                        @error('title')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div
-                                    class="form-group col-lg-3 col-md-4 col-sm-6 @if($errors->has('attribute_ids') || $errors->has('attribute_ids.*')) is-invalid @endif">
-                                    <div wire:ignore>
-                                        <select id="attributesId" name="attribute_ids[]"
-                                                class="form-control show-tick ms select2"
-                                                data-placeholder="انتخاب ویژگی" multiple data-close-on-select="false">
-                                            @foreach ($attributes as $attribute)
-                                                <option value="{{ $attribute->id }}">
-                                                    {{ $attribute->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    @if($errors->has('attribute_ids'))
-                                        <small class="text-danger">{{ $errors->first('attribute_ids') }}</small>
-                                    @elseif($errors->has('attribute_ids.*'))
-                                        <small class="text-danger">{{ $errors->first('attribute_ids.*') }}</small>
-                                    @endif
+                                <div class="col-md-4 col-sm-6">
+                                    <input type="text" placeholder="عنوان ویژگی" name="name"
+                                           wire:model.defer="name" class="form-control">
+                                    @error('name')
+                                    <p class="text-danger">{{ $message }}</p>
+                                    @enderror
                                 </div>
                                 <div class="col-auto">
-                                    <button wire:click="add_category" wire:loading.attr="disabled"
+                                    <button wire:click="add_attribute" wire:loading.attr="disabled"
                                             class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
                                         {{ $is_edit ? 'ویرایش' : 'افزودن' }}
                                         <span class="spinner-border spinner-border-sm text-light" wire:loading
-                                              wire:target="add_category"></span>
+                                              wire:target="add_attribute"></span>
                                     </button>
                                     @if ($is_edit)
                                         <button class="btn btn-raised btn-info waves-effect"
@@ -83,12 +62,12 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>لیست دسته ها </strong>
-                                ({{ $categories->total() }})
+                            <h2><strong>لیست عناوین </strong>
+                                ({{ $attributes->total() }})
                             </h2>
                         </div>
                         <div class="body">
-                            @if (count($categories) === 0)
+                            @if (count($attributes) === 0)
                                 <p>هیچ رکوردی وجود ندارد</p>
                             @else
                                 <div class="table-responsive">
@@ -97,39 +76,37 @@
                                         <tr>
                                             <th>#</th>
                                             <th>عنوان</th>
-                                            <th>ویژگی ها</th>
-                                            <th class="text-center">عملیات</th>
+                                            <th class="text-center js-sweetalert">عملیات</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($categories as $category)
-                                            <tr wire:key="{{ $category->id }}"
+                                        @foreach ($attributes as $attribute)
+                                            <tr wire:key="{{ $attribute->id }}"
                                                 wire:loading.attr="disabled">
                                                 <td scope="row">{{ $loop->index + 1 }}</td>
-                                                <td>{{ $category->title }}</td>
-                                                <td>{{ $category->attributes()->pluck('attributes.name')->implode(' / ') }}</td>
-                                                <td class="text-center">
+                                                <td>{{ $attribute->name }}</td>
+                                                <td class="text-center js-sweetalert">
                                                     <button
-                                                        wire:click="edit_category({{ $category->id }})"
+                                                        wire:click="edit_attribute({{ $attribute->id }})"
                                                         wire:loading.attr="disabled" {{ $display }}
                                                         class="btn btn-raised btn-info waves-effect scroll">
                                                         <i class="zmdi zmdi-edit"></i>
                                                         <span
                                                             class="spinner-border spinner-border-sm text-light"
                                                             wire:loading
-                                                            wire:target="edit_category({{ $category->id }}) "></span>
+                                                            wire:target="edit_attribute({{ $attribute->id }}) "></span>
                                                     </button>
 
                                                     <button class="btn btn-raised btn-danger waves-effect"
                                                             wire:loading.attr="disabled"
-                                                            wire:click="del_category({{ $category->id }})"
+                                                            wire:click="del_attribute({{ $attribute->id }})"
                                                             wire:confirm="از حذف رکورد مورد نظر اطمینان دارید؟"
                                                         {{ $display }}>
                                                         <i class="zmdi zmdi-delete"></i>
                                                         <span
                                                             class="spinner-border spinner-border-sm text-light"
                                                             wire:loading
-                                                            wire:target="del_category({{ $category->id }})"></span>
+                                                            wire:target="del_attribute({{ $attribute->id }})"></span>
                                                     </button>
                                                 </td>
                                             </tr>
@@ -146,7 +123,7 @@
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
-                        {{ $categories->links('vendor.pagination.bootstrap-4') }}
+                        {{ $attributes->links('vendor.pagination.bootstrap-4') }}
                     </div>
                 </div>
             </div>
@@ -155,28 +132,11 @@
 </section>
 @push('scripts')
     <script>
-        {{--let res=@json($attribute_ids);--}}
         $('.scroll').click(function () {
             $("html, body").animate({
                 scrollTop: 0
             }, 600);
             return false;
         });
-
-        $(document).ready(function () {
-            Livewire.on('destroy-attribute', () => {
-                $('#attributesId').val(null).trigger('change');
-            });
-
-            Livewire.on('update-attribute', ({attribute_ids}) => {
-                $('#attributesId').val(attribute_ids).trigger('change');
-            });
-
-            $('#attributesId').on('change', function (e) {
-                let data = $('#attributesId').select2("val");
-            @this.set('attribute_ids', data);
-            });
-        })
     </script>
-
 @endpush

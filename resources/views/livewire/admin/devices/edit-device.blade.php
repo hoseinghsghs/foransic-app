@@ -85,6 +85,21 @@
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+                                    {{--category attributes--}}
+                                    @if($category_id && $this->category->attributes()->exists())
+                                        @foreach($this->category->attributes as $attribute)
+                                            <div class="form-group col-md-3" wire:key="{{$attribute->id}}">
+                                                <label>{{$attribute->name}}</label>
+                                                <div class="form-group">
+                                                    <input type="text" wire:model="attribute_values.{{$attribute->id}}" id="delivery_code"
+                                                           class="form-control @error("attribute_values.{{$attribute->id}}") is-invalid @enderror"/>
+                                                    @error("attribute_values.{{$attribute->id}}")
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                     {{-- تحویل گیرنده --}}
                                     @if ($status == '3')
                                         <div class="form-group col-md-6">

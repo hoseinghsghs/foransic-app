@@ -55,13 +55,13 @@
 </head>
 
 <body class="container-main-xlg mx-auto">
-    @includeUnless(request()->routeIs('login', 'register'), 'home.partial.Header')
-    @includeUnless(request()->routeIs('login', 'register'), 'home.partial.Modal')
+{{--    @includeUnless(request()->routeIs('login', 'register'), 'home.partial.Header')--}}
+{{--    @includeUnless(request()->routeIs('login', 'register'), 'home.partial.Modal')--}}
 
     @yield('content')
 
-    @includeUnless(request()->routeIs('login', 'register'), 'home.partial.Footer')
-    @include('home.partial.Scroll')
+{{--    @includeUnless(request()->routeIs('login', 'register'), 'home.partial.Footer')--}}
+{{--    @include('home.partial.Scroll')--}}
     {{-- @include('home.partial.Loader') --}}
 
     <script src="{{ asset('assets/admin/jquery-3.2.1.min.js') }}"></script>

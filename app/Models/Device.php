@@ -23,6 +23,10 @@ class Device extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
+    public function attributes()
+    {
+        return $this->hasMany(DeviceAttribute::class);
+    }
         public function dossier()
     {
         return $this->belongsTo(Dossier::class);

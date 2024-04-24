@@ -40,6 +40,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices')->name('devices.create');
 
     Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:devices')->name('category');
+    Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes')->name('attribute');
 
     Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers')->name('dossiers.create');
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers')->name('dossiers.edit');
