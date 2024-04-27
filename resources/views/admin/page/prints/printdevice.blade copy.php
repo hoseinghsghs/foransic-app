@@ -14,7 +14,7 @@
                      src="{{ $setting->logo ? asset('storage/logo/' . $setting->logo) : '/images/logo.png' }}"
                      alt="logo" height="45px" /></div>
              <div class="col-6 text-center">
-                 <h5 class="font-weight-bold">رسید دستگاه / قطعه</h5>
+                 <h5 class="font-weight-bold">رسید شواهد دیجیتال</h5>
              </div>
              <div class="col-3 text-right">
                  <h6>شماره رسید: {{ $device->id }}</h6>
@@ -91,10 +91,10 @@
                  <thead>
                      <tr class="text-center">
                          <th>id</th>
-                         <th>سریال یا شماره اموال دستگاه / قطعه</th>
+                         <th>سریال یا شماره اموال شواهد دیجیتال</th>
                          <th>عنوان کالا</th>
                          <th>شرح کالا یا خدمات</th>
-                         <th>لوازم جانبی های همراه دستگاه / قطعه</th>
+                         <th>لوازم جانبی های همراه شواهد دیجیتال</th>
                          <th>واحد انداز گیری</th>
                          <th>مبلغ واحد (تومان)</th>
                          <th>مبلغ کل (تومان)</th>

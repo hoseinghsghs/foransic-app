@@ -12,7 +12,7 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                     خانه</a></li>
-                            <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}>لیست دستگاه / قطعه ها </a>
+                            <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}>لیست شواهد دیجیتال </a>
                             </li>
                             <li class="breadcrumb-item active">ویرایش تصاویر</li>
                         </ul>
@@ -59,7 +59,7 @@
                         <div class="col-lg-12 col-md-12">
                             <div class="card">
                                 <div class="header mt-0">
-                                    <label class="mb-1">تصاویر دستگاه / قطعه</label>
+                                    <label class="mb-1">تصاویر شواهد دیجیتال</label>
                                 </div>
                                 <div class="form-group">
                                     <form action="{{ route('admin.edit_uploade', ['device' => $device]) }}" id="myDropzone"

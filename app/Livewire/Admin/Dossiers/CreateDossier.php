@@ -75,6 +75,7 @@ class CreateDossier extends Component
             $device = Dossier::create([
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
+                'pesonal_creator_id' => auth()->user()->id,
                 'section' => $this->section,
                 'subject' => $this->subject,
                 'expert' => $this->expert,
@@ -101,8 +102,8 @@ class CreateDossier extends Component
         $this->device=$device;
 //        sweetalert()
 //            ->showDenyButton()->timerProgressBar(false)->persistent()
-//            ->addInfo('مایل به پرینت دستگاه / قطعه هستید؟');
-        toastr()->rtl()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد', ' ');
+//            ->addInfo('مایل به پرینت شواهد دیجیتال هستید؟');
+        toastr()->rtl()->addSuccess('شواهد مورد نظر دریافت شد', ' ');
          return redirect()->route('admin.dossiers.index');
     }
 

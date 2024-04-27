@@ -105,12 +105,12 @@
                  </tbody>
                  <thead>
                      <tr>
-                         <th class="text-center" colspan="11"> دستگاه / قطعه</th>
+                         <th class="text-center" colspan="11"> شواهد دیجیتال</th>
                      </tr>
                  </thead>
                  <tr class="text-center">
                      <th>id</th>
-                     <th>سریال یا شماره اموال دستگاه / قطعه</th>
+                     <th>سریال یا شماره اموال شواهد دیجیتال</th>
                      <th>عنوان کالا</th>
                      <th> مشخصات </th>
                  </tr>

@@ -1,5 +1,5 @@
 @extends('admin.layout.MasterAdmin')
-@section('title', 'لیست دستگاه / قطعه')
+@section('title', 'لیست شواهد دیجیتال')
 @section('Content')
     <section class="content">
         <div class="body_scroll">

@@ -27,7 +27,7 @@ class Setting extends Component
     ];
 
     protected $validationAttributes = [
-        'device_names' => 'نام دستگاه/قطعه ها'
+        'device_names' => 'نام شواهد دیجیتال'
     ];
 
     public function mount()

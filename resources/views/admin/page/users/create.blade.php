@@ -1,5 +1,5 @@
 @extends('admin.layout.MasterAdmin')
-@section('title','افزودن کاربر')
+@section('title', 'افزودن کاربر')
 
 @section('Content')
     <section class="content">
@@ -10,9 +10,9 @@
                         <h2>افزودن کاربر</h2>
                         </br>
                         <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href={{route('admin.home')}}><i class="zmdi zmdi-home"></i>
+                            <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                     خانه</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('admin.users.index')}}">کاربران</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('admin.users.index') }}">کاربران</a></li>
                             <li class="breadcrumb-item active">افزودن کاربر</li>
                         </ul>
                         <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
@@ -31,18 +31,18 @@
                         <div class="card">
                             <div class="body">
                                 <form id="form_advanced_validation" class="needs-validation"
-                                      action="{{route('admin.users.store')}}" method="POST">
+                                    action="{{ route('admin.users.store') }}" method="POST">
                                     @method('POST')
                                     @csrf
                                     <div class="row clearfix">
                                         <div class="col-md-3">
-                                            <label for="title">نام</label>
+                                            <label for="title">کاربر</label>
                                             <div class="form-group">
                                                 <input type="text" name="name"
-                                                       class="form-control @error('name') is-invalid @enderror"
-                                                       value="{{old('name')}}">
+                                                    class="form-control @error('name') is-invalid @enderror"
+                                                    value="{{ old('name') }}" placeholder="نام خانوادگی - رده استان">
                                                 @error('name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                    <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -50,34 +50,34 @@
                                             <label for="text">ایمیل</label>
                                             <div class="form-group">
                                                 <input type="email" name="email"
-                                                       class="form-control @error('email') is-invalid @enderror"
-                                                       value="{{old('email')}}">
+                                                    class="form-control @error('email') is-invalid @enderror"
+                                                    value="{{ old('email') }}">
                                                 @error('email')
-                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                    <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="text">شماره تلفن <abbr class="required"
-                                                                               title="ضروری" style="color:red;">*</abbr></label>
+                                            <label for="text"> نام کاربری (کد پرسنلی) <abbr class="required"
+                                                    title="ضروری" style="color:red;">*</abbr></label>
                                             <div class="form-group">
                                                 <input type="number" required name="cellphone"
-                                                       class="form-control without-spin @error('cellphone') is-invalid @enderror"
-                                                       value="{{old('cellphone')}}">
+                                                    class="form-control without-spin @error('cellphone') is-invalid @enderror"
+                                                    value="{{ old('cellphone') }}">
                                                 @error('cellphone')
-                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                    <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
-                                            <label for="password">رمز عبور <abbr class="required"
-                                                                                 title="ضروری" style="color:red;">*</abbr></label>
+                                            <label for="password">رمز عبور <abbr class="required" title="ضروری"
+                                                    style="color:red;">*</abbr></label>
                                             <div class="form-group">
                                                 <input type="text" required name="password" id="password"
-                                                       class="form-control @error('password') is-invalid @enderror">
+                                                    class="form-control @error('password') is-invalid @enderror">
                                                 @error('password')
-                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                    <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -85,22 +85,23 @@
                                             <label for="type">نقش کاربری</label>
                                             <div class="form-group">
                                                 <select id="positionSelect" name="role" data-placeholder="انتخاب نقش"
-                                                        class="form-control ms select2">
+                                                    class="form-control ms select2">
                                                     <option value='false'>بدون نقش</option>
                                                     @forelse ($roles as $role)
-                                                        <option
-                                                            value="{{$role->name}}" @selected(old('role')==$role->name)>{{$role->display_name}}</option>
+                                                        <option value="{{ $role->name }}" @selected(old('role') == $role->name)>
+                                                            {{ $role->display_name }}</option>
                                                     @empty
                                                     @endforelse
                                                 </select>
                                                 @error('role')
-                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                    <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <a href="{{route('admin.users.index')}}" class="btn btn-secondary ml-md-3">بازگشت</a>
+                                        <a href="{{ route('admin.users.index') }}"
+                                            class="btn btn-secondary ml-md-3">بازگشت</a>
                                         <button type="submit" class="btn btn-raised btn-primary waves-effect">
                                             ذخیره
                                         </button>

@@ -13,7 +13,7 @@
                             <div class="form-group">
                                 <div class="form-line">
                                     <input type="text" class="form-control" wire:model.live.debounce.500ms="title"
-                                        placeholder="نام دستگاه / قطعه، کد">
+                                        placeholder="نام شواهد دیجیتال، کد">
                                 </div>
                             </div>
                         </div>
@@ -34,11 +34,11 @@
                                 <div class="form-line">
                                     <select data-placeholder="موجودی" wire:model.live="status" class="form-control ms">
                                         <option value="">وضعیت بررسی</option>
-                                        <option value="0">پذیرش دستگاه / قطعه</option>
+                                        <option value="0">پذیرش شواهد دیجیتال</option>
                                         <option value="1">در حال بررسی</option>
                                         <option value="2"> تکمیل تجزیه و تحلیل
                                         </option>
-                                        <option value="3">تحویل دستگاه / قطعه</option>
+                                        <option value="3">تحویل شواهد دیجیتال</option>
                                     </select>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                 </div>
             </form>
             <div class="header d-flex align-items-center">
-                <h2><strong>لیست دستگاه / قطعه </strong> ( {{ $devices->total() }} )</h2>
+                <h2><strong>لیست شواهد دیجیتال </strong> ( {{ $devices->total() }} )</h2>
                 <div class="mr-auto">
                     <a onclick="loadbtn(event)" href="{{ route('admin.devices.create') }}"
                         class="btn btn-raised btn-info waves-effect mr-auto">
@@ -69,7 +69,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>عنوان دستگاه یا قطعه</th>
+                                    <th>عنوان شواهد دیجیتال</th>
                                     <th>کد</th>
                                     <th>نام تحویل دهنده</th>
                                     <th>نام تحویل گیرنده</th>

@@ -23,6 +23,8 @@ class ActionControll extends Component
     public $description;
     public $start_date;
     public $end_date;
+    public $attachments;
+    public $device_image;
     public $status = true;
     public $is_print = true;
     public $action;
@@ -48,6 +50,7 @@ class ActionControll extends Component
         $this->is_edit = false;
 
         $this->reset("description");
+        $this->reset("attachments");
         $this->reset("start_date");
         $this->reset("end_date");
         $this->reset("status");
@@ -71,6 +74,8 @@ class ActionControll extends Component
     public function edit_action(Action $action)
     {
         if (Gate::allows('update-action',$action)){
+
+            $this->attachments=$action->attachments->pluck('url');
             $this->is_edit = true;
             $this->description = $action->description;
             $this->start_date = $action->start_date;
@@ -81,6 +86,7 @@ class ActionControll extends Component
             $this->display = "disabled";
             $this->resetValidation();
             $this->dispatch('edit-action', start_date: $this->start_date, end_date: $this->end_date);
+            $this->dispatch('edit-file', attachments: $this->attachments);
         }else{
             toastr()->rtl()->addInfo('شما اجازه ویرایش این قسمت را ندارید!', ' ');
         }

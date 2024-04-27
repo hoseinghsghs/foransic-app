@@ -1,4 +1,4 @@
-@section('title','تنظیمات سایت')
+@section('title', 'تنظیمات سایت')
 @push('styles')
     <style>
         .custom-file-label::after {
@@ -20,7 +20,8 @@
                 <div class="col-lg-7 col-md-6 col-sm-12">
                     <h2>تنظیمات</h2>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href={{route('admin.home')}}><i class="zmdi zmdi-home"></i> خانه</a>
+                        <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
+                                خانه</a>
                         </li>
                         <li class="breadcrumb-item active"><a href="javascript:void(0);">تنظیمات</a></li>
                     </ul>
@@ -54,40 +55,36 @@
                                     <div class="form-group col-md-4">
                                         <div class="form-line">
                                             <label class="form-label">عنوان سایت</label>
-                                            <input wire:model="site_name" type="text" name="title" class="form-control">
+                                            <input wire:model="site_name" type="text" name="title"
+                                                class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-8" wire:ignore>
-                                        <label class="form-label">نام دستگاه/قطعه ها</label>
-                                        <input id="device-names" value="{{$device_names}}" class="form-control"
-                                               data-role="tagsinput">
+                                        <label class="form-label">نام شواهد دیجیتال</label>
+                                        <input id="device-names" value="{{ $device_names }}" class="form-control"
+                                            data-role="tagsinput">
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label class="form-label" for="exampleFormControlFile1">آپلود لوگوی پنل<span
-                                                wire:loading
-                                                wire:target="logo"
-                                                class="spinner-border spinner-border-sm"
-                                                role="status"
-                                                aria-hidden="true"></span></label>
+                                                wire:loading wire:target="logo" class="spinner-border spinner-border-sm"
+                                                role="status" aria-hidden="true"></span></label>
                                         <div class="custom-file d-flex flex-row-reverse">
                                             <input wire:model.live="logo" type="file" class="custom-file-input"
-                                                   id="customFile" lang="ar"
-                                                   dir="rtl">
+                                                id="customFile" lang="ar" dir="rtl">
                                             <label class="custom-file-label text-right" for="customFile">انتخاب
                                                 عکس</label>
                                         </div>
                                         @if ($logo || $logo_url)
-                                            <img
-                                                src="{{ isset($logo) ? $logo->temporaryUrl() : asset('storage/logo/'.$logo_url) }}"
+                                            <img src="{{ isset($logo) ? $logo->temporaryUrl() : asset('storage/logo/' . $logo_url) }}"
                                                 class="rounded mx-auto d-block img-fluid img-thumbnail preview-img mt-2">
                                         @endif
                                     </div>
                                 </div>
                                 <button type="submit" wire:loading.attr="disabled"
-                                        class="btn btn-raised btn-primary waves-effect">
+                                    class="btn btn-raised btn-primary waves-effect">
                                     ذخیره
                                     <span wire:loading class="spinner-border spinner-border-sm" role="status"
-                                          aria-hidden="true"></span>
+                                        aria-hidden="true"></span>
                                 </button>
                             </form>
                         </div>
@@ -100,10 +97,10 @@
 
 @push('scripts')
     <script>
-        $(document).ready(function () {
-            $('#device-names').on('itemAdded', function (event) {
+        $(document).ready(function() {
+            $('#device-names').on('itemAdded', function(event) {
                 // Livewire.emit('keywordsChanged', $(this).val());
-            @this.set('device_names', $(this).val());
+                @this.set('device_names', $(this).val());
             });
         });
     </script>

@@ -95,6 +95,7 @@ class EditDossier extends Component
         $this->dossier->update([
             'name' => $this->name,
             'user_category_id' => $this->user_category_id,
+            'pesonal_creator_id' => auth()->user()->id,
             'section' => $this->section,
             'subject' => $this->subject,
             'expert' => $this->expert,
@@ -111,7 +112,7 @@ class EditDossier extends Component
             'Judicial_image' => $image_name,
         ]);
         toastr()->rtl(true)->addInfo('پرونده ویرایش شد', ' ');
-//        flash()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد');
+//        flash()->addSuccess('شواهد دیجیتال مورد نظر دریافت شد');
         return redirect()->route('admin.dossiers.index');
     }
 

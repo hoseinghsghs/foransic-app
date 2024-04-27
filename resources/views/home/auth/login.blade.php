@@ -19,8 +19,8 @@
                                             <div class="message-light">
                                                 <div class="form-account-title text-right">
                                                     <label for="username">نام کاربری:</label>
-                                                    <input type="text" class="number-email-input"
-                                                        placeholder="شماره موبایل یا ایمیل" id="username" name="username">
+                                                    <input type="text" class="number-email-input" id="username"
+                                                        name="username">
                                                     <small
                                                         class="text-danger font-weight-bold pr-2 username-error d-block"></small>
                                                 </div>

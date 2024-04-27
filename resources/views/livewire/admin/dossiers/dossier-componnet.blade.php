@@ -52,14 +52,6 @@
                     <a onclick="loadbtn(event)" href="{{ route('admin.dossiers.create') }}"
                         class="btn btn-raised btn-info waves-effect mr-auto">
                         افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
-
-                    {{-- <a onclick="loadbtn(event)" href="{{ route('admin.file-dossier') }}"
-                        class="btn btn-raised btn-warning waves-effect ">
-                        خروجی پرونده<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
-
-                    {{-- <a onclick="window.open('{{ route('admin.file-dossier2') }}');"
-                        href="{{ route('admin.file-dossier') }}" class="btn btn-raised btn-warning waves-effect ">
-                        خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
                 </div>
             </div>
             <div class="body">
@@ -80,6 +72,7 @@
                                     <th>شماره پرونده</th>
                                     <th>مدیریت یا معاونت</th>
                                     <th> رده</th>
+                                    <th>پرسنل آزمایشگاه مربوطه</th>
                                     <th> تاریخ ایجاد</th>
                                     <th>وضعیت</th>
                                     <th>بایگانی</th>
@@ -104,6 +97,9 @@
                                         </td>
                                         <td dir="ltr">
                                             {{ App\Models\User::find($dossier->user_category_id)->name }}
+                                        </td>
+                                        <td dir="ltr">
+                                            {{ App\Models\User::find($dossier->pesonal_creator_id)->name }}
                                         </td>
                                         <td dir="ltr">
                                             {{ verta($dossier->created_at)->format('Y/n/j') }}

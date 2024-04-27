@@ -32,6 +32,7 @@ return new class extends Migration
             $table->boolean('is_active')->default(1);
             $table->boolean('is_archive')->default(1);
             $table->bigInteger('user_category_id');
+            $table->bigInteger('pesonal_creator_id');
 
             $table->timestamps();
         });

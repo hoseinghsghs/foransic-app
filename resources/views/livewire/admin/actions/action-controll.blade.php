@@ -35,7 +35,41 @@
                                         <div class="card">
                                             <div class="body">
                                                 <div class="row clearfix">
+                                                    <div class="form-group col-md-12 col-sm-12 mt-2">
+                                                        <span>
+                                                            <h5 style="font-size:1.1em !important"><a class="ml-3"
+                                                                    href="#">
+                                                                    <strong style="color:#e47297">
+                                                                        عنوان
+                                                                    </strong>
+                                                                    : {{ $device->category->title }}</a>
+
+                                                                <a class="ml-3" href="#">
+                                                                    <strong style="color:#e47297">
+                                                                        سریال یا شماره اموال
+                                                                        شواهد
+                                                                        دیجیتال
+                                                                    </strong>
+                                                                    : {{ $device->code }}</a>
+                                                                @if ($device->dossier)
+                                                                    <a class="ml-3" href="#">
+                                                                        <strong style="color:#e47297">عنوان پرونده
+                                                                            مربوطه
+                                                                            :
+                                                                        </strong>
+
+                                                                        {{ $device->dossier->name }},
+
+                                                                    </a>
+                                                                @endif
+
+                                                            </h5>
+
+                                                        </span>
+
+                                                    </div>
                                                     <div class="form-group col-md-12 col-sm-12">
+
                                                         <label for="">توضیحات اقدام *</label>
                                                         @if ($is_edit)
                                                             <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">{!! $action->description !!}</textarea>
@@ -113,7 +147,8 @@
                                                     <div class="col-lg-3 col-md-12 col-sm-12">
                                                         <div class="form-group">
                                                             <label>نمایش در گزارش و پرینت</label>
-                                                            <select data-placeholder="وضعیت" wire:model.live="is_print"
+                                                            <select data-placeholder="وضعیت"
+                                                                wire:model.live="is_print"
                                                                 class="form-control ms @error('status') is-invalid @enderror">
                                                                 <option value="1">فعال</option>
                                                                 <option value="0">غیرفعال</option>
@@ -131,8 +166,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <form action="{{ route('admin.attachments_uploade') }}"
-                                                                id="myDropzone" class="dropzone" method="POST"
-                                                                id="my-awesome-dropzone">
+                                                                id="myDropzone" class="dropzone" method="POST">
                                                                 @csrf
                                                             </form>
                                                         </div>
@@ -261,6 +295,7 @@
             </div>
         </div>
     </div>
+
 </section>
 @push('styles')
     <!-- تاریخ -->
@@ -278,6 +313,126 @@
         }
     </style>
 @endpush
+@script
+    <script>
+        Livewire.on('edit-file', (data) => {
+            let variations = data.attachments;
+
+
+            Dropzone.options.myDropzone = {
+                parallelUploads: 5,
+                maxFiles: 5,
+                maxFilesize: 1,
+                acceptedFiles: ".zip,.rar,.jpeg,.jpg,.png,.pdf,.txt,.xlsx,.csv",
+                addRemoveLinks: true,
+                previewsContainer: ".dropzone",
+                clickable: ".dropzone",
+
+                success: function(file, response) {
+
+                    $(file.previewTemplate).append(
+                        '<span class="server_file" hidden >' + response + "</span>"
+                    );
+
+                },
+
+                removedfile: function(file) {
+
+                    var server_file = file.name;
+                    var answer = window.confirm("آیا تصویر حذف شود؟");
+                    if (answer) {
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ route('admin.edit_del') }}",
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                name: server_file,
+                                request: 2,
+                            },
+                            sucess: function(data) {
+                                console.log("success: " + data);
+                            },
+                        });
+
+                        var _ref;
+                        return (_ref = file.previewElement) != null ?
+                            _ref.parentNode.removeChild(file.previewElement) :
+                            void 0;
+                    } else {
+                        alert('مشکل اتصال با سرور')
+                    }
+
+                },
+
+                headers: {
+                    "X-CSRF-Token": "{{ csrf_token() }}",
+                },
+                dictDefaultMessage: '<span class="text-center"><span class="font-lg visible-xs-block visible-sm-block visible-lg-block"><span class="font-lg"><i class="fa fa-caret-right text-danger"></i> Drop files <span class="font-xs">to upload</span></span><span>&nbsp&nbsp<h4 class="display-inline"> (Or Click)</h4></span>',
+                dictDefaultMessage: "<span style='color:gray'>تصاویر را بکشید و در اینجا رها کنید</span>",
+                dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+                dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+                dictFileTooBig: "File is too big (@{{ filesize }}MiB). Max filesize: @{{ maxFilesize }}MiB.",
+                dictInvalidFileType: "You can't upload files of this type.",
+                dictResponseError: "Server responded with @{{ statusCode }} code.",
+                dictCancelUpload: "توقف آپلود",
+                dictUploadCanceled: "Upload canceled.",
+                dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+                dictRemoveFile: "حذف",
+                dictRemoveFileConfirmation: null,
+                dictMaxFilesExceeded: "You can not upload any more files.",
+
+                init: function() {
+                    alert(variations);
+                    variations.forEach(variation => {
+                        console.log(variation.url);
+                        var thisDropzone = this;
+
+                        var mockFile = {
+                            name: variation.url,
+                            size: 12345,
+                            type: 'image/jpeg'
+                        };
+                        thisDropzone.emit("addedfile", mockFile);
+                        thisDropzone.emit("success", mockFile);
+                        thisDropzone.emit("thumbnail", mockFile,
+                            "{{ env('APP_URL') }}" + '/storage/attachment_files/' + variation
+                            .url)
+                    }, )
+                    dzClosure =
+                        this; // Makes sure that 'this' is understood inside the functions below.
+                    // for Dropzone to process the queue (instead of default form behavior):
+                    var el = document.getElementById("submit-all");
+
+
+                    if (el) {
+                        el.addEventListener("click", function(e) {
+                            // Make sure that the form isn't actually being sent.
+                            e.preventDefault();
+                            e.stopPropagation();
+                            dzClosure.processQueue();
+
+
+                        });
+                    }
+                    //send all the form data along with the files:
+                    this.on("sendingmultiple", function(data, xhr, formData) {
+                        formData.append("firstname", jQuery("#firstname").val());
+                        formData.append("lastname", jQuery("#lastname").val());
+                    });
+                    this.on("successmultiple", function(files, response) {
+                        // Gets triggered when the files have successfully been sent.
+                        // Redirect user or notify of success.
+                    });
+                    this.on("errormultiple", function(files, response) {
+                        // Gets triggered when there was an error sending the files.
+                        // Maybe show form again, and notify user of error
+                        alert("error");
+                    });
+                },
+            };
+        });
+    </script>
+@endscript
 @push('scripts')
     <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
     <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
@@ -339,6 +494,7 @@
             e_dateTime = e_dateTime.map((item, index) => Number(item))
             let e_unix = new persianDate(e_dateTime).valueOf();
             dateTimePicker.to.setDate(e_unix)
+
         });
 
         $(document).ready(function() {
@@ -437,6 +593,9 @@
         Livewire.on('upfile', () => {
             $('#myDropzone').empty();
         });
+
+
+
         Dropzone.options.myDropzone = {
             parallelUploads: 5,
             maxFiles: 5,
@@ -449,7 +608,9 @@
                 $(file.previewTemplate).append(
                     '<span class="server_file">' + response + "</span>"
                 );
+                alert('xx');
             },
+
             removedfile: function(file) {
                 var server_file = $(file.previewTemplate)
                     .children(".server_file")

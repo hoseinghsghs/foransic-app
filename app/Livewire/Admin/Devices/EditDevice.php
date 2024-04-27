@@ -137,8 +137,8 @@ class EditDevice extends Component
             }
             $this->device->attributes()->createMany($attributesValue);
         }
-        flash()->addSuccess('دستگاه / قطعه مورد نظر ویرایش شد');
-//        flash()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد');
+        flash()->addSuccess('شواهد مورد نظر ویرایش شد');
+//        flash()->addSuccess('شواهد دیجیتال مورد نظر دریافت شد');
         return redirect()->route('admin.devices.index');
     }
 

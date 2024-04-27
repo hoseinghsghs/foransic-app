@@ -20,5 +20,10 @@ class Action extends Model
     {
         return $this->hasMany(ActionAttachment::class);
     }
+
+    public function device()
+    {
+        return $this->belongsTo(Device::class , 'device_id');
+    }
 }
 

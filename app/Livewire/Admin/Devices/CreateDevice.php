@@ -131,8 +131,8 @@ class CreateDevice extends Component
         $this->device = $device;
 //        sweetalert()
 //            ->showDenyButton()->timerProgressBar(false)->persistent()
-//            ->addInfo('مایل به پرینت دستگاه / قطعه هستید؟');
-        toastr()->rtl()->addSuccess('دستگاه / قطعه مورد نظر دریافت شد', ' ');
+//            ->addInfo('مایل به پرینت شواهد دیجیتال هستید؟');
+        toastr()->rtl()->addSuccess('شواهد مورد نظر دریافت شد', ' ');
         return redirect()->route('admin.devices.index');
     }
 

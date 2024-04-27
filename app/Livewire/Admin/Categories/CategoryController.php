@@ -91,7 +91,7 @@ class CategoryController extends Component
     public function del_category(Category $category)
     {
         if ($category->devices()->exists() || $category->attributes()->exists()) {
-            flash()->addWarning('به علت الحاق عنوان به قطعه یا دستگاه امکان حذف آن وجود ندارد');
+            flash()->addWarning('به علت الحاق عنوان به قطعه یا شواهد امکان حذف آن وجود ندارد');
         } else {
             $category->delete();
             flash()->addSuccess('دسته بندی با موفقیت حذف شد');

@@ -1,19 +1,19 @@
 @extends('admin.layout.MasterAdmin')
-@section('title', 'مشاهده دستگاه / قطعه')
+@section('title', 'مشاهده شواهد دیجیتال')
 @section('Content')
     <section class="content">
         <div class="body_scroll">
             <div class="block-header">
                 <div class="row">
                     <div class="col-lg-7 col-md-6 col-sm-12">
-                        <h2>نمایش دستگاه / قطعه</h2>
+                        <h2>نمایش شواهد دیجیتال</h2>
                         <br>
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                     خانه</a></li>
                             <li class="breadcrumb-item"><a href="javascript:void(0);"><a
-                                        href={{ route('admin.devices.index') }}>لیست دستگاه / قطعه ها</a></li>
-                            <li class="breadcrumb-item active">نمایش دستگاه / قطعه</li>
+                                        href={{ route('admin.devices.index') }}>لیست شواهد دیجیتال</a></li>
+                            <li class="breadcrumb-item active">نمایش شواهد دیجیتال</li>
                         </ul>
                         <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
                                 class="zmdi zmdi-sort-amount-desc"></i></button>
@@ -31,11 +31,11 @@
                         <div class="card">
                             <div class=" list-group">
                                 <button type="button" class="list-group-item list-group-item-primary">
-                                    مشخصات اصلی دستگاه / قطعه
+                                    مشخصات اصلی شواهد دیجیتال
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
-                                        <div class="col-6"><strong>نام دستگاه / قطعه:</strong></div>
+                                        <div class="col-6"><strong>نام شواهد دیجیتال:</strong></div>
                                         <div class="col-6">{{ $device->titleManagement->title }}</div>
                                     </div>
                                 </button>
@@ -45,7 +45,7 @@
                                         <div class="col-6">
                                             @switch($device->status)
                                                 @case('0')
-                                                    پذیرش دستگاه / قطعه
+                                                    پذیرش شواهد دیجیتال
                                                 @break
 
                                                 @case('1')
@@ -55,7 +55,7 @@
                                                 @case('2')
                                                     تکمیل تجزیه و تحلیل
                                                 @case('3')
-                                                    تحویل دستگاه / قطعه
+                                                    تحویل شواهد دیجیتال
                                                 @endswitch
                                             </div>
                                         </div>

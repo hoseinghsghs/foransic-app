@@ -42,7 +42,7 @@ class UserController extends Controller
                 'max:255',
                 Rule::unique(User::class),
             ],
-            'cellphone' => 'required|unique:users,cellphone|ir_mobile:zero',
+            'cellphone' => 'required|unique:users,cellphone',
             'password' => ['required',Password::min(8)],
         ]);
         try {

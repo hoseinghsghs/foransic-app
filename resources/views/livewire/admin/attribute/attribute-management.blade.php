@@ -1,4 +1,4 @@
-@section('title','ویژگی دسته بندی')
+@section('title', 'ویژگی دسته بندی')
 <section class="content">
     <div class="body_scroll">
         <div class="block-header">
@@ -9,7 +9,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                 خانه</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">دستگاه و قطعه ها</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">شواهد دیجیتال </a></li>
                         <li class="breadcrumb-item active">ویژگی</li>
                     </ul>
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
@@ -30,23 +30,23 @@
                             <div class="row clearfix">
                                 <div class="col-md-4 col-sm-6">
                                     <input type="text" placeholder="عنوان ویژگی" name="name"
-                                           wire:model.defer="name" class="form-control">
+                                        wire:model.defer="name" class="form-control">
                                     @error('name')
-                                    <p class="text-danger">{{ $message }}</p>
+                                        <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
                                 <div class="col-auto">
                                     <button wire:click="add_attribute" wire:loading.attr="disabled"
-                                            class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
+                                        class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
                                         {{ $is_edit ? 'ویرایش' : 'افزودن' }}
                                         <span class="spinner-border spinner-border-sm text-light" wire:loading
-                                              wire:target="add_attribute"></span>
+                                            wire:target="add_attribute"></span>
                                     </button>
                                     @if ($is_edit)
                                         <button class="btn btn-raised btn-info waves-effect"
-                                                wire:loading.attr="disabled" wire:click="ref">صرف نظر
-                                            <span class="spinner-border spinner-border-sm text-light"
-                                                  wire:loading wire:target="ref"></span>
+                                            wire:loading.attr="disabled" wire:click="ref">صرف نظر
+                                            <span class="spinner-border spinner-border-sm text-light" wire:loading
+                                                wire:target="ref"></span>
                                         </button>
                                     @endif
                                 </div>
@@ -73,44 +73,40 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover c_table theme-color">
                                         <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>عنوان</th>
-                                            <th class="text-center js-sweetalert">عملیات</th>
-                                        </tr>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>عنوان</th>
+                                                <th class="text-center js-sweetalert">عملیات</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($attributes as $attribute)
-                                            <tr wire:key="{{ $attribute->id }}"
-                                                wire:loading.attr="disabled">
-                                                <td scope="row">{{ $loop->index + 1 }}</td>
-                                                <td>{{ $attribute->name }}</td>
-                                                <td class="text-center js-sweetalert">
-                                                    <button
-                                                        wire:click="edit_attribute({{ $attribute->id }})"
-                                                        wire:loading.attr="disabled" {{ $display }}
-                                                        class="btn btn-raised btn-info waves-effect scroll">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                        <span
-                                                            class="spinner-border spinner-border-sm text-light"
-                                                            wire:loading
-                                                            wire:target="edit_attribute({{ $attribute->id }}) "></span>
-                                                    </button>
+                                            @foreach ($attributes as $attribute)
+                                                <tr wire:key="{{ $attribute->id }}" wire:loading.attr="disabled">
+                                                    <td scope="row">{{ $loop->index + 1 }}</td>
+                                                    <td>{{ $attribute->name }}</td>
+                                                    <td class="text-center js-sweetalert">
+                                                        <button wire:click="edit_attribute({{ $attribute->id }})"
+                                                            wire:loading.attr="disabled" {{ $display }}
+                                                            class="btn btn-raised btn-info waves-effect scroll">
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="edit_attribute({{ $attribute->id }}) "></span>
+                                                        </button>
 
-                                                    <button class="btn btn-raised btn-danger waves-effect"
+                                                        <button class="btn btn-raised btn-danger waves-effect"
                                                             wire:loading.attr="disabled"
                                                             wire:click="del_attribute({{ $attribute->id }})"
                                                             wire:confirm="از حذف رکورد مورد نظر اطمینان دارید؟"
-                                                        {{ $display }}>
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                        <span
-                                                            class="spinner-border spinner-border-sm text-light"
-                                                            wire:loading
-                                                            wire:target="del_attribute({{ $attribute->id }})"></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                            {{ $display }}>
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="del_attribute({{ $attribute->id }})"></span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -132,7 +128,7 @@
 </section>
 @push('scripts')
     <script>
-        $('.scroll').click(function () {
+        $('.scroll').click(function() {
             $("html, body").animate({
                 scrollTop: 0
             }, 600);

@@ -85,23 +85,28 @@
 
                 @canany(['devices', 'actions'])
                     <li @class([
-                        'active open' => request()->routeIs('admin.archive', 'admin.devices.*','admin.category','admin.attribute'),
+                        'active open' => request()->routeIs(
+                            'admin.archive',
+                            'admin.devices.*',
+                            'admin.category',
+                            'admin.attribute'),
                     ])>
-                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
-                                ها</span></a>
+                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>شواهد دیجیتال
+                            </span></a>
                         <ul class="ml-menu">
                             @can('products')
-                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ثبت پذیرش دستگاه و
-                                        قطعه</a></li>
+                                <li @class(['active' => request()->routeIs('admin.devices.create')])><a href={{ route('admin.devices.create') }}>ثبت پذیرش
+                                        شواهد دیجیتال</a></li>
 
-                                <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست دستگاه و قطعه</a>
+                                <li @class(['active' => request()->routeIs('admin.devices.index')])><a href={{ route('admin.devices.index') }}>لیست شواهد دیجیتال</a>
                                 </li>
 
-                                <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست دستگاه و قطعه بایگانی
+                                <li @class(['active' => request()->routeIs('admin.archive')])><a href={{ route('admin.archive') }}>لیست شواهد دیجیتال بایگانی
                                     </a>
                                 </li>
 
-                                <li @class(['active' => request()->routeIs('admin.category')])><a href={{ route('admin.category') }}>دسته بندی دستگاه یا قطعه ها</a>
+                                <li @class(['active' => request()->routeIs('admin.category')])><a href={{ route('admin.category') }}>دسته بندی شواهد دیجیتال
+                                        ها</a>
                                 </li>
                                 <li @class(['active' => request()->routeIs('admin.attribute')])><a href={{ route('admin.attribute') }}>ویژگی های دسته بندی</a>
                                 </li>
@@ -137,16 +142,16 @@
                 <li @class([
                         'active open' => request()->routeIs('admin.archive', 'admin.devices.*'),
                     ])>
-                    <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>دستگاه و قطعه
+                    <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-devices"></i><span>شواهد دیجیتال
                                 ها</span></a>
                     <ul class="ml-menu">
                         @can('products')
                             <li @class(['active' => request()->routeIs('admin.devices.index')])><a
-                                    href={{ route('admin.devices.index') }}>لیست دستگاه و قطعه</a>
+                                    href={{ route('admin.devices.index') }}>لیست شواهد دیجیتال</a>
                             </li>
 
                             <li @class(['active' => request()->routeIs('admin.archive')])><a
-                                    href={{ route('admin.archive') }}>لیست دستگاه و قطعه بایگانی
+                                    href={{ route('admin.archive') }}>لیست شواهد دیجیتال بایگانی
                                 </a>
                             </li>
 

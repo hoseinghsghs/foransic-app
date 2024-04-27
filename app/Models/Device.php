@@ -32,6 +32,11 @@ class Device extends Model
         return $this->belongsTo(Dossier::class);
     }
 
+    public function actions()
+    {
+        return $this->hasMany(Action::class);
+    }
+
     public function scopeGetData($query, $month, $status)
     {
         $v = verta()->startMonth()->subMonth($month - 1);
