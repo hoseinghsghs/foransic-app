@@ -75,7 +75,7 @@ class CreateDossier extends Component
             $device = Dossier::create([
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
-                'pesonal_creator_id' => auth()->user()->id,
+                'personal_creator_id' => auth()->user()->id,
                 'section' => $this->section,
                 'subject' => $this->subject,
                 'expert' => $this->expert,
