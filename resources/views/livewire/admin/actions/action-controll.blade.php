@@ -426,12 +426,15 @@
             variations.forEach(variation => {
 
                 var mockFile = {
-                    name: variation.url,
+                    name: variation,
                     size: 12345,
                     type: 'image/jpeg'
                 };
-                myDropzone.files.push(mockFile);
-                myDropzone.displayExistingFile(mockFile, '/storage/attachment_files/' + variation, null, '*');
+                // myDropzone.files.push(mockFile);
+                {{--myDropzone.displayExistingFile(mockFile, "{{ env('APP_URL') }}" + '/storage/attachment_files/' + variation, null, '*');--}}
+                myDropzone.emit("addedfile", mockFile);
+                myDropzone.emit("success", mockFile);
+                myDropzone.emit("thumbnail", mockFile,"{{ env('APP_URL') }}" + '/storage/attachment_files/' + variation)
             },)
         })
 
