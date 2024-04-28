@@ -23,16 +23,16 @@ return new class extends Migration
             $table->string('expert_phone');
             $table->string('expert_cellphone');
             //سه فیلد حکم قضایی
-            $table->string('Judicial_number');
-            $table->string('Judicial_image');
-            $table->string('Judicial_date');
+            $table->string('Judicial_number')->nullable();
+            $table->string('Judicial_image')->nullable();
+            $table->string('Judicial_date')->nullable();
 
-            $table->text('summary_description');
-            $table->text('expert');
+            $table->text('summary_description')->nullable();
+            $table->text('expert')->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_archive')->default(1);
-            $table->bigInteger('user_category_id');
-            $table->bigInteger('pesonal_creator_id');
+            $table->foreignId('user_category_id')->constrained('users');
+            $table->foreignId('personal_creator_id')->constrained('users');
 
             $table->timestamps();
         });
