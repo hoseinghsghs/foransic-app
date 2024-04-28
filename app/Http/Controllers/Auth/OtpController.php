@@ -26,7 +26,7 @@ class OtpController extends Controller
             ]);
         } else {
             $data = $request->validate([
-                'username' => ['required', 'email', 'exists:users,email']
+                'username' => ['required', 'exists:users,email']
             ]);
         }
 

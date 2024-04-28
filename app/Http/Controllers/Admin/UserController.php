@@ -38,11 +38,10 @@ class UserController extends Controller
             'email'=>[
                 'nullable',
                 'string',
-                'email',
                 'max:255',
                 Rule::unique(User::class),
             ],
-            'cellphone' => 'required|unique:users,cellphone',
+            'cellphone' => 'unique:users,cellphone|nullable',
             'password' => ['required',Password::min(8)],
         ]);
         try {

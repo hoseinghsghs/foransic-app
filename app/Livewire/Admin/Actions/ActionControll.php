@@ -58,6 +58,9 @@ class ActionControll extends Component
         $this->reset("display");
         $this->resetValidation();
         $this->dispatch('destroy-date-picker');
+        $this->dispatch('upfile');
+
+
     }
 
     public function mount()
@@ -121,6 +124,17 @@ class ActionControll extends Component
                 'device_id' => $this->device->id,
             ]);
 
+           $attachmentsStore = Session::pull('attachments', []);
+            foreach ($attachmentsStore as $attachmentStore) {
+                ActionAttachment::create([
+                    'action_id' => $this->action->id,
+                    'url' => $attachmentStore
+                ]);
+            }
+            Session::forget('attachments');
+
+
+
             $this->ref();
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
@@ -149,7 +163,6 @@ class ActionControll extends Component
             toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
         }
         $this->dispatch('destroy-date-picker');
-        $this->dispatch('upfile');
     }
 
     public function sweetAlertConfirmed(array $data)

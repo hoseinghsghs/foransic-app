@@ -28,8 +28,8 @@ class ActionController extends Controller
     public function deleteAttachment(Request $request)
     {
         $namefile = $request->name;
-        DeviceImage::where('url', $namefile)->delete();
-        Storage::delete('test/' . $namefile);
+        ActionAttachment::where('url', $namefile)->delete();
+        Storage::delete('attachment_files/' . $namefile);
 
         $attachments = Session::pull('attachments', []); // Second argument is a default value
         if (($key = array_search($namefile, $attachments)) !== false) {
