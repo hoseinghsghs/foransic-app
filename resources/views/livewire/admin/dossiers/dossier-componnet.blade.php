@@ -53,6 +53,9 @@
                         class="btn btn-raised btn-info waves-effect mr-auto">
                         افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
                 </div>
+                <a onclick="loadbtn(event)" href="{{ route('admin.file-dossier') }}"
+                    class="btn btn-raised btn-warning waves-effect ">
+                    خروجی اکسل پرونده ها<i class="zmdi zmdi-developer-board mr-1"></i></a>
             </div>
             <div class="body">
                 <div class="loader" wire:loading.flex>

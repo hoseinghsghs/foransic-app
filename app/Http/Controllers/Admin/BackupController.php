@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Exports\OrdersExport;
 use App\Exports\DevicesExport;
+use App\Exports\DossiersExport;
 use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -20,6 +21,11 @@ class BackupController extends Controller
     public function ExportUsers()
     {
         return Excel::download(new UserExport, 'Users-data.xlsx');
+    }
+
+        public function ExportDossiers()
+    {
+        return Excel::download(new DossiersExport, 'Dossiers-data.xlsx');
     }
 
 }

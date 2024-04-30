@@ -83,6 +83,8 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->name('file-users');
     Route::get('/export-Orders', [BackupController::class, 'ExportOrders'])->name('file-orders');
 
+    Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->name('file-dossier');
+
     //Multi-vendor
     // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');
 });

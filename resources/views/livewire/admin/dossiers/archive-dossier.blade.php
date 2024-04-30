@@ -53,13 +53,9 @@
                         class="btn btn-raised btn-info waves-effect mr-auto">
                         افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
 
-                    {{-- <a onclick="loadbtn(event)" href="{{ route('admin.file-dossier') }}"
+                    <a onclick="loadbtn(event)" href="{{ route('admin.file-dossier') }}"
                         class="btn btn-raised btn-warning waves-effect ">
-                        خروجی پرونده<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
-
-                    {{-- <a onclick="window.open('{{ route('admin.file-dossier2') }}');"
-                        href="{{ route('admin.file-dossier') }}" class="btn btn-raised btn-warning waves-effect ">
-                        خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
+                        خروجی اکسل پرونده ها<i class="zmdi zmdi-developer-board mr-1"></i></a>
                 </div>
             </div>
             <div class="body">
