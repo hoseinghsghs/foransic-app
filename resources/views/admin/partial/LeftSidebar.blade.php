@@ -110,6 +110,10 @@
                                 </li>
                                 <li @class(['active' => request()->routeIs('admin.attribute')])><a href={{ route('admin.attribute') }}>ویژگی های دسته بندی</a>
                                 </li>
+                                <li @class(['active' => request()->routeIs('admin.actions.category')])><a href={{ route('admin.actions.category') }}> اضافه کردن عنوان
+                                        اقدام
+                                    </a>
+                                </li>
                             @endcan
 
                         </ul>

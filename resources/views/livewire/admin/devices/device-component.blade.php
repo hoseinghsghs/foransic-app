@@ -58,9 +58,10 @@
                         class="btn btn-raised btn-warning waves-effect ">
                         خروجی شواهد دیجیتال<i class="zmdi zmdi-developer-board mr-1"></i></a>
 
-                    {{-- <a onclick="window.open('{{ route('admin.file-device2') }}');"
-                        href="{{ route('admin.file-device') }}" class="btn btn-raised btn-warning waves-effect ">
-                        خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
+
+                    <a onclick="loadbtn(event)" href="{{ route('admin.file-action') }}"
+                        class="btn btn-raised btn-warning waves-effect ml-4 ">
+                        خروجی اقدامات <i class="zmdi zmdi-developer-board mr-1"></i></a>
                 </div>
             </div>
             <div class="body">

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use App\Models\Action;
 use App\Models\Device;
+use App\Models\ActionCategory;
 use App\Http\Controllers\Admin\AttachmentsController;
 use App\Models\ActionAttachment;
 use Illuminate\Support\Facades\Session;
@@ -30,6 +31,7 @@ class ActionControll extends Component
     public $action;
     public $is_edit = false;
     public $display;
+    public $action_category_id;
     protected $listeners = [
         'sweetAlertConfirmed', // only when confirm button is clicked
     ];
@@ -48,7 +50,6 @@ class ActionControll extends Component
     public function ref()
     {
         $this->is_edit = false;
-
         $this->reset("description");
         $this->reset("attachments");
         $this->reset("start_date");
@@ -56,11 +57,10 @@ class ActionControll extends Component
         $this->reset("status");
         $this->reset("is_print");
         $this->reset("display");
+        $this->reset("action_category_id");
         $this->resetValidation();
         $this->dispatch('destroy-date-picker');
         $this->dispatch('upfile');
-
-
     }
 
     public function mount()
@@ -70,7 +70,7 @@ class ActionControll extends Component
 
     public function render()
     {
-        return view('livewire.admin.actions.action-controll', ['actions' => Action::orderBy('created_at', 'desc')->where('device_id', $this->device->id)->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.actions.action-controll', ['actions' => Action::orderBy('created_at', 'desc')->where('device_id', $this->device->id)->paginate(10) ,  'categories' => ActionCategory::all()])->extends('admin.layout.MasterAdmin')->section('Content');
     }
 
 
@@ -85,6 +85,7 @@ class ActionControll extends Component
             $this->end_date = $action->end_date;
             $this->status = $action->status;
             $this->is_print = $action->is_print;
+            $this->action_category_id=$action->action_category_id;
             $this->action = $action;
             $this->display = "disabled";
             $this->resetValidation();
@@ -113,7 +114,6 @@ class ActionControll extends Component
     {
         if ($this->is_edit) {
             $this->validate();
-
             $this->action->update([
                 "description" => $this->description,
                 'start_date' => $this->start_date,
@@ -122,6 +122,7 @@ class ActionControll extends Component
                 'is_print' => $this->is_print,
 //                'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
+                'action_category_id' => $this->action_category_id,
             ]);
 
            $attachmentsStore = Session::pull('attachments', []);
@@ -132,9 +133,6 @@ class ActionControll extends Component
                 ]);
             }
             Session::forget('attachments');
-
-
-
             $this->ref();
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
@@ -146,6 +144,7 @@ class ActionControll extends Component
                 'end_date' => $this->end_date,
                 'status' => $this->status,
                 'is_print' => $this->is_print,
+                'action_category_id' => $this->action_category_id,
                 'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
             ]);

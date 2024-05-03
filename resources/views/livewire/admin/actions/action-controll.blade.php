@@ -68,14 +68,44 @@
                                                         </span>
 
                                                     </div>
+                                                    <div
+                                                        class="form-group col-md-12 col-sm-12 @error('action_category_id') is-invalid @enderror">
+                                                        <label for="dossierSelect">عنوان اقدام <abbr class="required"
+                                                                title="ضروری" style="color:red;">*</abbr></label>
+                                                        <div>
+                                                            <select id="categorySelect" data-placeholder="انتخاب عنوان"
+                                                                class="form-control ms search-select">
+                                                                <option></option>
+                                                                @if ($is_edit)
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->id }}"
+                                                                            @selected($category->id == $action->category->id)>
+                                                                            {{ $category->title }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                @else
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->id }}">
+                                                                            {{ $category->title }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+                                                        </div>
+                                                        @error('action_category_id')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
+                                                    </div>
+
+
                                                     <div class="form-group col-md-12 col-sm-12">
 
                                                         <label for="">توضیحات اقدام <abbr class="required"
                                                                 title="ضروری" style="color:red;">*</abbr></label>
                                                         @if ($is_edit)
-                                                            <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">{!! $action->description !!}</textarea>
+                                                            <textarea rows="5" class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">{!! $action->description !!}</textarea>
                                                         @else
-                                                            <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">
+                                                            <textarea rows="5" class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">
                                                                 </textarea>
                                                         @endif
                                                         @error('description')
@@ -142,7 +172,8 @@
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('status')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}
+                                                                </div>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -157,7 +188,8 @@
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('is_print')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}
+                                                                </div>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -208,8 +240,14 @@
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
-                        <div class="header">
+                        <div class="header d-flex align-items-center">
                             <h2><strong>لیست اقدامات </strong>( {{ $actions->total() }} )</h2>
+                            {{-- <div class="mr-auto">
+
+                                <a onclick="loadbtn(event)" href="{{ route('admin.file-action') }}"
+                                    class="btn btn-raised btn-warning waves-effect ml-4 ">
+                                    خروجی اکسل <i class="zmdi zmdi-developer-board mr-1"></i></a>
+                            </div> --}}
                         </div>
                         <div class="body">
                             @if (count($actions) === 0)
@@ -296,6 +334,10 @@
 
                 </div>
             </div>
+
+        </div>
+        <div dir="ltr">
+            {{ $actions->onEachSide(1)->links() }}
         </div>
     </div>
 
@@ -500,6 +542,17 @@
         });
 
         $(document).ready(function() {
+
+            // عنوان اقدام
+            $('#categorySelect').on('change', function(e) {
+                let data = $('#categorySelect').select2("val");
+                @this.set('action_category_id', data);
+            });
+
+
+
+
+
             dateTimePicker.from = $(`#startDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',

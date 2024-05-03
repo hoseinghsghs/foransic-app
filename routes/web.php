@@ -41,7 +41,6 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices')->name('devices.create');
     Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:devices')->name('category');
     Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes')->name('attribute');
-
     Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers')->name('dossiers.create');
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers')->name('dossiers.edit');
     Route::get('dossiers/archives',         [DossierController::class, 'archive'])->name('dossiers.archive')->middleware('permission:dossiers');
@@ -58,6 +57,9 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
     Route::get('/settings', \App\Livewire\Admin\Settings\Setting::class)->name('settings.show')->middleware('permission:settings');
     Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
+
+    Route::get('actions/action-category', \App\Livewire\Admin\Actions\CategoryAction::class)->name('actions.category')->middleware(['role_or_permission:actions|personel']);
+
     Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
@@ -84,6 +86,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_
     Route::get('/export-Orders', [BackupController::class, 'ExportOrders'])->name('file-orders');
 
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->name('file-dossier');
+    Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->name('file-action');
 
     //Multi-vendor
     // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');
