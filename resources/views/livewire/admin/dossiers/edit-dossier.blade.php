@@ -160,7 +160,7 @@
                                     </div>
 
                                     <div class="form-group col-md-4">
-                                        <label> شماره همراه کارشناس پرونده <abbr class="required text-danger"
+                                        <label> تلفن کارشناس پرونده <abbr class="required text-danger"
                                                                                  title="ضروری">*</abbr>
                                         </label>
                                         <div class="form-group">

@@ -27,68 +27,69 @@ use App\Models\Question;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PrintController;
+
 //fortify routes
 require_once __DIR__ . '/fortify.php';
 //admin routes
-Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth','has_role'])->group(function () {
+Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has_role'])->group(function () {
     Route::get('/timeline', [EventController::class, 'index'])->name('timeline')->middleware('permission:events');
     Route::delete('/timeline/{event}', [EventController::class, 'destroy'])->name('timeline.destroy')->middleware('permission:events');
-    Route::resource('galeries',         GaleryController::class)->middleware('permission:galeries');
-    Route::get('/prnpriview/{device}',[PrintController::class , 'prnpriview'])->name('print.device');
-    Route::get('/prnprishow/{device}',[PrintController::class , 'show'])->name('print.device.show');
+    Route::resource('galleries', GaleryController::class)->middleware('permission:galleries');
+    Route::get('/prnpriview/{device}', [PrintController::class, 'prnpriview'])->name('print.device');
+    Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->name('print.device.show');
 //livewire
-    Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices')->name('devices.edit');
-    Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices')->name('devices.create');
-    Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:devices')->name('category');
-    Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes')->name('attribute');
+    Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices-edit')->name('devices.edit');
+    Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices-create')->name('devices.create');
+    Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:categories-list')->name('category');
+    Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes-list')->name('attribute');
 
-    Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers')->name('dossiers.create');
-    Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers')->name('dossiers.edit');
-    Route::get('dossiers/archives',         [DossierController::class, 'archive'])->name('dossiers.archive')->middleware('permission:dossiers');
-    Route::resource('devices',         DeviceController::class)->middleware(['role_or_permission:devices|personel'])->only(['index', 'show']);
-    Route::resource('dossiers',         DossierController::class)->middleware('permission:dossiers')->only(['index', 'show']);
-    Route::get('archives',         [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
-    Route::resource('users',            UserController::class)->except( 'destroy')->middleware('permission:users');
-    Route::resource('roles',   RoleController::class)->except('show')->middleware('permission:roles');
-//    Route::post('/sms/send-sms',   [SmsController::class,'sendSms'])->name('sms.sendSms')->middleware('permission:sms');
-//    Route::resource('sms',   SmsController::class)->only('create','store')->middleware('permission:sms');
+    Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers-create')->name('dossiers.create');
+    Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers-edit')->name('dossiers.edit');
+    Route::get('dossiers/archives', \App\Livewire\Admin\Dossiers\ArchiveDossier::class)->middleware('permission:dossiers-archive-list')->name('dossiers.archive');
+    Route::get('dossiers/{dossier}/show', function (\App\Models\Dossier $dossier){
+        return view('admin.page.dossiers.show',compact('dossier'));
+    })->middleware('permission:dossiers-show')->name('dossiers.show');
+    Route::get('dossiers', \App\Livewire\Admin\Dossiers\DossierComponent::class)->middleware('permission:dossiers-list')->name('dossiers.index');
+
+    Route::resource('devices', DeviceController::class)->middleware(['role_or_permission:devices|personel'])->only(['index', 'show']);
+    Route::get('archives', [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
+    Route::resource('users', UserController::class)->except('destroy')->middleware('permission:users');
+    Route::resource('roles', RoleController::class)->except('show')->middleware('permission:roles');
+
     Route::view('permissions', 'admin.page.permissions.index')->name('permissions')->middleware('permission:permissions');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
     Route::get('/settings', \App\Livewire\Admin\Settings\Setting::class)->name('settings.show')->middleware('permission:settings');
-    Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
-    Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
+    Route::get('actions/{device}/create', \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
+    Route::get('/devices/{device}/images-edit', [ImageController::class, 'edit'])->name('devices.images.edit');
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     //image routes
-    Route::post('/upl',       [DeviceController::class, 'uploadImage'])->name('uploade');
-    Route::post('/del',       [DeviceController::class, 'deleteImage'])->name('del');
-    Route::post('/editupl',   [ImageController::class, 'edit_uploadImage'])->name('edit_uploade');
-    Route::post('/editdel',   [ImageController::class, 'edit_deleteImage'])->name('edit_del');
+    Route::post('/upl', [DeviceController::class, 'uploadImage'])->name('uploade');
+    Route::post('/del', [DeviceController::class, 'deleteImage'])->name('del');
+    Route::post('/editupl', [ImageController::class, 'edit_uploadImage'])->name('edit_uploade');
+    Route::post('/editdel', [ImageController::class, 'edit_deleteImage'])->name('edit_del');
     Route::post('/add_image', [ImageController::class, 'setPrimary'])->name('device.images.add');
+
     //attached file routes
+    Route::post('/attachments-upl', [ActionController::class, 'uploadAttachment'])->name('attachments_uploade');
+    Route::post('/attachments-del', [ActionController::class, 'deleteAttachment'])->name('attachments_del');
+    Route::post('/attachments-editupl', [AttachmentsController::class, 'attachments-edit_uploadImage'])->name('attachments_edit_uploade');
+    Route::post('/attache-editdel', [AttachmentsController::class, 'attachments-edit_deleteImage'])->name('attachments_edit_del');
+    Route::post('/attachments-add_file', [AttachmentsController::class, 'attachments-setPrimary'])->name('attachments_device.files.add');
 
-    Route::post('/attachments-upl',       [ActionController::class, 'uploadAttachment'])->name('attachments_uploade');
-    Route::post('/attachments-del',       [ActionController::class, 'deleteAttachment'])->name('attachments_del');
-    Route::post('/attachments-editupl',   [AttachmentsController::class, 'attachments-edit_uploadImage'])->name('attachments_edit_uploade');
-    Route::post('/attache-editdel',   [AttachmentsController::class, 'attachments-edit_deleteImage'])->name('attachments_edit_del');
-    Route::post('/attachments-add_file',  [AttachmentsController::class, 'attachments-setPrimary'])->name('attachments_device.files.add');
-
-    //excel backup
+    //excel exports
     Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->name('file-device');
     Route::get('/export-Device2', [BackupController::class, 'ExportDevices2'])->name('file-device2');
     Route::get('/export-UserAddress', [BackupController::class, 'ExportUserAddresses'])->name('file-address');
     Route::get('/export-Transactions', [BackupController::class, 'TransactionExport'])->name('file-transactions');
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->name('file-users');
     Route::get('/export-Orders', [BackupController::class, 'ExportOrders'])->name('file-orders');
-
-    //Multi-vendor
-    // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');
 });
 //end
-Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function() {
-    Route::view('/','home.page.users_profile.index')->name('home');
+Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function () {
+    Route::view('/', 'home.page.users_profile.index')->name('home');
     Route::put('/edit', [ProfileController::class, 'update'])->name('profile.update');
 });
 //admin auth
@@ -104,4 +105,4 @@ Route::post('/otp/verfiy-phone', [OtpController::class, 'verfiyPhone'])->middlew
 Route::get('/assets/ajax', function () {
     return view('home.partial.login');
 });
-Route::redirect('/','/login')->middleware('guest');
+Route::redirect('/', '/login')->middleware('guest');

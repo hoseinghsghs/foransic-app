@@ -9,7 +9,7 @@ use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 
-class DossierComponnet extends Component
+class DossierComponent extends Component
 {
     use WithFileUploads, WithPagination;
 
@@ -73,6 +73,6 @@ class DossierComponnet extends Component
             ->when($this->is_active != '', function ($query) {
                 $query->where('is_active', $this->is_active);
             })->latest()->paginate(10);
-        return view('livewire.admin.dossiers.dossier-componnet', compact(['dossiers', 'company_users']));
+        return view('livewire.admin.dossiers.dossier-component', compact(['dossiers', 'company_users']))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

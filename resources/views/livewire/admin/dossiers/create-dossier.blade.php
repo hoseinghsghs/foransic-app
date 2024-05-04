@@ -223,8 +223,7 @@
                                             <div class="form-group">
                                                 <input type="text" wire:model.defer="Judicial_number"
                                                     id="delivery-name"
-                                                    class="form-control @error('Judicial_number') is-invalid @enderror"
-                                                    required />
+                                                    class="form-control @error('Judicial_number') is-invalid @enderror"/>
                                                 <span id="delivery-name-display" class="text-warning"></span>
                                                 @error('Judicial_number')
                                                     <div class="invalid-feedback">{{ $message }}</div>

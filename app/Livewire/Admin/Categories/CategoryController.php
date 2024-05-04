@@ -34,6 +34,8 @@ class CategoryController extends Component
     public function add_category()
     {
         if ($this->is_edit) {
+            $this->authorize('categories-edit');
+
             $this->validate([
                 'title' => 'required|unique:categories,title,' . $this->category->id,
                 'attribute_ids' => 'required|array',
@@ -55,6 +57,8 @@ class CategoryController extends Component
                 toastr()->rtl()->addError($ex->getMessage());
             }
         } else {
+            $this->authorize('categories-create');
+
             $this->validate([
                 'title' => 'required|unique:categories,title',
                 'attribute_ids' => 'nullable|array',
@@ -80,6 +84,7 @@ class CategoryController extends Component
 
     public function edit_category(Category $category)
     {
+        $this->authorize('categories-edit');
         $this->is_edit = true;
         $this->title = $category->title;
         $this->category = $category;
@@ -90,6 +95,7 @@ class CategoryController extends Component
 
     public function del_category(Category $category)
     {
+        $this->authorize('categories-delete');
         if ($category->devices()->exists() || $category->attributes()->exists()) {
             flash()->addWarning('به علت الحاق عنوان به قطعه یا شواهد امکان حذف آن وجود ندارد');
         } else {

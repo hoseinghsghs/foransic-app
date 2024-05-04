@@ -1,16 +1,16 @@
-@section('title', 'لیست شواهد دیجیتال بایگانی')
+@section('title', 'لیست پرونده ها')
 
 <section class="content">
     <div class="body_scroll">
         <div class="block-header">
             <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2>لیست پرونده های بایگانی</h2>
+                    <h2>لیست پرونده ها</h2>
                     </br>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                 خانه</a></li>
-                        <li class="breadcrumb-item active">لیست پرونده های بایگانی شده</li>
+                        <li class="breadcrumb-item active">لیست پرونده ها</li>
                     </ul>
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
                             class="zmdi zmdi-sort-amount-desc"></i></button>
@@ -21,7 +21,6 @@
                 </div>
             </div>
         </div>
-
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -78,14 +77,6 @@
                                 <a onclick="loadbtn(event)" href="{{ route('admin.dossiers.create') }}"
                                    class="btn btn-raised btn-info waves-effect mr-auto">
                                     افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
-
-                                {{-- <a onclick="loadbtn(event)" href="{{ route('admin.file-dossier') }}"
-                                    class="btn btn-raised btn-warning waves-effect ">
-                                    خروجی پرونده<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
-
-                                {{-- <a onclick="window.open('{{ route('admin.file-dossier2') }}');"
-                                    href="{{ route('admin.file-dossier') }}" class="btn btn-raised btn-warning waves-effect ">
-                                    خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
                             </div>
                         </div>
                         <div class="body">
@@ -106,6 +97,7 @@
                                             <th>شماره پرونده</th>
                                             <th>مدیریت یا معاونت</th>
                                             <th> رده</th>
+                                            <th>پرسنل آزمایشگاه مربوطه</th>
                                             <th> تاریخ ایجاد</th>
                                             <th>وضعیت</th>
                                             <th>بایگانی</th>
@@ -132,6 +124,9 @@
                                                     {{ App\Models\User::find($dossier->user_category_id)->name }}
                                                 </td>
                                                 <td dir="ltr">
+                                                    {{ App\Models\User::find($dossier->personal_creator_id)->name }}
+                                                </td>
+                                                <td dir="ltr">
                                                     {{ verta($dossier->created_at)->format('Y/n/j') }}
                                                 </td>
                                                 <td>
@@ -147,8 +142,7 @@
                                                 <td>
                                                     <button wire:click="ChangeArchive_dossier({{ $dossier->id }})"
                                                             wire:loading.attr="disabled"
-                                                            class="btn btn-raised btn-danger waves-effect">خروج از
-                                                        بایگانی
+                                                            class="btn btn-raised btn-danger waves-effect">بایگانی کردن
                                                     </button>
                                                 </td>
                                                 <td class="text-center">
@@ -172,8 +166,8 @@
                                                         <div class="dropdown-menu">
                                                             <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}"
                                                                class="dropdown-item text-right"> ویرایش </a>
-                                                            {{-- <a href="{{ route('admin.dossiers.show', $dossier->id) }}"
-                                                                class="dropdown-item text-right"> مشاهده </a> --}}
+                                                            <a href="{{ route('admin.dossiers.show', $dossier->id) }}"
+                                                               class="dropdown-item text-right"> مشاهده </a>
                                                             {{-- <a href="{{ route('admin.print.dossier.show', $dossier->id) }}"
                                                                 class="dropdown-item text-right" target="_blank"> پرینت رسید
                                                             </a> --}}

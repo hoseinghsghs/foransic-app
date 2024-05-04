@@ -24,6 +24,8 @@ class AttributeManagement extends Component
     public function add_attribute()
     {
         if ($this->is_edit) {
+            $this->authorize('attributes-edit');
+
             $this->validate([
                 'name' => 'required|unique:attributes,name,' . $this->attribute->id,
                 'attribute.id' => 'required|exists:attributes,id',
@@ -38,6 +40,8 @@ class AttributeManagement extends Component
             $this->reset("display");
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد',' ');
         } else {
+            $this->authorize('attributes-create');
+
             $this->validate([
                 'name' => 'required|unique:attributes,name'
             ]);
@@ -52,6 +56,8 @@ class AttributeManagement extends Component
 
     public function edit_attribute(Attribute $attribute)
     {
+        $this->authorize('attributes-edit');
+
         $this->is_edit = true;
         $this->name = $attribute->name;
         $this->attribute = $attribute;
@@ -60,6 +66,8 @@ class AttributeManagement extends Component
 
     public function del_attribute(Attribute $attribute)
     {
+        $this->authorize('attributes-delete');
+
         if ($attribute->categories()->exists() || $attribute->attributeValues()->exists()){
             toastr()->rtl()->addWarning('به علت الحاق ویژگی به دسته بندی امکان حذف آن وجود ندارد');
         }else{

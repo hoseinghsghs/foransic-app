@@ -50,10 +50,10 @@ class CreateDossier extends Component
             'summary_description' => 'required|string',
             'Judicial_date' => 'nullable|string',
             'Judicial_number' => 'nullable|string',
-            'dossier_case' => 'nullable|string',
-            'dossier_type' => 'nullable|string',
-            'expert_phone' => 'nullable|string',
-            'expert_cellphone' => 'nullable|string',
+            'dossier_case' => 'required|string',
+            'dossier_type' => 'required|string',
+            'expert_phone' => 'required|string',
+            'expert_cellphone' => 'required|string',
         ];
     }
 
