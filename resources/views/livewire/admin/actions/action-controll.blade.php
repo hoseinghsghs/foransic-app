@@ -43,7 +43,6 @@
                                                                         عنوان
                                                                     </strong>
                                                                     : {{ $device->category->title }}</a>
-
                                                                 <a class="ml-3" href="#">
                                                                     <strong style="color:#e47297">
                                                                         سریال یا شماره اموال
@@ -57,25 +56,50 @@
                                                                             مربوطه
                                                                             :
                                                                         </strong>
-
                                                                         {{ $device->dossier->name }},
-
                                                                     </a>
                                                                 @endif
-
+                                                                @if ($is_edit)
+                                                                    <a class="ml-3" href="#">
+                                                                        <strong style="color:#e47297">نام پرسنل :
+                                                                        </strong>
+                                                                        {{ $action->user->name }}
+                                                                    </a>
+                                                                    <a class="ml-3" href="#">
+                                                                        <strong style="color:#e47297">
+                                                                            آیدی اقدام :
+                                                                        </strong>{{ $action->id }}
+                                                                    </a>
+                                                                @endif
                                                             </h5>
-
                                                         </span>
-
+                                                    </div>
+                                                    <div
+                                                        class="form-group col-md-12 col-sm-12 @error('action_category_id') is-invalid @enderror">
+                                                        <label for="categorySelect">عنوان اقدام <abbr class="required"
+                                                                title="ضروری" style="color:red;">*</abbr></label>
+                                                        <div wire:ignore>
+                                                            <select id="categorySelect" data-placeholder="انتخاب عنوان"
+                                                                class="form-control ms search-select">
+                                                                <option></option>
+                                                                @foreach ($categories as $category)
+                                                                    <option value="{{ $category->id }}">
+                                                                        {{ $category->title }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        @error('action_category_id')
+                                                            <small class="text-danger">{{ $message }}</small>
+                                                        @enderror
                                                     </div>
                                                     <div class="form-group col-md-12 col-sm-12">
-
                                                         <label for="">توضیحات اقدام <abbr class="required"
                                                                 title="ضروری" style="color:red;">*</abbr></label>
                                                         @if ($is_edit)
-                                                            <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">{!! $action->description !!}</textarea>
+                                                            <textarea rows="5" class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">{!! $action->description !!}</textarea>
                                                         @else
-                                                            <textarea class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">
+                                                            <textarea rows="5" class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">
                                                                 </textarea>
                                                         @endif
                                                         @error('description')
@@ -142,11 +166,11 @@
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('status')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}
+                                                                </div>
                                                             @enderror
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-3 col-md-12 col-sm-12">
                                                         <div class="form-group">
                                                             <label>نمایش در گزارش و پرینت</label>
@@ -157,12 +181,12 @@
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('is_print')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                                <div class="invalid-feedback">{{ $message }}
+                                                                </div>
                                                             @enderror
                                                         </div>
                                                     </div>
                                                     <hr>
-
                                                     <div class="col-lg-12 col-md-12" wire:ignore>
                                                         <div class="header mt-0">
                                                             <label class="mb-1"> فایل ضمیمه</label>
@@ -174,7 +198,6 @@
                                                             </form>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-md-12 col-sm-12">
                                                         <button wire:click="addAction" onclick="clear()"
                                                             wire:loading.attr="disabled"
@@ -208,8 +231,14 @@
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
-                        <div class="header">
+                        <div class="header d-flex align-items-center">
                             <h2><strong>لیست اقدامات </strong>( {{ $actions->total() }} )</h2>
+                            {{-- <div class="mr-auto">
+
+                                <a onclick="loadbtn(event)" href="{{ route('admin.file-action') }}"
+                                    class="btn btn-raised btn-warning waves-effect ml-4 ">
+                                    خروجی اکسل <i class="zmdi zmdi-developer-board mr-1"></i></a>
+                            </div> --}}
                         </div>
                         <div class="body">
                             @if (count($actions) === 0)
@@ -224,7 +253,7 @@
                                                 <th>تاریخ و زمان شروع</th>
                                                 <th>تاریخ و زمان پایان</th>
                                                 <th>نمایش در گزارش</th>
-                                                <th>توضیح</th>
+                                                <th>توضیحات - فایل ها</th>
                                                 <th class="text-center js-sweetalert">عملیات</th>
                                             </tr>
                                         </thead>
@@ -275,9 +304,18 @@
                                                     tabindex="-1" role="dialog">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
-                                                            <div class="modal-body">{{ $action->description }}</div>
+                                                            <div class="modal-body">
+                                                                <h5> توضیحات :</h5>
+                                                                {{ $action->description }}
+                                                                <h5 class="mt-3">فایل های ضمیمه :</h5>
+                                                                @foreach ($action->attachments as $attachment)
+                                                                    <div>
+                                                                        <a href="{{ env('APP_URL') }}/storage/attachment_files/{{ $attachment->url }}"
+                                                                            target="_blank">{{ $attachment->url }}</a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
                                                             <div class="modal-footer">
-
                                                                 <button type="button"
                                                                     class="btn btn-danger waves-effect"
                                                                     data-dismiss="modal">بستن
@@ -293,9 +331,11 @@
                             @endif
                         </div>
                     </div>
-
                 </div>
             </div>
+        </div>
+        <div dir="ltr">
+            {{ $actions->onEachSide(1)->links() }}
         </div>
     </div>
 
@@ -419,6 +459,7 @@
         };
         // uploade file end
 
+
         Livewire.on('edit-file', (data) => {
             let variations = data.attachments;
             variations.forEach(variation => {
@@ -500,6 +541,18 @@
         });
 
         $(document).ready(function() {
+
+            // عنوان اقدام
+            $('#categorySelect').on('change', function(e) {
+                let data = $('#categorySelect').select2("val");
+                @this.set('action_category_id', data);
+            });
+            Livewire.on('eselect2', (data) => {
+                $("#categorySelect").select2().val(data.catg).trigger("change");
+            })
+            Livewire.on('resetselect2', () => {
+                $("#categorySelect").val('0').trigger('change')
+            });
             dateTimePicker.from = $(`#startDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',

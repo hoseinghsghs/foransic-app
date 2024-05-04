@@ -61,8 +61,11 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
     Route::get('/settings', \App\Livewire\Admin\Settings\Setting::class)->name('settings.show')->middleware('permission:settings');
-    Route::get('actions/{device}/create', \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
-    Route::get('/devices/{device}/images-edit', [ImageController::class, 'edit'])->name('devices.images.edit');
+    Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
+
+    Route::get('actions/action-category', \App\Livewire\Admin\Actions\CategoryAction::class)->name('actions.category')->middleware(['role_or_permission:actions|personel']);
+
+    Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     //image routes
@@ -86,6 +89,12 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/export-Transactions', [BackupController::class, 'TransactionExport'])->name('file-transactions');
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->name('file-users');
     Route::get('/export-Orders', [BackupController::class, 'ExportOrders'])->name('file-orders');
+
+    Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->name('file-dossier');
+    Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->name('file-action');
+
+    //Multi-vendor
+    // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');
 });
 //end
 Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function () {

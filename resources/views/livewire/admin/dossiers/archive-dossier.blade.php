@@ -15,9 +15,54 @@
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i
                             class="zmdi zmdi-sort-amount-desc"></i></button>
                 </div>
-                <div class="col-lg-5 col-md-6 col-sm-12">
-                    <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i
-                            class="zmdi zmdi-arrow-right"></i></button>
+                <div class="body">
+                    <div class="row clearfix">
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <input type="text" class="form-control" wire:model.live.debounce.500ms="title"
+                                        placeholder="نام پرونده، کد">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select class="form-control ms" wire:model.live="company_user">
+                                        <option value="">نام رده</option>
+                                        @foreach ($company_users as $company_user)
+                                            <option value="{{ $company_user->id }}">{{ $company_user->cellphone }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <div class="form-group">
+                                <div class="form-line">
+                                    <select data-placeholder="وضعیت" wire:model.live="is_active"
+                                        class="form-control ms">
+                                        <option value="">وضعیت</option>
+                                        <option value="1">فعال</option>
+                                        <option value="0">غیرفعال</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="header d-flex align-items-center">
+                {{-- <h2><strong>لیست پرونده </strong> ( {{ $dossier }} )</h2> --}}
+                <div class="mr-auto">
+                    <a onclick="loadbtn(event)" href="{{ route('admin.dossiers.create') }}"
+                        class="btn btn-raised btn-info waves-effect mr-auto">
+                        افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
+
+                    <a onclick="loadbtn(event)" href="{{ route('admin.file-dossier') }}"
+                        class="btn btn-raised btn-warning waves-effect ">
+                        خروجی اکسل پرونده ها<i class="zmdi zmdi-developer-board mr-1"></i></a>
                 </div>
             </div>
         </div>

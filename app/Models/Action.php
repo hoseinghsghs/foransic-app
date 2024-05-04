@@ -16,6 +16,11 @@ class Action extends Model
         return $this->belongsTo(User::class);
     }
 
+      public function category()
+    {
+        return $this->belongsTo(ActionCategory::class , 'action_category_id');
+    }
+
         public function attachments()
     {
         return $this->hasMany(ActionAttachment::class);
