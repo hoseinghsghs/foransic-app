@@ -43,7 +43,6 @@
                                                                         عنوان
                                                                     </strong>
                                                                     : {{ $device->category->title }}</a>
-
                                                                 <a class="ml-3" href="#">
                                                                     <strong style="color:#e47297">
                                                                         سریال یا شماره اموال
@@ -57,49 +56,44 @@
                                                                             مربوطه
                                                                             :
                                                                         </strong>
-
                                                                         {{ $device->dossier->name }},
-
                                                                     </a>
                                                                 @endif
-
+                                                                @if ($is_edit)
+                                                                    <a class="ml-3" href="#">
+                                                                        <strong style="color:#e47297">نام پرسنل :
+                                                                        </strong>
+                                                                        {{ $action->user->name }}
+                                                                    </a>
+                                                                    <a class="ml-3" href="#">
+                                                                        <strong style="color:#e47297">
+                                                                            آیدی اقدام :
+                                                                        </strong>{{ $action->id }}
+                                                                    </a>
+                                                                @endif
                                                             </h5>
-
                                                         </span>
-
                                                     </div>
                                                     <div
                                                         class="form-group col-md-12 col-sm-12 @error('action_category_id') is-invalid @enderror">
-                                                        <label for="dossierSelect">عنوان اقدام <abbr class="required"
+                                                        <label for="categorySelect">عنوان اقدام <abbr class="required"
                                                                 title="ضروری" style="color:red;">*</abbr></label>
-                                                        <div>
+                                                        <div wire:ignore>
                                                             <select id="categorySelect" data-placeholder="انتخاب عنوان"
                                                                 class="form-control ms search-select">
                                                                 <option></option>
-                                                                @if ($is_edit)
-                                                                    @foreach ($categories as $category)
-                                                                        <option value="{{ $category->id }}"
-                                                                            @selected($category->id == $action->category->id)>
-                                                                            {{ $category->title }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                @else
-                                                                    @foreach ($categories as $category)
-                                                                        <option value="{{ $category->id }}">
-                                                                            {{ $category->title }}
-                                                                        </option>
-                                                                    @endforeach
-                                                                @endif
+                                                                @foreach ($categories as $category)
+                                                                    <option value="{{ $category->id }}">
+                                                                        {{ $category->title }}
+                                                                    </option>
+                                                                @endforeach
                                                             </select>
                                                         </div>
                                                         @error('action_category_id')
                                                             <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
-
-
                                                     <div class="form-group col-md-12 col-sm-12">
-
                                                         <label for="">توضیحات اقدام <abbr class="required"
                                                                 title="ضروری" style="color:red;">*</abbr></label>
                                                         @if ($is_edit)
@@ -177,7 +171,6 @@
                                                             @enderror
                                                         </div>
                                                     </div>
-
                                                     <div class="col-lg-3 col-md-12 col-sm-12">
                                                         <div class="form-group">
                                                             <label>نمایش در گزارش و پرینت</label>
@@ -194,7 +187,6 @@
                                                         </div>
                                                     </div>
                                                     <hr>
-
                                                     <div class="col-lg-12 col-md-12" wire:ignore>
                                                         <div class="header mt-0">
                                                             <label class="mb-1"> فایل ضمیمه</label>
@@ -206,7 +198,6 @@
                                                             </form>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-md-12 col-sm-12">
                                                         <button wire:click="addAction" onclick="clear()"
                                                             wire:loading.attr="disabled"
@@ -262,7 +253,7 @@
                                                 <th>تاریخ و زمان شروع</th>
                                                 <th>تاریخ و زمان پایان</th>
                                                 <th>نمایش در گزارش</th>
-                                                <th>توضیح</th>
+                                                <th>توضیحات - فایل ها</th>
                                                 <th class="text-center js-sweetalert">عملیات</th>
                                             </tr>
                                         </thead>
@@ -313,9 +304,18 @@
                                                     tabindex="-1" role="dialog">
                                                     <div class="modal-dialog" role="document">
                                                         <div class="modal-content">
-                                                            <div class="modal-body">{{ $action->description }}</div>
+                                                            <div class="modal-body">
+                                                                <h5> توضیحات :</h5>
+                                                                {{ $action->description }}
+                                                                <h5 class="mt-3">فایل های ضمیمه :</h5>
+                                                                @foreach ($action->attachments as $attachment)
+                                                                    <div>
+                                                                        <a href="{{ env('APP_URL') }}/storage/attachment_files/{{ $attachment->url }}"
+                                                                            target="_blank">{{ $attachment->url }}</a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
                                                             <div class="modal-footer">
-
                                                                 <button type="button"
                                                                     class="btn btn-danger waves-effect"
                                                                     data-dismiss="modal">بستن
@@ -331,10 +331,8 @@
                             @endif
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
         <div dir="ltr">
             {{ $actions->onEachSide(1)->links() }}
@@ -461,6 +459,7 @@
         };
         // uploade file end
 
+
         Livewire.on('edit-file', (data) => {
             let variations = data.attachments;
             variations.forEach(variation => {
@@ -548,11 +547,12 @@
                 let data = $('#categorySelect').select2("val");
                 @this.set('action_category_id', data);
             });
-
-
-
-
-
+            Livewire.on('eselect2', (data) => {
+                $("#categorySelect").select2().val(data.catg).trigger("change");
+            })
+            Livewire.on('resetselect2', () => {
+                $("#categorySelect").val('0').trigger('change')
+            });
             dateTimePicker.from = $(`#startDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',

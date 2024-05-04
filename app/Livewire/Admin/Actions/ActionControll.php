@@ -32,6 +32,7 @@ class ActionControll extends Component
     public $is_edit = false;
     public $display;
     public $action_category_id;
+    public $catg;
     protected $listeners = [
         'sweetAlertConfirmed', // only when confirm button is clicked
     ];
@@ -61,6 +62,7 @@ class ActionControll extends Component
         $this->resetValidation();
         $this->dispatch('destroy-date-picker');
         $this->dispatch('upfile');
+        $this->dispatch('resetselect2');
     }
 
     public function mount()
@@ -77,7 +79,11 @@ class ActionControll extends Component
     public function edit_action(Action $action)
     {
         if (Gate::allows('update-action',$action)){
-
+            $this->category_id = $action->category->id;
+            $this->dispatch(
+            'eselect2',
+            catg: $action->category->id,
+            );
             $this->attachments=$action->attachments->pluck('url');
             $this->is_edit = true;
             $this->description = $action->description;
@@ -134,7 +140,7 @@ class ActionControll extends Component
             }
             Session::forget('attachments');
             $this->ref();
-            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
+            // toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
             $this->validate();
 
@@ -159,7 +165,7 @@ class ActionControll extends Component
             Session::forget('attachments');
 
             $this->ref();
-            toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
+            // toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
         }
         $this->dispatch('destroy-date-picker');
     }
