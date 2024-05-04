@@ -138,7 +138,7 @@
 
                                                             <a href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
                                                                 class="btn btn-default"> شواهد دیجیتال:
-                                                                {{ $device->titleManagement->title }}</a>
+                                                                {{ $device->category->title }}</a>
 
                                                     </span>
                                                     </td>

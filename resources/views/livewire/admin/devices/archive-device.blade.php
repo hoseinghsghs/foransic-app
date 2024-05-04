@@ -85,7 +85,7 @@
                                     <tr wire:key="name_{{ $device->id }}">
                                         <td scope="row">{{ $key + 1 }}</td>
                                         <td>
-                                            {{ $device->titleManagement->title }}
+                                            {{ $device->category->title }}
                                         </td>
                                         <td>
                                             {{ $device->code }}

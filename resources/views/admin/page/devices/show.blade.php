@@ -41,7 +41,7 @@
                                 <button type="button" class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نام شواهد دیجیتال :</strong></div>
-                                        <div class="col-6">{{ $device->titleManagement->title }}</div>
+                                        <div class="col-6">{{ $device->category->title }}</div>
                                     </div>
                                 </button>
                                 <button type="button" class="list-group-item list-group-item-action">
@@ -237,7 +237,7 @@
                             </div>
                             <div class="header p-0">
                                 </br>
-                                <strong>تصویر مکاتبه </strong>
+                                <strong style="color:#e47297">تصویر مکاتبه </strong>
                             </div>
                             <hr>
                             <div class="row">
@@ -248,7 +248,7 @@
                                                 <a href="{{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}"
                                                     target="_blank"><img
                                                         src={{ url(env('DEVICE_PRIMARY_IMAGES_UPLOAD_PATCH') . $device->primary_image) }}
-                                                        alt="{{ $device->titleManagement->title }}"></a>
+                                                        alt="{{ $device->category->title }}"></a>
                                                 <span class="blogitem-date">{{ verta($device->created_at) }} <span
                                                         class="text-success">اصلی</span></span>
                                             </div>
@@ -260,7 +260,7 @@
                         <div class="body" style="width: 100%">
                             <div class="header p-0">
                                 </br>
-                                <strong>تصاویر شواهد دیجیتال </strong>
+                                <strong style="color:#e47297">تصاویر شواهد دیجیتال </strong>
                             </div>
                             <hr>
                             <div class="row">
@@ -284,7 +284,7 @@
 
                         <div class="container-fluid">
                             <div class="header p-0">
-                                <strong>اقدامات</strong>
+                                <strong style="color:#e47297">اقدامات</strong>
                             </div>
                             <hr>
                             <div class="row clearfix">
