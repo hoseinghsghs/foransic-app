@@ -92,7 +92,7 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class=" list-group">
-                                        <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                        <div class="list-group-item list-group-item-primary text-center">
                                             اطلاعات کارشناس پرونده
                                         </div>
                                         <div class="list-group-item list-group-item-action">
@@ -113,7 +113,7 @@
                                                 <div class="col-6">{{ $dossier->expert_cellphone }}</div>
                                             </div>
                                         </div>
-                                        <div class="list-group-item list-group-item-primary mt-3">
+                                        <div class="list-group-item list-group-item-primary text-center">
                                             اطلاعات قضایی
                                         </div>
                                         <div class="list-group-item list-group-item-action">
@@ -140,7 +140,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class=" list-group">
-                                <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                <div class="list-group-item list-group-item-primary text-center">
                                     خلاصه پرونده </div>
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
@@ -155,7 +155,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class=" list-group">
-                                <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                <div class="list-group-item list-group-item-primary text-center">
                                     درخواست کارشناس پرونده از آزمایشگاه</div>
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
@@ -176,14 +176,17 @@
                             <div class="col-lg-4 col-md-12">
                                 <div class="card">
                                     <div class="blogitem mb-5">
-                                        <div class="blogitem-image">
-                                            <a href="{{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}"
-                                                target="_blank"><img alt="تصویر حکم قضایی"
-                                                    src={{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}>
-                                            </a>
-                                            <span class="blogitem-date">{{ verta($dossier->created_at) }} <span
-                                                    class="text-success">اصلی</span></span>
-                                        </div>
+                                        @isset($dossier->Judicial_image)
+                                            <div class="blogitem-image">
+                                                <a href="{{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}"
+                                                   target="_blank"><img alt="تصویر حکم قضایی"
+                                                                        src={{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}>
+                                                </a>
+                                                <span class="blogitem-date">{{ verta($dossier->created_at) }}</span>
+                                            </div>
+                                        @else
+                                            <span>ندارد</span>
+                                        @endisset
                                     </div>
                                 </div>
                             </div>

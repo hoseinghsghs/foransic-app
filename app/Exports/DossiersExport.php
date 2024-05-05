@@ -13,62 +13,63 @@ use Stevebauman\Hypertext\Transformer;
 
 class DossiersExport implements FromQuery, WithMapping
 {
-        public function query()
+    public function query()
     {
         return Dossier::query();
     }
-            public function map($invoice): array
+
+    public function map($dossier): array
     {
 
         return [
             [
-	'id' ,
-	'شماره پرونده',
-    'نام پرونده یا کیس',
-	'موصوع',
-	'مدیریت یا معاونت',
-	'نوع پرونده',
-	'کارشناس پرونده',
-	'شماره همراه کارشناس پرونده',
-	'شماره داخلی کارشناس پرونده',
-	'شماره حکم قضایی',
-	'تصویر حکم قضایی',
-	'تاریخ حکم قضایی',
-	'خلاصه پرونده',
-	'درخواست کارشناس پرونده از آزمایشگاه',
-	'وضعیت',
-	'وضعیت آرشیو',
-	'رده',
-	'رده id',
-	'پرسنل ثبت کننده',
-	'پرسنل ثبت کننده id',
-	'تاریخ ایجاد',
-	'آخرین تاریخ بروز رسانی'],
-    [
-    $invoice->id,
-    $invoice->number_dossier,
-    $invoice->name,
-    $invoice->subject,
-    $invoice->section,
-    $invoice->dossier_type == 2 ? 'عملیاتی':' فاوایی',
-    $invoice->dossier_case,
-    $invoice->expert_phone,
-    $invoice->expert_cellphone,
-    $invoice->Judicial_number,
-    $invoice->Judicial_image,
-    $invoice->Judicial_date,
-     (new Transformer)->toText($invoice->summary_description),
-    $invoice->expert,
-    $invoice->is_active== 1 ? 'فعال':'غیر فعال',
-    $invoice->is_archive1==0 ? 'فعال':'غیر فعال',
-    User::find($invoice->user_category_id)->name,
-    $invoice->user_category_id,
-    User::find($invoice->personal_creator_id)->name,
-    $invoice->personal_creator_id,
-    verta($invoice->created_at)->format('Y-n-j H:i'),
-    verta($invoice->updated_at)->format('Y-n-j H:i'),
-    ],
-];
+                'id',
+                'شماره پرونده',
+                'نام پرونده یا کیس',
+                'موصوع',
+                'مدیریت یا معاونت',
+                'نوع پرونده',
+                'کارشناس پرونده',
+                'شماره همراه کارشناس پرونده',
+                'شماره داخلی کارشناس پرونده',
+                'شماره حکم قضایی',
+                'تصویر حکم قضایی',
+                'تاریخ حکم قضایی',
+                'خلاصه پرونده',
+                'درخواست کارشناس پرونده از آزمایشگاه',
+                'وضعیت',
+                'وضعیت آرشیو',
+                'رده',
+                'رده id',
+                'پرسنل ثبت کننده',
+                'پرسنل ثبت کننده id',
+                'تاریخ ایجاد',
+                'آخرین تاریخ بروز رسانی'],
+            [
+                $dossier->id,
+                $dossier->number_dossier,
+                $dossier->name,
+                $dossier->subject,
+                $dossier->section,
+                $dossier->dossier_type == 2 ? 'عملیاتی' : ' فاوایی',
+                $dossier->dossier_case,
+                $dossier->expert_phone,
+                $dossier->expert_cellphone,
+                $dossier->Judicial_number,
+                $dossier->Judicial_image,
+                $dossier->Judicial_date,
+                (new Transformer)->toText($dossier->summary_description),
+                $dossier->expert,
+                $dossier->is_active == 1 ? 'فعال' : 'غیر فعال',
+                $dossier->is_archive1 == 0 ? 'فعال' : 'غیر فعال',
+                User::find($dossier->user_category_id)->name,
+                $dossier->user_category_id,
+                User::find($dossier->personal_creator_id)->name,
+                $dossier->personal_creator_id,
+                verta($dossier->created_at)->format('Y-n-j H:i'),
+                verta($dossier->updated_at)->format('Y-n-j H:i'),
+            ],
+        ];
     }
 
 

@@ -91,7 +91,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->name('file-users');
     Route::get('/export-Orders', [BackupController::class, 'ExportOrders'])->name('file-orders');
 
-    Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->name('file-dossier');
+    Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
     Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->name('file-action');
 
     //Multi-vendor
