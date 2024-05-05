@@ -190,6 +190,7 @@ return array(
         "number_dossier" => 'شماره پرونده',
         "dossier_date" => 'تاریخ پرونده',
         "dossier_id" =>"پرونده",
+        "dossier_type"=>"نوع پرونده",
         "section" => 'بخش یا معاونت',
         "summary_description" => "خلاصه توضیحات",
         "expert" => "کازشناس یا متخصص",

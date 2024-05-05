@@ -28,7 +28,7 @@ class CreateDossier extends Component
     public string $Judicial_number = '';
     public $Judicial_image = '';
     public string $Judicial_date = '';
-    public string $dossier_type = '';
+    public string $dossier_type = '0';
     public string $dossier_case = '';
     public string $expert_phone = '';
     public string $expert_cellphone = '';

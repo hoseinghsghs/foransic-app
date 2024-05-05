@@ -70,7 +70,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-3 col-sm-3 @error('dossier_type') is-invalid @enderror">
-                                    <label for="dossier-type">نوع پرونده</label>
+                                    <label for="dossier-type">نوع پرونده <abbr class="required text-danger"
+                                                                               title="ضروری">*</abbr></label>
                                     <div wire:ignore>
                                         <select id="dossier-type" data-placeholder="انتخاب وضعیت" name="dossier_type"
                                                 class="form-control ms select2">
@@ -95,7 +96,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4 col-sm-4 @error('use_id') is-invalid @enderror">
-                                    <label for="userSelect">رده</label>
+                                    <label for="userSelect">رده <abbr class="required text-danger" title="ضروری">*</abbr></label>
                                     <div wire:ignore>
                                         <select id="userSelect" name="user_category_id" data-placeholder="انتخاب رده"
                                                 class="form-control ms search-select">
@@ -161,7 +162,7 @@
 
                                     <div class="form-group col-md-4">
                                         <label> تلفن کارشناس پرونده <abbr class="required text-danger"
-                                                                                 title="ضروری">*</abbr>
+                                                                          title="ضروری">*</abbr>
                                         </label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="expert_phone" id="expert_phone"
@@ -211,9 +212,7 @@
                                     <hr>
                                     <div class="row">
                                         <div class="form-group col-md-6">
-                                            <label> شماره حکم قضایی <abbr class="required text-danger"
-                                                                          title="ضروری">*</abbr>
-                                            </label>
+                                            <label> شماره حکم قضایی</label>
                                             <div class="form-group">
                                                 <input type="text" wire:model.defer="Judicial_number"
                                                        id="delivery-name"
@@ -253,11 +252,11 @@
                                                 <label for="Judicial_image">تصویر حکم قضایی <small>(عکس با فرمت jpg و
                                                         png)</small></label>
                                             </div>
-                                            <div class="body @error('Judicial_image') is-invalid @enderror">
-                                                <div class="form-group" wire:ignore>
+                                            <div class="form-group @error('Judicial_image') is-invalid @enderror">
+                                                <div wire:ignore>
                                                     <input wire:model="Judicial_image" id="Judicial_image" type="file"
                                                            class="dropify form-control"
-                                                           data-default-file="{{ asset('storage/Judicial-image/' . $image_url) }}"
+                                                           data-default-file="{{ $image_url? asset('storage/Judicial-image/' . $image_url) : null}}"
                                                            data-allowed-file-extensions="jpg png"
                                                            data-max-file-size="2M">
                                                 </div>
@@ -286,7 +285,7 @@
 @push('styles')
     <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css"/>
     <link rel="stylesheet" type="text/css"
-          href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
+          href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css"/>
     <style>
         .dropzone {
             border-radius: 5px;
@@ -315,10 +314,16 @@
         }
 
         $(document).ready(function () {
+            // trigger event to change properties
             $('#is_active').on('change', function (e) {
                 let data = $('#is_active').select2("val");
             @this.set('is_active', data);
             });
+            $('#dossier-type').on('change', function(e) {
+                let data = $('#dossier-type').select2("val");
+            @this.set('dossier_type', data);
+            });
+
             $('#userSelect').on('change', function (e) {
                 let data = $('#userSelect').select2("val");
                 if (data === '') {

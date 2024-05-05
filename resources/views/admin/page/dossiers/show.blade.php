@@ -159,14 +159,17 @@
                             <div class="col-lg-4 col-md-12">
                                 <div class="card">
                                     <div class="blogitem mb-5">
-                                        <div class="blogitem-image">
-                                            <a href="{{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}"
-                                               target="_blank"><img alt="تصویر حکم قضایی"
-                                                                    src={{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}>
-                                            </a>
-                                            <span class="blogitem-date">{{ verta($dossier->created_at) }} <span
-                                                    class="text-success">اصلی</span></span>
-                                        </div>
+                                        @isset($dossier->Judicial_image)
+                                            <div class="blogitem-image">
+                                                <a href="{{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}"
+                                                   target="_blank"><img alt="تصویر حکم قضایی"
+                                                                        src={{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}>
+                                                </a>
+                                                <span class="blogitem-date">{{ verta($dossier->created_at) }}</span>
+                                            </div>
+                                        @else
+                                            <span>ندارد</span>
+                                        @endisset
                                     </div>
                                 </div>
                             </div>
