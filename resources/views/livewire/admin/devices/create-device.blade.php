@@ -33,7 +33,7 @@
                                 <h2><strong>اطلاعات اصلی شواهد دیجیتال</strong></h2>
                             </div>
                             <hr>
-                            <form wire:submit.prevent="create">
+                            <form wire:submit.prevent="create" id="submit-device">
                                 <div class="row clearfix">
                                     <div
                                         class="form-group col-sm-6 col-sm-6 @error('category_id') is-invalid @enderror">
@@ -250,27 +250,29 @@
                                     <h2><strong>تصاویر شواهد دیجیتال</strong></h2>
                                 </div>
                                 <hr>
-                                <div class="row clearfix">
-                                    <div class="col-lg-12 col-md-12" wire:ignore>
-                                        <div class="header mt-0">
-                                            <label class="mb-1"> تصاویر شواهد دیجیتال</label>
-                                        </div>
-                                        <div class="form-group">
-                                            <form action="{{ route('admin.uploade') }}" id="myDropzone"
-                                                class="dropzone" method="POST" id="my-awesome-dropzone">
-                                                @csrf
-                                            </form>
-                                        </div>
+
+
+                            </form>
+                            <div class="row clearfix">
+                                <div class="col-lg-12 col-md-12" wire:ignore>
+                                    <div class="header mt-0">
+                                        <label class="mb-1"> تصاویر شواهد دیجیتال</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <form action="{{ route('admin.uploade') }}" id="myDropzone" class="dropzone"
+                                            method="POST" id="my-awesome-dropzone">
+                                            @csrf
+                                        </form>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <button wire:click="create" wire:loading.attr="disabled" type="submit"
-                                        class="btn btn-raised btn-success waves-effect"><i wire:loading
-                                            class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
-                                        ذخیره
-                                    </button>
-                                </div>
-                            </form>
+                            </div>
+                            <div class="col-12">
+                                <button wire:click="create" wire:loading.attr="disabled" type="submit"
+                                    form="submit-device" class="btn btn-raised btn-success waves-effect"><i
+                                        wire:loading class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
+                                    ذخیره
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
