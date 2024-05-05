@@ -1,6 +1,7 @@
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12">
         <div class="card">
+
             <form wire:submit.prevent="$refresh">
                 <div class="header">
                     <h2>
@@ -115,6 +116,8 @@
                                                 {{ App\Models\User::find($device->delivery_staff_id)->name }}
                                             @endif
                                         </td>
+
+
                                         <td dir="ltr">
                                             {{ $device->receiver_date }}
                                         </td>

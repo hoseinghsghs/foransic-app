@@ -64,6 +64,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
 
     Route::get('actions/action-category', \App\Livewire\Admin\Actions\CategoryAction::class)->name('actions.category')->middleware(['role_or_permission:actions|personel']);
+    Route::get('laboratory', \App\Livewire\Admin\Laboratories\LaboratoryControll::class)->name('laboratory')->middleware(['role_or_permission:actions|personel']);
 
     Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
     Route::get('/', [DashboardController::class, 'index'])->name('home');

@@ -11,8 +11,7 @@
                         <ul class="breadcrumb">
                             <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                     خانه</a></li>
-                            <li class="breadcrumb-item"><a
-                                    href={{ route('admin.dossiers.index') }} >لیست پرونده</a>
+                            <li class="breadcrumb-item"><a href={{ route('admin.dossiers.index') }}>لیست پرونده</a>
                             </li>
                             <li class="breadcrumb-item active">نمایش پرونده</li>
                         </ul>
@@ -25,13 +24,12 @@
                     </div>
                 </div>
             </div>
-
             <div class="container-fluid">
                 <div class="row clearfix">
                     <div class="col-lg-6">
                         <div class="card">
                             <div class=" list-group">
-                                <div class="list-group-item list-group-item-primary">
+                                <div class="list-group-item list-group-item-primary" style="text-align: center">
                                     مشخصات اصلی پرونده
                                 </div>
                                 <div class="list-group-item list-group-item-action">
@@ -49,13 +47,13 @@
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نوع پرونده:</strong></div>
-                                        <div class="col-6">{{ $dossier->dossier_type ? 'عملیاتی' : 'فاوایی'}}</div>
+                                        <div class="col-6">{{ $dossier->dossier_type ? 'عملیاتی' : 'فاوایی' }}</div>
                                     </div>
                                 </div>
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>مدیریت یا معاونت:</strong></div>
-                                        <div class="col-6">{{ $dossier->section}}</div>
+                                        <div class="col-6">{{ $dossier->section }}</div>
                                     </div>
                                 </div>
                                 <div class="list-group-item list-group-item-action">
@@ -85,12 +83,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="list-group-item list-group-item-action">
-                                    <div class="row clearfix">
-                                        <div class="col-6"><strong>خلاصه پرونده:</strong></div>
-                                        <div class="col-6">{!! $dossier->summary_description !!}</div>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -99,7 +92,7 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class=" list-group">
-                                        <div class="list-group-item list-group-item-primary">
+                                        <div class="list-group-item list-group-item-primary" style="text-align: center">
                                             اطلاعات کارشناس پرونده
                                         </div>
                                         <div class="list-group-item list-group-item-action">
@@ -120,14 +113,7 @@
                                                 <div class="col-6">{{ $dossier->expert_cellphone }}</div>
                                             </div>
                                         </div>
-                                        <div class="list-group-item list-group-item-action">
-                                            <div class="row clearfix">
-                                                <div class="col-6"><strong>درخواست کارشناس پرونده از آزمایشگاه:</strong>
-                                                </div>
-                                                <div class="col-6">{!! $dossier->expert !!}</div>
-                                            </div>
-                                        </div>
-                                        <div class="list-group-item list-group-item-primary">
+                                        <div class="list-group-item list-group-item-primary mt-3">
                                             اطلاعات قضایی
                                         </div>
                                         <div class="list-group-item list-group-item-action">
@@ -149,10 +135,41 @@
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div class="row clearfix">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class=" list-group">
+                                <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                    خلاصه پرونده </div>
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="row clearfix">
+                                        <div class="col-12">{!! $dossier->summary_description !!}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class=" list-group">
+                                <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                    درخواست کارشناس پرونده از آزمایشگاه</div>
+                                <div class="list-group-item list-group-item-action">
+                                    <div class="row clearfix">
+                                        <div class="col-12">{!! $dossier->expert !!}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row clearfix">
                     <div class="body">
-                        <div class="header p-0">
-                            <strong>تصویر حکم قضایی</strong>
+                        <div class="header p-0 mt-4">
+                            <strong style="color:#e47297">تصویر حکم قضایی</strong>
                         </div>
                         <hr>
                         <div class="row">
@@ -179,5 +196,4 @@
             </div>
         </div>
     </section>
-
 @endsection

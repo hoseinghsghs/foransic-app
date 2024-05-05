@@ -119,7 +119,7 @@
                      <tr class="text-center">
                          <td>{{ $device->id }}</td>
                          <td>{{ $device->code }}</td>
-                         <td>{{ $device->titleManagement->title }}</td>
+                         <td>{{ $device->category->title }}</td>
                          <td>{{ $device->trait }}</td>
                      </tr>
 
