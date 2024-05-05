@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\Admin\Dossiers;
+
 use Livewire\Component;
 use App\Models\Dossier;
 use App\Models\User;
@@ -20,6 +21,10 @@ class DossierComponent extends Component
     public $company_user = '';
     public $is_active = '';
 
+    protected $listeners = [
+        'sweetAlertConfirmed', // only when confirm button is clicked
+    ];
+
     public function updatingTitle()
     {
         $this->resetPage();
@@ -35,15 +40,10 @@ class DossierComponent extends Component
         $this->resetPage();
     }
 
-    protected $listeners = [
-        'sweetAlertConfirmed', // only when confirm button is clicked
-    ];
-
     public function mount(Dossier $dossier)
     {
 
     }
-
 
     public function ChangeActive_dossier(Dossier $dossier)
     {
@@ -59,20 +59,18 @@ class DossierComponent extends Component
         ]);
     }
 
-       public function export()
-    {
-        return Storage::disk('exports')->download('export.csv');
-    }
     public function render()
     {
         $company_users = User::Role('company')->get();
-        $dossiers = Dossier::where('is_archive',false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')
+
+        $dossiers = Dossier::where('is_archive', false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')
             ->when($this->company_user != '', function ($query) {
                 $query->where('user_category_id', $this->company_user);
             })
             ->when($this->is_active != '', function ($query) {
                 $query->where('is_active', $this->is_active);
             })->latest()->paginate(10);
+
         return view('livewire.admin.dossiers.dossier-component', compact(['dossiers', 'company_users']))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

@@ -92,7 +92,7 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class=" list-group">
-                                        <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                        <div class="list-group-item list-group-item-primary text-center">
                                             اطلاعات کارشناس پرونده
                                         </div>
                                         <div class="list-group-item list-group-item-action">
@@ -113,7 +113,7 @@
                                                 <div class="col-6">{{ $dossier->expert_cellphone }}</div>
                                             </div>
                                         </div>
-                                        <div class="list-group-item list-group-item-primary mt-3">
+                                        <div class="list-group-item list-group-item-primary text-center">
                                             اطلاعات قضایی
                                         </div>
                                         <div class="list-group-item list-group-item-action">
@@ -140,7 +140,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class=" list-group">
-                                <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                <div class="list-group-item list-group-item-primary text-center">
                                     خلاصه پرونده </div>
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
@@ -155,7 +155,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class=" list-group">
-                                <div class="list-group-item list-group-item-primary" style="text-align: center">
+                                <div class="list-group-item list-group-item-primary text-center">
                                     درخواست کارشناس پرونده از آزمایشگاه</div>
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e4179af59426a2b8b3043bd3ce1d56d",
+    "content-hash": "c8f33f487f5e10c83d068beb1dd3f466",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6257,6 +6257,54 @@
                 }
             ],
             "time": "2024-04-19T12:35:28+00:00"
+        },
+        {
+            "name": "stevebauman/hypertext",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stevebauman/hypertext.git",
+                "reference": "7f2c0e4d5a0ee28d6a3324276cf2f18fe7640b40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stevebauman/hypertext/zipball/7f2c0e4d5a0ee28d6a3324276cf2f18fe7640b40",
+                "reference": "7f2c0e4d5a0ee28d6a3324276cf2f18fe7640b40",
+                "shasum": ""
+            },
+            "require": {
+                "ezyang/htmlpurifier": "^4.16"
+            },
+            "require-dev": {
+                "pestphp/pest": "^2.24",
+                "spatie/ray": "^1.39"
+            },
+            "suggest": {
+                "ext-dom": "Required for filtering HTML.",
+                "ext-libxml": "Required for filtering HTML."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stevebauman\\Hypertext\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Steve Bauman",
+                    "email": "steven_bauman@outlook.com"
+                }
+            ],
+            "description": "The best HTML to text transformer",
+            "support": {
+                "issues": "https://github.com/stevebauman/hypertext/issues",
+                "source": "https://github.com/stevebauman/hypertext/tree/v1.1.0"
+            },
+            "time": "2024-04-04T20:02:57+00:00"
         },
         {
             "name": "symfony/cache",
