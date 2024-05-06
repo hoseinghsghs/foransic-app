@@ -54,7 +54,28 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-
+                                    <div class="form-group col-md-3">
+                                        <label>تاریخ ثبت </label>
+                                        <div class="input-group" wire:ignore>
+                                            <div class="input-group-prepend"
+                                                 onclick="$('#createDate').focus();">
+                                                <span class="input-group-text" id="basic-addon1"><i
+                                                        class="zmdi zmdi-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="hidden" id="createDate-alt"
+                                                   name="create_date">
+                                            <input type="text" class="form-control" id="createDate"
+                                                   value="{{ $create_date ?? null }}" autocomplete="off">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon1"
+                                                      style="cursor: pointer;" onclick="destroyDatePicker2()"><i
+                                                        class="zmdi zmdi-close"></i></span>
+                                            </div>
+                                        </div>
+                                        @error('create_date')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                     <div class="form-group col-md-3">
                                         <label> سریال یا شماره اموال شواهد دیجیتال <abbr class="required" title="ضروری"
                                                 style="color:red;">*</abbr></label>
@@ -101,8 +122,7 @@
                                         @endforeach
                                     @endif
                                     <div class="form-group col-md-4 col-sm-4 @error('dossier_id') is-invalid @enderror">
-                                        <label for="dossierSelect">الحاق به پرونده <abbr class="required" title="ضروری"
-                                                style="color:red;">*</abbr></label>
+                                        <label for="dossierSelect">الحاق به پرونده </label>
                                         <div wire:ignore>
                                             <select id="dossierSelect" name="dossier_id"
                                                 data-placeholder="انتخاب پرونده" class="form-control ms search-select">
@@ -136,8 +156,7 @@
                                         <label> کد پرسنلی تحویل دهنده</label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="delivery_code" id="delivery_code"
-                                                class="form-control @error('delivery_code') is-invalid @enderror"
-                                                required />
+                                                class="form-control @error('delivery_code') is-invalid @enderror"/>
                                             @error('delivery_code')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -199,8 +218,7 @@
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="correspondence_number"
                                                 id="correspondence_number"
-                                                class="form-control @error('correspondence_number') is-invalid @enderror"
-                                                required />
+                                                class="form-control @error('correspondence_number') is-invalid @enderror"/>
                                             @error('correspondence_number')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -418,6 +436,7 @@
     {{-- دیتا پیکر --}}
     <script>
         let correspondenceDate;
+        let createDate;
 
         function destroyDatePicker() {
             $(`#correspondenceDate`).val(null);
@@ -427,6 +446,16 @@
                 initialValue: false
             }
             @this.set(`correspondence_date`, null, true);
+        }
+
+        function destroyDatePicker2() {
+            $(`#createDate`).val(null);
+            $(`#createDate-alt`).val(null);
+            createDate.touched = false;
+            createDate.options = {
+                initialValue: false
+            }
+            @this.set(`create_date`, null, true);
         }
 
         $(document).ready(function() {
@@ -461,6 +490,40 @@
                 },
                 onSelect: function(unix) {
                     @this.set(`correspondence_date`, $(`#correspondenceDate-alt`).val(), true);
+                },
+            });
+
+            createDate = $(`#createDate`).pDatepicker({
+                initialValue: false,
+                initialValueType: 'persian',
+                format: 'L',
+                altField: `#createDate-alt`,
+                altFormat: 'g',
+                timePicker: {
+                    enabled: true,
+                    second: {
+                        enabled: false
+                    },
+                },
+                altFieldFormatter: function(unixDate) {
+                    var self = this;
+                    var thisAltFormat = self.altFormat.toLowerCase();
+                    if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
+                        persianDate.toLocale('en');
+                        let p = new persianDate(unixDate).format(
+                            'YYYY/MM/DD');
+                        return p;
+                    }
+                    if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
+                        return unixDate;
+                    } else {
+                        let pd = new persianDate(unixDate);
+                        pd.formatPersian = this.persianDigit;
+                        return pd.format(self.altFormat);
+                    }
+                },
+                onSelect: function(unix) {
+                    @this.set(`create_date`, $(`#createDate-alt`).val(), true);
                 },
             });
         });

@@ -92,7 +92,6 @@ class ImageController extends Controller
 
         if ($request->has('primary_image')) {
 
-
             $ImageController = new ImageController();
             $image_name = $ImageController->UploadeImage($request->primary_image, "primary_image", 900, 800);
 

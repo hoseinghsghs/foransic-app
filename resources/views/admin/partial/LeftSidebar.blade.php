@@ -59,16 +59,14 @@
                     </a>
                 </li>
 
-                @canany(['dossiers-list', 'dossiers-create', 'dossiers-edit', 'dossiers-delete', 'dossiers-archive-list'])
+                @canany(['laboratories-list','laboratories-create','laboratories-edit','laboratories-delete'])
                     <li @class([
-                        'active open' => request()->routeIs(
-                            'admin.dossiers.archive',
-                            'admin.dossiers.*'),
+                        'active open' => request()->routeIs('admin.laboratory'),
                     ])>
                         <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-city-alt"></i><span>
                                 مدیریت آزمایشگاه ها</span></a>
                         <ul class="ml-menu">
-                            @can('dossiers-create')
+                            @can('laboratories-list')
                                 <li @class(['active' => request()->routeIs('admin.laboratory')])><a href={{ route('admin.laboratory') }}> آزمایشگاه ها</a></li>
                             @endcan
 

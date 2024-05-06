@@ -27,6 +27,7 @@ class CreateDevice extends Component
     public string $trait = '';
     public string $correspondence_number = '';
     public string $correspondence_date = '';
+    public string $create_date = '';
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
@@ -55,6 +56,7 @@ class CreateDevice extends Component
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
+            'create_date' => 'nullable|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
         ];
@@ -94,6 +96,7 @@ class CreateDevice extends Component
                 'code' => $this->code,
                 'correspondence_number' => $this->correspondence_number,
                 'correspondence_date' => $this->correspondence_date,
+                'create_date' => $this->create_date,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
                 'receiver_name' => "-",

@@ -62,15 +62,17 @@ class DeviceComponent extends Component
         ]);
     }
 
-       public function export()
+    public function export()
     {
         return Storage::disk('exports')->download('export.csv');
     }
+
     public function render()
     {
-        $category_ids= Category::where('title' , 'like', '%' . $this->title . '%')->pluck('id')->toArray();
-        $devices = Device::where('is_archive',false)->where( 'code', 'like', '%' . $this->title . '%')->orWhereIn('category_id',$category_ids)
-            ->when($this->status != '', function ($query) {
+        $category_ids = Category::where('title', 'like', '%' . $this->title . '%')->pluck('id')->toArray();
+        $devices = Device::where('is_archive', false)->when($this->title, function ($query) use ($category_ids) {
+            $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
+        })->when($this->status != '', function ($query) {
                 $query->where('status', $this->status);
             })->when($this->is_active != '', function ($query) {
                 $query->where('is_active', $this->is_active);

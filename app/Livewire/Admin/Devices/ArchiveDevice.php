@@ -55,12 +55,13 @@ class ArchiveDevice extends Component
     public function render()
     {
         $category_ids= Category::where('title' , 'like', '%' . $this->title . '%')->pluck('id')->toArray();
-        $devices = Device::where('is_archive',1)->where( 'code', 'like', '%' . $this->title . '%')->orwhereIn('category_id',$category_ids)
-            ->when($this->status != '', function ($query) {
-                $query->where('status', $this->status);
-            })->when($this->is_active != '', function ($query) {
-                $query->where('is_active', $this->is_active);
-            })->latest()->paginate(10);
+        $devices = Device::where('is_archive', true)->when($this->title, function ($query) use ($category_ids) {
+            $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
+        })->when($this->status != '', function ($query) {
+            $query->where('status', $this->status);
+        })->when($this->is_active != '', function ($query) {
+            $query->where('is_active', $this->is_active);
+        })->latest()->paginate(10);
         return view('livewire.admin.devices.archive-device',compact(['devices']));
     }
 }

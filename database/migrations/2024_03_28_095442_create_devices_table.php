@@ -36,6 +36,7 @@ return new class extends Migration
             $table->text('correspondence_date')->nullable();
 
             $table->string('primary_image')->nullable();
+            $table->string('create_date')->nullable();
 
             $table->string('status')->default(0);
 

@@ -86,14 +86,9 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 
     //excel exports
     Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->middleware('permission:dossiers-export')->name('file-device');
-    Route::get('/export-Device2', [BackupController::class, 'ExportDevices2'])->name('file-device2');
-    Route::get('/export-UserAddress', [BackupController::class, 'ExportUserAddresses'])->name('file-address');
-    Route::get('/export-Transactions', [BackupController::class, 'TransactionExport'])->name('file-transactions');
-    Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->name('file-users');
-    Route::get('/export-Orders', [BackupController::class, 'ExportOrders'])->name('file-orders');
-
+    Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->middleware('permission:users-export')->name('file-users');
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
-    Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:dossiers-export')->name('file-action');
+    Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:actions-export')->name('file-action');
 
     //Multi-vendor
     // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');
