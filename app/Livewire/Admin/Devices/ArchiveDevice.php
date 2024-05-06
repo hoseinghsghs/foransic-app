@@ -49,14 +49,13 @@ class ArchiveDevice extends Component
     public function ChangeArchive_device(Device $device)
     {
         $device->update([
-            "is_archive" => true
+            "is_archive" => false
         ]);
     }
     public function render()
     {
-        $categories_ids= Category::where('title' , 'like', '%' . $this->title . '%')->pluck('id');
-        $devices = Device::where('is_archive',true)->where( 'code', 'like', '%' . $this->title . '%')->orWhereIn('categories_id',$categories_ids)
-
+        $category_ids= Category::where('title' , 'like', '%' . $this->title . '%')->pluck('id')->toArray();
+        $devices = Device::where('is_archive',1)->where( 'code', 'like', '%' . $this->title . '%')->orwhereIn('category_id',$category_ids)
             ->when($this->status != '', function ($query) {
                 $query->where('status', $this->status);
             })->when($this->is_active != '', function ($query) {

@@ -65,7 +65,7 @@
                             'admin.dossiers.archive',
                             'admin.dossiers.*'),
                     ])>
-                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-file"></i><span>
+                        <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-city-alt"></i><span>
                                 مدیریت آزمایشگاه ها</span></a>
                         <ul class="ml-menu">
                             @can('dossiers-create')

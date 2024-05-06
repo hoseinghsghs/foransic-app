@@ -26,6 +26,9 @@ return new class extends Migration
             $table->string('delivery_date')->nullable();
             $table->string('receiver_date')->nullable();
 
+            $table->text('report')->nullable();
+            $table->string('attachment_report')->nullable();
+
             $table->text('accessories')->nullable();
             $table->text('description')->nullable();
             $table->text('trait')->nullable();

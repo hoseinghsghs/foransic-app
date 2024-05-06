@@ -98,6 +98,7 @@ class CreateDevice extends Component
                 'delivery_name' => $this->delivery_name,
                 'receiver_name' => "-",
                 'receiver_code' => "-",
+                'report' => "-",
                 'delivery_staff_id' => 0,
                 'receiver_staff_id' => auth()->user()->id,
                 'delivery_date' => "-",

@@ -142,32 +142,6 @@
                                                     </a>
                                                 </div>
                                             </div>
-
-                                            {{-- <a onclick="loadbtn(event)"
-                                                href="{{ route('admin.devices.edit', $device->id) }}"
-                                                class="btn btn-raised btn-warning waves-effect">
-                                                <i class="zmdi zmdi-edit"></i>
-                                            </a>
-                                            <a onclick="loadbtn(event)"
-                                                href="{{ route('admin.devices.show', $device->id) }}"
-                                                class="btn btn-raised btn-info waves-effect">
-                                                <i class="zmdi zmdi-eye"></i>
-                                            </a> --}}
-                                            {{-- <div class="btn-group">
-                                         <button type="button"
-                                                 class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                             <i class="zmdi zmdi-edit"></i>
-                                         </button>
-                                         {{-- <div class="dropdown-menu">
-                                             <a href="{{ route('admin.ces.edit', ['device' => $device->id]) }}"
-                                                class="dropdown-item text-right"> ویرایش </a>
-                                             <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
-                                                 class="dropdown-item text-right"> ویرایش تصاویر </a>
-                                             <a href="{{ route('admin.devices.category.edit', ['device' => $device->id]) }}"
-                                                 class="dropdown-item text-right"> ویرایش دسته بندی و ویژگی </a>
-                                         </div>
-                                     </div> --}}
                                         </td>
                                     </tr>
                                 @endforeach

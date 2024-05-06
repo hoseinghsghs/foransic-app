@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Admin\AttachmentsController;
 use Verta;
 
 class EditDevice extends Component
@@ -36,6 +38,8 @@ class EditDevice extends Component
     public string $description = '';
     public string $accessories = '';
     public $primary_image;
+    public $attachment_report;
+    public string $report = '';
     public bool $is_active = false;
 
 
@@ -47,6 +51,7 @@ class EditDevice extends Component
             'status' => 'required|integer',
             'dossier_id' => 'nullable|integer|exists:dossiers,id',
             'description' => 'nullable|string',
+            'report' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string|unique:devices,code,' . $this->device->id,
             'delivery_code' => 'nullable|string',
@@ -81,6 +86,7 @@ class EditDevice extends Component
         $this->category_id = $this->device->category_id;
         $this->code = $this->device->code;
         $this->trait = $this->device->trait;
+        $this->report = $this->device->report;
         $this->dossier_id = $this->device->dossier_id;
         $this->status = $this->device->status;
         $this->correspondence_number = $this->device->correspondence_number;
@@ -107,12 +113,22 @@ class EditDevice extends Component
         }
 
         $this->validate();
+
+        if ($this->attachment_report != null) {
+        $AttachmentsController = new AttachmentsController();
+        $attachment_report_name = $AttachmentsController->uploadAttachment($this->attachment_report, "attachment_report");
+        }else{
+        $attachment_report_name = $this->device->attachment_report;
+        }
+
         $this->device->update([
             'category_id' => $this->category_id,
             'status' => $this->status,
             'description' => $this->description,
             'accessories' => $this->accessories,
             'trait' => $this->trait,
+            'report' => $this->report,
+            'attachment_report' => $attachment_report_name,
             'dossier_id' => $this->dossier_id,
             'code' => $this->code,
             'correspondence_number' => $this->correspondence_number,
@@ -142,6 +158,10 @@ class EditDevice extends Component
         return redirect()->route('admin.devices.index');
     }
 
+    public function printReport()
+    {
+        return redirect()->route('admin.print.print-report' , [$this->device->id]);
+    }
 
     public function render()
     {
