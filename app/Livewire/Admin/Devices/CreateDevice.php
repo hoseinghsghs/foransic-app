@@ -70,6 +70,7 @@ class CreateDevice extends Component
     public function mount()
     {
         Session::forget('images');
+        $this->create_date=verta()->format('Y/m/d');
     }
 
     public function create()

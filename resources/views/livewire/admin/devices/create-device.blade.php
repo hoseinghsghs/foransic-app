@@ -494,7 +494,7 @@
             });
 
             createDate = $(`#createDate`).pDatepicker({
-                initialValue: false,
+                initialValue: true,
                 initialValueType: 'persian',
                 format: 'L',
                 altField: `#createDate-alt`,
