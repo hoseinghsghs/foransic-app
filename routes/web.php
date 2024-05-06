@@ -37,12 +37,14 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::resource('galleries', GaleryController::class)->middleware('permission:galleries');
     Route::get('/prnpriview/{device}', [PrintController::class, 'prnpriview'])->name('print.device');
     Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->name('print.device.show');
-//livewire
+    //devices
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices-edit')->name('devices.edit');
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices-create')->name('devices.create');
+    Route::get('devices/archives', [DeviceController::class, 'archive'])->middleware('permission:devices-archive-list')->name('archive');
     Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:categories-list')->name('category');
     Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes-list')->name('attribute');
-
+    Route::resource('devices', DeviceController::class)->only(['index', 'show']);
+    //dossiers
     Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers-create')->name('dossiers.create');
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers-edit')->name('dossiers.edit');
     Route::get('dossiers/archives', \App\Livewire\Admin\Dossiers\ArchiveDossier::class)->middleware('permission:dossiers-archive-list')->name('dossiers.archive');
@@ -51,8 +53,6 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     })->middleware('permission:dossiers-show')->name('dossiers.show');
     Route::get('dossiers', \App\Livewire\Admin\Dossiers\DossierComponent::class)->middleware('permission:dossiers-list')->name('dossiers.index');
 
-    Route::resource('devices', DeviceController::class)->middleware(['role_or_permission:devices|personel'])->only(['index', 'show']);
-    Route::get('archives', [DeviceController::class, 'archive'])->name('archive')->middleware('permission:devices');
     Route::resource('users', UserController::class)->except('destroy')->middleware('permission:users');
     Route::resource('roles', RoleController::class)->except('show')->middleware('permission:roles');
 
@@ -84,7 +84,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::post('/attachments-add_file', [AttachmentsController::class, 'attachments-setPrimary'])->name('attachments_device.files.add');
 
     //excel exports
-    Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->name('file-device');
+    Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->middleware('permission:dossiers-export')->name('file-device');
     Route::get('/export-Device2', [BackupController::class, 'ExportDevices2'])->name('file-device2');
     Route::get('/export-UserAddress', [BackupController::class, 'ExportUserAddresses'])->name('file-address');
     Route::get('/export-Transactions', [BackupController::class, 'TransactionExport'])->name('file-transactions');
@@ -92,7 +92,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/export-Orders', [BackupController::class, 'ExportOrders'])->name('file-orders');
 
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
-    Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->name('file-action');
+    Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:dossiers-export')->name('file-action');
 
     //Multi-vendor
     // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');

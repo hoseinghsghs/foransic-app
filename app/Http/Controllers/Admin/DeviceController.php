@@ -3,22 +3,28 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 use App\Models\Device;
 use App\Models\Action;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
-class DeviceController extends Controller
+class DeviceController extends Controller implements HasMiddleware
 {
-       public function index()
+    public function index()
     {
+        Gate::authorize('devices-list');
         return view('admin.page.devices.index');
     }
+
     public function show(Device $device)
     {
+        Gate::authorize('devices-show');
         $images = $device->images;
-        $actions=Action::where('device_id' , $device->id)->get();
-        return view('admin.page.devices.show', compact('device', 'images' ,'actions'));
+        $actions = Action::where('device_id', $device->id)->get();
+        return view('admin.page.devices.show', compact('device', 'images', 'actions'));
     }
 
     public function uploadImage(Request $request)
@@ -34,6 +40,7 @@ class DeviceController extends Controller
         }
         return response()->json($image_name, 200);
     }
+
     public function deleteImage(Request $request)
     {
 
@@ -52,6 +59,7 @@ class DeviceController extends Controller
 
     public function archive()
     {
+        Gate::authorize('devices-archive-list');
         return view('admin.page.devices.archive');
     }
 }
