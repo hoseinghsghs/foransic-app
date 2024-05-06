@@ -37,7 +37,8 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::resource('galleries', GaleryController::class)->middleware('permission:galleries');
     Route::get('/prnpriview/{device}', [PrintController::class, 'prnpriview'])->name('print.device');
     Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->name('print.device.show');
-    //devices
+    Route::get('/print-report/{device}', [PrintController::class, 'printReport'])->name('print.print-report');
+//livewire
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices-edit')->name('devices.edit');
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices-create')->name('devices.create');
     Route::get('devices/archives', [DeviceController::class, 'archive'])->middleware('permission:devices-archive-list')->name('archive');

@@ -189,6 +189,7 @@
                                         @enderror
                                     </div>
                                 </div>
+
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('trait') is-invalid @enderror">
                                         <label> مشخصات (ظرفیت ، مدل و...)</label>
@@ -200,7 +201,6 @@
                                         @enderror
                                     </div>
                                 </div>
-
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('accessories') is-invalid @enderror">
                                         <label> لوازم جانبی</label>
@@ -217,9 +217,9 @@
 
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('description') is-invalid @enderror">
-                                        <label for="summernote">توضیحات و اظهارات درخواست کننده :</label>
-                                        <div wire:ignore>
-                                            <textarea class="form-control summernote-editor" id="summernote">
+                                        <label>توضیحات و اظهارات درخواست کننده :</label>
+                                        <div>
+                                            <textarea class="form-control" wire:model.defer="description" rows="5">
                                             {!! $description !!}
                                         </textarea>
                                         </div>
@@ -228,6 +228,41 @@
                                         @enderror
                                     </div>
                                 </div>
+                                <div class="header">
+                                    <strong style="color:#e47297 !important">تجزیه و تحلیل نهایی</strong>
+                                    <button wire:click="printReport()" type="button" wire:loading.attr="disabled"
+                                        style="float: left" class="btn btn-raised btn-warning waves-effect"><i
+                                            wire:loading class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
+                                        پرینت گزارش نهایی
+                                    </button>
+                                </div>
+                                <hr>
+                                <div class="row clearfix" wire:ignore>
+                                    <div class="form-group col-md-12 @error('report') is-invalid @enderror">
+                                        <label for="summernote">گزارش تجزیه تحلیل نهایی </label>
+                                        <div>
+                                            <textarea class="form-control summernote-editor" rows="6" wire:model.defer="report" id="summernote">{!! $report !!}</textarea>
+                                        </div>
+                                        @error('report')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="body">
+                                    <p>ضمیمه</p>
+                                    <div class="form-group" wire:ignore>
+                                        <input type="file" class="dropify" name="attachment_report"
+                                            id="attachment_report" wire:model="attachment_report"
+                                            data-max-file-size="2M"
+                                            value={{ url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) }}
+                                            data-default-file={{ url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) }}
+                                            data-allowed-file-extensions="docx xlsx pdf csv">
+                                    </div>
+                                    لینک دانلود :
+                                    <a
+                                        href={{ url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) }}>{{ $device->attachment_report }}</a>
+                                </div>
+
                                 <div class="header p-0 mt-3">
                                     <h2><strong>مشخصات مکاتبه</strong></h2>
                                 </div>
@@ -275,8 +310,10 @@
                                             class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
                                         ذخیره
                                     </button>
+
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -326,7 +363,7 @@
                 }
             });
             $('#summernote').on('summernote.change', function(we, contents, $editable) {
-                @this.set('description', contents);
+                @this.set('report', contents);
             });
             // date time picker
             correspondenceDate = $(`#correspondenceDate`).pDatepicker({
