@@ -21,46 +21,46 @@ class DevicesExport implements FromQuery, WithMapping
     {
         return Device::query();
     }
-    public function map($invoice): array
+    public function map($device): array
     {
-        if ($invoice->status == 0) {
-            $invoice->status = "پذیرش شواهد دیجیتال";
-        } elseif ($invoice->status == 1){
-            $invoice->status = "در حال بررسی";
+        if ($device->status == 0) {
+            $device->status = "پذیرش شواهد دیجیتال";
+        } elseif ($device->status == 1){
+            $device->status = "در حال بررسی";
         }
-         elseif ($invoice->status == 2){
-            $invoice->status = "تکمیل تجزیه و تحلیل";
+         elseif ($device->status == 2){
+            $device->status = "تکمیل تجزیه و تحلیل";
         }
-         elseif ($invoice->status == 3){
-            $invoice->status = "تحویل شواهد دیجیتال";
+         elseif ($device->status == 3){
+            $device->status = "تحویل شواهد دیجیتال";
         }
             $value_arry=[
-            $invoice->id,
-            $invoice->code,
-            $invoice->delivery_name,
-            $invoice->delivery_code,
-            $invoice->receiver_name,
-            $invoice->receiver_code,
-            User::find($invoice->delivery_staff_id)->name,
-            $invoice->delivery_staff_id,
-            User::find($invoice->receiver_staff_id)->name,
-            $invoice->receiver_staff_id,
-            $invoice->delivery_date,
-            $invoice->receiver_date,
-            $invoice->accessories,
-            (new Transformer)->toText($invoice->description),
-            $invoice->trait,
-            $invoice->correspondence_number,
-            $invoice->correspondence_date,
-            $invoice->primary_image,
-            $invoice->status,
-            $invoice->is_active== 1 ? 'فعال':'غیر فعال',
-            $invoice->is_archive==1 ? 'فعال':'غیر فعال',
-            $invoice->dossier_id,
-            Dossier::find($invoice->dossier_id)->name,
-            $invoice->category->title,
-            verta($invoice->created_at)->format('Y-n-j H:i'),
-            verta($invoice->updated_at)->format('Y-n-j H:i'),
+            $device->id,
+            $device->code,
+            $device->delivery_name,
+            $device->delivery_code,
+            $device->receiver_name,
+            $device->receiver_code,
+            User::find($device->delivery_staff_id)->name,
+            $device->delivery_staff_id,
+            User::find($device->receiver_staff_id)->name,
+            $device->receiver_staff_id,
+            $device->delivery_date,
+            $device->receive_date,
+            $device->accessories,
+            (new Transformer)->toText($device->description),
+            $device->trait,
+            $device->correspondence_number,
+            $device->correspondence_date,
+            $device->primary_image,
+            $device->status,
+            $device->is_active== 1 ? 'فعال':'غیر فعال',
+            $device->is_archive==1 ? 'فعال':'غیر فعال',
+            $device->dossier_id,
+            Dossier::find($device->dossier_id)->name,
+            $device->category->title,
+            verta($device->created_at)->format('Y-n-j H:i'),
+            verta($device->updated_at)->format('Y-n-j H:i'),
             ];
                 $head_arry=[    "id" ,
             "سریال یا شماره اموال شواهد دیجیتال" ,
@@ -89,13 +89,13 @@ class DevicesExport implements FromQuery, WithMapping
             "تاریخ ایجاد",
             "آخرین تاریخ بروز رسانی"];
 
-        foreach ($invoice->category->attributes as $key => $attribute) {
-        $DeviceAttribute=DeviceAttribute::where('attribute_id' ,$attribute->id)->where('device_id' ,$invoice->id )->get();
+        foreach ($device->category->attributes as $key => $attribute) {
+        $DeviceAttribute=DeviceAttribute::where('attribute_id' ,$attribute->id)->where('device_id' ,$device->id )->get();
         array_push($head_arry, $attribute->name);
         array_push($value_arry, $DeviceAttribute[0]->value);
         };
 
-        foreach ($invoice->actions as $key => $action) {
+        foreach ($device->actions as $key => $action) {
         array_push($value_arry,$action->description, $action->start_date , $action->end_date , User::find($action->user_id)->name);
         array_push($head_arry, "اقدام" . $key , "تاریخ شورع اقدام" , "تاریخ پایان اقدام" , "پرسنل ثبت کننده");
 

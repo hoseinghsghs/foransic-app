@@ -68,14 +68,14 @@
                                             <input type="hidden" id="createDate-alt"
                                                    name="create_date">
                                             <input type="text" class="form-control" id="createDate"
-                                                   value="{{ $create_date ?? null }}" autocomplete="off">
+                                                   value="{{ $receive_date ?? null }}" autocomplete="off">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon1"
                                                       style="cursor: pointer;" onclick="destroyDatePicker2()"><i
                                                         class="zmdi zmdi-close"></i></span>
                                             </div>
                                         </div>
-                                        @error('create_date')
+                                        @error('receive_date')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -379,7 +379,7 @@
             createDate.options = {
                 initialValue: false
             }
-        @this.set(`create_date`, null, true);
+        @this.set(`receive_date`, null, true);
         }
 
         $(document).ready(function () {
@@ -440,7 +440,7 @@
             });
 
             createDate = $(`#createDate`).pDatepicker({
-                initialValue: "{{ $create_date ? true : false }}",
+                initialValue: "{{ $receive_date ? true : false }}",
                 initialValueType: 'persian',
                 format: 'L',
                 altField: `#createDate-alt`,
@@ -468,7 +468,7 @@
                     }
                 },
                 onSelect: function (unix) {
-                @this.set(`create_date`, $(`#createDate-alt`).val(), true);
+                @this.set(`receive_date`, $(`#createDate-alt`).val(), true);
                 },
             });
         });

@@ -11,12 +11,6 @@ use Illuminate\Support\Facades\Session;
 
 class DeviceController extends Controller
 {
-    public function index()
-    {
-        Gate::authorize('devices-list');
-        return view('admin.page.devices.index');
-    }
-
     public function show(Device $device)
     {
         Gate::authorize('devices-show');
@@ -53,11 +47,5 @@ class DeviceController extends Controller
         Session::put('images', $images);
 
         return response()->json(['success' => "تصویر حذف شد"]);
-    }
-
-    public function archive()
-    {
-        Gate::authorize('devices-archive-list');
-        return view('admin.page.devices.archive');
     }
 }

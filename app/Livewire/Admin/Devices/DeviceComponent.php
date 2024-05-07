@@ -78,6 +78,6 @@ class DeviceComponent extends Component
                 $query->where('is_active', $this->is_active);
             })->latest()->paginate(10);
 
-        return view('livewire.admin.devices.device-component', compact(['devices']));
+        return view('livewire.admin.devices.device-component', compact(['devices']))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

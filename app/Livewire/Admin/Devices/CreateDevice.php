@@ -27,10 +27,10 @@ class CreateDevice extends Component
     public string $trait = '';
     public string $correspondence_number = '';
     public string $correspondence_date = '';
-    public string $create_date = '';
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
+    public string $receive_date='';
     public string $status = '0';
     public string $description = '';
     public string $accessories = '';
@@ -56,7 +56,7 @@ class CreateDevice extends Component
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
-            'create_date' => 'nullable|string',
+            'receive_date' => 'nullable|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
         ];
@@ -70,7 +70,7 @@ class CreateDevice extends Component
     public function mount()
     {
         Session::forget('images');
-        $this->create_date=verta()->format('Y/m/d');
+        $this->receive_date=verta()->format('Y/m/d');
     }
 
     public function create()
@@ -97,7 +97,6 @@ class CreateDevice extends Component
                 'code' => $this->code,
                 'correspondence_number' => $this->correspondence_number,
                 'correspondence_date' => $this->correspondence_date,
-                'create_date' => $this->create_date,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
                 'receiver_name' => "-",
@@ -106,7 +105,7 @@ class CreateDevice extends Component
                 'delivery_staff_id' => 0,
                 'receiver_staff_id' => auth()->user()->id,
                 'delivery_date' => "-",
-                'receiver_date' => verta()->format('Y/n/j H:i'),
+                'receive_date' => $this->receive_date,
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,
             ]);
@@ -137,7 +136,7 @@ class CreateDevice extends Component
 //        sweetalert()
 //            ->showDenyButton()->timerProgressBar(false)->persistent()
 //            ->addInfo('مایل به پرینت شواهد دیجیتال هستید؟');
-        toastr()->rtl()->addSuccess('شواهد مورد نظر دریافت شد', ' ');
+        flash()->addSuccess('شواهد مورد نظر دریافت شد');
         return redirect()->route('admin.devices.index');
     }
 

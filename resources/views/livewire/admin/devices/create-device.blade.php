@@ -65,14 +65,14 @@
                                             <input type="hidden" id="createDate-alt"
                                                    name="create_date">
                                             <input type="text" class="form-control" id="createDate"
-                                                   value="{{ $create_date ?? null }}" autocomplete="off">
+                                                    autocomplete="off">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon1"
                                                       style="cursor: pointer;" onclick="destroyDatePicker2()"><i
                                                         class="zmdi zmdi-close"></i></span>
                                             </div>
                                         </div>
-                                        @error('create_date')
+                                        @error('receive_date')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
@@ -455,7 +455,7 @@
             createDate.options = {
                 initialValue: false
             }
-            @this.set(`create_date`, null, true);
+            @this.set(`receive_date`, null, true);
         }
 
         $(document).ready(function() {
@@ -523,7 +523,7 @@
                     }
                 },
                 onSelect: function(unix) {
-                    @this.set(`create_date`, $(`#createDate-alt`).val(), true);
+                    @this.set(`receive_date`, $(`#createDate-alt`).val(), true);
                 },
             });
         });

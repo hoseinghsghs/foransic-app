@@ -41,10 +41,11 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 //livewire
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices-edit')->name('devices.edit');
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices-create')->name('devices.create');
-    Route::get('devices/archives', [DeviceController::class, 'archive'])->middleware('permission:devices-archive-list')->name('archive');
+    Route::get('devices/archives', \App\Livewire\Admin\Devices\ArchiveDevice::class)->middleware('permission:devices-archive-list')->name('archive');
+    Route::get('devices/{device}', [DeviceController::class,'show'])->middleware('permission:devices-show')->name('devices.show');
     Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:categories-list')->name('category');
     Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes-list')->name('attribute');
-    Route::resource('devices', DeviceController::class)->only(['index', 'show']);
+    Route::get('devices',\App\Livewire\Admin\Devices\DeviceComponent::class)->middleware('permission:devices-list')->name('devices.index');
     //dossiers
     Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers-create')->name('dossiers.create');
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers-edit')->name('dossiers.edit');
