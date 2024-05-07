@@ -11,4 +11,9 @@ class DeviceAttribute extends Model
 
     protected $guarded = [];
     protected $table = "device_attributes";
+
+    public function attribute()
+    {
+        return $this->belongsTo(Attribute::class, 'attribute_id');
+    }
 }
