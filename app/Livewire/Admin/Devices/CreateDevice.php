@@ -121,6 +121,7 @@ class CreateDevice extends Component
                     'image' => $imageStore
                 ]);
             }
+
             DB::commit();
         } catch (\Exception $ex) {
             toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());
