@@ -18,9 +18,9 @@ class PrintController extends Controller
 
     public function show(Device $device)
     {
-        $user_category_id = User::find($device->dossier->user_category_id);
+//        $user_category_id = User::find($device->dossier->user_category_id);
         $receiver_staff_id = User::find($device->receiver_staff_id);
-        return view('admin.page.prints.printdevice', compact('device', 'user_category_id', 'receiver_staff_id'));
+        return view('admin.page.prints.printdevice', compact('device', 'receiver_staff_id'));
     }
         public function printReport(Device $device)
         {

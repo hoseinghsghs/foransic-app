@@ -9,6 +9,7 @@ use App\Models\Dossier;
 use App\Models\Category;
 use App\Models\DeviceImage;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -73,7 +74,7 @@ class CreateDevice extends Component
         $this->receive_date=verta()->format('Y/m/d');
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $this->validate();
         try {
@@ -132,12 +133,13 @@ class CreateDevice extends Component
         }
         Session::forget('images');
 
-        $this->device = $device;
+//        $this->device = $device;
 //        sweetalert()
 //            ->showDenyButton()->timerProgressBar(false)->persistent()
 //            ->addInfo('مایل به پرینت شواهد دیجیتال هستید؟');
+//        $request->session()->flash('print_device',$device->id);
         flash()->addSuccess('شواهد مورد نظر دریافت شد');
-        return redirect()->route('admin.devices.index');
+        return redirect()->route('admin.devices.index')->with('print_device',$device->id);
     }
 
     public function sweetalertConfirmed(array $payload)

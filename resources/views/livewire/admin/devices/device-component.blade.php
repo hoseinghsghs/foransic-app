@@ -215,3 +215,21 @@
         </div>
     </div>
 </section>
+
+@pushif(session()->has('print_device'),'scripts')
+    <script>
+        Swal.fire({
+            text: "مایل به پرینت شواهد دیجیتال هستید؟",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "بله",
+            cancelButtonText:"انصراف"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.replace("{{ route('admin.print.device.show', session('print_device')) }}");
+            }
+        });
+    </script>
+@endpushif
