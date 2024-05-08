@@ -29,6 +29,7 @@ class EditDevice extends Component
     public string $trait = '';
     public string $correspondence_number = '';
     public string $correspondence_date = '';
+    public string $receive_date = '';
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
@@ -58,6 +59,7 @@ class EditDevice extends Component
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
+            'receive_date' => 'nullable|string',
             'delivery_name' => 'required|string',
             'receiver_name' => 'required_if:status,3|string',
             'receiver_code' => 'nullable|string',
@@ -77,8 +79,9 @@ class EditDevice extends Component
         return Category::find($this->category_id);
     }
 
-    public function updatedCategoryId(){
-        $this->attribute_values=[];
+    public function updatedCategoryId()
+    {
+        $this->attribute_values = [];
     }
 
     public function mount()
@@ -95,6 +98,7 @@ class EditDevice extends Component
         $this->delivery_code = $this->device->delivery_code;
         $this->receiver_name = $this->device->receiver_name;
         $this->receiver_code = $this->device->receiver_code;
+        $this->receive_date=$this->device->receive_date;
         $this->is_active = !$this->device->is_active;
         $this->accessories = $this->device->accessories;
         $this->description = $this->device->description;
@@ -115,10 +119,10 @@ class EditDevice extends Component
         $this->validate();
 
         if ($this->attachment_report != null) {
-        $AttachmentsController = new AttachmentsController();
-        $attachment_report_name = $AttachmentsController->uploadAttachment($this->attachment_report, "attachment_report");
-        }else{
-        $attachment_report_name = $this->device->attachment_report;
+            $AttachmentsController = new AttachmentsController();
+            $attachment_report_name = $AttachmentsController->uploadAttachment($this->attachment_report, "attachment_report");
+        } else {
+            $attachment_report_name = $this->device->attachment_report;
         }
 
         $this->device->update([
@@ -133,6 +137,7 @@ class EditDevice extends Component
             'code' => $this->code,
             'correspondence_number' => $this->correspondence_number,
             'correspondence_date' => $this->correspondence_date,
+            'receive_date' => $this->receive_date,
             'delivery_code' => $this->delivery_code,
             'delivery_name' => $this->delivery_name,
             'receiver_name' => $this->receiver_name,
@@ -160,7 +165,7 @@ class EditDevice extends Component
 
     public function printReport()
     {
-        return redirect()->route('admin.print.print-report' , [$this->device->id]);
+        return redirect()->route('admin.print.print-report', [$this->device->id]);
     }
 
     public function render()

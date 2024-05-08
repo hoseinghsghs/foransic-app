@@ -7,6 +7,7 @@ use App\Models\Dossier;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -84,8 +85,11 @@ class EditDossier extends Component
         $this->validate();
         if ($this->Judicial_image) {
             $ImageController = new ImageController();
-
             $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
+
+            if (Storage::exists('Judicial-image/' . $this->dossier->Judicial_image)) {
+                Storage::delete('Judicial-image/' . $this->dossier->Judicial_image);
+            }
 
         } else {
             $image_name = $this->image_url;

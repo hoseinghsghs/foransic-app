@@ -34,6 +34,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'categories-edit', 'display_name' => 'ویرایش دسته بندی', 'guard_name' => 'web'],
             ['name' => 'categories-delete', 'display_name' => 'حذف دسته بندی', 'guard_name' => 'web'],
 
+            ['name' => 'laboratories-list', 'display_name' => 'لیست آزمایشگاه', 'guard_name' => 'web'],
+            ['name' => 'laboratories-create', 'display_name' => 'ایجاد آزمایشگاه', 'guard_name' => 'web'],
+            ['name' => 'laboratories-edit', 'display_name' => 'ویرایش آزمایشگاه', 'guard_name' => 'web'],
+            ['name' => 'laboratories-delete', 'display_name' => 'حذف آزمایشگاه', 'guard_name' => 'web'],
+
             ['name' => 'dossiers-list', 'display_name' => 'لیست پرونده ها', 'guard_name' => 'web'],
             ['name' => 'dossiers-archive-list', 'display_name' => 'لیست پرونده ها آرشیوی', 'guard_name' => 'web'],
             ['name' => 'dossiers-create', 'display_name' => 'ایجاد پرونده', 'guard_name' => 'web'],
@@ -46,6 +51,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'devices-archive-list', 'display_name' => 'لیست شواهد بایگانی دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-create', 'display_name' => 'ایجاد شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-edit', 'display_name' => 'ویرایش شواهد دیجیتال', 'guard_name' => 'web'],
+            ['name' => 'devices-show', 'display_name' => 'مشاهده شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-delete', 'display_name' => 'حذف شواهد دیجیتال', 'guard_name' => 'web'],
 
             ['name' => 'roles', 'display_name' => 'نقش ها', 'guard_name' => 'web'],

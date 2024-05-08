@@ -6,19 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Device;
 use App\Models\Action;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Session;
 
 class DeviceController extends Controller
 {
-       public function index()
-    {
-        return view('admin.page.devices.index');
-    }
     public function show(Device $device)
     {
+        Gate::authorize('devices-show');
         $images = $device->images;
-        $actions=Action::where('device_id' , $device->id)->get();
-        return view('admin.page.devices.show', compact('device', 'images' ,'actions'));
+        $actions = Action::where('device_id', $device->id)->get();
+        return view('admin.page.devices.show', compact('device', 'images', 'actions'));
     }
 
     public function uploadImage(Request $request)
@@ -34,6 +32,7 @@ class DeviceController extends Controller
         }
         return response()->json($image_name, 200);
     }
+
     public function deleteImage(Request $request)
     {
 
@@ -48,10 +47,5 @@ class DeviceController extends Controller
         Session::put('images', $images);
 
         return response()->json(['success' => "تصویر حذف شد"]);
-    }
-
-    public function archive()
-    {
-        return view('admin.page.devices.archive');
     }
 }

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('receiver_staff_id')->nullable();
 
             $table->string('delivery_date')->nullable();
-            $table->string('receiver_date')->nullable();
+            $table->string('receive_date')->nullable();
 
             $table->text('report')->nullable();
             $table->string('attachment_report')->nullable();
@@ -36,7 +36,6 @@ return new class extends Migration
             $table->text('correspondence_date')->nullable();
 
             $table->string('primary_image')->nullable();
-
             $table->string('status')->default(0);
 
             $table->boolean('is_active')->default(1);
