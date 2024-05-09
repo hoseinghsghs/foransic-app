@@ -225,7 +225,7 @@
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "بله",
-            cancelButtonText:"انصراف"
+            cancelButtonText: "انصراف"
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.replace("{{ route('admin.print.device.show', session('print_device')) }}");

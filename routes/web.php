@@ -1,31 +1,17 @@
 <?php
 
-use App\Events\NotificationMessage;
-use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\DeviceController;
 use App\Http\Controllers\Admin\ActionController;
 use App\Http\Controllers\Admin\AttachmentsController;
-use App\Http\Controllers\Admin\DossierController;
 use App\Http\Controllers\Admin\ImageController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\SmsController;
-use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\GaleryController;
-use App\Http\Controllers\Auth\OtpController;
-use App\Http\Controllers\Home\HomeController;
-use App\Http\Controllers\Home\DeviceController as HomeDeviceController;
-use App\Http\Controllers\Home\QuestionController as HomeQuestionController;
-use App\Http\Controllers\Home\UserProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Home\DevicesList;
-use App\Models\Question;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PrintController;
 
 //fortify routes
@@ -90,26 +76,11 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->middleware('permission:users-export')->name('file-users');
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
     Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:actions-export')->name('file-action');
-
-    //Multi-vendor
-    // Route::resource('shop',   ShopController::class)->except('show')->middleware('permission:roles');
 });
 //end
 Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function () {
     Route::view('/', 'home.page.users_profile.index')->name('home');
     Route::put('/edit', [ProfileController::class, 'update'])->name('profile.update');
 });
-//admin auth
-// otp auth
-Route::post('/auth/check', [OtpController::class, 'authenticate'])->name('authenticate');
-Route::post('/otp/verify', [OtpController::class, 'checkVerificationCode'])->name('otp.verify');
-Route::post('/otp/resend', [OtpController::class, 'resendVerificationCode'])->name('otp.resend');
-Route::post('/otp/reset-password', [OtpController::class, 'resetPassword'])->name('otp.resetPassword');
-Route::post('/otp/alter-phone', [OtpController::class, 'alterPhone'])->middleware('auth')->name('phone.update');
-Route::post('/otp/verfiy-phone', [OtpController::class, 'verfiyPhone'])->middleware('auth')->name('phone.verify');
-// end otp auth
 
-Route::get('/assets/ajax', function () {
-    return view('home.partial.login');
-});
 Route::redirect('/', '/login')->middleware('guest');

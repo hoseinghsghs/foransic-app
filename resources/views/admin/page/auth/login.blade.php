@@ -26,7 +26,7 @@
                         @csrf
                         <div class="header">
                             @isset($setting->logo)
-                                <img class="logo" src="{{ asset('storage/' . $setting->logo) }}" alt="logo">
+                                <img class="logo" src="{{ asset('storage/logo/' . $setting->logo) }}" alt="logo">
                             @endisset
                             <h5>ورود</h5>
                         </div>
@@ -50,8 +50,7 @@
                                 <input type="password" class="form-control @error('password') is-invalid @enderror"
                                     name="password" placeholder="" required>
                                 <div class="input-group-append">
-                                    <span class="input-group-text"><a href="forgot-password.html" class="forgot"
-                                            title="فراموشی رمز عبور"><i class="zmdi zmdi-lock"></i></a></span>
+                                    <span class="input-group-text"><i class="zmdi zmdi-lock"></i></span>
                                 </div>
                                 @error('password')
                                     <div class="invalid-feedback text-right">
@@ -65,15 +64,6 @@
                             </div>
                             <button type="submit"
                                 class="btn btn-primary btn-block waves-effect waves-light">ورود</button>
-                            <div class="signin_with mt-3">
-                                <p class="mb-0">یا ثبت نام با استفاده از</p>
-                                <button class="btn btn-primary btn-icon btn-icon-mini btn-round facebook"><i
-                                        class="zmdi zmdi-facebook"></i></button>
-                                <button class="btn btn-primary btn-icon btn-icon-mini btn-round twitter"><i
-                                        class="zmdi zmdi-twitter"></i></button>
-                                <button class="btn btn-primary btn-icon btn-icon-mini btn-round google"><i
-                                        class="zmdi zmdi-google-plus"></i></button>
-                            </div>
                         </div>
                     </form>
                     <div class="copyright text-center">

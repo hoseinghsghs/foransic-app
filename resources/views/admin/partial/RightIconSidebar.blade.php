@@ -1,5 +1,6 @@
 <div class="navbar-right">
     <ul class="navbar-nav">
+        @can('events')
         <li class="dropdown">
             <a href="javascript:void(0);" class="dropdown-toggle" title="Notifications" data-toggle="dropdown"
                 role="button"><i class="zmdi zmdi-notifications"></i>
@@ -13,6 +14,7 @@
                 <li class="footer"> <a href={{route('admin.timeline')}}>مشاهده تمام اعلان ها</a> </li>
             </ul>
         </li>
+        @endcan
         <li><a href="javascript:void(0);" class="js-right-sidebar" title="Setting"><i
                     class="zmdi zmdi-settings zmdi-hc-spin"></i></a></li>
         <li><a aria-disabled="true" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();"

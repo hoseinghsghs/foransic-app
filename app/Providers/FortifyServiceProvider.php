@@ -8,6 +8,7 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 
 use App\Http\Responses\PasswordResetResponse;
+use App\Models\Event;
 use App\Models\User;
 use Laravel\Fortify\Contracts\PasswordResetResponse as PasswordResetResponseContract;
 use App\Http\Responses\PasswordUpdateResponse;
@@ -35,7 +36,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         Fortify::ignoreRoutes();  //to ignore the fortify routes and use routes/fortify.php
         $this->app->instance(LogoutResponse::class, new class implements LogoutResponse {
             public function toResponse($request)
@@ -59,7 +59,7 @@ class FortifyServiceProvider extends ServiceProvider
                 }
                 return $request->wantsJson()
                     ? response()->json(['two_factor' => false, 'redirect' => $redirect])
-                    : (auth()->user()->hasRole(Role::all()->pluck('name')->toArray()) ? redirect()->route('admin.home') : redirect()->route('user.home'));
+                    : (auth()->user()->hasRole($roles) ? redirect()->route('admin.home') : redirect()->route('user.home'));
             }
         });
 
@@ -100,6 +100,13 @@ class FortifyServiceProvider extends ServiceProvider
 
             if ($user &&
                 Hash::check($request->password, $user->password)) {
+                $event = Event::create([
+                    'title' => 'کاربر وارد سایت شد',
+                    'body' => 'کاربر' . " " . $user->cellphone,
+                    'user_id' => $user->id,
+                    'eventable_id' => $user->id,
+                    'eventable_type' => User::class,
+                ]);
                 return $user;
             }
         });

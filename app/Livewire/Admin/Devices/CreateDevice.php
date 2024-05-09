@@ -3,19 +3,15 @@
 namespace App\Livewire\Admin\Devices;
 
 use App\Http\Controllers\Admin\ImageController;
-use App\Models\Attribute;
 use App\Models\Device;
 use App\Models\Dossier;
 use App\Models\Category;
 use App\Models\DeviceImage;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Verta;
 
 class CreateDevice extends Component
 {
@@ -31,17 +27,12 @@ class CreateDevice extends Component
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
-    public string $receive_date='';
+    public string $receive_date = '';
     public string $status = '0';
     public string $description = '';
     public string $accessories = '';
     public bool $is_active = false;
     public $primary_image;
-
-    protected $listeners = [
-        'sweetalertConfirmed',// only when confirm button is clicked
-        'sweetalertDenied'
-    ];
 
     public function rules(): array
     {
@@ -71,10 +62,10 @@ class CreateDevice extends Component
     public function mount()
     {
         Session::forget('images');
-        $this->receive_date=verta()->format('Y/m/d');
+        $this->receive_date = verta()->format('Y/m/d');
     }
 
-    public function create(Request $request)
+    public function create()
     {
         $this->validate();
         try {
@@ -135,24 +126,9 @@ class CreateDevice extends Component
         Session::forget('images');
 
 //        $this->device = $device;
-//        sweetalert()
-//            ->showDenyButton()->timerProgressBar(false)->persistent()
-//            ->addInfo('مایل به پرینت شواهد دیجیتال هستید؟');
-//        $request->session()->flash('print_device',$device->id);
         flash()->addSuccess('شواهد مورد نظر دریافت شد');
-        return redirect()->route('admin.devices.index')->with('print_device',$device->id);
+        return redirect()->route('admin.devices.index')->with('print_device', $device->id);
     }
-
-    public function sweetalertConfirmed(array $payload)
-    {
-        return redirect()->route('admin.print.device.show', ['device' => $this->device->id]);
-//        toastr()->addSuccess('ویژگی با موفقیت حذف شد');
-    }
-
-    /*public function sweetalertDenied(array $data)
-    {
-        toastr()->addSuccess('ویژگی با موفقیت حذف شد');
-    }*/
 
     public function render()
     {
