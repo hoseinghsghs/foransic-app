@@ -60,7 +60,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'events', 'display_name' => 'رویدادها', 'guard_name' => 'web'],
             ['name' => 'galleries', 'display_name' => 'گالری', 'guard_name' => 'web'],
         ];
-        Permission::create($permissions);
+
+        foreach ($permissions as $permission){
+            Permission::upsert($permission,['name'],['display_name']);
+        }
 
         $roles=[
             ['name'=>'Super Admin','display_name'=>'مدیر سیستم','guard_name'=>'web'],
@@ -68,8 +71,11 @@ class PermissionSeeder extends Seeder
             ['name'=>'personnel','display_name'=>'پرسنل','guard_name'=>'web'],
             ['name'=>'viewer','display_name'=>'ناظر','guard_name'=>'web'],
         ];
-        Role::create($roles);
 
-        Role::where('name','company')->syncPermissions([]);
+        foreach ($roles as $role) {
+            Role::upsert($role,['name'],['display_name']);
+        }
+
+//        Role::where('name','company')->syncPermissions([]);
     }
 }
