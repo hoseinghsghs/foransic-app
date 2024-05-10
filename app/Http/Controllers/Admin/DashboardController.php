@@ -78,7 +78,7 @@ class DashboardController extends Controller
         $status_device_2 = Device::whereBetween('created_at', [$from, $to])->where('status', 1)->count();
         $status_device_3 = Device::whereBetween('created_at', [$from, $to])->where('status', 2)->count();
         $status_device_4 = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->count();
-        $users = User::role('personel')->get();
+        $users = User::role('personnel')->get();
         //دستگاه ها ی برسسی نشده
         $status_device_checks = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
 

@@ -1,0 +1,22 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Carbon\Carbon;
+use App\Models\User;
+
+class UserSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $users=[
+            ['name' => 'admin' , 'email' => 'admin' , 'password' => bcrypt('12345678') , 'email_verified_at' => Carbon::now() ]
+        ];
+        User::insert($users);
+    }
+}
