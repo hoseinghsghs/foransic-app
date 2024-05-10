@@ -24,13 +24,13 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/prnpriview/{device}', [PrintController::class, 'prnpriview'])->name('print.device');
     Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->name('print.device.show');
     Route::get('/print-report/{device}', [PrintController::class, 'printReport'])->name('print.print-report');
-//livewire
+
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices-edit')->name('devices.edit');
+    Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:categories-list')->name('devices.category');
+    Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes-list')->name('devices.attribute');
     Route::get('devices/create', \App\Livewire\Admin\Devices\CreateDevice::class)->middleware('permission:devices-create')->name('devices.create');
-    Route::get('devices/archives', \App\Livewire\Admin\Devices\ArchiveDevice::class)->middleware('permission:devices-archive-list')->name('archive');
+    Route::get('devices/archives', \App\Livewire\Admin\Devices\ArchiveDevice::class)->middleware('permission:devices-archive-list')->name('devices.archive');
     Route::get('devices/{device}', [DeviceController::class,'show'])->middleware('permission:devices-show')->name('devices.show');
-    Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:categories-list')->name('category');
-    Route::get('devices/attribute', \App\Livewire\Admin\Attribute\AttributeManagement::class)->middleware('permission:attributes-list')->name('attribute');
     Route::get('devices',\App\Livewire\Admin\Devices\DeviceComponent::class)->middleware('permission:devices-list')->name('devices.index');
     //dossiers
     Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers-create')->name('dossiers.create');
@@ -43,16 +43,16 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 
     Route::resource('users', UserController::class)->except('destroy')->middleware('permission:users');
     Route::resource('roles', RoleController::class)->except('show')->middleware('permission:roles');
-
     Route::view('permissions', 'admin.page.permissions.index')->name('permissions')->middleware('permission:permissions');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::view('/user/password', 'admin.page.auth.change-password')->name('profile.change-pass');
     Route::get('/settings', \App\Livewire\Admin\Settings\Setting::class)->name('settings.show')->middleware('permission:settings');
-    Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware(['role_or_permission:actions|personel']);
 
-    Route::get('actions/action-category', \App\Livewire\Admin\Actions\CategoryAction::class)->name('actions.category')->middleware(['role_or_permission:actions|personel']);
-    Route::get('laboratory', \App\Livewire\Admin\Laboratories\LaboratoryControll::class)->name('laboratory')->middleware(['role_or_permission:actions|personel']);
+    Route::get('actions/{device}/create',  \App\Livewire\Admin\Actions\ActionControll::class)->name('actions.create')->middleware('permission:actions-create');
+    Route::get('actions/action-category', \App\Livewire\Admin\Actions\CategoryAction::class)->name('actions.category')->middleware('permission:actions-category-list');
+    Route::get('laboratory', \App\Livewire\Admin\Laboratories\LaboratoryControll::class)->name('laboratory')->middleware(['permission:laboratories-list']);
 
     Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
     Route::get('/', [DashboardController::class, 'index'])->name('home');
@@ -72,7 +72,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::post('/attachments-add_file', [AttachmentsController::class, 'attachments-setPrimary'])->name('attachments_device.files.add');
 
     //excel exports
-    Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->middleware('permission:dossiers-export')->name('file-device');
+    Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->middleware('permission:devices-export')->name('file-device');
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->middleware('permission:users-export')->name('file-users');
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
     Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:actions-export')->name('file-action');

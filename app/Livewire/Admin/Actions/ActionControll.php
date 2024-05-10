@@ -78,6 +78,7 @@ class ActionControll extends Component
 
     public function edit_action(Action $action)
     {
+        $this->authorize('actions-edit');
         if (Gate::allows('update-action',$action)){
             $this->category_id = $action->category->id;
             $this->dispatch(
@@ -105,6 +106,8 @@ class ActionControll extends Component
 
     public function del_action(Action $action)
     {
+        $this->authorize('actions-delete');
+
         try {
             $this->action = $action;
             $this->action->delete();
@@ -119,6 +122,8 @@ class ActionControll extends Component
     public function addAction()
     {
         if ($this->is_edit) {
+            $this->authorize('actions-edit');
+
             $this->validate();
             $this->action->update([
                 "description" => $this->description,
@@ -140,8 +145,9 @@ class ActionControll extends Component
             }
             Session::forget('attachments');
             $this->ref();
-            // toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
+             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
+            $this->authorize('actions-create');
             $this->validate();
 
             $action=Action::create([
@@ -165,7 +171,7 @@ class ActionControll extends Component
             Session::forget('attachments');
 
             $this->ref();
-            // toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
+             toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
         }
         $this->dispatch('destroy-date-picker');
     }

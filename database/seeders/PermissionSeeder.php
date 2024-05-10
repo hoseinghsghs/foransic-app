@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Permission;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -18,11 +17,18 @@ class PermissionSeeder extends Seeder
             ['name' => 'users-list', 'display_name' => 'لیست کاربران', 'guard_name' => 'web'],
             ['name' => 'users-create', 'display_name' => 'ایجاد کاربر', 'guard_name' => 'web'],
             ['name' => 'users-edit', 'display_name' => 'ویرایش کاربر', 'guard_name' => 'web'],
+            ['name' => 'users-export', 'display_name' => 'خروجی اکسل کاربران', 'guard_name' => 'web'],
 
-            ['name' => 'actions-list', 'display_name' => 'لیست اقدامات', 'guard_name' => 'web'],
-            ['name' => 'actions-create', 'display_name' => 'ایجاد اقدام', 'guard_name' => 'web'],
-            ['name' => 'actions-edit', 'display_name' => 'ویرایش اقدام', 'guard_name' => 'web'],
-            ['name' => 'actions-delete', 'display_name' => 'حذف اقدام', 'guard_name' => 'web'],
+            ['name' => 'actions-list', 'display_name' => 'لیست عنوان اقدامات', 'guard_name' => 'web'],
+            ['name' => 'actions-create', 'display_name' => 'ایجاد  عنوان اقدام', 'guard_name' => 'web'],
+            ['name' => 'actions-edit', 'display_name' => 'ویرایش عنوان اقدام', 'guard_name' => 'web'],
+            ['name' => 'actions-delete', 'display_name' => 'حذف  عنوان اقدام', 'guard_name' => 'web'],
+            ['name' => 'actions-export', 'display_name' => 'خروجی اکسل اقدامات', 'guard_name' => 'web'],
+
+            ['name' => 'actions-category-list', 'display_name' => 'لیست اقدامات', 'guard_name' => 'web'],
+            ['name' => 'actions-category-create', 'display_name' => 'ایجاد اقدام', 'guard_name' => 'web'],
+            ['name' => 'actions-category-edit', 'display_name' => 'ویرایش اقدام', 'guard_name' => 'web'],
+            ['name' => 'actions-category-delete', 'display_name' => 'حذف اقدام', 'guard_name' => 'web'],
 
             ['name' => 'attributes-list', 'display_name' => 'لیست ویژگی های دسته بندی', 'guard_name' => 'web'],
             ['name' => 'attributes-create', 'display_name' => 'ایجاد ویژگی های دسته بندی', 'guard_name' => 'web'],
@@ -53,6 +59,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'devices-edit', 'display_name' => 'ویرایش شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-show', 'display_name' => 'مشاهده شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-delete', 'display_name' => 'حذف شواهد دیجیتال', 'guard_name' => 'web'],
+            ['name' => 'devices-export', 'display_name' => 'خروجی اکسل شواهد دیجیتال', 'guard_name' => 'web'],
 
             ['name' => 'roles', 'display_name' => 'نقش ها', 'guard_name' => 'web'],
             ['name' => 'permissions', 'display_name' => 'مجوزها', 'guard_name' => 'web'],
@@ -61,19 +68,19 @@ class PermissionSeeder extends Seeder
             ['name' => 'galleries', 'display_name' => 'گالری', 'guard_name' => 'web'],
         ];
 
-        foreach ($permissions as $permission){
-            Permission::upsert($permission,['name'],['display_name']);
+        foreach ($permissions as $permission) {
+            Permission::upsert($permission, ['name'], ['display_name']);
         }
 
-        $roles=[
-            ['name'=>'Super Admin','display_name'=>'مدیر سیستم','guard_name'=>'web'],
-            ['name'=>'company','display_name'=>'رده','guard_name'=>'web'],
-            ['name'=>'personnel','display_name'=>'پرسنل','guard_name'=>'web'],
-            ['name'=>'viewer','display_name'=>'ناظر','guard_name'=>'web'],
+        $roles = [
+            ['name' => 'Super Admin', 'display_name' => 'مدیر سیستم', 'guard_name' => 'web'],
+            ['name' => 'company', 'display_name' => 'رده', 'guard_name' => 'web'],
+            ['name' => 'personnel', 'display_name' => 'پرسنل', 'guard_name' => 'web'],
+            ['name' => 'viewer', 'display_name' => 'ناظر', 'guard_name' => 'web'],
         ];
 
         foreach ($roles as $role) {
-            Role::upsert($role,['name'],['display_name']);
+            Role::upsert($role, ['name'], ['display_name']);
         }
 
 //        Role::where('name','company')->syncPermissions([]);
