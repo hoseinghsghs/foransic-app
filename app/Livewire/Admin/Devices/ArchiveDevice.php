@@ -3,7 +3,6 @@
 namespace App\Livewire\Admin\Devices;
 
 use App\Models\Device;
-use App\Models\User;
 use App\Models\Category;
 use Livewire\Component;
 use Livewire\WithFileUploads;

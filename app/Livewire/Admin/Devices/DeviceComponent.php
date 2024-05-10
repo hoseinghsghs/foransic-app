@@ -4,9 +4,7 @@ namespace App\Livewire\Admin\Devices;
 
 use Livewire\Component;
 use App\Models\Device;
-use App\Models\User;
 use App\Models\Category;
-use Illuminate\Database\Eloquent\Builder;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
@@ -73,10 +71,10 @@ class DeviceComponent extends Component
         $devices = Device::where('is_archive', false)->when($this->title, function ($query) use ($category_ids) {
             $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
         })->when($this->status != '', function ($query) {
-                $query->where('status', $this->status);
-            })->when($this->is_active != '', function ($query) {
-                $query->where('is_active', $this->is_active);
-            })->latest()->paginate(10);
+            $query->where('status', $this->status);
+        })->when($this->is_active != '', function ($query) {
+            $query->where('is_active', $this->is_active);
+        })->latest()->paginate(10);
 
         return view('livewire.admin.devices.device-component', compact(['devices']))->extends('admin.layout.MasterAdmin')->section('Content');
     }

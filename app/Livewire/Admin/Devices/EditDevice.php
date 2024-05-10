@@ -2,18 +2,12 @@
 
 namespace App\Livewire\Admin\Devices;
 
-use App\Http\Controllers\Admin\ImageController;
 use App\Models\Device;
-use App\Models\DeviceImage;
 use App\Models\User;
 use App\Models\Dossier;
 use App\Models\Category;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Admin\AttachmentsController;
 use Verta;
 

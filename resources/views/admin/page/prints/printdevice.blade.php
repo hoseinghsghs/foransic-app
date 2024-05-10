@@ -55,7 +55,11 @@
 
                                  <div class="col-12">
                                      <p> رده:
-                                         {{ $user_category_id->name }}
+                                         @if($device->dossier()->exists())
+                                         {{ $device->dossier->company->name }}
+                                         @else
+                                             ندارد
+                                         @endif
                                      </p>
                                  </div>
 
