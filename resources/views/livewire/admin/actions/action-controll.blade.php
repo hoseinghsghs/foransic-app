@@ -75,10 +75,10 @@
                                                         </span>
                                                     </div>
                                                     <div
-                                                        class="form-group col-md-12 col-sm-12 @error('action_category_id') is-invalid @enderror">
-                                                        <label for="categorySelect">عنوان اقدام <abbr class="required"
-                                                                                                      title="ضروری"
-                                                                                                      style="color:red;">*</abbr></label>
+                                                        class="form-group col-md-6 col-sm-12 @error('action_category_id') is-invalid @enderror">
+                                                        <label for="categorySelect">عنوان اقدام <abbr
+                                                                class="required text-danger"
+                                                                title="ضروری">*</abbr></label>
                                                         <div wire:ignore>
                                                             <select id="categorySelect" data-placeholder="انتخاب عنوان"
                                                                     class="form-control ms search-select">
@@ -95,9 +95,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-md-12 col-sm-12">
-                                                        <label for="">توضیحات اقدام <abbr class="required"
-                                                                                          title="ضروری"
-                                                                                          style="color:red;">*</abbr></label>
+                                                        <label for="">توضیحات اقدام <abbr class="required text-danger"
+                                                                                          title="ضروری">*</abbr></label>
                                                         @if ($is_edit)
                                                             <textarea rows="5"
                                                                       class="form-control @error('description') is-invalid @enderror"
@@ -113,8 +112,8 @@
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-md-3">
-                                                        <label> تاریخ و زمان شروع <abbr class="required" title="ضروری"
-                                                                                        style="color:red;">*</abbr></label>
+                                                        <label> تاریخ و زمان شروع <abbr class="required text-danger"
+                                                                                        title="ضروری">*</abbr></label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
                                                                  onclick="$('#startDate').focus();">
@@ -139,8 +138,8 @@
                                                     </div>
 
                                                     <div class="form-group col-md-3">
-                                                        <label>تاریخ و زمان پایان <abbr class="required" title="ضروری"
-                                                                                        style="color:red;">*</abbr></label>
+                                                        <label>تاریخ و زمان پایان <abbr class="required text-danger"
+                                                                                        title="ضروری">*</abbr></label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
                                                                  onclick="$('#endDate').focus();">
@@ -561,6 +560,7 @@
             Livewire.on('resetselect2', () => {
                 $("#categorySelect").val('0').trigger('change')
             });
+
             dateTimePicker.from = $(`#startDate`).pDatepicker({
                 initialValue: false,
                 initialValueType: 'persian',

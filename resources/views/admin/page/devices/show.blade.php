@@ -341,7 +341,6 @@
                             <ul class="cbp_tmtimeline">
                                 @foreach ($actions as $action)
                                     @php
-                                        $v2 = Hekmatinasser\Verta\Verta::instance($action->created_at);
                                         $v3 = $v2->diffMinutes();
                                         $v4 = $v3 . ' ' . 'دقیقه';
                                         if ($v3 <= 0) {

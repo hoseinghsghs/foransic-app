@@ -74,7 +74,6 @@ return array(
     "unique" => ":attribute قبلا انتخاب شده است.",
     "url" => "فرمت آدرس :attribute اشتباه است.",
 
-
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -197,5 +196,7 @@ return array(
         "start_date" => "زمان شروع",
         "end_date" => "زمان پایان",
         "is_print" => "نمایش در پرینت",
+        "action_category_id"=>"عنوان اقدام",
+        "captcha"=>"کد امنیتی",
     ),
 );

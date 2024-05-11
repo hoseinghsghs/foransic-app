@@ -82,5 +82,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     Route::view('/', 'home.page.users_profile.index')->name('home');
     Route::put('/edit', [ProfileController::class, 'update'])->name('profile.update');
 });
-
+Route::get('refresh-captcha',function (){
+    return response()->json(['captcha' => captcha_img()]);
+});
 Route::redirect('/', '/login')->middleware('guest');
