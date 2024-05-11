@@ -49,17 +49,17 @@
                                         <div class="col-md-3">
                                             <label for="text">نام کاربری (کد پرسنلی)</label>
                                             <div class="form-group">
-                                                <input type="text" name="email"
-                                                    class="form-control @error('email') is-invalid @enderror"
-                                                    value="{{ old('email') }}">
-                                                @error('email')
+                                                <input type="text" name="username"
+                                                    class="form-control @error('username') is-invalid @enderror"
+                                                    value="{{ old('username') }}">
+                                                @error('username')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
-                                            <label for="text"> موبایل </abbr></label>
+                                            <label for="text"> موبایل</label>
                                             <div class="form-group">
                                                 <input type="number" name="cellphone"
                                                     class="form-control without-spin @error('cellphone') is-invalid @enderror"

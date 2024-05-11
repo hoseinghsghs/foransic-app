@@ -43,7 +43,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 
     Route::resource('users', UserController::class)->except('destroy')->middleware('permission:users');
     Route::resource('roles', RoleController::class)->except('show')->middleware('permission:roles');
-    Route::view('permissions', 'admin.page.permissions.index')->name('permissions')->middleware('permission:permissions');
+    Route::get('permissions', \App\Livewire\Admin\Permissions\PermissionList::class)->name('permissions')->middleware('permission:permissions');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');

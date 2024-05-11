@@ -11,9 +11,6 @@ class PermissionList extends Component
     use WithPagination;
 
     protected $paginationTheme = 'bootstrap';
-    protected $listeners = [
-        'sweetAlertConfirmed', // only when confirm button is clicked
-    ];
 
     public $display_name;
     public $name;
@@ -22,7 +19,6 @@ class PermissionList extends Component
     public $display;
 
     protected $rules = [
-        'name' => 'required|unique:permissions',
         'display_name' => 'required|unique:permissions',
     ];
 
@@ -40,7 +36,7 @@ class PermissionList extends Component
         $this->resetValidation();
     }
 
-    public function edit_permission(Permission $permission)
+    public function editPermission(Permission $permission)
     {
         $this->is_edit = true;
         $this->display_name = $permission->display_name;
@@ -49,27 +45,9 @@ class PermissionList extends Component
         $this->display = "disabled";
     }
 
-    public function del_permission(Permission $permission)
+    public function updatePermission()
     {
-        $this->permission = $permission;
-        sweetAlert()
-            ->livewire()
-            ->showDenyButton(true, 'انصراف')->confirmButtonText("تایید")
-            ->addInfo('از حذف رکورد مورد نظر اطمینان دارید؟');
-    }
-
-    public function sweetAlertConfirmed(array $data)
-    {
-        $this->permission->delete();
-        toastr()->livewire()->addSuccess('ویژگی با موفقیت حذف شد');
-    }
-
-    public function addPermission()
-    {
-        if ($this->is_edit) {
-
             $data = $this->validate([
-                'name' => 'required|unique:permissions,name,' . $this->permission->id,
                 'display_name' => 'required|unique:permissions,display_name,' . $this->permission->id,
             ]);
 
@@ -80,21 +58,11 @@ class PermissionList extends Component
             $this->reset("name");
             $this->reset("display");
 
-            toastr()->livewire()->addSuccess('تغییرات با موفقیت ثبت شد');
-        } else {
-            $data = $this->validate();
-
-            $data['guard_name'] = 'web';
-            Permission::create($data);
-
-            $this->reset("display_name");
-            $this->reset("name");
-            toastr()->livewire()->addSuccess('مجوز با موفقیت ایجاد شد');
-        }
+            flash()->addSuccess('تغییرات با موفقیت ثبت شد');
     }
 
     public function render()
     {
-        return view('livewire.admin.permissions.permission-list', ['permissions' => Permission::latest()->paginate(10)]);
+        return view('livewire.admin.permissions.permission-list', ['permissions' => Permission::latest()->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
