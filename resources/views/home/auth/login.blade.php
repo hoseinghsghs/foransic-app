@@ -82,6 +82,7 @@
 
 @push('scripts')
     <script>
+        // refresh captcha code
         function refreshCaptcha() {
             $.ajax({
                 url: "/refresh-captcha",
@@ -98,7 +99,6 @@
 
         $('#login-with-pass').submit(function (event) {
             event.preventDefault();
-            var form = $(this);
 
             $('#login-with-pass .btn-login').attr('disabled', true).append(
                 '<span class="mr-1"><i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>');
@@ -119,7 +119,6 @@
 
             }, 'json').fail(function (response) {
                 // console.log(response.responseJSON.errors);
-
                 if (response.responseJSON.errors.username) {
                     $('#login-with-pass .username-error').html(response.responseJSON.errors.username[0]);
                     refreshCaptcha();
@@ -131,15 +130,15 @@
                     refreshCaptcha();
                 } else {
                     $('#login-with-pass .password-error').html('');
-                    if (response.responseJSON.errors.captcha) {
-                        if (response.responseJSON.errors.captcha[0] == "validation.captcha") {
-                            $('#login-with-pass .captcha-error').html('کد امنیتی اشتباه است');
-                        } else
-                            $('#login-with-pass .captcha-error').html(response.responseJSON.errors.captcha[0]);
-                        refreshCaptcha();
-                    } else {
-                        $('#login-with-pass .captcha-error').html('');
-                    }
+                }
+                if (response.responseJSON.errors.captcha) {
+                    if (response.responseJSON.errors.captcha[0] == "validation.captcha") {
+                        $('#login-with-pass .captcha-error').html('کد امنیتی اشتباه است');
+                    } else
+                        $('#login-with-pass .captcha-error').html(response.responseJSON.errors.captcha[0]);
+                    refreshCaptcha();
+                } else {
+                    $('#login-with-pass .captcha-error').html('');
                 }
             }).always(function () {
                 $('#login-with-pass .btn-login').attr('disabled', false).find('span').remove();
