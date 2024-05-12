@@ -164,6 +164,28 @@
                     </li>
                 @endcanany
 
+                @canany(['users-list', 'users-create', 'users-edit', 'roles', 'permissions'])
+                    <li @class([
+                        'active open' => request()->routeIs(
+                            'admin.guides.images',
+                            'admin.guides.videos',
+                            'admin.guides.files'),
+                    ])><a href="javascript:void(0);" class="menu-toggle"><i
+                                class="zmdi zmdi-hc-fw"></i><span>راهنما</span></a>
+                        <ul class="ml-menu">
+                            @can('users')
+                                <li @class(['active' => request()->routeIs('admin.guides.images')])><a href={{ route('admin.guides.images') }}>تصاویر</a></li>
+                            @endcan
+                            @can('roles')
+                                <li @class(['active' => request()->routeIs('admin.guides.videos')])><a href={{ route('admin.guides.videos') }}>ویدیو</a></li>
+                            @endcan
+                            @can('permissions')
+                                <li @class(['active' => request()->routeIs('admin.guides.files')])><a href={{ route('admin.guides.files') }}>فایل</a></li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcanany
+
                 @can('events')
                     <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
                             <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>
