@@ -114,7 +114,7 @@
                                         <tbody>
                                         @foreach ($dossiers as $key => $dossier)
                                             <tr wire:key="name_{{ $dossier->id }}">
-                                                <td scope="row">{{ $key + 1 }}</td>
+                                                <td scope="row">{{ $dossiers->firstItem() + $key }}</td>
                                                 <td>
                                                     {{ $dossier->name }}
                                                 </td>
@@ -189,9 +189,7 @@
                             @endif
                         </div>
                     </div>
-                    <div dir="ltr">
-                        {{ $dossiers->onEachSide(1)->links() }}
-                    </div>
+                    {{ $dossiers->onEachSide(1)->links() }}
                 </div>
             </div>
         </div>

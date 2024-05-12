@@ -47,7 +47,7 @@ class UsersList extends Component
                     $query->where('name',$this->role);
                 });
             }
-        })->paginate(2);
+        })->paginate(10);
         return view('livewire.admin.users.users-list', compact(['roles','users']));
     }
 }

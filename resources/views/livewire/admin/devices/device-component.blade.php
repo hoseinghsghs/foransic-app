@@ -116,8 +116,8 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($devices as $key => $device)
-                                            <tr wire:key="name_{{ $loop->index + 1 }}">
-                                                <td scope="row">{{ $key + 1 }}</td>
+                                            <tr wire:key="name_{{ $device->id }}">
+                                                <td scope="row">{{ $devices->firstItem() + $key }}</td>
                                                 <td>
                                                     {{ $device->category->title }}
                                                 </td>
@@ -207,9 +207,7 @@
                             @endif
                         </div>
                     </div>
-                    <div dir="ltr">
-                        {{ $devices->onEachSide(1)->links() }}
-                    </div>
+                    {{ $devices->onEachSide(1)->links() }}
                 </div>
             </div>
         </div>

@@ -111,9 +111,7 @@
                             </div>
                         @endif
                     </div>
-                    <div dir="ltr">
-                        {{ $permissions->onEachSide(1)->links() }}
-                    </div>
+                    {{ $permissions->onEachSide(1)->links() }}
                 </div>
             </div>
         </div>

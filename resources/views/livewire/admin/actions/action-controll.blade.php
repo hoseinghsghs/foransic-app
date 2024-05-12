@@ -340,9 +340,7 @@
                 </div>
             </div>
         </div>
-        <div dir="ltr">
-            {{ $actions->onEachSide(1)->links() }}
-        </div>
+        {{ $actions->onEachSide(1)->links() }}
     </div>
 
 </section>
