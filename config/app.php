@@ -109,9 +109,11 @@ return [
     ],
 
     RealRashid\SweetAlert\SweetAlertServiceProvider::class,
+//    Mews\Captcha\CaptchaServiceProvider::class,
 
     'aliases' => Facade::defaultAliases()->merge([
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+//        'Captcha' => Mews\Captcha\Facades\Captcha::class,
     ])->toArray(),
 
     /*

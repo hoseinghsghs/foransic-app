@@ -109,7 +109,7 @@
                                         <tbody>
                                         @foreach ($devices as $key => $device)
                                             <tr wire:key="name_{{ $device->id }}">
-                                                <td scope="row">{{ $key + 1 }}</td>
+                                                <td scope="row">{{ $devices->firstItem() + $key }}</td>
                                                 <td>
                                                     {{ $device->category->title }}
                                                 </td>

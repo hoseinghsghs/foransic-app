@@ -11,11 +11,6 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('admin.page.roles.index', [
@@ -23,23 +18,12 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('admin.page.roles.create', ['permissions' => Permission::all()]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, ToastrFactory $flasher)
+    public function store(Request $request)
     {
         $data = $request->validate([
             'name' => 'required|unique:roles',
@@ -50,35 +34,18 @@ class RoleController extends Controller
         try {
             DB::beginTransaction();
             $role = Role::create(['name' => $data['name'], 'display_name' => $data['display_name']]);
-            $role->syncPermissions($data['permissions']??[]);
+            $role->syncPermissions($data['permissions'] ?? []);
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollBack();
-            $flasher->addError($ex->getMessage());
+            flash()->addError($ex->getMessage());
             return redirect()->route('admin.roles.index');
         }
 
-        $flasher->addSuccess('نقش کاربری با موفقیت ایجاد شد');
+        flash()->addSuccess('نقش کاربری با موفقیت ایجاد شد');
         return redirect()->route('admin.roles.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Rol  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Permission $permission)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Role $role)
     {
         $role->load('permissions');
@@ -88,14 +55,7 @@ class RoleController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Role $role, ToastrFactory $flasher)
+    public function update(Request $request, Role $role)
     {
         $data = $request->validate([
             'name' => 'required|unique:roles,name,' . $role->id,
@@ -105,27 +65,27 @@ class RoleController extends Controller
         try {
             DB::beginTransaction();
             $role->update(['name' => $data['name'], 'display_name' => $data['display_name']]);
-            $role->syncPermissions($data['permissions']??[]);
+            $role->syncPermissions($data['permissions'] ?? []);
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollBack();
-            $flasher->addError($ex->getMessage());
+            flash()->addError($ex->getMessage());
             return redirect()->route('admin.roles.index');
         }
-        $flasher->addSuccess('تغییرات با موفقیت ثبت شد');
+        flash()->addSuccess('تغییرات با موفقیت ثبت شد');
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Role  $role
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Role $role)
     {
-        $role->delete();
-        toastr()->addSuccess('نقش مورد نظر با موفقیت حذف گردید.')->timerProgressBar();
+        if (count($role->permissions) > 0)
+            flash()->addWarning('به دلیل الحاق مجوز به نقش امکان حذف آن وجود ندارد.');
+        elseif (count($role->users) > 0)
+            flash()->addWarning('به دلیل الحاق نقش به کاربر امکان حذف آن وجود ندارد.');
+        else {
+            $role->delete();
+            flash()->addSuccess('نقش مورد نظر با موفقیت حذف گردید.');
+        }
         return redirect()->back();
     }
 }

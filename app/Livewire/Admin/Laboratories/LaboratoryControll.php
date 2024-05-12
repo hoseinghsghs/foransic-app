@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Livewire\Admin\Laboratories;
+
 use App\Models\Laboratory;
 use Livewire\Component;
 
@@ -13,7 +15,6 @@ class LaboratoryControll extends Component
 
     public function ref()
     {
-
         $this->is_edit = false;
         $this->reset("name");
         $this->reset("display");
@@ -23,6 +24,8 @@ class LaboratoryControll extends Component
     public function add_laboratory()
     {
         if ($this->is_edit) {
+            $this->authorize('laboratories-edit');
+
             $this->validate([
                 'name' => 'required|unique:laboratories,name,' . $this->laboratory->id,
                 'laboratory.id' => 'required|exists:laboratories,id',
@@ -35,8 +38,10 @@ class LaboratoryControll extends Component
             $this->is_edit = false;
             $this->reset("name");
             $this->reset("display");
-            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد',' ');
+            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
+            $this->authorize('laboratories-create');
+
             $this->validate([
                 'name' => 'required|unique:laboratories,name'
             ]);
@@ -44,12 +49,14 @@ class LaboratoryControll extends Component
                 "name" => $this->name,
             ]);
             $this->reset("name");
-            toastr()->rtl()->addSuccess('آزمایشگاه با موفقیت ایجاد شد',' ');
+            toastr()->rtl()->addSuccess('آزمایشگاه با موفقیت ایجاد شد', ' ');
         }
     }
 
     public function edit_laboratory(Laboratory $laboratory)
     {
+        $this->authorize('laboratories-edit');
+
         $this->is_edit = true;
         $this->name = $laboratory->name;
         $this->laboratory = $laboratory;
@@ -58,9 +65,10 @@ class LaboratoryControll extends Component
 
     public function del_laboratory(Laboratory $laboratory)
     {
+        $this->authorize('laboratories-delete');
 
-            $laboratory->delete();
-            toastr()->rtl()->addSuccess('دسته بندی با موفقیت حذف شد');
+        $laboratory->delete();
+        toastr()->rtl()->addSuccess('دسته بندی با موفقیت حذف شد');
 
     }
 

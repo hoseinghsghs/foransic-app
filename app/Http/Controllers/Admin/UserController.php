@@ -26,29 +26,29 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles=Role::all();
-        return view('admin.page.users.create',compact('roles'));
+        $roles = Role::all();
+        return view('admin.page.users.create', compact('roles'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'nullable|string|max:255',
-            'role'=>'required|string',
-            'email'=>[
-                'nullable',
+            'name' => 'nullable|string|max:255',
+            'role' => 'required|string|exclude_if:role,false|exists:roles,name',
+            'username' => [
+                'required_without:cellphone',
                 'string',
                 'max:255',
                 Rule::unique(User::class),
             ],
-            'cellphone' => 'unique:users,cellphone|nullable',
-            'password' => ['required',Password::min(8)],
+            'cellphone' => 'required_without:username|numeric|unique:users,cellphone',
+            'password' => ['required', Password::min(8)],
         ]);
         try {
             DB::beginTransaction();
-            $user=User::create([
-                'name'=>$request->name,
-                'email'=>$request->email,
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->username,
                 'cellphone' => $request->cellphone,
                 'password' => Hash::make($request->password),
             ]);
@@ -75,15 +75,18 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name' => 'nullable|string',
-            'email' => 'required_without:cellphone|nullable|email|unique:users,email,' . $user->id,
-            'cellphone' => 'required_without:email|nullable|numeric|unique:users,cellphone,' . $user->id,
-            'role' => 'nullable|string',
+            'username' => 'required_without:cellphone|nullable|string|unique:users,email,' . $user->id,
+            'cellphone' => 'required_without:username|nullable|numeric|unique:users,cellphone,' . $user->id,
+            'role' => 'required|string|exclude_if:role,false|exists:roles,name',
             'permissions' => 'nullable|array',
+            'permissions.*' => 'nullable|exists:permissions,name',
+            'password' => ['nullable', Password::min(8)],
         ]);
         try {
             DB::beginTransaction();
-            $user->update(Arr::except($data, ['role']));
-            $user->syncRoles($data['role'] != 'false' ? [$data['role']] : []);
+            $data['email']=$data['username'];
+            $user->update($data['password'] ? Arr::only($data, ['name', 'email', 'cellphone', 'password']) : Arr::only($data, ['name', 'email', 'cellphone']));
+            $user->syncRoles(array_key_exists('role',$data) ? [$data['role']] : []);
             $user->syncPermissions($data['permissions'] ?? []);
             DB::commit();
         } catch (\Exception $ex) {

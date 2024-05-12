@@ -53,7 +53,7 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                 </div>
 
                 <div>
-                    <ul class="pagination">
+                    <ul class="pagination pagination-info flex-wra">
                         {{-- Previous Page Link --}}
                         @if ($paginator->onFirstPage())
                             <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
@@ -95,6 +95,17 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
                             </li>
                         @endif
                     </ul>
+                </div>
+                <div>
+                    <p class="small text-muted">
+                        {!! __('Showing') !!}
+                        <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
+                        {!! __('to') !!}
+                        <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
+                        {!! __('of') !!}
+                        <span class="fw-semibold">{{ $paginator->total() }}</span>
+                        {!! __('results') !!}
+                    </p>
                 </div>
             </div>
         </nav>

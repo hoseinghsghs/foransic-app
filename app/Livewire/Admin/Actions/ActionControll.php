@@ -33,13 +33,11 @@ class ActionControll extends Component
     public $display;
     public $action_category_id;
     public $catg;
-    protected $listeners = [
-        'sweetAlertConfirmed', // only when confirm button is clicked
-    ];
 
     public function rules(): array
     {
         return [
+            'action_category_id'=>'required|string|exists:action_category,id',
             'description' => 'required|string',
             'start_date' => 'required|string',
             'end_date' => 'required|string',
@@ -70,45 +68,42 @@ class ActionControll extends Component
         Session::forget('attachments');
     }
 
-    public function render()
-    {
-        return view('livewire.admin.actions.action-controll', ['actions' => Action::orderBy('created_at', 'desc')->where('device_id', $this->device->id)->paginate(10) ,  'categories' => ActionCategory::all()])->extends('admin.layout.MasterAdmin')->section('Content');
-    }
-
-
     public function edit_action(Action $action)
     {
-        if (Gate::allows('update-action',$action)){
-            $this->category_id = $action->category->id;
+        $this->authorize('actions-edit');
+        if (Gate::allows('update-action', $action)) {
+            $this->category_id = $action->action_category_id;
             $this->dispatch(
-            'eselect2',
-            catg: $action->category->id,
+                'eselect2',
+                catg: $action->action_category_id,
             );
-            $this->attachments=$action->attachments->pluck('url');
+            $this->attachments = $action->attachments->pluck('url');
             $this->is_edit = true;
             $this->description = $action->description;
             $this->start_date = $action->start_date;
             $this->end_date = $action->end_date;
             $this->status = $action->status;
             $this->is_print = $action->is_print;
-            $this->action_category_id=$action->action_category_id;
+            $this->action_category_id = $action->action_category_id;
             $this->action = $action;
             $this->display = "disabled";
             $this->resetValidation();
             $this->dispatch('edit-action', start_date: $this->start_date, end_date: $this->end_date);
             $this->dispatch('edit-file', attachments: $this->attachments);
-        }else{
-            toastr()->rtl()->addInfo('شما اجازه ویرایش این قسمت را ندارید!', ' ');
+        } else {
+            flash()->addInfo('شما اجازه ویرایش این قسمت را ندارید!');
         }
     }
 
 
     public function del_action(Action $action)
     {
+        $this->authorize('actions-delete');
+
         try {
-            $this->action = $action;
-            $this->action->delete();
-            toastr()->rtl()->addSuccess('اقدام با موفقیت حذف شد', ' ');
+//            $this->action = $action;
+            $action->delete();
+            flash()->addSuccess('اقدام با موفقیت حذف شد');
 
         } catch (\Exception $e) {
 
@@ -119,6 +114,8 @@ class ActionControll extends Component
     public function addAction()
     {
         if ($this->is_edit) {
+            $this->authorize('actions-edit');
+
             $this->validate();
             $this->action->update([
                 "description" => $this->description,
@@ -131,7 +128,7 @@ class ActionControll extends Component
                 'action_category_id' => $this->action_category_id,
             ]);
 
-           $attachmentsStore = Session::pull('attachments', []);
+            $attachmentsStore = Session::pull('attachments', []);
             foreach ($attachmentsStore as $attachmentStore) {
                 ActionAttachment::create([
                     'action_id' => $this->action->id,
@@ -140,11 +137,11 @@ class ActionControll extends Component
             }
             Session::forget('attachments');
             $this->ref();
-            // toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
+            flash()->addSuccess('تغییرات با موفقیت ذخیره شد');
         } else {
+            $this->authorize('actions-create');
             $this->validate();
-
-            $action=Action::create([
+            $action = Action::create([
                 "description" => $this->description,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
@@ -155,7 +152,7 @@ class ActionControll extends Component
                 'device_id' => $this->device->id,
             ]);
 
-           $attachmentsStore = Session::pull('attachments', []);
+            $attachmentsStore = Session::pull('attachments', []);
             foreach ($attachmentsStore as $attachmentStore) {
                 ActionAttachment::create([
                     'action_id' => $action->id,
@@ -165,21 +162,13 @@ class ActionControll extends Component
             Session::forget('attachments');
 
             $this->ref();
-            // toastr()->rtl(true)->addSuccess('اقدام با موفقیت ایجاد شد', ' ');
+            flash()->addSuccess('اقدام با موفقیت ایجاد شد');
         }
-        $this->dispatch('destroy-date-picker');
     }
 
-    public function sweetAlertConfirmed(array $data)
+    public function render()
     {
-        $this->action->delete();
-        toastr()->rtl(true)->addSuccess('ویژگی با موفقیت حذف شد', ' ');
-    }
-
-
-    public function createAction()
-    {
-        $actions = Action::latest()->where('device_id', $this->device->id)->paginate(10);
-        return view('livewire.admin.actions.action-controll', compact('actions'));
+        $actions = Action::orderBy('created_at', 'desc')->where('device_id', $this->device->id)->paginate(10);
+        return view('livewire.admin.actions.action-controll', ['actions' => $actions, 'categories' => ActionCategory::all()])->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

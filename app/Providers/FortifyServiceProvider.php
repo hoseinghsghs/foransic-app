@@ -96,6 +96,7 @@ class FortifyServiceProvider extends ServiceProvider
 
 
         Fortify::authenticateUsing(function (Request $request) {
+            $request->validate(['captcha' => ['required','captcha']]);
             $user = User::where('email', $request->username)->orWhere('cellphone', $request->username)->first();
 
             if ($user &&
