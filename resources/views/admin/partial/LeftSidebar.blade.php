@@ -119,7 +119,7 @@
                                     شواهد دیجیتال</a></li>
                         @endcan
                         @can(['devices-list'])
-                            <li @class(['active' => request()->routeIs('admin.devices.index')])><a
+                            <li @class(['active' => request()->routeIs(['admin.devices.index','admin.devices.edit','admin.devices.show'])])><a
                                     href={{ route('admin.devices.index') }}>لیست شواهد دیجیتال</a>
                             </li>
                         @endcan
@@ -163,7 +163,7 @@
                         @can('users')
                             <li @class(['active' => request()->routeIs('admin.users.create')])><a
                                     href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
-                            <li @class(['active' => request()->routeIs('admin.users.*')])><a
+                            <li @class(['active' => request()->routeIs(['admin.users.index','admin.users.edit','admin.users.show'])])><a
                                     href={{ route('admin.users.index') }}>لیست کاربران</a></li>
                         @endcan
                         @can('roles')
