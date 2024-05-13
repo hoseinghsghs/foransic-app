@@ -17,6 +17,6 @@ class UserSeeder extends Seeder
         $users=[
             ['name' => 'admin' ,'cellphone'=>'09130000000', 'email' => 'admin' , 'password' => bcrypt('12345678') , 'email_verified_at' => Carbon::now() ]
         ];
-        User::insert($users);
+        User::upsert($users, ['email'], ['name', 'password', 'email_verified_at']);
     }
 }

@@ -41,6 +41,18 @@ $scrollIntoViewJsSnippet = ($scrollTo !== false)
 
             <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between" >
                 <div>
+                    <p class="small text-muted">
+                        {!! __('نمایش') !!}
+                        <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
+                        {!! __('تا') !!}
+                        <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
+                        {!! __('از') !!}
+                        <span class="fw-semibold">{{ $paginator->total() }}</span>
+                        {!! __('نتیجه') !!}
+                    </p>
+                </div>
+
+                <div>
                     <ul class="pagination pagination-info flex-wra">
                         {{-- Previous Page Link --}}
                         @if ($paginator->onFirstPage())

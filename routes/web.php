@@ -77,6 +77,12 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->middleware('permission:users-export')->name('file-users');
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
     Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:actions-export')->name('file-action');
+
+    //Guides routes
+    Route::get('guides/images', \App\Livewire\Admin\Guides\GuideImage::class)->middleware('permission:guides-images')->name('guides.images');
+    Route::get('guides/videos', \App\Livewire\Admin\Guides\GuideVideo::class)->middleware('permission:guides-videos')->name('guides.videos');
+    Route::get('guides/files', \App\Livewire\Admin\Guides\GuideFile::class)->middleware('permission:guides-files')->name('guides.files');
+
 });
 //end
 Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function () {

@@ -25,7 +25,6 @@ class ImageController extends Controller
             $pach = config('filesystems.disks.' . $filesystem)['root'];
             //پسوند تصویر
             $extension = $image->extension();
-
             //ساخت نام تصویر از هلپر فانکشن
             $image_name = Persian_generateImageName($extension);
 
@@ -49,6 +48,58 @@ class ImageController extends Controller
             return null;
         }
     }
+
+    public function UploadeVideo($video, $directory)
+    {
+        if ($video) {
+            //درایور پیش فرض ذخیره
+            $filesystem = config('filesystems.default');
+            //مسیر ذخیره سازی درایور پیش فرض
+            $pach = config('filesystems.disks.' . $filesystem)['root'];
+            //پسوند تصویر
+            $extension = $video->extension();
+            //ساخت نام تصویر از هلپر فانکشن
+            $video_name = Persian_generateImageName($extension);
+
+
+            if (!Storage::exists($directory)) {
+                // این پوشه را بساز
+                Storage::makeDirectory($directory);
+            }
+            $video->storeAs(path: $directory, name: $video_name);
+            return $video_name;
+        } else {
+
+            return null;
+        }
+    }
+
+
+    public function UploadeFile($file, $directory)
+    {
+        if ($file) {
+            //درایور پیش فرض ذخیره
+            $filesystem = config('filesystems.default');
+            //مسیر ذخیره سازی درایور پیش فرض
+            $pach = config('filesystems.disks.' . $filesystem)['root'];
+            //پسوند تصویر
+            $extension = $file->extension();
+            //ساخت نام تصویر از هلپر فانکشن
+            $file_name = Persian_generateImageName($extension);
+
+
+            if (!Storage::exists($directory)) {
+                // این پوشه را بساز
+                Storage::makeDirectory($directory);
+            }
+            $file->storeAs(path: $directory, name: $file_name);
+            return $file_name;
+        } else {
+
+            return null;
+        }
+    }
+
 
     //////////////////ویرایش تصویر
     public function edit(Device $device)
