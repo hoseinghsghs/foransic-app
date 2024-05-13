@@ -21,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'laboratory_id',
         'password',
         'cellphone',
         'avatar',
@@ -65,5 +66,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Action::class , 'user_id');
     }
 
+    public function laboratory(){
+        return $this->belongsTo(Laboratory::class,'laboratory_id');
+    }
 
 }

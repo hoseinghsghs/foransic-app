@@ -10,6 +10,7 @@ use App\Models\DeviceImage;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -25,6 +26,7 @@ class CreateDevice extends Component
     public string $correspondence_number = '';
     public string $correspondence_date = '';
     public $dossier_id;
+    public int|null $laboratory_id=null;
     public string $delivery_code = '';
     public string $delivery_name = '';
     public string $receive_date = '';
@@ -41,6 +43,7 @@ class CreateDevice extends Component
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
             'dossier_id' => 'nullable|integer|exists:dossiers,id',
+            'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string|unique:devices,code',
@@ -68,6 +71,7 @@ class CreateDevice extends Component
     public function create()
     {
         $this->validate();
+
         try {
             DB::beginTransaction();
             if ($this->primary_image) {
@@ -83,6 +87,7 @@ class CreateDevice extends Component
                 'status' => $this->status,
                 'trait' => $this->trait,
                 'dossier_id' => $this->dossier_id,
+                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
                 'primary_image' => $image_name,
                 'description' => $this->description,
                 'accessories' => $this->accessories,

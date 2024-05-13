@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('provider_name')->nullable();
-
+            $table->foreignId('laboratory_id')->nullable()->constrained('laboratories')->nullOnDelete();
 
             $table->string('province')->nullable();
             $table->rememberToken();

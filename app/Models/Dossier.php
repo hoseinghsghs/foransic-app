@@ -19,4 +19,8 @@ class Dossier extends Model
     public  function company(){
         return $this->belongsTo(User::class,'user_category_id');
     }
+
+    public function laboratory(){
+        return $this->belongsTo(Laboratory::class,'laboratory_id');
+    }
 }

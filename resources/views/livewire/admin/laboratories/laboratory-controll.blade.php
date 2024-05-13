@@ -1,4 +1,4 @@
-@section('title', 'دسته بندی اقدامات')
+@section('title', 'لیست آزمایشگاه ها')
 <section class="content">
     <div class="body_scroll">
         <div class="block-header">
@@ -62,12 +62,12 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>لیست عناوین </strong>
-                                ({{ $laboratorys->total() }})
+                            <h2><strong>لیست آزمایشگاه ها </strong>
+                                ({{ $laboratories->total() }})
                             </h2>
                         </div>
                         <div class="body">
-                            @if (count($laboratorys) === 0)
+                            @if (count($laboratories) === 0)
                                 <p>هیچ رکوردی وجود ندارد</p>
                             @else
                                 <div class="table-responsive">
@@ -80,7 +80,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($laboratorys as $laboratory)
+                                            @foreach ($laboratories as $laboratory)
                                                 <tr wire:key="{{ $laboratory->id }}" wire:loading.attr="disabled">
                                                     <td scope="row">{{ $loop->index + 1 }}</td>
                                                     <td>{{ $laboratory->name }}</td>
@@ -94,7 +94,7 @@
                                                                 wire:target="edit_laboratory({{ $laboratory->id }}) "></span>
                                                         </button>
 
-                                                        <button class="btn btn-raised btn-danger waves-effect"
+                                                       {{-- <button class="btn btn-raised btn-danger waves-effect"
                                                             wire:loading.attr="disabled"
                                                             wire:click="del_laboratory({{ $laboratory->id }})"
                                                             wire:confirm="از حذف رکورد مورد نظر اطمینان دارید؟"
@@ -103,7 +103,7 @@
                                                             <span class="spinner-border spinner-border-sm text-light"
                                                                 wire:loading
                                                                 wire:target="del_laboratory({{ $laboratory->id }})"></span>
-                                                        </button>
+                                                        </button>--}}
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -119,7 +119,7 @@
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
-                        {{ $laboratorys->links('vendor.pagination.bootstrap-4') }}
+                        {{ $laboratories->onEachSide(1)->links() }}
                     </div>
                 </div>
             </div>

@@ -80,6 +80,8 @@ class EditDevice extends Component
 
     public function mount()
     {
+        $this->authorize('is-same-laboratory',$this->device->laboratory_id);
+
         $this->category_id = $this->device->category_id;
         $this->code = $this->device->code;
         $this->trait = $this->device->trait;

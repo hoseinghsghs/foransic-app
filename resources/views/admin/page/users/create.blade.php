@@ -98,6 +98,27 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        @if(is_null(auth()->user()->laboratory_id))
+                                            @php($laboratories=\App\Models\Laboratory::all())
+                                            <div
+                                                class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
+                                                <label for="userSelect">آزمایشگاه <abbr class="required text-danger"
+                                                                                        title="ضروری">*</abbr></label>
+                                                    <select id="laboratorySelect" name="laboratory_id"
+                                                            data-placeholder="انتخاب آزمایشگاه"
+                                                            class="form-control ms search-select">
+                                                        <option></option>
+                                                        @foreach ($laboratories as $laboratory)
+                                                            <option value={{ $laboratory->id }}>
+                                                                {{ $laboratory->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                @error('laboratory_id')
+                                                <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="form-group">
                                         <a href="{{ route('admin.users.index') }}"

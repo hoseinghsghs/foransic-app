@@ -37,6 +37,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers-edit')->name('dossiers.edit');
     Route::get('dossiers/archives', \App\Livewire\Admin\Dossiers\ArchiveDossier::class)->middleware('permission:dossiers-archive-list')->name('dossiers.archive');
     Route::get('dossiers/{dossier}/show', function (\App\Models\Dossier $dossier){
+        \Illuminate\Support\Facades\Gate::authorize('is-same-laboratory',$dossier->laboratory_id);
         return view('admin.page.dossiers.show',compact('dossier'));
     })->middleware('permission:dossiers-show')->name('dossiers.show');
     Route::get('dossiers', \App\Livewire\Admin\Dossiers\DossierComponent::class)->middleware('permission:dossiers-list')->name('dossiers.index');

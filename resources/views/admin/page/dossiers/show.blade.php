@@ -44,6 +44,15 @@
                                         <div class="col-6">{{ $dossier->subject }}</div>
                                     </div>
                                 </div>
+                                @if(auth()->user()->hasRole('Super Admin'))
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="row clearfix">
+                                            <div class="col-6"><strong>آزمایشگاه:</strong></div>
+                                            <div
+                                                class="col-6">{{$dossier->laboratory()->exists()? $dossier->laboratory->name :'-'}}</div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نوع پرونده:</strong></div>
@@ -141,7 +150,8 @@
                         <div class="card">
                             <div class=" list-group">
                                 <div class="list-group-item list-group-item-primary text-center">
-                                    خلاصه پرونده </div>
+                                    خلاصه پرونده
+                                </div>
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-12">{!! $dossier->summary_description !!}</div>
@@ -156,7 +166,8 @@
                         <div class="card">
                             <div class=" list-group">
                                 <div class="list-group-item list-group-item-primary text-center">
-                                    درخواست کارشناس پرونده از آزمایشگاه</div>
+                                    درخواست کارشناس پرونده از آزمایشگاه
+                                </div>
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-12">{!! $dossier->expert !!}</div>
@@ -166,33 +177,33 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="header p-0 mt-4">
+                    <strong style="color:#e47297">تصویر حکم قضایی</strong>
+                </div>
+                <hr>
                 <div class="row clearfix">
-                    <div class="body">
-                        <div class="header p-0 mt-4">
-                            <strong style="color:#e47297">تصویر حکم قضایی</strong>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-lg-4 col-md-12">
-                                <div class="card">
-                                    <div class="blogitem mb-5">
-                                        @isset($dossier->Judicial_image)
-                                            <div class="blogitem-image">
-                                                <a href="{{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}"
-                                                   target="_blank"><img alt="تصویر حکم قضایی"
-                                                                        src={{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}>
-                                                </a>
-                                                <span class="blogitem-date">{{ verta($dossier->created_at) }}</span>
-                                            </div>
-                                        @else
-                                            <span>ندارد</span>
-                                        @endisset
+                    <div class="col-lg-4 col-md-12">
+                        @isset($dossier->Judicial_image)
+                            <div class="card">
+                                <div class="blogitem mb-5">
+                                    <div class="blogitem-image">
+                                        <a href="{{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}"
+                                           target="_blank"><img alt="تصویر حکم قضایی"
+                                                                src={{ asset('storage/Judicial-image/' . $dossier->Judicial_image) }}>
+                                        </a>
+                                        <span class="blogitem-date">{{ verta($dossier->created_at) }}</span>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="card">
+                                <span>ندارد</span>
+                            </div>
+                        @endisset
                     </div>
                 </div>
+
             </div>
         </div>
     </section>

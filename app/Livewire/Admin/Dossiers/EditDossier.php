@@ -37,11 +37,6 @@ class EditDossier extends Component
     public string $expert_phone = '';
     public string $expert_cellphone = '';
 
-    protected $listeners = [
-        'sweetalertConfirmed',// only when confirm button is clicked
-        'sweetalertDenied'
-    ];
-
     public function rules(): array
     {
         return [
@@ -63,6 +58,7 @@ class EditDossier extends Component
 
     public function mount()
     {
+        $this->authorize('is-same-laboratory',$this->dossier->laboratory_id);
         $this->name = $this->dossier->name;
         $this->user_category_id = $this->dossier->user_category_id;
         $this->section = $this->dossier->section;

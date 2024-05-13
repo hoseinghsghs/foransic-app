@@ -14,6 +14,8 @@ class DeviceController extends Controller
     public function show(Device $device)
     {
         Gate::authorize('devices-show');
+        Gate::authorize('is-same-laboratory',$device->laboratory_id);
+
         $images = $device->images;
         $actions = Action::where('device_id', $device->id)->get();
         return view('admin.page.devices.show', compact('device', 'images', 'actions'));

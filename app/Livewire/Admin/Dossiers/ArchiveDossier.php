@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\Admin\Dossiers;
+
 use Livewire\Component;
 use App\Models\Dossier;
 use App\Models\User;
@@ -58,15 +59,17 @@ class ArchiveDossier extends Component
         ]);
     }
 
-       public function export()
+    public function export()
     {
         return Storage::disk('exports')->download('export.csv');
     }
+
     public function render()
     {
         $company_users = User::Role('company')->get();
-        $dossiers = Dossier::where('is_archive',true)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')
-            ->when($this->company_user != '', function ($query) {
+        $dossiers = Dossier::where('is_archive', true)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->when($this->company_user != '', function ($query) {
                 $query->where('user_category_id', $this->company_user);
             })
             ->when($this->is_active != '', function ($query) {

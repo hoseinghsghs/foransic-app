@@ -10,6 +10,7 @@ use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
@@ -20,7 +21,9 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::when(!auth()->user()->hasRole('Super Admin'), function ($query) {
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->latest()->paginate(10);
         return view('admin.page.users.index', compact('users'));
     }
 
@@ -35,13 +38,15 @@ class UserController extends Controller
         $request->validate([
             'name' => 'nullable|string|max:255',
             'role' => 'required|string|exclude_if:role,false|exists:roles,name',
+            'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'username' => [
+                'nullable',
                 'required_without:cellphone',
                 'string',
                 'max:255',
-                Rule::unique(User::class),
+                Rule::unique(User::class,'email'),
             ],
-            'cellphone' => 'required_without:username|numeric|unique:users,cellphone',
+            'cellphone' => 'nullable|required_without:username|numeric|unique:users,cellphone',
             'password' => ['required', Password::min(8)],
         ]);
         try {
@@ -50,6 +55,7 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->username,
                 'cellphone' => $request->cellphone,
+                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $request->laboratory_id : auth()->user()->laboratory_id,
                 'password' => Hash::make($request->password),
             ]);
             $user->syncRoles($request->role != 'false' ? [$request->role] : []);
@@ -65,6 +71,8 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        Gate::authorize('is-same-laboratory',$user->laboratory_id);
+
         $user->load(['roles', 'permissions']);
         $roles = Role::with('permissions')->get();
         $permissions = Permission::all();
@@ -73,6 +81,8 @@ class UserController extends Controller
 
     public function update(Request $request, User $user, ToastrFactory $flasher)
     {
+        Gate::authorize('is-same-laboratory',$user->laboratory_id);
+
         $data = $request->validate([
             'name' => 'nullable|string',
             'username' => 'required_without:cellphone|nullable|string|unique:users,email,' . $user->id,
@@ -101,6 +111,8 @@ class UserController extends Controller
 
     public function show(User $user)
     {
+        Gate::authorize('is-same-laboratory',$user->laboratory_id);
+
         $actions = Action::where('user_id', $user->id)->take(10)->get();
         return view('admin.page.users.show', compact('user', 'actions'));
     }

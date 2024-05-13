@@ -48,6 +48,15 @@
                                         <div class="col-6">{{ $device->code }}</div>
                                     </div>
                                 </div>
+                                @if(auth()->user()->hasRole('Super Admin'))
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="row clearfix">
+                                            <div class="col-6"><strong>آزمایشگاه:</strong></div>
+                                            <div
+                                                class="col-6">{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</div>
+                                        </div>
+                                    </div>
+                                @endif
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>وضعیت بررسی:</strong></div>
@@ -82,26 +91,26 @@
                                     </div>
                                 </div>
                                 @isset($device->dossier)
-                                <div class="list-group-item list-group-item-action">
-                                    <div class="row clearfix">
-                                        <div class="col-6"><strong>رده:</strong></div>
-                                        <div class="col-6">
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="row clearfix">
+                                            <div class="col-6"><strong>رده:</strong></div>
+                                            <div class="col-6">
                                                 {{ \App\Models\User::find($device->dossier->user_category_id)->cellphone }}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="list-group-item list-group-item-action">
-                                    <div class="row clearfix">
-                                        <div class="col-6"><strong>شماره پرونده :</strong></div>
-                                        <div class="col-6">{{ $device->dossier->number_dossier }}</div>
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="row clearfix">
+                                            <div class="col-6"><strong>شماره پرونده :</strong></div>
+                                            <div class="col-6">{{ $device->dossier->number_dossier }}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="list-group-item list-group-item-action">
-                                    <div class="row clearfix">
-                                        <div class="col-6"><strong>عنوان پرونده :</strong></div>
-                                        <div class="col-6">{{ $device->dossier->name }}</div>
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="row clearfix">
+                                            <div class="col-6"><strong>عنوان پرونده :</strong></div>
+                                            <div class="col-6">{{ $device->dossier->name }}</div>
+                                        </div>
                                     </div>
-                                </div>
                                 @endisset
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
@@ -182,27 +191,29 @@
                         </div>
                     </div>
                     @if($device->attributes()->exists())
-                    <div class="col-lg-6">
-                        <div class="row clearfix">
-                            <div class="col-lg-12">
-                                <div class="card card-body p-0">
-                                    <div class=" list-group">
-                                        <div class="list-group-item list-group-item-primary">
-                                            ویژگی های دیوایس
-                                        </div>
-                                        @foreach($device->attributes as $device_attribute)
-                                        <div class="list-group-item list-group-item-action">
-                                            <div class="row clearfix">
-                                                <div class="col-6"><strong>{{$device_attribute->attribute->name}}:</strong></div>
-                                                <div class="col-6">{{ $device_attribute->value}}</div>
+                        <div class="col-lg-6">
+                            <div class="row clearfix">
+                                <div class="col-lg-12">
+                                    <div class="card card-body p-0">
+                                        <div class=" list-group">
+                                            <div class="list-group-item list-group-item-primary">
+                                                ویژگی های دیوایس
                                             </div>
+                                            @foreach($device->attributes as $device_attribute)
+                                                <div class="list-group-item list-group-item-action">
+                                                    <div class="row clearfix">
+                                                        <div class="col-6">
+                                                            <strong>{{$device_attribute->attribute->name}}:</strong>
+                                                        </div>
+                                                        <div class="col-6">{{ $device_attribute->value}}</div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         </div>
-                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     @endif
                     <div class="col-lg-12">
                         <div class="row clearfix">
@@ -301,29 +312,27 @@
                     </div>
                 </div>
 
-                <div class="body" style="width: 100%">
-                    <div class="header p-0">
-                        <strong style="color:#e47297">تصاویر شواهد دیجیتال </strong>
-                    </div>
-                    <hr>
-                    <div class="row clearfix">
+                <div class="header p-0">
+                    <strong style="color:#e47297">تصاویر شواهد دیجیتال </strong>
+                </div>
+                <hr>
+                <div class="row clearfix">
+                    <div class="col-lg-4 col-md-12">
                         @forelse($images as $item)
-                            <div class="col-lg-4 col-md-12">
-                                <div class="card">
-                                    <div class="blogitem mb-5">
-                                        <div class="blogitem-image">
-                                            <a href="{{ url(env('DEVICE_IMAGES_UPLOAD_PATCH') . $item->image) }}"
-                                               target="_blank"><img
-                                                    src="{{ url(env('DEVICE_IMAGES_UPLOAD_PATCH') . $item->image) }}"
-                                                    alt="blog image"></a>
-                                            <span class="blogitem-date">{{ verta($item->created_at) }}</span>
-                                        </div>
+                            <div class="card">
+                                <div class="blogitem mb-5">
+                                    <div class="blogitem-image">
+                                        <a href="{{ url(env('DEVICE_IMAGES_UPLOAD_PATCH') . $item->image) }}"
+                                           target="_blank"><img
+                                                src="{{ url(env('DEVICE_IMAGES_UPLOAD_PATCH') . $item->image) }}"
+                                                alt="blog image"></a>
+                                        <span class="blogitem-date">{{ verta($item->created_at) }}</span>
                                     </div>
                                 </div>
                             </div>
                         @empty
                             <div class="card">
-                                <div class="col-12">ندارد</div>
+                                <span>ندارد</span>
                             </div>
                         @endforelse
                     </div>

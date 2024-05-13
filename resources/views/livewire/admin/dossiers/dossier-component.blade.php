@@ -100,6 +100,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>نام پرونده یا کیس</th>
+                                            @if(auth()->user()->hasRole('Super Admin'))
+                                                <th>آزمایشگاه</th>
+                                            @endif
                                             <th>موضوع</th>
                                             <th>شماره پرونده</th>
                                             <th>مدیریت یا معاونت</th>
@@ -118,6 +121,9 @@
                                                 <td>
                                                     {{ $dossier->name }}
                                                 </td>
+                                                @if(auth()->user()->hasRole('Super Admin'))
+                                                    <td>{{$dossier->laboratory()->exists()? $dossier->laboratory->name :'-'}}</td>
+                                                @endif
                                                 <td>
                                                     {{ $dossier->subject }}
                                                 </td>

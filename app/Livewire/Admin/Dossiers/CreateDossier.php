@@ -6,11 +6,9 @@ use App\Http\Controllers\Admin\ImageController;
 use App\Models\Dossier;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Verta;
 
 class CreateDossier extends Component
 {
@@ -23,6 +21,7 @@ class CreateDossier extends Component
     public string $section = '';
     public string $expert = '';
     public $user_category_id;
+    public int|null $laboratory_id;
     public bool $is_active = false;
     public string $summary_description = '';
     public string $Judicial_number = '';
@@ -42,7 +41,8 @@ class CreateDossier extends Component
     {
         return [
             'name' => 'required|string|max:100',
-            'user_category_id'=>'required|integer',
+            'user_category_id' => 'required|integer',
+            'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'subject' => 'required|string',
             'expert' => 'required|string',
             'section' => 'required|string',
@@ -76,6 +76,7 @@ class CreateDossier extends Component
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
+                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
                 'section' => $this->section,
                 'subject' => $this->subject,
                 'expert' => $this->expert,
@@ -99,28 +100,14 @@ class CreateDossier extends Component
             return redirect()->back();
         }
 
-        $this->device=$device;
-//        sweetalert()
-//            ->showDenyButton()->timerProgressBar(false)->persistent()
-//            ->addInfo('مایل به پرینت شواهد دیجیتال هستید؟');
         toastr()->rtl()->addSuccess('شواهد مورد نظر دریافت شد', ' ');
-         return redirect()->route('admin.dossiers.index');
+        return redirect()->route('admin.dossiers.index');
     }
-
-    public function sweetalertConfirmed(array $payload)
-    {
-        return redirect()->route('admin.print.device.show', ['device' => $this->device->id]);
-//        toastr()->addSuccess('ویژگی با موفقیت حذف شد');
-    }
-    /*public function sweetalertDenied(array $data)
-    {
-        toastr()->addSuccess('ویژگی با موفقیت حذف شد');
-    }*/
 
     public function render()
     {
         $users = User::role('company')->get();
-        return view('livewire.admin.dossiers.create-dossier',compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.dossiers.create-dossier', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

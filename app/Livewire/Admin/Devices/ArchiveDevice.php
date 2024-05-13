@@ -54,7 +54,9 @@ class ArchiveDevice extends Component
     public function render()
     {
         $category_ids= Category::where('title' , 'like', '%' . $this->title . '%')->pluck('id')->toArray();
-        $devices = Device::where('is_archive', true)->when($this->title, function ($query) use ($category_ids) {
+        $devices = Device::where('is_archive', true)->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->when($this->title, function ($query) use ($category_ids) {
             $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
         })->when($this->status != '', function ($query) {
             $query->where('status', $this->status);

@@ -198,5 +198,9 @@ return array(
         "is_print" => "نمایش در پرینت",
         "action_category_id"=>"عنوان اقدام",
         "captcha"=>"کد امنیتی",
+        "laboratory_id"=>"آزمایشگاه",
+        "dossier_case"=>"کارشناس پرونده",
+        "expert_phone"=>"شماره همراه",
+        "expert_cellphone"=>"شماره داخلی"
     ),
 );

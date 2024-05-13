@@ -35,8 +35,12 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         Paginator::useBootstrap();
         // authorization for update action
-        Gate::define('update-action',function (User $user,Action $action){
-            return $user->id==$action->user_id ;
+        Gate::define('update-action', function (User $user, Action $action) {
+            return $user->id == $action->user_id;
+        });
+        // check if user in same laboratory with model
+        Gate::define('is-same-laboratory', function (User $user, $laboratory_id) {
+            return $user->laboratory_id == $laboratory_id;
         });
         // share settings between views
         if (Schema::hasTable('settings'))

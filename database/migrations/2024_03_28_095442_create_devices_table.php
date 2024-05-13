@@ -42,6 +42,7 @@ return new class extends Migration
             $table->boolean('is_archive')->default(0);
             $table->foreignId('dossier_id')->nullable()->constrained('dossiers')->cascadeOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories')->cascadeOnDelete();
+            $table->foreignId('laboratory_id')->constrained('laboratories');
 
             $table->timestamps();
         });

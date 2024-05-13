@@ -33,6 +33,7 @@ return new class extends Migration
             $table->boolean('is_archive')->default(1);
             $table->foreignId('user_category_id')->constrained('users');
             $table->foreignId('personal_creator_id')->constrained('users');
+            $table->foreignId('laboratory_id')->constrained('laboratories');
 
             $table->timestamps();
         });

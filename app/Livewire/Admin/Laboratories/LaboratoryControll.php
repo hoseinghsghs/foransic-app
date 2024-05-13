@@ -63,17 +63,17 @@ class LaboratoryControll extends Component
         $this->display = "disabled";
     }
 
-    public function del_laboratory(Laboratory $laboratory)
+    /*public function del_laboratory(Laboratory $laboratory)
     {
         $this->authorize('laboratories-delete');
 
         $laboratory->delete();
         toastr()->rtl()->addSuccess('دسته بندی با موفقیت حذف شد');
 
-    }
+    }*/
 
     public function render()
     {
-        return view('livewire.admin.laboratories.laboratory-controll', ['laboratorys' => Laboratory::latest()->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.laboratories.laboratory-controll', ['laboratories' => Laboratory::latest()->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

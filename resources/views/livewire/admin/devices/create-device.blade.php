@@ -54,6 +54,29 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+                                    @if(is_null(auth()->user()->laboratory_id))
+                                        @php($laboratories=\App\Models\Laboratory::all())
+                                        <div
+                                            class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
+                                            <label for="userSelect">آزمایشگاه <abbr class="required text-danger"
+                                                                                    title="ضروری">*</abbr></label>
+                                            <div wire:ignore>
+                                                <select id="laboratorySelect" name="laboratory_id"
+                                                        data-placeholder="انتخاب آزمایشگاه"
+                                                        class="form-control ms search-select">
+                                                    <option></option>
+                                                    @foreach ($laboratories as $laboratory)
+                                                        <option value={{ $laboratory->id }}>
+                                                            {{ $laboratory->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('laboratory_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    @endif
                                     <div class="form-group col-md-3">
                                         <label>تاریخ ثبت </label>
                                         <div class="input-group" wire:ignore>
@@ -104,6 +127,7 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+
                                     {{-- category attributes --}}
                                     @if ($category_id && $this->category->attributes()->exists())
                                         @foreach ($this->category->attributes as $attribute)
@@ -302,7 +326,7 @@
 @push('styles')
     <!-- تاریخ -->
     <link rel="stylesheet" type="text/css"
-        href="https://unpkg.com/persian-datepicker@1.2.0/dist/css/persian-datepicker.min.css" />
+          href="{{asset('vendor/date-time-picker/persian-datepicker.min.css')}}"/>
     <!-- تاریخ پایان-->
     <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
     <style>
@@ -317,8 +341,8 @@
 @endpush
 
 @push('scripts')
-    <script src="https://unpkg.com/persian-date@1.1.0/dist/persian-date.min.js"></script>
-    <script src="https://unpkg.com/persian-datepicker@1.2.0/dist/js/persian-datepicker.min.js"></script>
+    <script src="{{asset('vendor/date-time-picker/persian-date.min.js')}}"></script>
+    <script src="{{asset('vendor/date-time-picker//persian-datepicker.min.js')}}"></script>
     <script>
         $('.scroll').click(function() {
             $("html, body").animate({
@@ -410,6 +434,15 @@
         };
 
         $(document).ready(function() {
+            $('#laboratorySelect').on('change', function (e) {
+                let data = $('#laboratorySelect').select2("val");
+                if (data === '') {
+                @this.set('laboratory_id', null);
+                } else {
+                @this.set('laboratory_id', data);
+                }
+            });
+
             $('#statusSelect').on('change', function(e) {
                 let data = $('#statusSelect').select2("val");
                 @this.set('status', data);
