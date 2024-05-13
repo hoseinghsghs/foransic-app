@@ -31,22 +31,24 @@
             @endif
             <form wire:submit="save">
                 @csrf
-                <div class="form-group col-md-6">
-                    <label class="form-label" for="exampleFormControlFile1">آپلود فایل<span wire:loading wire:target="fil" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></label>
-                    <div class="custom-file d-flex flex-row-reverse">
-                        <input wire:model="fil" type="file" class="custom-file-input" id="customFile" lang="ar" dir="rtl" multiple>
-                        <label class="custom-file-label text-right" for="customFile">
-                        </label>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label class="form-label" for="exampleFormControlFile1">آپلود فایل<span wire:loading wire:target="fil" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></label>
+                        <div class="custom-file d-flex flex-row-reverse">
+                            <input wire:model="fil" type="file" class="custom-file-input" id="customFile" lang="ar" dir="rtl" multiple>
+                            <label class="custom-file-label text-right" for="customFile">
+                            </label>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group col-md-6">
-                    <label>عنوان یا دسته<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
-                    <div class="form-group">
-                        <input type="text" wire:model.defer="code" id="code" class="form-control @error('code') is-invalid @enderror" required />
-                        <span id="code-display" class="text-warning"></span>
-                        @error('code')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="form-group col-md-4">
+                        <label>عنوان یا دسته<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                        <div class="form-group">
+                            <input type="text" wire:model.defer="category" id="category" class="form-control @error('category') is-invalid @enderror" required />
+                            <span id="category-display" class="text-warning"></span>
+                            @error('category')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
 
@@ -57,54 +59,79 @@
 
                 @endif --}}
                 <div class="col-12">
-                    <button type="submit" wire:loading.attr="disabled" class="btn btn-raised btn-primary waves-effect">
-                        ذخیره
-                        <span wire:loading class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <button type="submit" wire:loading.attr="disabled" class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
+                        {{ $is_edit ? 'ویرایش' : 'افزودن' }}
+                        <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="add_image"></span>
                     </button>
+                    @if ($is_edit)
+                    <button class="btn btn-raised btn-info waves-effect" wire:loading.attr="disabled" wire:click="ref">صرف نظر
+                        <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="ref"></span>
+                    </button>
+                    @endif
+                    <span wire:loading class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 </div>
             </form>
         </div>
-        <div class="row" id="image_preview"></div>
         <div class="row clearfix">
-            <div class="col-lg-12">
+            <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="card">
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="a2018">
-                            <div class="row clearfix">
-                                @foreach ($files as $file)
-                                <div class="col-lg-3 col-md-4 col-sm-12">
-                                    <div class="card">
-                                        <a href="{{ url(env('GUIDE_FILE_PATCH') . $file->url) }}" class="file" target="_blank">
-                                            <div class="hover">
-                                                <form wire:submit="delete({{$file}})" style="display: inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-icon btn-icon-mini btn-round btn-danger">
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                    </button>
-                                                </form>
-                                                <span class="file-name">
-                                                    {{-- <p class="m-b-5 text-muted">img21545ds.jpg</p> --}}
-                                                    <small class="mr-2"> تاریخ آپلود <span class="date">{{ Hekmatinasser\Verta\Verta::instance($file->created_at)->format('Y/n/j') }}</span></small>
-                                                </span>
+                    <div class="header">
+                        <h2><strong>لیست فایل ها </strong>
+                            ({{ $guides->total() }})
+                        </h2>
+                    </div>
+                    <div class="body">
+                        @if (count($guides) === 0)
+                        <p>هیچ رکوردی وجود ندارد</p>
+                        @else
+                        <div class="table-responsive">
+                            <table class="table table-hover c_table theme-color">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>لینک دانلود</th>
+                                        <th>عنوان</th>
+                                        <th>نام فایل</th>
+                                        <th>تاریخ آپلود</th>
+                                        <th class="text-center js-sweetalert">عملیات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($guides as $guide)
+                                    <tr wire:key="{{ $guide->id }}" wire:loading.attr="disabled">
+                                        <td scope="row">{{ $loop->index + 1 }}</td>
+                                        <td><a href="{{ url(env('GUIDE_FILE_PATCH') . $guide->url) }}" class="btn btn-success">دانلود</span></td>
+                                        <td>{{$guide->category}}</td>
+                                        <td>{{$guide->url}}</td>
+                                        <td>{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</td>
+                                        <td>
+                                            <form wire:submit="delete({{$guide}})" style="display: inline" class="ml-3">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-icon btn-icon-mini btn-round btn-danger mt-3">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </button>
+                                            </form>
+                                            <button wire:click="edit_file({{ $guide->id }})" wire:loading.attr="disabled" {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
+                                                <i class="zmdi zmdi-edit"></i>
+                                                <span class="spinner-border spinner-border-sm text-light" wire:loading wire:target="edit_file({{ $guide->id }}) "></span>
+                                            </button>
 
-                                            </div>
-                                            <div class="file">
-                                                <a href="{{ url(env('GUIDE_FILE_PATCH') . $file->url) }}" class="img-fluid">دانلود فایل</a>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                                @endforeach
-                            </div>
+                                        </td>
+
+
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                        <div style="float: right;">
-                            {{ $files->onEachSide(1)->links() }}
-                        </div>
+                        @endif
                     </div>
                 </div>
+                {{ $guides->onEachSide(1)->links() }}
             </div>
         </div>
+
     </div>
 </section>
 @push('styles')

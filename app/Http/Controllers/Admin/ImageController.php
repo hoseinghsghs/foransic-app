@@ -57,7 +57,7 @@ class ImageController extends Controller
             //مسیر ذخیره سازی درایور پیش فرض
             $pach = config('filesystems.disks.' . $filesystem)['root'];
             //پسوند تصویر
-            $extension = "mp4";
+            $extension = $video->extension();
             //ساخت نام تصویر از هلپر فانکشن
             $video_name = Persian_generateImageName($extension);
 
