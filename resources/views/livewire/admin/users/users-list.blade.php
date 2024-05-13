@@ -82,7 +82,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7">
+                        <td colspan="8">
                             <p class="text-center text-muted">هیچ رکوردی یافت نشد!</p>
                         </td>
                     </tr>
