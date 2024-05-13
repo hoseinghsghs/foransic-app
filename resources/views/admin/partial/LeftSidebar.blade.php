@@ -151,28 +151,33 @@
                 </li>
             @endcanany
 
-            {{-- @canany(['users-list', 'users-create', 'roles', 'permissions','roles'])
+            @canany(['users-list', 'users-create', 'roles', 'permissions','roles'])
                 <li @class([
                         'active open' => request()->routeIs(
                             'admin.users.*',
                             'admin.permissions',
                             'admin.roles.*'),
                     ])><a href="javascript:void(0);" class="menu-toggle"><i
-                                class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
-                        <ul class="ml-menu">
-                            @can('users')
-                                <li @class(['active' => request()->routeIs('admin.users.create')])><a href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
-                                <li @class(['active' => request()->routeIs('admin.users.*')])><a href={{ route('admin.users.index') }}>لیست کاربران</a></li>
-                            @endcan
-                            @can('roles')
-                                <li @class(['active' => request()->routeIs('admin.roles.*')])><a href={{ route('admin.roles.index') }}>گروه های کاربری</a></li>
-                            @endcan
-                            @can('permissions')
-                                <li @class(['active' => request()->routeIs('admin.permissions')])><a href={{ route('admin.permissions') }}>مجوز ها</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcanany --}}
+                            class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
+                    <ul class="ml-menu">
+                        @can('users')
+                            <li @class(['active' => request()->routeIs('admin.users.create')])><a
+                                    href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
+                            <li @class(['active' => request()->routeIs(['admin.users.index','admin.users.edit','admin.users.show'])])><a
+                                    href={{ route('admin.users.index') }}>لیست کاربران</a></li>
+                        @endcan
+                        @can('roles')
+                            <li @class(['active' => request()->routeIs('admin.roles.*')])><a
+                                    href={{ route('admin.roles.index') }}>گروه های کاربری</a></li>
+                        @endcan
+                        @can('permissions')
+                            <li @class(['active' => request()->routeIs('admin.permissions')])><a
+                                    href={{ route('admin.permissions') }}>مجوز ها</a></li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcanany
+
 
                 @canany(['users-list', 'users-create', 'users-edit', 'roles', 'permissions'])
                     <li @class([
@@ -195,34 +200,6 @@
                         </ul>
                     </li>
                 @endcanany
-
-                @can('events')
-                    <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
-                            <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>
-                    </li>
-                @endcan
-
-                <li @class(['active' => request()->routeIs('admin.profile.edit')])><a href={{ route('admin.profile.edit') }}>
-                        <i class="zmdi zmdi-account-box"></i><span>ویرایش پروفایل</span></a>
-                            class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
-                    <ul class="ml-menu">
-                        @can('users')
-                            <li @class(['active' => request()->routeIs('admin.users.create')])><a
-                                    href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
-                            <li @class(['active' => request()->routeIs(['admin.users.index','admin.users.edit','admin.users.show'])])><a
-                                    href={{ route('admin.users.index') }}>لیست کاربران</a></li>
-                        @endcan
-                        @can('roles')
-                            <li @class(['active' => request()->routeIs('admin.roles.*')])><a
-                                    href={{ route('admin.roles.index') }}>گروه های کاربری</a></li>
-                        @endcan
-                        @can('permissions')
-                            <li @class(['active' => request()->routeIs('admin.permissions')])><a
-                                    href={{ route('admin.permissions') }}>مجوز ها</a></li>
-                        @endcan
-                    </ul>
-                </li>
-            @endcanany
 
             @can('events')
                 <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
