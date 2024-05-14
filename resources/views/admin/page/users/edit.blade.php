@@ -116,6 +116,9 @@
                                             </div>
                                         </div>
                                         <div class="form-group col-12">
+                                            <div class="mb-2">
+                                            <q class="text-secondary">بهتر است مجوزها به گروه های کاربری(نقش ها) منتصب شوند و سپس گروه کاربری(نقش) به کاربر نسبت داده شود. تا حدامکان از دادن مجوز مستقیم به کاربر خودداری شود. </q>
+                                            </div>
                                             <div class="panel-group" id="accordion_1" role="tablist"
                                                  aria-multiselectable="true">
                                                 <div class="panel panel-primary">
