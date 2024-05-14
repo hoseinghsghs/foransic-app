@@ -142,5 +142,8 @@
     "Showing": "نمایش",
     "to": "تا",
     "of": "از",
-    "results": "نتیجه"
+    "results": "نتیجه",
+    "Forbidden": "مجاز نیست",
+    "This action is unauthorized.": ".این اقدام مجاز نیست",
+    "User does not have the right permissions.": ".شما اجازه دسترسی به این قسمت را ندارید"
 }

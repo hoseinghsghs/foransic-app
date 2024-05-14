@@ -35,22 +35,30 @@
                         </ul>
                     </div>
                 @endif
-
-                <form action="{{ route('admin.galeries.store') }}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            <input type="file" class="form-control form-control-lg" id="images" name="images[]"
-                                onchange="preview_images();" multiple />
+                <div class="row clearfix">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="body">
+                                <form action="{{ route('admin.galeries.store') }}" method="post"
+                                      enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <input type="file" class="form-control form-control-lg" id="images"
+                                                   name="images[]"
+                                                   onchange="preview_images();" multiple/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input type="submit" class="btn btn-raised btn-info waves-effect"
+                                                   name='submit_image'
+                                                   value="آپلود تصاویر"/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <input type="submit" class="btn btn-raised btn-info waves-effect" name='submit_image'
-                                value="آپلود تصاویر" />
-                        </div>
-
-
                     </div>
-                </form>
+                </div>
             </div>
             <div class="row" id="image_preview"></div>
 
@@ -77,14 +85,15 @@
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
-                                                                class="btn btn-icon btn-icon-mini btn-round btn-danger">
+                                                                    class="btn btn-icon btn-icon-mini btn-round btn-danger">
                                                                 <i class="zmdi zmdi-delete"></i>
                                                             </button>
                                                         </form>
 
                                                     </div>
                                                     <div class="image">
-                                                        <img src="{{ url(env('GALERY_IMAGES_PATCH') . $galery->file_url) }}"
+                                                        <img
+                                                            src="{{ url(env('GALERY_IMAGES_PATCH') . $galery->file_url) }}"
                                                             alt="img" class="img-fluid">
                                                     </div>
                                                     <div class="file-name">

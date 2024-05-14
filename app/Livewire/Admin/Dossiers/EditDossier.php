@@ -29,8 +29,8 @@ class EditDossier extends Component
     public bool $is_archive = false;
     public string $summary_description = '';
     public string $Judicial_number = '';
-    public $Judicial_image ;
-    public $image_url='';
+    public $Judicial_image;
+    public $image_url = '';
     public string $Judicial_date = '';
     public string $dossier_type = '';
     public string $dossier_case = '';
@@ -39,9 +39,17 @@ class EditDossier extends Component
 
     public function rules(): array
     {
+        // get users that were in same laboratory
+        $users = User::role('company')->when(isset($this->dossier->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
+            if (isset($this->dossier->laboratory_id))
+                $query->where('laboratory_id', $this->dossier->laboratory_id);
+            else
+                $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get()->pluck('id')->toArray();
+
         return [
             'name' => 'required|string|max:100',
-            'user_category_id' => 'required|integer',
+            'user_category_id' => ['required', 'integer', Rule::in($users)],
             'subject' => 'required|string',
             'expert' => 'required|string',
             'section' => 'required|string',
@@ -58,7 +66,7 @@ class EditDossier extends Component
 
     public function mount()
     {
-        $this->authorize('is-same-laboratory',$this->dossier->laboratory_id);
+        $this->authorize('is-same-laboratory', $this->dossier->laboratory_id);
         $this->name = $this->dossier->name;
         $this->user_category_id = $this->dossier->user_category_id;
         $this->section = $this->dossier->section;
@@ -119,7 +127,12 @@ class EditDossier extends Component
 
     public function render()
     {
-        $users = User::role('company')->get();
+        $users = User::role('company')->when(isset($this->dossier->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
+            if (isset($this->dossier->laboratory_id))
+                $query->where('laboratory_id', $this->dossier->laboratory_id);
+            else
+                $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get();
         return view('livewire.admin.dossiers.edit-dossier', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

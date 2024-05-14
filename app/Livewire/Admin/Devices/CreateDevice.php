@@ -26,7 +26,7 @@ class CreateDevice extends Component
     public string $correspondence_number = '';
     public string $correspondence_date = '';
     public $dossier_id;
-    public int|null $laboratory_id=null;
+    public int|null $laboratory_id = null;
     public string $delivery_code = '';
     public string $delivery_name = '';
     public string $receive_date = '';
@@ -38,12 +38,17 @@ class CreateDevice extends Component
 
     public function rules(): array
     {
+        // get dossiers in same laboratory
+        $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get()->pluck('id')->toArray();
+
         return [
             'category_id' => 'required|integer|exists:categories,id',
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
-            'dossier_id' => 'nullable|integer|exists:dossiers,id',
-            'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
+            'dossier_id' => ['nullable','integer',Rule::in($dossiers)],
+            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string|unique:devices,code',
@@ -137,10 +142,11 @@ class CreateDevice extends Component
 
     public function render()
     {
-        $users = User::role('company')->get();
-        $dossiers = Dossier::all();
+        $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get();
         $categories = Category::all();
-        return view('livewire.admin.devices.create-device', compact('users', 'dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.devices.create-device', compact('dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

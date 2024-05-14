@@ -6,6 +6,7 @@ use App\Models\Device;
 use App\Models\User;
 use App\Models\Dossier;
 use App\Models\Category;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Http\Controllers\Admin\AttachmentsController;
@@ -40,11 +41,19 @@ class EditDevice extends Component
 
     public function rules(): array
     {
+        // get dossiers that were in same laboratory
+        $dossiers = Dossier::when(isset($this->device->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
+            if (isset($this->device->laboratory_id))
+                $query->where('laboratory_id', $this->device->laboratory_id);
+            else
+                $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get()->pluck('id')->toArray();
+
         return [
             'category_id' => 'required|integer|exists:categories,id',
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
-            'dossier_id' => 'nullable|integer|exists:dossiers,id',
+            'dossier_id' => ['nullable', 'integer', Rule::in($dossiers)],
             'description' => 'nullable|string',
             'report' => 'nullable|string',
             'accessories' => 'nullable|string',
@@ -80,7 +89,7 @@ class EditDevice extends Component
 
     public function mount()
     {
-        $this->authorize('is-same-laboratory',$this->device->laboratory_id);
+        $this->authorize('is-same-laboratory', $this->device->laboratory_id);
 
         $this->category_id = $this->device->category_id;
         $this->code = $this->device->code;
@@ -94,7 +103,7 @@ class EditDevice extends Component
         $this->delivery_code = $this->device->delivery_code;
         $this->receiver_name = $this->device->receiver_name;
         $this->receiver_code = $this->device->receiver_code;
-        $this->receive_date=$this->device->receive_date;
+        $this->receive_date = $this->device->receive_date;
         $this->is_active = !$this->device->is_active;
         $this->accessories = $this->device->accessories;
         $this->description = $this->device->description;
@@ -166,11 +175,16 @@ class EditDevice extends Component
 
     public function render()
     {
-        $users = User::all();
-        $dossiers = Dossier::all();
+        // get dossiers that were in same laboratory
+        $dossiers = Dossier::when(isset($this->device->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
+            if (isset($this->device->laboratory_id))
+                $query->where('laboratory_id', $this->device->laboratory_id);
+            else
+                $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get();
         $categories = Category::all();
-        // dd($users->hasRole('super-admin'));
-        return view('livewire.admin.devices.edit-device', compact('users', 'dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
+
+        return view('livewire.admin.devices.edit-device', compact('dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

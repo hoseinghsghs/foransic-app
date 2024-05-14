@@ -39,9 +39,14 @@ class CreateDossier extends Component
 
     public function rules(): array
     {
+        // get users from same laboratory that has company role
+        $users = User::role('company')->when(isset(auth()->user()->laboratory_id),function ($query){
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get()->pluck('id')->toArray();
+
         return [
             'name' => 'required|string|max:100',
-            'user_category_id' => 'required|integer',
+            'user_category_id' => ['required','integer',Rule::in($users)],
             'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'subject' => 'required|string',
             'expert' => 'required|string',
@@ -106,7 +111,11 @@ class CreateDossier extends Component
 
     public function render()
     {
-        $users = User::role('company')->get();
+        // get users from same laboratory that has company role
+        $users = User::role('company')->when(isset(auth()->user()->laboratory_id),function ($query){
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->get();
+
         return view('livewire.admin.dossiers.create-dossier', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
