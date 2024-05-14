@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -14,11 +15,6 @@ class ModelHasRolesSeedr extends Seeder
      */
     public function run(): void
     {
-       $model_has_roles = [
-        'role_id' => 1,
-        'model_type' => 'App\Models\User',
-        'model_id' => 1,
-       ];
-       DB::table('model_has_roles')->insert($model_has_roles);
+        User::find(1)->syncRoles(['Super Admin']);
     }
 }
