@@ -30,9 +30,7 @@
  <body class="theme-blush" id="cheack_collapsed" style="width: 80% ; margin: auto;font-size: 1.5rem">
      <div class="container-xl mt-4" style="margin-top: 100px ">
          <div class="row mt-4">
-             <div class="col-3 text-center"><img
-                     src="{{ $setting->logo ? asset('storage/logo/' . $setting->logo) : '/images/logo.png' }}"
-                     alt="logo" height="45px" /></div>
+             <div class="col-3 text-center"><img src="{{ $setting->logo ? asset('storage/logo/' . $setting->logo) : '/images/logo.png' }}" alt="logo" height="45px" /></div>
              <div class="col-6 text-center">
                  <h5 class="font-weight-bold">رسید پذیرش آزمایشگاه جرم یابی دیجیتال</h5>
              </div>
@@ -58,7 +56,7 @@
                                          @if($device->dossier()->exists())
                                          {{ $device->dossier->company->name }}
                                          @else
-                                             ندارد
+                                         ندارد
                                          @endif
                                      </p>
                                  </div>
@@ -97,58 +95,59 @@
                                  </div>
                                  {{-- <div class="col-4">
                                      <p>کد پستی:{{ $device->delivery_code }}</p>
-                                 </div>
-                                 <div class="col-4">
-                                     <p>تلفن / نمابر:{{ $device->delivery_name }} ,
-                                         {{ $device->receiver_staff_id }}
-                                     </p>
-                                 </div> --}}
                              </div>
-                         </td>
-                     </tr>
-                 </tbody>
-                 <thead>
-                     <tr>
-                         <th class="text-center" colspan="11"> شواهد دیجیتال</th>
-                     </tr>
-                 </thead>
-                 <tr class="text-center">
-                     <th>id</th>
-                     <th>سریال یا شماره اموال شواهد دیجیتال</th>
-                     <th>عنوان کالا</th>
-                     <th> مشخصات </th>
-                 </tr>
-
-                 <tbody>
-                     <tr class="text-center">
-                         <td>{{ $device->id }}</td>
-                         <td>{{ $device->code }}</td>
-                         <td>{{ $device->category->title }}</td>
-                         <td>{{ $device->trait }}</td>
-                     </tr>
-
-                     <tr>
-                         <th colspan="6" class="text-right" style="padding-bottom:5rem "> لوازم جانبی:
-                             {!! $device->accessories !!} </th>
-                     </tr>
-                     <tr>
-
-                         <th colspan="6" class="text-right">توضیحات و اظهارات درخواست کننده : {!! $device->description !!}
-                         </th>
-                     </tr>
-
-                     <tr style="padding: 60px 0;">
-
-                         <td colspan="5" class="text-right " style="padding-bottom:7rem ">مهر و امضا تحویل گیرنده
-                         </td>
-                         <td colspan="5" class="text-right ">مهر و امضا تحویل دهنده</td>
-                 </tbody>
-                 </tr>
-                 </tbody>
-             </table>
+                             <div class="col-4">
+                                 <p>تلفن / نمابر:{{ $device->delivery_name }} ,
+                                     {{ $device->receiver_staff_id }}
+                                 </p>
+                             </div> --}}
          </div>
-     </div>
+         </td>
+         </tr>
+         </tbody>
+         <thead>
+             <tr>
+                 <th class="text-center" colspan="11"> شواهد دیجیتال</th>
+             </tr>
+         </thead>
+         <tr class="text-center">
+             <th>id</th>
+             <th>سریال یا شماره اموال شواهد دیجیتال</th>
+             <th>عنوان کالا</th>
+             <th> مشخصات </th>
+         </tr>
 
+         <tbody>
+             <tr class="text-center">
+                 <td>{{ $device->id }}</td>
+                 <td>{{ $device->code }}</td>
+                 <td>{{ $device->category->title }}</td>
+                 <td>{{ $device->trait }}</td>
+             </tr>
+
+             <tr>
+                 <th colspan="6" class="text-right" style="padding-bottom:5rem "> لوازم جانبی:
+                     {!! $device->accessories !!} </th>
+             </tr>
+             <tr>
+
+                 <th colspan="6" class="text-right">توضیحات و اظهارات درخواست کننده : {!! $device->description !!}
+                 </th>
+             </tr>
+         </tbody>
+
+         </tbody>
+         </table>
+
+     </div>
+     <div class="row" dir="rtl" style="width: 85%;">
+         <div class="col-6">
+             مهر و امضا تحویل گیرنده
+         </div>
+         <div class="col-6">مهر و امضا تحویل دهنده
+         </div>
+
+     </div>
      <script src="{{ asset('js/admin.js') }}"></script>
 
      {{-- <script>
