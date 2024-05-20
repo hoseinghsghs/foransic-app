@@ -47,6 +47,10 @@ class GuideVideo extends Component
         $guide->delete();
         toastr()->rtl()->addSuccess('فیلم با موفقیت حذف گردید');
     }
+    public function updatingVid()
+    {
+        $this->validate();
+    }
     public function save()
     {
 

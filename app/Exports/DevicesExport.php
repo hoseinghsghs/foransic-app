@@ -57,7 +57,7 @@ class DevicesExport implements FromQuery, WithMapping
             $device->is_active== 1 ? 'فعال':'غیر فعال',
             $device->is_archive==1 ? 'فعال':'غیر فعال',
             $device->dossier_id,
-            Dossier::find($device->dossier_id)->name,
+            $device->dossier ? $device->dossier->name : "",
             $device->category->title,
             verta($device->created_at)->format('Y-n-j H:i'),
             verta($device->updated_at)->format('Y-n-j H:i'),

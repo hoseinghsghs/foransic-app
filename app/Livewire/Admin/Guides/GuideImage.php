@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use App\Livewire\Forms\PostForm;
 use Livewire\WithPagination;
+use Livewire\Attributes\Validate;
 
 
 class GuideImage extends Component
@@ -23,7 +24,6 @@ class GuideImage extends Component
     public $type;
     public $img = [];
     public $guide_id;
-
 
     public function ref()
     {
