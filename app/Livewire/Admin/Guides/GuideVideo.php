@@ -49,7 +49,8 @@ class GuideVideo extends Component
     }
     public function save()
     {
-        // $this->validate();
+
+
         if ($this->is_edit) {
             $this->authorize('video-edit');
             $this->validate([
@@ -63,8 +64,11 @@ class GuideVideo extends Component
             $this->reset("display");
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
+
         try {
-                if (count($this->vid) > 0) {
+
+                $this->validate();
+                if ($this->vid) {
             $ImageController = new ImageController();
             $video_name = $ImageController->UploadeVideo($this->vid, 'guides\videos');
 

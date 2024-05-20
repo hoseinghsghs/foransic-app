@@ -36,7 +36,7 @@
                     <div class="form-group col-md-4">
                         <label class="form-label" for="exampleFormControlFile1">آپلود فیلم<span wire:loading wire:target="vid" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span></label>
                         <div class="custom-file d-flex flex-row-reverse">
-                            <input wire:model.live="vid" type="file" class="custom-file-input" id="customFile" lang="ar" dir="rtl">
+                            <input wire:model.defer="vid" type="file" class="custom-file-input" id="customFile" lang="ar" dir="rtl">
                             <label class="custom-file-label text-right" for="customFile">
                             </label>
                         </div>
