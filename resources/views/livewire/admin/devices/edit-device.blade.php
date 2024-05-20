@@ -240,11 +240,11 @@
                                     </div>
                                 </div>
 
-                                <div class="row clearfix">
+                                <div class="row clearfix" wire:ignore>
                                     <div class="form-group col-md-12 @error('description') is-invalid @enderror">
-                                        <label>توضیحات و اظهارات درخواست کننده :</label>
+                                        <label for="summernote-2">توضیحات و اظهارات درخواست کننده :</label>
                                         <div>
-                                            <textarea class="form-control" wire:model.defer="description" rows="5">
+                                            <textarea class="form-control summernote-editor" wire:model.defer="description" rows="5" id="summernote-2">
                                             {!! $description !!}
                                         </textarea>
                                         </div>
@@ -402,6 +402,9 @@
             });
             $('#summernote').on('summernote.change', function (we, contents, $editable) {
             @this.set('report', contents);
+            });
+            $('#summernote-2').on('summernote.change', function (we, contents, $editable) {
+            @this.set('description', contents);
             });
             // date time picker
             correspondenceDate = $(`#correspondenceDate`).pDatepicker({
