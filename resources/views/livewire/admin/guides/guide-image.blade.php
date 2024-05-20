@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->user()->hasRole('super-admin'))
+        @if(auth()->user()->hasRole('Super Admin'))
             <div class="container-fluid">
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -112,24 +112,25 @@
                                         <div wire:key="{{ $guide->id }}" class="col-lg-3 col-md-4 col-sm-12">
                                             <div class="card">
                                                 <div class="hover">
-                                                    @if(auth()->user()->hasRole('super-admin'))
-                                                    <form wire:submit="delete({{$guide}})" style="display: inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit"
-                                                                class="btn btn-icon btn-icon-mini btn-round btn-danger">
-                                                            <i class="zmdi zmdi-delete"></i>
+                                                    @if(auth()->user()->hasRole('Super Admin'))
+                                                        <form wire:submit="delete({{$guide}})" style="display: inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                    class="btn btn-icon btn-icon-mini btn-round btn-danger">
+                                                                <i class="zmdi zmdi-delete"></i>
+                                                            </button>
+                                                        </form>
+                                                        <button wire:click="edit_image({{ $guide->id }})"
+                                                                wire:loading.attr="disabled"
+                                                                {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                  wire:loading
+                                                                  wire:target="edit_image({{ $guide->id }}) "></span>
                                                         </button>
-                                                    </form>
                                                     @endif
-                                                    <button wire:click="edit_image({{ $guide->id }})"
-                                                            wire:loading.attr="disabled"
-                                                            {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                        <span class="spinner-border spinner-border-sm text-light"
-                                                              wire:loading
-                                                              wire:target="edit_image({{ $guide->id }}) "></span>
-                                                    </button>
+
                                                     <span class="file-name">
                                                 <small class="mr-2"> تاریخ آپلود <span
                                                         class="date">{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</span></small>
