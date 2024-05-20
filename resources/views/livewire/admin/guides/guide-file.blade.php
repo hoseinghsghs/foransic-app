@@ -31,6 +31,7 @@
                     </ul>
                 </div>
             @endif
+            @if(auth()->user()->hasRole('super-admin'))
             <div class="row clearfix">
                 <div class="col-12">
                     <div class="card">
@@ -93,70 +94,73 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="container-fluid">
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="card">
-                    <div class="header">
-                        <h2><strong>لیست فایل ها </strong>
-                            ({{ $guides->total() }})
-                        </h2>
-                    </div>
-                    <div class="body">
-                        @if (count($guides) === 0)
-                            <p class="text-right">هیچ رکوردی وجود ندارد</p>
-                        @else
-                            <div class="table-responsive">
-                                <table class="table table-hover c_table theme-color">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>لینک دانلود</th>
-                                        <th>عنوان</th>
-                                        <th>نام فایل</th>
-                                        <th>تاریخ آپلود</th>
-                                        <th class="text-center js-sweetalert">عملیات</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($guides as $guide)
-                                        <tr wire:key="{{ $guide->id }}" wire:loading.attr="disabled">
-                                            <td scope="row">{{ $loop->index + 1 }}</td>
-                                            <td><a href="{{ url(env('GUIDE_FILE_PATCH') . $guide->url) }}"
-                                                   class="btn btn-success">دانلود</span></td>
-                                            <td>{{$guide->category}}</td>
-                                            <td>{{$guide->url}}</td>
-                                            <td>{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</td>
-                                            <td>
-                                                <form wire:submit="delete({{$guide}})" style="display: inline"
-                                                      class="ml-3">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                            class="btn btn-icon btn-icon-mini btn-round btn-danger mt-3">
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                    </button>
-                                                </form>
-                                                <button wire:click="edit_file({{ $guide->id }})"
-                                                        wire:loading.attr="disabled"
-                                                        {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
-                                                    <i class="zmdi zmdi-edit"></i>
-                                                    <span class="spinner-border spinner-border-sm text-light"
-                                                          wire:loading
-                                                          wire:target="edit_file({{ $guide->id }}) "></span>
-                                                </button>
-                                            </td>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong>لیست فایل ها </strong>
+                                ({{ $guides->total() }})
+                            </h2>
+                        </div>
+                        <div class="body">
+                            @if (count($guides) === 0)
+                                <p class="text-right">هیچ رکوردی وجود ندارد</p>
+                            @else
+                                <div class="table-responsive">
+                                    <table class="table table-hover c_table theme-color">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>لینک دانلود</th>
+                                            <th>عنوان</th>
+                                            <th>نام فایل</th>
+                                            <th>تاریخ آپلود</th>
+                                            <th class="text-center js-sweetalert">عملیات</th>
                                         </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                        @endif
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($guides as $guide)
+                                            <tr wire:key="{{ $guide->id }}" wire:loading.attr="disabled">
+                                                <td scope="row">{{ $loop->index + 1 }}</td>
+                                                <td><a href="{{ url(env('GUIDE_FILE_PATCH') . $guide->url) }}"
+                                                       class="btn btn-success">دانلود</span></td>
+                                                <td>{{$guide->category}}</td>
+                                                <td>{{$guide->url}}</td>
+                                                <td>{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</td>
+                                                <td>
+                                                    @if(auth()->user()->hasRole('super-admin'))
+                                                    <form wire:submit="delete({{$guide}})" style="display: inline"
+                                                          class="ml-3">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                                class="btn btn-icon btn-icon-mini btn-round btn-danger mt-3">
+                                                            <i class="zmdi zmdi-delete"></i>
+                                                        </button>
+                                                    </form>
+                                                    @endif
+                                                    <button wire:click="edit_file({{ $guide->id }})"
+                                                            wire:loading.attr="disabled"
+                                                            {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                        <span class="spinner-border spinner-border-sm text-light"
+                                                              wire:loading
+                                                              wire:target="edit_file({{ $guide->id }}) "></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @endif
+                        </div>
                     </div>
+                    {{ $guides->onEachSide(1)->links() }}
                 </div>
-                {{ $guides->onEachSide(1)->links() }}
             </div>
-        </div>
         </div>
     </div>
 </section>

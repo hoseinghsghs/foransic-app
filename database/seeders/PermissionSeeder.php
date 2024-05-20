@@ -17,6 +17,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'users-list', 'display_name' => 'لیست کاربران', 'guard_name' => 'web'],
             ['name' => 'users-create', 'display_name' => 'ایجاد کاربر', 'guard_name' => 'web'],
             ['name' => 'users-edit', 'display_name' => 'ویرایش کاربر', 'guard_name' => 'web'],
+            ['name' => 'users-show', 'display_name' => 'ویرایش کاربر', 'guard_name' => 'web'],
             ['name' => 'users-export', 'display_name' => 'خروجی اکسل کاربران', 'guard_name' => 'web'],
 
             ['name' => 'actions-list', 'display_name' => 'لیست عنوان اقدامات', 'guard_name' => 'web'],

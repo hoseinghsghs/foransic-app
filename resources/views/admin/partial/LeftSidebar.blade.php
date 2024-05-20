@@ -119,7 +119,8 @@
                                     شواهد دیجیتال</a></li>
                         @endcan
                         @can(['devices-list'])
-                            <li @class(['active' => request()->routeIs(['admin.devices.index','admin.devices.edit','admin.devices.show'])])><a
+                            <li @class(['active' => request()->routeIs(['admin.devices.index','admin.devices.edit','admin.devices.show'])])>
+                                <a
                                     href={{ route('admin.devices.index') }}>لیست شواهد دیجیتال</a>
                             </li>
                         @endcan
@@ -160,10 +161,13 @@
                     ])><a href="javascript:void(0);" class="menu-toggle"><i
                             class="zmdi zmdi-hc-fw"></i><span>کاربران</span></a>
                     <ul class="ml-menu">
-                        @can('users')
+                        @can('users-create')
                             <li @class(['active' => request()->routeIs('admin.users.create')])><a
                                     href={{ route('admin.users.create') }}>افزودن کاربر</a></li>
-                            <li @class(['active' => request()->routeIs(['admin.users.index','admin.users.edit','admin.users.show'])])><a
+                        @endcan
+                        @can('users-list')
+                            <li @class(['active' => request()->routeIs(['admin.users.index','admin.users.edit','admin.users.show'])])>
+                                <a
                                     href={{ route('admin.users.index') }}>لیست کاربران</a></li>
                         @endcan
                         @can('roles')
@@ -179,27 +183,30 @@
             @endcanany
 
 
-                @canany(['users-list', 'users-create', 'users-edit', 'roles', 'permissions'])
-                    <li @class([
+            @canany(['guides-image', 'guides-video', 'guides-file'])
+                <li @class([
                         'active open' => request()->routeIs(
                             'admin.guides.images',
                             'admin.guides.videos',
                             'admin.guides.files'),
                     ])><a href="javascript:void(0);" class="menu-toggle"><i
-                                class="zmdi zmdi-help"></i><span>راهنما</span></a>
-                        <ul class="ml-menu">
-                            @can('users')
-                                <li @class(['active' => request()->routeIs('admin.guides.images')])><a href={{ route('admin.guides.images') }}>تصاویر</a></li>
-                            @endcan
-                            @can('roles')
-                                <li @class(['active' => request()->routeIs('admin.guides.videos')])><a href={{ route('admin.guides.videos') }}>ویدیو</a></li>
-                            @endcan
-                            @can('permissions')
-                                <li @class(['active' => request()->routeIs('admin.guides.files')])><a href={{ route('admin.guides.files') }}>فایل</a></li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcanany
+                            class="zmdi zmdi-help"></i><span>راهنما</span></a>
+                    <ul class="ml-menu">
+                        @can('guides-image')
+                            <li @class(['active' => request()->routeIs('admin.guides.images')])><a
+                                    href={{ route('admin.guides.images') }}>تصاویر</a></li>
+                        @endcan
+                        @can('guides-video')
+                            <li @class(['active' => request()->routeIs('admin.guides.videos')])><a
+                                    href={{ route('admin.guides.videos') }}>ویدیو</a></li>
+                        @endcan
+                        @can('guides-file')
+                            <li @class(['active' => request()->routeIs('admin.guides.files')])><a
+                                    href={{ route('admin.guides.files') }}>فایل</a></li>
+                        @endcan
+                    </ul>
+                </li>
+            @endcanany
 
             @can('events')
                 <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>

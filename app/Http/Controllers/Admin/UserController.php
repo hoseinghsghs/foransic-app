@@ -21,6 +21,7 @@ class UserController extends Controller
 {
     public function index()
     {
+        Gate::authorize('users-list');
         $users = User::when(!auth()->user()->hasRole('Super Admin'), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->latest()->paginate(10);
@@ -29,12 +30,16 @@ class UserController extends Controller
 
     public function create()
     {
+        Gate::authorize('users-create');
+
         $roles = Role::all();
         return view('admin.page.users.create', compact('roles'));
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('users-create');
+
         $request->validate([
             'name' => 'nullable|string|max:255',
             'role' => 'required|string|exclude_if:role,false|exists:roles,name',
@@ -72,6 +77,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         Gate::authorize('is-same-laboratory',$user->laboratory_id);
+        Gate::authorize('users-edit');
 
         $user->load(['roles', 'permissions']);
         $roles = Role::with('permissions')->get();
@@ -82,6 +88,7 @@ class UserController extends Controller
     public function update(Request $request, User $user, ToastrFactory $flasher)
     {
         Gate::authorize('is-same-laboratory',$user->laboratory_id);
+        Gate::authorize('users-edit');
 
         $data = $request->validate([
             'name' => 'nullable|string',
@@ -112,6 +119,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         Gate::authorize('is-same-laboratory',$user->laboratory_id);
+        Gate::authorize('users-show');
 
         $actions = Action::where('user_id', $user->id)->take(10)->get();
         return view('admin.page.users.show', compact('user', 'actions'));

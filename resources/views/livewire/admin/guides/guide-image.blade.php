@@ -21,83 +21,86 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-            <div class="row clearfix">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="body">
-                            <form wire:submit="save">
-                                @csrf
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label class="form-label" for="exampleFormControlFile1">آپلود تصاویر<span
-                                                wire:loading wire:target="img" class="spinner-border spinner-border-sm"
-                                                role="status" aria-hidden="true"></span></label>
-                                        <div class="custom-file d-flex flex-row-reverse">
-                                            <input wire:model.live="img" type="file" class="custom-file-input"
-                                                   id="customFile" lang="ar" dir="rtl" multiple>
-                                            <label class="custom-file-label text-right" for="customFile">
-                                            </label>
+        @if(auth()->user()->hasRole('super-admin'))
+            <div class="container-fluid">
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                <div class="row clearfix">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="body">
+                                <form wire:submit="save">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <label class="form-label" for="exampleFormControlFile1">آپلود تصاویر<span
+                                                    wire:loading wire:target="img"
+                                                    class="spinner-border spinner-border-sm"
+                                                    role="status" aria-hidden="true"></span></label>
+                                            <div class="custom-file d-flex flex-row-reverse">
+                                                <input wire:model.live="img" type="file" class="custom-file-input"
+                                                       id="customFile" lang="ar" dir="rtl" multiple>
+                                                <label class="custom-file-label text-right" for="customFile">
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label>عنوان یا دسته<abbr class="required" title="ضروری"
+                                                                      style="color:red;">*</abbr></label>
+                                            <div class="form-group">
+                                                <input type="text" wire:model.defer="category" id="category"
+                                                       class="form-control @error('category') is-invalid @enderror"
+                                                       required/>
+                                                <span id="category-display" class="text-warning"></span>
+                                                @error('category')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4">
-                                        <label>عنوان یا دسته<abbr class="required" title="ضروری"
-                                                                  style="color:red;">*</abbr></label>
-                                        <div class="form-group">
-                                            <input type="text" wire:model.defer="category" id="category"
-                                                   class="form-control @error('category') is-invalid @enderror"
-                                                   required/>
-                                            <span id="category-display" class="text-warning"></span>
-                                            @error('category')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                @if ($img)
-                                    @foreach ($img as $imge)
-                                        <img src="{{ $imge->temporaryUrl() }}" height="300rem">
-                                    @endforeach
-                                @endif
-                                <div class="col-auto">
-                                    <button type="submit" wire:loading.attr="disabled"
-                                            class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
-                                        {{ $is_edit ? 'ویرایش' : 'افزودن' }}
-                                        <span class="spinner-border spinner-border-sm text-light" wire:loading
-                                              wire:target="add_image"></span>
-                                    </button>
-                                    @if ($is_edit)
-                                        <button class="btn btn-raised btn-info waves-effect"
-                                                wire:loading.attr="disabled" wire:click="ref">صرف نظر
-                                            <span class="spinner-border spinner-border-sm text-light" wire:loading
-                                                  wire:target="ref"></span>
-                                        </button>
+                                    @if ($img)
+                                        @foreach ($img as $imge)
+                                            <img src="{{ $imge->temporaryUrl() }}" height="300rem">
+                                        @endforeach
                                     @endif
-                                    <span wire:loading class="spinner-border spinner-border-sm" role="status"
-                                          aria-hidden="true"></span>
-                                </div>
-                                <!-- <div class="col-12">
-                                    <button type="submit" wire:loading.attr="disabled" class="btn btn-raised btn-primary waves-effect">
-                                        ذخیره
-                                        <span wire:loading class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                    </button>
-                                </div> -->
-                            </form>
+                                    <div class="col-auto">
+                                        <button type="submit" wire:loading.attr="disabled"
+                                                class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
+                                            {{ $is_edit ? 'ویرایش' : 'افزودن' }}
+                                            <span class="spinner-border spinner-border-sm text-light" wire:loading
+                                                  wire:target="add_image"></span>
+                                        </button>
+                                        @if ($is_edit)
+                                            <button class="btn btn-raised btn-info waves-effect"
+                                                    wire:loading.attr="disabled" wire:click="ref">صرف نظر
+                                                <span class="spinner-border spinner-border-sm text-light" wire:loading
+                                                      wire:target="ref"></span>
+                                            </button>
+                                        @endif
+                                        <span wire:loading class="spinner-border spinner-border-sm" role="status"
+                                              aria-hidden="true"></span>
+                                    </div>
+                                    <!-- <div class="col-12">
+                                        <button type="submit" wire:loading.attr="disabled" class="btn btn-raised btn-primary waves-effect">
+                                            ذخیره
+                                            <span wire:loading class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                        </button>
+                                    </div> -->
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row" id="image_preview"></div>
+            <div class="row" id="image_preview"></div>
+        @endif
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-lg-12">
@@ -109,6 +112,7 @@
                                         <div wire:key="{{ $guide->id }}" class="col-lg-3 col-md-4 col-sm-12">
                                             <div class="card">
                                                 <div class="hover">
+                                                    @if(auth()->user()->hasRole('super-admin'))
                                                     <form wire:submit="delete({{$guide}})" style="display: inline">
                                                         @csrf
                                                         @method('DELETE')
@@ -117,6 +121,7 @@
                                                             <i class="zmdi zmdi-delete"></i>
                                                         </button>
                                                     </form>
+                                                    @endif
                                                     <button wire:click="edit_image({{ $guide->id }})"
                                                             wire:loading.attr="disabled"
                                                             {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
