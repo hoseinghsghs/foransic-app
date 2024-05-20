@@ -62,7 +62,6 @@ class DossierComponent extends Component
     public function render()
     {
         $company_users = User::Role('company')->get();
-        dd($company_users);
 
         $dossiers = Dossier::where('is_archive', false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole('Super Admin'),function ($query){
             $query->where('laboratory_id', auth()->user()->laboratory_id);
