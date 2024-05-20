@@ -1,4 +1,4 @@
-@section('title', 'فایل های راهنما')
+@section('title', 'فایل های آموزش')
 <section class="content">
     <div class="body_scroll">
         <div class="block-header">
