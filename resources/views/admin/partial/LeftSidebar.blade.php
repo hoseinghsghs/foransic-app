@@ -190,7 +190,7 @@
                             'admin.guides.videos',
                             'admin.guides.files'),
                     ])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-help"></i><span>راهنما</span></a>
+                            class="zmdi zmdi-help"></i><span>آموزش</span></a>
                     <ul class="ml-menu">
                         @can('guides-image')
                             <li @class(['active' => request()->routeIs('admin.guides.images')])><a

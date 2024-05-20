@@ -45,7 +45,7 @@
                                                         <option value="">نام رده</option>
                                                         @foreach ($company_users as $company_user)
                                                             <option value="{{ $company_user->id }}">
-                                                                {{ $company_user->cellphone }}
+                                                                {{ $company_user->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
