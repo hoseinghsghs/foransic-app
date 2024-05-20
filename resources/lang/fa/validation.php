@@ -204,6 +204,9 @@ return array(
         "laboratory_id"=>"آزمایشگاه",
         "dossier_case"=>"کارشناس پرونده",
         "expert_phone"=>"شماره همراه",
-        "expert_cellphone"=>"شماره داخلی"
+        "expert_cellphone" => "شماره داخلی",
+        "vid" => "فایل",
+        "img" => "فایل",
+        "fil" => "فایل",
     ),
 );

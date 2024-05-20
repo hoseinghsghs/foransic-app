@@ -163,7 +163,7 @@
                                         <div wire:ignore>
                                             <select id="userSelect" name="dossier_id" data-placeholder="انتخاب پرونده"
                                                     class="form-control ms search-select">
-                                                <option></option>
+                                                <option value=null></option>
                                                 @foreach ($dossiers as $dossier)
                                                     <option
                                                         value="{{ $dossier->id }}" @selected($device->dossier_id == $dossier->id)>
@@ -394,7 +394,7 @@
 
             $('#userSelect').on('change', function (e) {
                 let data = $('#userSelect').select2("val");
-                if (data === '') {
+                if (data === null) {
                 @this.set('dossier_id', null);
                 } else {
                 @this.set('dossier_id', data);
