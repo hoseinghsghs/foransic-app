@@ -13,7 +13,7 @@ class Dossier extends Model
 
     public function devices()
     {
-        return $this->hasMany(Device::class, 'device_id');
+        return $this->hasMany(Device::class, 'dossier_id');
     }
 
     public  function company(){

@@ -10,4 +10,9 @@ class ActionCategory extends Model
     use HasFactory;
     protected $guarded=[];
     protected $table="action_category";
+
+    public function  actions(){
+        return $this->hasMany(Action::class,'action_category_id');
+    }
+
 }
