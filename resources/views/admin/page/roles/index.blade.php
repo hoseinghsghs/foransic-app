@@ -54,7 +54,7 @@
                                                 <a href="{{route('admin.roles.edit',$role->id)}}" class="btn btn-raised btn-info waves-effect" onclick="loadbtn(event)">
                                                     <i class="zmdi zmdi-edit"></i>
                                                 </a>
-                                                <button class="btn btn-raised btn-danger waves-effect" data-type="confirm" data-form-id="del-role-{{$role->id}}"><i class="zmdi zmdi-delete"></i></button>
+                                                <button class="btn btn-raised btn-danger waves-effect" @disabled($role->name == 'Super Admin') data-type="confirm" data-form-id="del-role-{{$role->id}}"><i class="zmdi zmdi-delete"></i></button>
                                                 <form action="{{route('admin.roles.destroy',$role->id)}}" id="del-role-{{$role->id}}" method="POST">
                                                     @csrf
                                                     @method('DELETE')

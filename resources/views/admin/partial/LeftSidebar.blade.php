@@ -181,33 +181,22 @@
                     </ul>
                 </li>
             @endcanany
-
-
-            @canany(['guides-image', 'guides-video', 'guides-file'])
-                <li @class([
+            <li @class([
                         'active open' => request()->routeIs(
                             'admin.guides.images',
                             'admin.guides.videos',
                             'admin.guides.files'),
                     ])><a href="javascript:void(0);" class="menu-toggle"><i
-                            class="zmdi zmdi-help"></i><span>آموزش</span></a>
-                    <ul class="ml-menu">
-                        @can('guides-image')
-                            <li @class(['active' => request()->routeIs('admin.guides.images')])><a
-                                    href={{ route('admin.guides.images') }}>تصاویر</a></li>
-                        @endcan
-                        @can('guides-video')
-                            <li @class(['active' => request()->routeIs('admin.guides.videos')])><a
-                                    href={{ route('admin.guides.videos') }}>ویدیو</a></li>
-                        @endcan
-                        @can('guides-file')
-                            <li @class(['active' => request()->routeIs('admin.guides.files')])><a
-                                    href={{ route('admin.guides.files') }}>فایل</a></li>
-                        @endcan
-                    </ul>
-                </li>
-            @endcanany
-
+                        class="zmdi zmdi-help"></i><span>آموزش</span></a>
+                <ul class="ml-menu">
+                    <li @class(['active' => request()->routeIs('admin.guides.images')])><a
+                            href={{ route('admin.guides.images') }}>تصاویر</a></li>
+                    <li @class(['active' => request()->routeIs('admin.guides.videos')])><a
+                            href={{ route('admin.guides.videos') }}>ویدیو</a></li>
+                    <li @class(['active' => request()->routeIs('admin.guides.files')])><a
+                            href={{ route('admin.guides.files') }}>فایل</a></li>
+                </ul>
+            </li>
             @can('events')
                 <li @class(['active' => request()->routeIs('admin.timeline.*')])><a href={{ route('admin.timeline') }}>
                         <i class="zmdi zmdi-notifications"></i><span>مدیریت رویداد ها</span></a>

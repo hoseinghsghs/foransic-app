@@ -64,7 +64,12 @@ class RoleController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $role->update(['name' => $data['name'], 'display_name' => $data['display_name']]);
+            if ($data['name'] == 'Super Admin')
+                $data2 = array_only($data, ['display_name']);
+            else
+                $data2 = array_only($data, ['name', 'display_name']);
+
+            $role->update($data2);
             $role->syncPermissions($data['permissions'] ?? []);
             DB::commit();
         } catch (\Exception $ex) {
@@ -82,6 +87,8 @@ class RoleController extends Controller
             flash()->addWarning('به دلیل الحاق مجوز به نقش امکان حذف آن وجود ندارد.');
         elseif (count($role->users) > 0)
             flash()->addWarning('به دلیل الحاق نقش به کاربر امکان حذف آن وجود ندارد.');
+        elseif ($role->name == 'Super Admin')
+            flash()->addWarning('امکان حذف نقش مورد نظر وجود ندارد.');
         else {
             $role->delete();
             flash()->addSuccess('نقش مورد نظر با موفقیت حذف گردید.');

@@ -35,11 +35,13 @@ class GuideVideo extends Component
     public function rules(): array
     {
         return [
-            'vid'  => 'mimes:mp4| max:40000'
+            'vid' => 'mimes:mp4| max:40000'
         ];
     }
+
     public function delete(Guide $guide)
     {
+        $this->authorize('guides-video-delete');
 
         if (Storage::exists('guides/videos/' . $guide->url)) {
             Storage::delete('guides/videos/' . $guide->url);
@@ -47,16 +49,17 @@ class GuideVideo extends Component
         $guide->delete();
         toastr()->rtl()->addSuccess('فیلم با موفقیت حذف گردید');
     }
+
     public function updatingVid()
     {
         $this->validate();
     }
+
     public function save()
     {
-
-
         if ($this->is_edit) {
-            $this->authorize('video-edit');
+            $this->authorize('guides-video-edit');
+
             $this->validate([
                 'category' => 'required|string',
             ]);
@@ -68,43 +71,44 @@ class GuideVideo extends Component
             $this->reset("display");
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
-
-        try {
-
+            $this->authorize('guides-video-create');
+            try {
                 $this->validate();
                 if ($this->vid) {
-            $ImageController = new ImageController();
-            $video_name = $ImageController->UploadeVideo($this->vid, 'guides\videos');
+                    $ImageController = new ImageController();
+                    $video_name = $ImageController->UploadeVideo($this->vid, 'guides\videos');
 
-            Guide::create([
-                'url' => $video_name,
+                    Guide::create([
+                        'url' => $video_name,
                         'category' => $this->category,
-                'type' => 'video',
-            ]);
+                        'type' => 'video',
+                    ]);
                     $this->reset("category");
                     $this->reset("display");
                     $this->reset('vid');
-            toastr()->rtl()->addSuccess('فیلم با موفقیت آپلود گردید');
+                    toastr()->rtl()->addSuccess('فیلم با موفقیت آپلود گردید');
                     return redirect()->back();
                 }
-        } catch (\Throwable $th) {
+            } catch (\Throwable $th) {
                 $this->reset("category");
                 $this->reset("display");
                 $this->reset('vid');
                 alert()->warning('مشکل در آپلود ویدیو ')->showConfirmButton('تایید');
-            return redirect()->back();
+                return redirect()->back();
+            }
         }
     }
-    }
+
     public function edit_video(Guide $guide)
     {
-        $this->authorize('video-edit');
+        $this->authorize('guides-video-edit');
 
         $this->is_edit = true;
         $this->category = $guide->category;
         $this->display = "disabled";
         $this->guide = $guide;
     }
+
     public function render()
     {
         $guides = Guide::where('type', 'video')->latest()->paginate(8);

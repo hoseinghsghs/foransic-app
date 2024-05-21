@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->user()->hasRole('Super Admin'))
+        @can('guides-video-create')
             <div class="container-fluid">
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -80,7 +80,7 @@
                     </div>
                 </form>
             </div>
-        @endif
+        @endcan
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
@@ -92,7 +92,7 @@
                                         <div class="card">
                                             <a class="file" target="_blank">
                                                 <div class="hover">
-                                                    @if(auth()->user()->hasRole('Super Admin'))
+                                                    @can('guides-video-delete')
                                                         <form wire:submit="delete({{$guide}})" style="display: inline">
                                                             @csrf
                                                             @method('DELETE')
@@ -101,6 +101,8 @@
                                                                 <i class="zmdi zmdi-delete"></i>
                                                             </button>
                                                         </form>
+                                                    @endcan
+                                                    @can('guides-video-edit')
                                                         <button wire:click="edit_video({{ $guide->id }})"
                                                                 wire:loading.attr="disabled"
                                                                 {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
@@ -109,7 +111,7 @@
                                                                   wire:loading
                                                                   wire:target="edit_video({{ $guide->id }}) "></span>
                                                         </button>
-                                                    @endif
+                                                    @endcan
                                                     <span class="file-name">
                                                     {{-- <p class="m-b-5 text-muted">img21545ds.jpg</p> --}}
                                                     <small class="mr-2"> تاریخ آپلود <span

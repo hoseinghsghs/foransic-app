@@ -58,7 +58,7 @@
                                     <div class="col-md-3">
                                         <label for="name">نام نقش</label>
                                         <div class="form-group">
-                                            <input id="name" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$role->name}}" required>
+                                            <input id="name" name="name" class="form-control @error('name') is-invalid @enderror" @disabled($role->name=='Super Admin') value="{{$role->name}}" required>
                                         </div>
                                     </div>
                                     <div class="form-group col-12">
@@ -73,7 +73,7 @@
                                                             @forelse ($permissions as $index=>$permission)
                                                             <div class="col-sm-3">
                                                                 <div class="checkbox">
-                                                                    <input id="checkbox-{{$index}}" type="checkbox" name="permissions[]" value="{{$permission->name}}" @checked(in_array($permission->id,$role->permissions->pluck('id')->toArray()))>
+                                                                    <input id="checkbox-{{$index}}" type="checkbox" name="permissions[]" value="{{$permission->name}}" @disabled($role->name=='Super Admin') @checked(in_array($permission->id,$role->permissions->pluck('id')->toArray()) || $role->name=='Super Admin')>
                                                                     <label for="checkbox-{{$index}}">{{$permission->display_name}}</label>
                                                                 </div>
                                                             </div>

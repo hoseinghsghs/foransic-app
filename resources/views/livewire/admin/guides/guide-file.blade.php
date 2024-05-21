@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->user()->hasRole('Super Admin'))
+        @can('guides-file-create')
             <div class="container-fluid">
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endcan
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -130,7 +130,7 @@
                                                 <td>{{$guide->url}}</td>
                                                 <td>{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</td>
                                                 <td>
-                                                    @if(auth()->user()->hasRole('Super Admin'))
+                                                    @can('guides-file-delete')
                                                         <form wire:submit="delete({{$guide}})" style="display: inline"
                                                               class="ml-3">
                                                             @csrf
@@ -140,6 +140,8 @@
                                                                 <i class="zmdi zmdi-delete"></i>
                                                             </button>
                                                         </form>
+                                                    @endcan
+                                                    @can('guides-file-edit')
                                                         <button wire:click="edit_file({{ $guide->id }})"
                                                                 wire:loading.attr="disabled"
                                                                 {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
@@ -148,7 +150,7 @@
                                                                   wire:loading
                                                                   wire:target="edit_file({{ $guide->id }}) "></span>
                                                         </button>
-                                                    @endif
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach

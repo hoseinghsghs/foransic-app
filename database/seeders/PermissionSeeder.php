@@ -62,6 +62,18 @@ class PermissionSeeder extends Seeder
             ['name' => 'devices-delete', 'display_name' => 'حذف شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-export', 'display_name' => 'خروجی اکسل شواهد دیجیتال', 'guard_name' => 'web'],
 
+            ['name' => 'guides-file-create', 'display_name' => 'ایجاد فایل آموزش', 'guard_name' => 'web'],
+            ['name' => 'guides-file-edit', 'display_name' => 'ویرایش فایل آموزش', 'guard_name' => 'web'],
+            ['name' => 'guides-file-delete', 'display_name' => 'حذف فایل آموزش', 'guard_name' => 'web'],
+
+            ['name' => 'guides-image-create', 'display_name' => 'ایجاد عکس آموزش', 'guard_name' => 'web'],
+            ['name' => 'guides-image-edit', 'display_name' => 'ویرایش عکس آموزش', 'guard_name' => 'web'],
+            ['name' => 'guides-image-delete', 'display_name' => 'حذف عکس آموزش', 'guard_name' => 'web'],
+
+            ['name' => 'guides-video-create', 'display_name' => 'ایجاد فیلم آموزش', 'guard_name' => 'web'],
+            ['name' => 'guides-video-edit', 'display_name' => 'ویرایش فیلم آموزش', 'guard_name' => 'web'],
+            ['name' => 'guides-video-delete', 'display_name' => 'حذف فیلم آموزش', 'guard_name' => 'web'],
+
             ['name' => 'roles', 'display_name' => 'نقش ها', 'guard_name' => 'web'],
             ['name' => 'permissions', 'display_name' => 'مجوزها', 'guard_name' => 'web'],
             ['name' => 'settings', 'display_name' => 'تنظیمات', 'guard_name' => 'web'],

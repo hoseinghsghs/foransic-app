@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-        @if(auth()->user()->hasRole('Super Admin'))
+        @can('guides-image-create')
             <div class="container-fluid">
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -100,7 +100,7 @@
                 </div>
             </div>
             <div class="row" id="image_preview"></div>
-        @endif
+        @endcan
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-lg-12">
@@ -112,7 +112,7 @@
                                         <div wire:key="{{ $guide->id }}" class="col-lg-3 col-md-4 col-sm-12">
                                             <div class="card">
                                                 <div class="hover">
-                                                    @if(auth()->user()->hasRole('Super Admin'))
+                                                    @can('guides-image-delete')
                                                         <form wire:submit="delete({{$guide}})" style="display: inline">
                                                             @csrf
                                                             @method('DELETE')
@@ -121,6 +121,8 @@
                                                                 <i class="zmdi zmdi-delete"></i>
                                                             </button>
                                                         </form>
+                                                    @endcan
+                                                    @can('guides-image-edit')
                                                         <button wire:click="edit_image({{ $guide->id }})"
                                                                 wire:loading.attr="disabled"
                                                                 {{ $display }} class="btn btn-icon btn-warning btn-icon-mini btn-round scroll">
@@ -129,24 +131,23 @@
                                                                   wire:loading
                                                                   wire:target="edit_image({{ $guide->id }}) "></span>
                                                         </button>
-                                                    @endif
+                                                    @endcan
 
                                                     <span class="file-name">
-                                                <small class="mr-2"> تاریخ آپلود <span
-                                                        class="date">{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</span></small>
-                                            </span>
-                                                    <div class="mt-2">
-                                                        {{$guide->category}}
-                                                    </div>
-
-
+                                                         <small class="mr-2"> تاریخ آپلود <span
+                                                                 class="date">{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</span></small>
+                                                   </span>
+                                                </div>
+                                                <div class="mt-2">
+                                                    {{$guide->category}}
                                                 </div>
                                                 <a href="{{ url(env('GUIDE_IMAGES_PATCH') . $guide->url) }}"
                                                    class="file"
                                                    target="_blank">
                                                     <div class="image">
-                                                        <img src="{{ url(env('GUIDE_IMAGES_PATCH') . $guide->url) }}"
-                                                             alt="img" class="img-fluid">
+                                                        <img
+                                                            src="{{ url(env('GUIDE_IMAGES_PATCH') . $guide->url) }}"
+                                                            alt="img" class="img-fluid">
                                                     </div>
                                                 </a>
                                             </div>

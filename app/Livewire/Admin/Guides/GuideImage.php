@@ -15,6 +15,7 @@ use Livewire\Attributes\Validate;
 class GuideImage extends Component
 {
     use WithFileUploads, WithPagination;
+
     public Guide $guide;
     protected $paginationTheme = 'bootstrap';
     public $url;
@@ -39,8 +40,11 @@ class GuideImage extends Component
             'img.*' => 'required|image|mimes:jpg,jpeg,png,svg|max:3000',
         ];
     }
+
     public function delete(Guide $guide)
     {
+        $this->authorize('guides-image-delete');
+
         if (Storage::exists('guides/images/' . $guide->url)) {
             Storage::delete('guides/images/' . $guide->url);
         }
@@ -52,7 +56,8 @@ class GuideImage extends Component
     {
         $this->validate();
         if ($this->is_edit) {
-            $this->authorize('attributes-edit');
+            $this->authorize('guides-image-edit');
+
             $this->validate([
                 'category' => 'required|string',
             ]);
@@ -64,42 +69,45 @@ class GuideImage extends Component
             $this->reset("display");
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
-        try {
-            if (count($this->img) > 0) {
-                foreach ($this->img as $image) {
-                    $ImageController = new ImageController();
-                    $image_name = $ImageController->UploadeImage($image, "guides/images");
-                    Guide::create([
-                        'url' => $image_name,
+            $this->authorize('guides-image-create');
+
+            try {
+                if (count($this->img) > 0) {
+                    foreach ($this->img as $image) {
+                        $ImageController = new ImageController();
+                        $image_name = $ImageController->UploadeImage($image, "guides/images");
+                        Guide::create([
+                            'url' => $image_name,
                             'category' => $this->category,
-                        'type' => 'image',
-                    ]);
+                            'type' => 'image',
+                        ]);
+                    }
                 }
+                $this->reset("category");
+                $this->reset("display");
+                $this->reset("img");
+                toastr()->rtl()->addSuccess('تصاویر با موفقیت آپلود گردید');
+                return redirect()->back();
+            } catch (\Throwable $th) {
+                $this->reset("category");
+                $this->reset("display");
+                $this->reset("img");
+                alert()->warning('مشکل در آپلود تصویر ')->showConfirmButton('تایید');
+                return redirect()->back();
             }
-                $this->reset("category");
-                $this->reset("display");
-            $this->reset("img");
-            toastr()->rtl()->addSuccess('تصاویر با موفقیت آپلود گردید');
-            return redirect()->back();
-        } catch (\Throwable $th) {
-                $this->reset("category");
-                $this->reset("display");
-            $this->reset("img");
-            alert()->warning('مشکل در آپلود تصویر ')->showConfirmButton('تایید');
-            return redirect()->back();
         }
-    }
     }
 
     public function edit_image(Guide $guide)
     {
-        $this->authorize('image-edit');
+        $this->authorize('guides-image-edit');
 
         $this->is_edit = true;
         $this->category = $guide->category;
         $this->display = "disabled";
         $this->guide = $guide;
     }
+
     public function render()
     {
         $guides = Guide::where('type', 'image')->latest()->paginate(8);
