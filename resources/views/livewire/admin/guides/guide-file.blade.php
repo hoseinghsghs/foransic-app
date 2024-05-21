@@ -129,14 +129,14 @@
                                                 <td>{{$guide->category}}</td>
                                                 <td>{{$guide->url}}</td>
                                                 <td>{{ Hekmatinasser\Verta\Verta::instance($guide->created_at)->format('Y/n/j') }}</td>
-                                                <td>
+                                                <td class="text-center">
                                                     @can('guides-file-delete')
                                                         <form wire:submit="delete({{$guide}})" style="display: inline"
                                                               class="ml-3">
                                                             @csrf
                                                             @method('DELETE')
                                                             <button type="submit"
-                                                                    class="btn btn-icon btn-icon-mini btn-round btn-danger mt-3">
+                                                                    class="btn btn-icon btn-icon-mini btn-round btn-danger">
                                                                 <i class="zmdi zmdi-delete"></i>
                                                             </button>
                                                         </form>
