@@ -20,6 +20,10 @@ class Dossier extends Model
         return $this->belongsTo(User::class,'user_category_id');
     }
 
+    public function creator(){
+        return$this->belongsTo(User::class,'personal_creator_id');
+    }
+
     public function laboratory(){
         return $this->belongsTo(Laboratory::class,'laboratory_id');
     }

@@ -68,7 +68,7 @@ class DeviceComponent extends Component
     public function render()
     {
         $category_ids = Category::where('title', 'like', '%' . $this->title . '%')->pluck('id')->toArray();
-        $devices = Device::where('is_archive', false)->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
+        $devices = Device::with(['category','laboratory'])->where('is_archive', false)->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->when($this->title, function ($query) use ($category_ids) {
             $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);

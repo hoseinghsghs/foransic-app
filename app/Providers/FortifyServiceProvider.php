@@ -103,7 +103,7 @@ class FortifyServiceProvider extends ServiceProvider
                 Hash::check($request->password, $user->password)) {
                 $event = Event::create([
                     'title' => 'کاربر وارد سایت شد',
-                    'body' => 'کاربر' . " " . $user->cellphone,
+                    'body' => 'کاربر' . " " . $user->cellphone ." - ". $user->email,
                     'user_id' => $user->id,
                     'eventable_id' => $user->id,
                     'eventable_type' => User::class,
