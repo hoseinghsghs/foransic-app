@@ -203,7 +203,138 @@
                         @endisset
                     </div>
                 </div>
+                <div class="header p-0 mt-4">
+                    <strong style="color:#e47297">لیست شواهد پرونده</strong>
+                </div>
+                <hr>
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="card">
+                            <div class="body">
+                                <div class="loader" wire:loading.flex>
+                                    درحال بارگذاری ...
+                                </div>
+                                @if(count($devices)>0)
+                                    <div class="table-responsive">
+                                        <table class="table table-hover c_table theme-color">
+                                            <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>عنوان</th>
+                                                <th>کد</th>
+                                                @if(auth()->user()->hasRole('Super Admin'))
+                                                    <th>آزمایشگاه</th>
+                                                @endif
+                                                <th>شخص تحویل دهنده</th>
+                                                <th>پرسنل تحویل گیرنده</th>
+                                                <th>شخص تحویل گیرنده</th>
+                                                <th>پرسنل تحویل دهنده</th>
+                                                <th> تاریخ دریافت</th>
+                                                <th> تاریخ تحویل</th>
+                                                <th>وضعیت</th>
+                                                <th>بایگانی</th>
+                                                <th class="text-center">عملیات</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach ($devices as $key => $device)
+                                                <tr wire:key="name_{{ $device->id }}">
+                                                    <td scope="row">{{ $devices->firstItem() + $key }}</td>
+                                                    <td>
+                                                        {{ $device->category->title }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $device->code }}
+                                                    </td>
+                                                    @if(auth()->user()->hasRole('Super Admin'))
+                                                        <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
+                                                    @endif
+                                                    <td>
+                                                        {{ $device->delivery_name }}
+                                                    </td>
+                                                    <td>
+                                                        @if ($device->receiver_staff_id)
+                                                            {{ App\Models\User::find($device->receiver_staff_id)->name }}
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{ $device->receiver_name }}
+                                                    </td>
 
+                                                    <td>
+                                                        @if ($device->delivery_staff_id)
+                                                            {{ App\Models\User::find($device->delivery_staff_id)->name }}
+                                                        @endif
+                                                    </td>
+                                                    <td dir="ltr">
+                                                        {{ $device->receive_date }}
+                                                    </td>
+                                                    <td dir="ltr">
+                                                        {{ $device->delivery_date }}
+                                                    </td>
+                                                    <td>
+                                                        <span @class([
+                                                    'badge','p-2',
+                                                    'badge-success' => $device->is_active,
+                                                    'badge-danger' => !$device->is_active,
+                                                ])>
+                                                            {{ $device->is_active ? 'فعال' : 'غیرفعال' }}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <span  @class(['badge','p-2','badge-success' => !$device->is_archive,'badge-danger' => $device->is_archive])>{{ $device->is_archive ? 'بایگانی' : 'غیر بایگانی' }}
+                                                        </span>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{-- <a onclick="loadbtn(event)"
+                                                            href="{{ route('admin.devices.edit', $device->id) }}"
+                                                            class="btn btn-raised btn-warning waves-effect">
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                        </a> --}}
+                                                        <a onclick="loadbtn(event)" title="اضافه کردن اقدام"
+                                                           data-toggle="tooltip"
+                                                           data-placement="top"
+                                                           href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
+                                                           class="btn btn-raised btn-info waves-effect">
+
+                                                            ایجاد اقدام
+
+                                                        </a>
+                                                        <div class="btn-group">
+                                                            <button type="button"
+                                                                    class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                ویرایش
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
+                                                                   class="dropdown-item text-right"> ویرایش </a>
+                                                                <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
+                                                                   class="dropdown-item text-right"> ویرایش تصویر </a>
+                                                                <a href="{{ route('admin.devices.show', $device->id) }}"
+                                                                   class="dropdown-item text-right"> مشاهده </a>
+                                                                <a href="{{ route('admin.print.device.show', $device->id) }}"
+                                                                   class="dropdown-item text-right" target="_blank">
+                                                                    پرینت
+                                                                    رسید
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                @else
+                                    <p>هیچ رکوردی وجود ندارد</p>
+                                @endif
+                            </div>
+                        </div>
+                        {{ $devices->onEachSide(1)->links() }}
+                    </div>
+                </div>
             </div>
         </div>
     </section>

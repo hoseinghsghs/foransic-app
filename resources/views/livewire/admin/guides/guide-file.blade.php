@@ -66,8 +66,8 @@
                                     </div>
 
                                     {{-- @if ($fil)
-                                            @foreach ($fil as $file)
-                                             <a href="{{ $file->temporaryUrl() }}">
+                                                @foreach ($fil as $file)
+                                                 <a href="{{ $file->temporaryUrl() }}">
                                     @endforeach
 
                                     @endif --}}

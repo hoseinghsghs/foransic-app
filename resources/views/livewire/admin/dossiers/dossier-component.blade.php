@@ -133,11 +133,11 @@
                                                 <td>
                                                     {{ $dossier->section }}
                                                 </td>
-                                                <td dir="ltr">
-                                                    {{ App\Models\User::find($dossier->user_category_id)->name }}
+                                                <td>
+                                                    {{ $dossier->company->name }}
                                                 </td>
-                                                <td dir="ltr">
-                                                    {{ App\Models\User::find($dossier->personal_creator_id)->name }}
+                                                <td>
+                                                    {{ $dossier->creator->name }}
                                                 </td>
                                                 <td dir="ltr">
                                                     {{ verta($dossier->created_at)->format('Y/n/j') }}

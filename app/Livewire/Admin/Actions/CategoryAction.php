@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Livewire\Admin\Actions;
+
 use App\Models\ActionCategory;
 use Livewire\Component;
 
@@ -24,6 +25,8 @@ class CategoryAction extends Component
     public function add_action_category()
     {
         if ($this->is_edit) {
+            $this->authorize('actions-category-edit');
+
             $this->validate([
                 'title' => 'required|unique:action_category,title,' . $this->action_category->id,
                 'action_category.id' => 'required|exists:action_category,id',
@@ -36,8 +39,10 @@ class CategoryAction extends Component
             $this->is_edit = false;
             $this->reset("title");
             $this->reset("display");
-            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد',' ');
+            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
+            $this->authorize('actions-category-create');
+
             $this->validate([
                 'title' => 'required|unique:action_category,title'
             ]);
@@ -45,12 +50,14 @@ class CategoryAction extends Component
                 "title" => $this->title,
             ]);
             $this->reset("title");
-            toastr()->rtl()->addSuccess('ویژگی با موفقیت ایجاد شد',' ');
+            toastr()->rtl()->addSuccess('ویژگی با موفقیت ایجاد شد', ' ');
         }
     }
 
     public function edit_action_category(ActionCategory $action_category)
     {
+        $this->authorize('actions-category-edit');
+
         $this->is_edit = true;
         $this->title = $action_category->title;
         $this->action_category = $action_category;
@@ -59,10 +66,14 @@ class CategoryAction extends Component
 
     public function del_action_category(ActionCategory $action_category)
     {
+        $this->authorize('actions-category-delete');
 
+        if ($action_category->actions()->exists()) {
+            flash()->addWarning('به علت الحاق عنوان به اقدام امکان حذف آن وجود ندارد');
+        } else {
             $action_category->delete();
-            toastr()->rtl()->addSuccess('دسته بندی با موفقیت حذف شد');
-
+            flash()->addSuccess('دسته بندی با موفقیت حذف شد');
+        }
     }
 
     public function render()

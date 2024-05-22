@@ -13,11 +13,15 @@ class Dossier extends Model
 
     public function devices()
     {
-        return $this->hasMany(Device::class, 'device_id');
+        return $this->hasMany(Device::class, 'dossier_id');
     }
 
     public  function company(){
         return $this->belongsTo(User::class,'user_category_id');
+    }
+
+    public function creator(){
+        return$this->belongsTo(User::class,'personal_creator_id');
     }
 
     public function laboratory(){
