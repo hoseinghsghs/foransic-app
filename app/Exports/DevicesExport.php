@@ -59,11 +59,11 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
             ];
         foreach ($this->device as $device) {
 
-            foreach ($device->category->attributes as $key => $attribute) {
-                $DeviceAttribute = DeviceAttribute::where('attribute_id', $attribute->id)->where('device_id', $device->id)->get();
-                array_push($head_arry, $attribute->name);
-                // array_push($value_arry, $DeviceAttribute[0]->value);
-            };
+            // foreach ($device->category->attributes as $key => $attribute) {
+            //     $DeviceAttribute = DeviceAttribute::where('attribute_id', $attribute->id)->where('device_id', $device->id)->get();
+            //     array_push($head_arry, $attribute->name);
+            //     // array_push($value_arry, $DeviceAttribute[0]->value);
+            // };
 
             foreach ($device->actions as $key => $action) {
                 // array_push($value_arry, $action->description, $action->start_date, $action->end_date, User::find($action->user_id)->name);
@@ -115,11 +115,11 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
             verta($device->created_at)->format('Y-n-j H:i'),
             verta($device->updated_at)->format('Y-n-j H:i'),
         ];
-        foreach ($device->category->attributes as $key => $attribute) {
-        $DeviceAttribute=DeviceAttribute::where('attribute_id' ,$attribute->id)->where('device_id' ,$device->id )->get();
-        // array_push($head_arry, $attribute->name);
-        array_push($value_arry, $DeviceAttribute[0]->value);
-        };
+        // foreach ($device->category->attributes as $key => $attribute) {
+        // $DeviceAttribute=DeviceAttribute::where('attribute_id' ,$attribute->id)->where('device_id' ,$device->id )->get();
+        // // array_push($head_arry, $attribute->name);
+        // array_push($value_arry, $DeviceAttribute[0]->value);
+        // };
 
         foreach ($device->actions as $key => $action) {
         array_push($value_arry,$action->description, $action->start_date , $action->end_date , User::find($action->user_id)->name);
