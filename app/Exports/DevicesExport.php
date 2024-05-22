@@ -57,21 +57,18 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
                 "تاریخ ایجاد",
                 "آخرین تاریخ بروز رسانی"
             ];
-        foreach ($this->device as $device) {
+        // foreach ($this->device as $device) {
 
-            // foreach ($device->category->attributes as $key => $attribute) {
-            //     $DeviceAttribute = DeviceAttribute::where('attribute_id', $attribute->id)->where('device_id', $device->id)->get();
-            //     array_push($head_arry, $attribute->name);
-            //     // array_push($value_arry, $DeviceAttribute[0]->value);
-            // };
-
-            foreach ($device->actions as $key => $action) {
-                // array_push($value_arry, $action->description, $action->start_date, $action->end_date, User::find($action->user_id)->name);
-                array_push($head_arry, "اقدام" . $key, "تاریخ شورع اقدام", "تاریخ پایان اقدام", "پرسنل ثبت کننده");
-            };
-        }
-
-
+        //     // foreach ($device->category->attributes as $key => $attribute) {
+        //     //     $DeviceAttribute = DeviceAttribute::where('attribute_id', $attribute->id)->where('device_id', $device->id)->get();
+        //     //     array_push($head_arry, $attribute->name);
+        //     //     // array_push($value_arry, $DeviceAttribute[0]->value);
+        //     // };
+        //     foreach ($device->actions as $key => $action) {
+        //         // array_push($value_arry, $action->description, $action->start_date, $action->end_date, User::find($action->user_id)->name);
+        //         // array_push($head_arry, "اقدام" . $key + 1, "تاریخ شروع اقدام", "تاریخ پایان اقدام", "پرسنل ثبت کننده");
+        //     };
+        // }
         return $head_arry;
     }
     public function map($device): array
@@ -121,11 +118,11 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
         // array_push($value_arry, $DeviceAttribute[0]->value);
         // };
 
-        foreach ($device->actions as $key => $action) {
-        array_push($value_arry,$action->description, $action->start_date , $action->end_date , User::find($action->user_id)->name);
-        // array_push($head_arry, "اقدام" . $key , "تاریخ شورع اقدام" , "تاریخ پایان اقدام" , "پرسنل ثبت کننده");
+        // foreach ($device->actions as $key => $action) {
+        // array_push($value_arry,$action->description, $action->start_date , $action->end_date , User::find($action->user_id)->name);
+        // // array_push($head_arry, "اقدام" . $key , "تاریخ شورع اقدام" , "تاریخ پایان اقدام" , "پرسنل ثبت کننده");
 
-        };
+        // };
 
         return [
         $value_arry,
