@@ -11,8 +11,9 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Stevebauman\Hypertext\Transformer;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class DevicesExport implements FromQuery, WithMapping
+class DevicesExport implements FromQuery, WithMapping, WithHeadings
 {
     /**
      * @return \Illuminate\Support\Collection
@@ -20,6 +21,38 @@ class DevicesExport implements FromQuery, WithMapping
     public function query()
     {
         return Device::query();
+    }
+    public function headings(): array
+    {
+        return
+            [
+                "id",
+                "سریال یا شماره اموال شواهد دیجیتال",
+                "شخص تحویل تحویل دهنده",
+                "کد پرسنلی تحویل دهنده",
+                "نام تحویل گیرنده",
+                "کد پرسنلی تحویل گیرنده",
+                "پرسنل آزمایشگاه تحویل دهنده",
+                "پرسنل آزمایشگاه تحویل دهنده id ",
+                "پرسنل آزمایشگاه تحویل گیرنده",
+                "پرسنل آزمایشگاه تحویل گیرنده id",
+                "تاریخ و زمان تحویل  دادن شواهد دیجیتال توسط پرسنل آزمایشگاه",
+                "تاریخ و زمان تحویل  گرفتن شواهد دیجیتال توسط پرسنل آزمایشگاه",
+                "لوازم جانبی",
+                "توضیحات و اظهارات درخواست کننده",
+                "مشخصات ",
+                "شماره خودکار ساز نامه درخواست",
+                "تاریخ مکاتبه",
+                "تصویر مکاتبه",
+                "وضعیت بررسی",
+                "وضعیت",
+                "وضعیت آرشیو",
+                "id پرونده",
+                "نام پرونده",
+                "id دسته بندی",
+                "تاریخ ایجاد",
+                "آخرین تاریخ بروز رسانی"
+            ];
     }
     public function map($device): array
     {
@@ -61,33 +94,7 @@ class DevicesExport implements FromQuery, WithMapping
             $device->category->title,
             verta($device->created_at)->format('Y-n-j H:i'),
             verta($device->updated_at)->format('Y-n-j H:i'),
-            ];
-                $head_arry=[    "id" ,
-            "سریال یا شماره اموال شواهد دیجیتال" ,
-            "شخص تحویل تحویل دهنده",
-            "کد پرسنلی تحویل دهنده",
-            "نام تحویل گیرنده",
-            "کد پرسنلی تحویل گیرنده",
-            "پرسنل آزمایشگاه تحویل دهنده",
-            "پرسنل آزمایشگاه تحویل دهنده id ",
-            "پرسنل آزمایشگاه تحویل گیرنده",
-            "پرسنل آزمایشگاه تحویل گیرنده id",
-            "تاریخ و زمان تحویل  دادن شواهد دیجیتال توسط پرسنل آزمایشگاه",
-            "تاریخ و زمان تحویل  گرفتن شواهد دیجیتال توسط پرسنل آزمایشگاه",
-            "لوازم جانبی",
-            "توضیحات و اظهارات درخواست کننده",
-            "مشخصات ",
-            "شماره خودکار ساز نامه درخواست",
-            "تاریخ مکاتبه",
-            "تصویر مکاتبه",
-            "وضعیت بررسی",
-            "وضعیت",
-            "وضعیت آرشیو",
-            "id پرونده",
-            "نام پرونده",
-            "id دسته بندی",
-            "تاریخ ایجاد",
-            "آخرین تاریخ بروز رسانی"];
+        ];
 
         foreach ($device->category->attributes as $key => $attribute) {
         $DeviceAttribute=DeviceAttribute::where('attribute_id' ,$attribute->id)->where('device_id' ,$device->id )->get();
@@ -102,7 +109,6 @@ class DevicesExport implements FromQuery, WithMapping
         };
 
         return [
-        $head_arry,
         $value_arry,
         ];
     }

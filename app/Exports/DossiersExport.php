@@ -9,19 +9,18 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Stevebauman\Hypertext\Transformer;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
 
-class DossiersExport implements FromQuery, WithMapping
+class DossiersExport implements FromQuery, WithMapping, WithHeadings
 {
     public function query()
     {
         return Dossier::query();
     }
-
-    public function map($dossier): array
+    public function headings(): array
     {
-
-        return [
+        return
             [
                 'id',
                 'شماره پرونده',
@@ -44,8 +43,13 @@ class DossiersExport implements FromQuery, WithMapping
                 'پرسنل ثبت کننده',
                 'پرسنل ثبت کننده id',
                 'تاریخ ایجاد',
-                'آخرین تاریخ بروز رسانی'],
-            [
+                'آخرین تاریخ بروز رسانی'
+            ];
+    }
+    public function map($dossier): array
+    {
+
+        return [
                 $dossier->id,
                 $dossier->number_dossier,
                 $dossier->name,
@@ -68,7 +72,7 @@ class DossiersExport implements FromQuery, WithMapping
                 $dossier->personal_creator_id,
                 verta($dossier->created_at)->format('Y-n-j H:i'),
                 verta($dossier->updated_at)->format('Y-n-j H:i'),
-            ],
+
         ];
     }
 
