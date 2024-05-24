@@ -41,7 +41,7 @@ class DashboardController extends Controller
         $status_device_checks = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
 
         $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(3)->get();
-        $image = Guide::where('type', 'image')->where('category', 'banner')->first();
+        $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->get();
         // $all_order = Order::whereBetween('created_at', [$from, $to])->count();
 
         // // بر اساس زمان
