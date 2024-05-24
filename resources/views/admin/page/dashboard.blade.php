@@ -262,7 +262,7 @@
 
         <div class="container-fluid">
             <div class="row clearfix">
-                <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card widget_2 big_icon domains">
                         <div class="body">
                             <img src="{{ url(env('GUIDE_IMAGES_PATCH') . $image->url) }}" alt="">
