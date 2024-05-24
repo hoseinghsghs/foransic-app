@@ -112,9 +112,7 @@ class CreateDossier extends Component
     public function render()
     {
         // get users from same laboratory that has company role
-        $users = User::role('company')->when(isset(auth()->user()->laboratory_id),function ($query){
-            $query->where('laboratory_id', auth()->user()->laboratory_id);
-        })->get();
+        $users = User::role('company')->get();
 
         return view('livewire.admin.dossiers.create-dossier', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
