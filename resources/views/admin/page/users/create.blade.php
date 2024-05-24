@@ -100,6 +100,9 @@
                                         </div>
                                         @if(is_null(auth()->user()->laboratory_id))
                                             @php($laboratories=\App\Models\Laboratory::all())
+                                            @if ()
+
+                                            @endif
                                             <div
                                                 class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
                                                 <label for="userSelect">آزمایشگاه <abbr class="required text-danger"
@@ -136,4 +139,8 @@
             </div>
         </div>
     </section>
+    @push('scripts')
+
+    @endpush
+
 @endsection

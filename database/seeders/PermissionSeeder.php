@@ -21,7 +21,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'users-export', 'display_name' => 'خروجی اکسل کاربران', 'guard_name' => 'web'],
 
             ['name' => 'actions-list', 'display_name' => 'لیست اقدامات شواهد', 'guard_name' => 'web'],
-            ['name' => 'actions-create', 'display_name' => 'ایجاد اقدام شواهد', 'guard_name' => 'web'],
+            ['name' => 'actions-create', 'display_name' => 'ایجاد اقدام برای شواهد', 'guard_name' => 'web'],
             ['name' => 'actions-edit', 'display_name' => 'ویرایش اقدام شواهد', 'guard_name' => 'web'],
             ['name' => 'actions-delete', 'display_name' => 'حذف اقدام شواهد', 'guard_name' => 'web'],
             ['name' => 'actions-export', 'display_name' => 'خروجی اکسل اقدامات', 'guard_name' => 'web'],

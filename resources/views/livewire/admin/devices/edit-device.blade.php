@@ -276,7 +276,7 @@
                                     </div>
                                 </div>
                                 <div class="body">
-                                    <p>ضمیمه</p>
+                                    <p>فایل گزارش نهایی</p>
                                     <div class="form-group" wire:ignore>
                                         <input type="file" class="dropify" name="attachment_report"
                                                id="attachment_report" wire:model="attachment_report"
