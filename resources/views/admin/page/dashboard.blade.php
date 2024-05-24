@@ -264,7 +264,7 @@
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="body">
-                        <img src="{{ url(env('GUIDE_IMAGES_PATCH') . $image->url) }}" alt="">
+                        <img src="{{ url(env('GUIDE_IMAGES_PATCH') . $image->url) }}" alt="" width="100%">
                     </div>
                 </div>
             </div>
