@@ -222,24 +222,55 @@
             </div>
             @endif
 
-    <div class="row clearfix">
-        <div class="col-md-12 col-lg-12">
+            <div class="row clearfix">
+                <div class="col-md-12 col-lg-12">
 
-            <div class="card">
-                <div class="header">
-                    <h2><strong><i class="zmdi zmdi-chart"></i> گزارش </strong> دیوایس های دریافتی یکسال گذشته
-                    </h2>
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong><i class="zmdi zmdi-chart"></i> گزارش </strong> دیوایس های دریافتی یکسال گذشته
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div id="chart-area-spline-device" class="c3_chart d_sales"></div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="body">
-                    <div id="chart-area-spline-device" class="c3_chart d_sales"></div>
-                </div>
+
             </div>
 
         </div>
-
     </div>
+</section>
+@else
+<section class="content">
+    <div class="">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-lg-7 col-md-6 col-sm-12">
+                    <h2>داشبورد</h2>
+                    </br>
+                    <ul class="breadcrumb">
+                    </ul>
+                    <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
+                </div>
+                <div class="col-lg-5 col-md-6 col-sm-12">
+                    <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i class="zmdi zmdi-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
 
-    </div>
+        <div class="container-fluid">
+            <div class="row clearfix">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="card widget_2 big_icon domains">
+                        <div class="body">
+                            <img src="{{ url(env('GUIDE_IMAGES_PATCH') . $image->url) }}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 @endhasanyrole
