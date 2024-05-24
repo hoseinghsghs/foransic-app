@@ -1,6 +1,8 @@
 @extends('admin.layout.MasterAdmin')
 @section('title', 'داشبورد')
 @section('Content')
+
+@hasanyrole(['Super Admin','viewer'])
 <section class="content">
     <div class="">
         <div class="block-header">
@@ -240,6 +242,8 @@
     </div>
     </div>
 </section>
+@endhasanyrole
+
 @push('scripts')
 <!-- نمودار درصد ترافیک -->
 <script>
