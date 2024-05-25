@@ -13,7 +13,6 @@
                                 <div class="Login-to-account mt-4">
                                     <div class="account-box-content">
                                         <!-- enter password -->
-                                        <img src="{{ asset('images/logo.png') }}" alt="" width="75%">
                                         <form id="login-with-pass" class="form-account">
 
                                             <h4>ورود</h4>
