@@ -2,7 +2,7 @@
 @section('title', 'ورود')
 @section('content')
 <!-- login----------------------------------->
-<img src="{{ asset('/assets/admin/images/bg-2.gif') }}" alt="" width="100%" style="height: 100vh;background-size: cover;position: absolute;opacity: 0.1;">
+<img src="{{ asset('/assets/admin/images/bg-2.gif') }}" alt="" style="background-size:cover;position: absolute;opacity: 0.1;">
 <!-- <div style="height: 100vh; background-image: url(/assets/admin/images/bg-2.gif);background-size: cover;"> -->
 <div style="height: 100vh; background-image: url(/assets/admin/images/bg-login.jpg);background-size: cover;">
     <div class="container">
