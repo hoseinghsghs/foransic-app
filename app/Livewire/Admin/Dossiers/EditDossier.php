@@ -40,12 +40,7 @@ class EditDossier extends Component
     public function rules(): array
     {
         // get users that were in same laboratory
-        $users = User::role('company')->when(isset($this->dossier->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
-            if (isset($this->dossier->laboratory_id))
-                $query->where('laboratory_id', $this->dossier->laboratory_id);
-            else
-                $query->where('laboratory_id', auth()->user()->laboratory_id);
-        })->get()->pluck('id')->toArray();
+        $users = User::role('company')->pluck('id')->toArray();
 
         return [
             'name' => 'required|string|max:100',
@@ -127,12 +122,7 @@ class EditDossier extends Component
 
     public function render()
     {
-        $users = User::role('company')->when(isset($this->dossier->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
-            if (isset($this->dossier->laboratory_id))
-                $query->where('laboratory_id', $this->dossier->laboratory_id);
-            else
-                $query->where('laboratory_id', auth()->user()->laboratory_id);
-        })->get();
+        $users = User::role('company')->get();
         return view('livewire.admin.dossiers.edit-dossier', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

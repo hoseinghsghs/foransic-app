@@ -40,9 +40,7 @@ class CreateDossier extends Component
     public function rules(): array
     {
         // get users from same laboratory that has company role
-        $users = User::role('company')->when(isset(auth()->user()->laboratory_id),function ($query){
-            $query->where('laboratory_id', auth()->user()->laboratory_id);
-        })->get()->pluck('id')->toArray();
+        $users = User::role('company')->get()->pluck('id')->toArray();
 
         return [
             'name' => 'required|string|max:100',
