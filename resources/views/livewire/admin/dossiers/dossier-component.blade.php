@@ -46,7 +46,9 @@
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select class="form-control ms" wire:model.live="company_user">
+                                                    @hasnotrole()
                                                     <option value="">نام رده</option>
+
                                                     @foreach ($company_users as $company_user)
                                                         <option value="{{ $company_user->id }}">
                                                             {{ $company_user->name }}
@@ -111,7 +113,9 @@
                                             <th> تاریخ ایجاد</th>
                                             <th>وضعیت</th>
                                             <th>بایگانی</th>
-                                            <th class="text-center">عملیات</th>
+                                            @canany(['dossiers-edit','dossiers-show'])
+                                                <th class="text-center">عملیات</th>
+                                            @endcan
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -158,35 +162,41 @@
                                                             class="btn btn-raised btn-danger waves-effect">بایگانی کردن
                                                     </button>
                                                 </td>
-                                                <td class="text-center">
-                                                    {{-- <a onclick="loadbtn(event)"
-                                                    href="{{ route('admin.dossiers.edit', $dossier->id) }}"
-                                                    class="btn btn-raised btn-warning waves-effect">
-                                                    <i class="zmdi zmdi-edit"></i>
-                                                </a> --}}
-                                                    {{-- <a onclick="loadbtn(event)"
-                                                    href="{{ route('admin.actions.create', ['dossier' => $dossier->id]) }}"
-                                                    class="btn btn-raised btn-info waves-effect">
-                                                    <i class="zmdi zmdi-file-plus" style="font-size: 1.2rem"></i>
-                                                </a> --}}
-                                                    <div class="btn-group">
-                                                        <button type="button"
-                                                                class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-haspopup="true"
-                                                                aria-expanded="false">
-                                                            <i class="zmdi zmdi-edit" style="font-size: 1.2rem"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}"
-                                                               class="dropdown-item text-right"> ویرایش </a>
-                                                            <a href="{{ route('admin.dossiers.show', $dossier->id) }}"
-                                                               class="dropdown-item text-right"> مشاهده </a>
-                                                            {{-- <a href="{{ route('admin.print.dossier.show', $dossier->id) }}"
-                                                            class="dropdown-item text-right" target="_blank"> پرینت رسید
-                                                        </a> --}}
+                                                @canany(['dossiers-edit','dossiers-show'])
+                                                    <td class="text-center">
+                                                        {{-- <a onclick="loadbtn(event)"
+                                                        href="{{ route('admin.dossiers.edit', $dossier->id) }}"
+                                                        class="btn btn-raised btn-warning waves-effect">
+                                                        <i class="zmdi zmdi-edit"></i>
+                                                    </a> --}}
+                                                        {{-- <a onclick="loadbtn(event)"
+                                                        href="{{ route('admin.actions.create', ['dossier' => $dossier->id]) }}"
+                                                        class="btn btn-raised btn-info waves-effect">
+                                                        <i class="zmdi zmdi-file-plus" style="font-size: 1.2rem"></i>
+                                                    </a> --}}
+                                                        <div class="btn-group">
+                                                            <button type="button"
+                                                                    class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                <i class="zmdi zmdi-edit" style="font-size: 1.2rem"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('dossiers-edit')
+                                                                    <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}"
+                                                                       class="dropdown-item text-right"> ویرایش </a>
+                                                                @endcan
+                                                                @can('dossiers-show')
+                                                                    <a href="{{ route('admin.dossiers.show', $dossier->id) }}"
+                                                                       class="dropdown-item text-right"> مشاهده </a>
+                                                                @endcan
+                                                                {{-- <a href="{{ route('admin.print.dossier.show', $dossier->id) }}"
+                                                                class="dropdown-item text-right" target="_blank"> پرینت رسید
+                                                            </a> --}}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </td>
+                                                    </td>
+                                                @endcanany
                                             </tr>
                                         @endforeach
                                         </tbody>

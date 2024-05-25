@@ -291,36 +291,48 @@
                                                             class="btn btn-raised btn-warning waves-effect">
                                                             <i class="zmdi zmdi-edit"></i>
                                                         </a> --}}
-                                                        <a onclick="loadbtn(event)" title="اضافه کردن اقدام"
-                                                           data-toggle="tooltip"
-                                                           data-placement="top"
-                                                           href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
-                                                           class="btn btn-raised btn-info waves-effect">
-
-                                                            ایجاد اقدام
-
-                                                        </a>
-                                                        <div class="btn-group">
-                                                            <button type="button"
-                                                                    class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false">
-                                                                ویرایش
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
-                                                                   class="dropdown-item text-right"> ویرایش </a>
-                                                                <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
-                                                                   class="dropdown-item text-right"> ویرایش تصویر </a>
-                                                                <a href="{{ route('admin.devices.show', $device->id) }}"
-                                                                   class="dropdown-item text-right"> مشاهده </a>
-                                                                <a href="{{ route('admin.print.device.show', $device->id) }}"
-                                                                   class="dropdown-item text-right" target="_blank">
-                                                                    پرینت
-                                                                    رسید
-                                                                </a>
+                                                        @can('actions-create')
+                                                            <a onclick="loadbtn(event)" title="اضافه کردن اقدام"
+                                                               data-toggle="tooltip"
+                                                               data-placement="top"
+                                                               href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
+                                                               class="btn btn-raised btn-info waves-effect">
+                                                                ایجاد اقدام
+                                                            </a>
+                                                        @endcan
+                                                        @canany(['devices-edit','device-image-edit','devices-show','device-print'])
+                                                            <div class="btn-group">
+                                                                <button type="button"
+                                                                        class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                                        aria-expanded="false">
+                                                                    <i class="zmdi zmdi-menu"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    @can('devices-edit')
+                                                                        <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
+                                                                           class="dropdown-item text-right"> ویرایش </a>
+                                                                    @endcan
+                                                                    @can('device-image-edit')
+                                                                        <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
+                                                                           class="dropdown-item text-right"> ویرایش
+                                                                            تصویر </a>
+                                                                    @endcan
+                                                                    @can('devices-show')
+                                                                        <a href="{{ route('admin.devices.show', $device->id) }}"
+                                                                           class="dropdown-item text-right"> مشاهده </a>
+                                                                    @endcan
+                                                                    @can('device-print')
+                                                                        <a href="{{ route('admin.print.device.show', $device->id) }}"
+                                                                           class="dropdown-item text-right"
+                                                                           target="_blank">
+                                                                            پرینت
+                                                                            رسید
+                                                                        </a>
+                                                                    @endcan
+                                                                </div>
                                                             </div>
-                                                        </div>
+                                                        @endcanany
                                                     </td>
                                                 </tr>
                                             @endforeach

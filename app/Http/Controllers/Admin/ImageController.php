@@ -9,7 +9,6 @@ use App\Models\Device;
 use App\Models\DeviceImage;
 use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class ImageController extends Controller
@@ -138,7 +137,6 @@ class ImageController extends Controller
 
     public function setPrimary(Request $request, Device $device, ToastrFactory $flasher)
     {
-
         $device = Device::find($request->device);
 
         if ($request->has('primary_image')) {

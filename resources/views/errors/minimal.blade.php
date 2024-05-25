@@ -14,12 +14,34 @@
             body {
                 font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
             }
+            .btn {
+                border-width: 2px;
+                font-weight: 400;
+                font-size: 0.8171em;
+                line-height: 1.35em;
+                /*margin: 5px 1px;*/
+                border: none;
+                border-radius: 0.2875rem;
+                padding: 8px 18px;
+                cursor: pointer;
+                background-color: #888;
+                color: #fff;
+            }
+            .btn-info {
+                background-color: #1cbfd0;
+                color: #fff;
+            }
+            .btn-info:hover {
+                color: #fff;
+                background-color: #138496;
+                border-color: #117a8b;
+            }
         </style>
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
+                <div class="flex items-center pt-8 justify-center sm:pt-0" style="flex-wrap: wrap">
                     <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider">
                         @yield('code')
                     </div>
@@ -27,6 +49,7 @@
                     <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
                         @yield('message')
                     </div>
+                    <a class="btn btn-info mt-8" href="{{route('admin.home')}}">صفحه اصلی</a>
                 </div>
             </div>
         </div>

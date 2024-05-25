@@ -75,12 +75,14 @@
                         <div class="header d-flex align-items-center">
                             <h2><strong>لیست شواهد دیجیتال </strong> ( {{ $devices->total() }} )</h2>
                             <div class="mr-auto">
-                                <a onclick="loadbtn(event)" href="{{ route('admin.devices.create') }}"
-                                   class="btn btn-raised btn-info waves-effect mr-auto">
-                                    افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
-                                {{-- <a onclick="window.open('{{ route('admin.file-device2') }}');"
-                                    href="{{ route('admin.file-device') }}" class="btn btn-raised btn-warning waves-effect ">
-                                    خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
+                                @can('devices-create')
+                                    <a onclick="loadbtn(event)" href="{{ route('admin.devices.create') }}"
+                                       class="btn btn-raised btn-info waves-effect mr-auto">
+                                        افزودن<i class="zmdi zmdi-plus mr-1"></i></a>
+                                    {{-- <a onclick="window.open('{{ route('admin.file-device2') }}');"
+                                        href="{{ route('admin.file-device') }}" class="btn btn-raised btn-warning waves-effect ">
+                                        خروجی اکسل<i class="zmdi zmdi-developer-board mr-1"></i></a> --}}
+                                @endcan
                             </div>
                         </div>
                         <div class="body">
@@ -146,31 +148,47 @@
                                                     </button>
                                                 </td>
                                                 <td class="text-center">
-                                                    <a onclick="loadbtn(event)"
-                                                       href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
-                                                       class="btn btn-raised btn-info waves-effect">
-                                                        <i class="zmdi zmdi-file-plus" style="font-size: 1.2rem"></i>
-                                                    </a>
-                                                    <div class="btn-group">
-                                                        <button type="button"
-                                                                class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                                data-toggle="dropdown" aria-haspopup="true"
-                                                                aria-expanded="false">
-                                                            <i class="zmdi zmdi-edit" style="font-size: 1.2rem"></i>
-                                                        </button>
-                                                        <div class="dropdown-menu">
-                                                            <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
-                                                               class="dropdown-item text-right"> ویرایش </a>
-                                                            <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
-                                                               class="dropdown-item text-right"> ویرایش تصویر </a>
-                                                            <a href="{{ route('admin.devices.show', $device->id) }}"
-                                                               class="dropdown-item text-right"> مشاهده </a>
-                                                            <a href="{{ route('admin.print.device.show', $device->id) }}"
-                                                               class="dropdown-item text-right" target="_blank"> پرینت
-                                                                رسید
-                                                            </a>
+                                                    @can('actions-create')
+                                                        <a onclick="loadbtn(event)" title="اضافه کردن اقدام"
+                                                           data-toggle="tooltip"
+                                                           data-placement="top"
+                                                           href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
+                                                           class="btn btn-raised btn-info waves-effect">
+                                                            ایجاد اقدام
+                                                        </a>
+                                                    @endcan
+                                                    @canany(['devices-edit','device-image-edit','devices-show','device-print'])
+                                                        <div class="btn-group">
+                                                            <button type="button"
+                                                                    class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                                    data-toggle="dropdown" aria-haspopup="true"
+                                                                    aria-expanded="false">
+                                                                <i class="zmdi zmdi-menu" style="font-size: 1.2rem"></i>
+                                                            </button>
+                                                            <div class="dropdown-menu">
+                                                                @can('devices-edit')
+                                                                    <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
+                                                                       class="dropdown-item text-right"> ویرایش </a>
+                                                                @endcan
+                                                                @can('device-image-edit')
+                                                                    <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
+                                                                       class="dropdown-item text-right"> ویرایش
+                                                                        تصویر </a>
+                                                                @endcan
+                                                                @can('devices-show')
+                                                                    <a href="{{ route('admin.devices.show', $device->id) }}"
+                                                                       class="dropdown-item text-right"> مشاهده </a>
+                                                                @endcan
+                                                                @can('device-print')
+                                                                    <a href="{{ route('admin.print.device.show', $device->id) }}"
+                                                                       class="dropdown-item text-right" target="_blank">
+                                                                        پرینت
+                                                                        رسید
+                                                                    </a>
+                                                                @endcan
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    @endcanany
                                                 </td>
                                             </tr>
                                         @endforeach

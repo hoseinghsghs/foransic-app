@@ -110,7 +110,9 @@
                                                 <th> تاریخ ایجاد</th>
                                                 <th>وضعیت</th>
                                                 <th>بایگانی</th>
-                                                <th class="text-center">عملیات</th>
+                                                @canany(['dossiers-edit','dossiers-show'])
+                                                    <th class="text-center">عملیات</th>
+                                                @endcan
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -155,23 +157,29 @@
                                                             بایگانی
                                                         </button>
                                                     </td>
-                                                    <td class="text-center">
-                                                        <div class="btn-group">
-                                                            <button type="button"
-                                                                    class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false">
-                                                                <i class="zmdi zmdi-edit"
-                                                                   style="font-size: 1.2rem"></i>
-                                                            </button>
-                                                            <div class="dropdown-menu">
-                                                                <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}"
-                                                                   class="dropdown-item text-right"> ویرایش </a>
-                                                                <a href="{{ route('admin.dossiers.show', $dossier->id) }}"
-                                                                   class="dropdown-item text-right"> مشاهده </a>
+                                                    @canany(['dossiers-edit','dossiers-show'])
+                                                        <td class="text-center">
+                                                            <div class="btn-group">
+                                                                <button type="button"
+                                                                        class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                                        aria-expanded="false">
+                                                                    <i class="zmdi zmdi-edit"
+                                                                       style="font-size: 1.2rem"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    @can('dossiers-edit')
+                                                                        <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}"
+                                                                           class="dropdown-item text-right"> ویرایش </a>
+                                                                    @endcan
+                                                                    @can('dossiers-show')
+                                                                        <a href="{{ route('admin.dossiers.show', $dossier->id) }}"
+                                                                           class="dropdown-item text-right"> مشاهده </a>
+                                                                    @endcan
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </td>
+                                                        </td>
+                                                    @endcan
                                                 </tr>
                                             @endforeach
                                             </tbody>

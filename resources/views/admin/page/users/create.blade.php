@@ -31,7 +31,7 @@
                         <div class="card">
                             <div class="body">
                                 <form id="form_advanced_validation" class="needs-validation"
-                                    action="{{ route('admin.users.store') }}" method="POST">
+                                      action="{{ route('admin.users.store') }}" method="POST">
                                     @method('POST')
                                     @csrf
                                     <div class="row clearfix">
@@ -39,10 +39,10 @@
                                             <label for="title">کاربر</label>
                                             <div class="form-group">
                                                 <input type="text" name="name"
-                                                    class="form-control @error('name') is-invalid @enderror"
-                                                    value="{{ old('name') }}" placeholder="نام خانوادگی - رده استان">
+                                                       class="form-control @error('name') is-invalid @enderror"
+                                                       value="{{ old('name') }}" placeholder="نام خانوادگی - رده استان">
                                                 @error('name')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -50,10 +50,10 @@
                                             <label for="text">نام کاربری (کد پرسنلی)</label>
                                             <div class="form-group">
                                                 <input type="text" name="username"
-                                                    class="form-control @error('username') is-invalid @enderror"
-                                                    value="{{ old('username') }}">
+                                                       class="form-control @error('username') is-invalid @enderror"
+                                                       value="{{ old('username') }}">
                                                 @error('username')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
@@ -62,58 +62,61 @@
                                             <label for="text"> موبایل</label>
                                             <div class="form-group">
                                                 <input type="number" name="cellphone"
-                                                    class="form-control without-spin @error('cellphone') is-invalid @enderror"
-                                                    value="{{ old('cellphone') }}">
+                                                       class="form-control without-spin @error('cellphone') is-invalid @enderror"
+                                                       value="{{ old('cellphone') }}">
                                                 @error('cellphone')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
 
                                         <div class="col-md-3">
                                             <label for="password">رمز عبور <abbr class="required" title="ضروری"
-                                                    style="color:red;">*</abbr></label>
+                                                                                 style="color:red;">*</abbr></label>
                                             <div class="form-group">
                                                 <input type="text" required name="password" id="password"
-                                                    class="form-control @error('password') is-invalid @enderror">
+                                                       value="{{old('password')}}"
+                                                       class="form-control @error('password') is-invalid @enderror">
                                                 @error('password')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="type">نقش کاربری</label>
+                                            <label for="roleSelect">نقش کاربری</label>
                                             <div class="form-group">
-                                                <select id="positionSelect" name="role" data-placeholder="انتخاب نقش"
-                                                    class="form-control ms select2">
+                                                <select id="roleSelect" name="role" data-placeholder="انتخاب نقش"
+                                                        class="form-control ms select2">
                                                     <option value='false'>بدون نقش</option>
                                                     @forelse ($roles as $role)
-                                                        <option value="{{ $role->name }}" @selected(old('role') == $role->name)>
+                                                        <option
+                                                            value="{{ $role->name }}" @selected(old('role') == $role->name)>
                                                             {{ $role->display_name }}</option>
                                                     @empty
                                                     @endforelse
                                                 </select>
                                                 @error('role')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                         </div>
                                         @if(is_null(auth()->user()->laboratory_id))
                                             @php($laboratories=\App\Models\Laboratory::all())
-                                            <div
-                                                class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
-                                                <label for="userSelect">آزمایشگاه <abbr class="required text-danger"
-                                                                                        title="ضروری">*</abbr></label>
-                                                    <select id="laboratorySelect" name="laboratory_id"
-                                                            data-placeholder="انتخاب آزمایشگاه"
-                                                            class="form-control ms search-select">
-                                                        <option></option>
-                                                        @foreach ($laboratories as $laboratory)
-                                                            <option value={{ $laboratory->id }}>
-                                                                {{ $laboratory->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
+                                            <div id="laboratory-box"
+                                                 class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
+                                                <label for="laboratorySelect">آزمایشگاه<abbr class="required"
+                                                                                             title="ضروری"
+                                                                                             style="color:red;">*</abbr></label>
+                                                <select id="laboratorySelect" name="laboratory_id"
+                                                        data-placeholder="انتخاب آزمایشگاه"
+                                                        class="form-control ms search-select">
+                                                    <option></option>
+                                                    @foreach ($laboratories as $laboratory)
+                                                        <option value={{ $laboratory->id }}>
+                                                            {{ $laboratory->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                                 @error('laboratory_id')
                                                 <small class="text-danger">{{ $message }}</small>
                                                 @enderror
@@ -122,7 +125,7 @@
                                     </div>
                                     <div class="form-group">
                                         <a href="{{ route('admin.users.index') }}"
-                                            class="btn btn-secondary ml-md-3">بازگشت</a>
+                                           class="btn btn-secondary ml-md-3">بازگشت</a>
                                         <button type="submit" class="btn btn-raised btn-primary waves-effect">
                                             ذخیره
                                         </button>
@@ -136,8 +139,24 @@
             </div>
         </div>
     </section>
-    @push('scripts')
-
-    @endpush
-
 @endsection
+@pushif(is_null(auth()->user()->laboratory_id),'scripts')
+    <script>
+        $('#roleSelect').on('change', function (e) {
+            let role = $(this).select2("val");
+            if (['company', 'Super Admin', 'false'].indexOf(role) > -1) {
+                $('#laboratory-box').hide()
+            } else
+                $('#laboratory-box').show()
+        });
+
+        $(document).ready(function () {
+            let role = $('#roleSelect').select2("val");
+            if (role === 'false')
+                $('#laboratory-box').hide()
+            else
+                $('#laboratory-box').show()
+        })
+    </script>
+@endpushif
+

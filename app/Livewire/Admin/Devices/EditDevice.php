@@ -41,19 +41,16 @@ class EditDevice extends Component
 
     public function rules(): array
     {
-        // get dossiers that were in same laboratory
-        $dossiers = Dossier::when(isset($this->device->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
-            if (isset($this->device->laboratory_id))
-                $query->where('laboratory_id', $this->device->laboratory_id);
-            else
-                $query->where('laboratory_id', auth()->user()->laboratory_id);
+        // get dossiers in same laboratory
+        $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->get()->pluck('id')->toArray();
 
         return [
             'category_id' => 'required|integer|exists:categories,id',
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
-            'dossier_id' => ['nullable', 'integer', Rule::in($dossiers)],
+            'dossier_id' => ['required', 'integer', Rule::in($dossiers)],
             'description' => 'nullable|string',
             'report' => 'nullable|string',
             'accessories' => 'nullable|string',
@@ -139,6 +136,7 @@ class EditDevice extends Component
             'report' => $this->report,
             'attachment_report' => $attachment_report_name,
             'dossier_id' => $this->dossier_id,
+            'laboratory_id' => Dossier::find($this->dossier_id)->laboratory_id,
             'code' => $this->code,
             'correspondence_number' => $this->correspondence_number,
             'correspondence_date' => $this->correspondence_date,

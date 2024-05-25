@@ -18,31 +18,25 @@ use function PHPUnit\Framework\isNull;
 
 class DashboardController extends Controller
 {
-
     public function index()
     {
-        $v = verta();
-        $year = $v->year;
-        $m_1 = $v->month(1)->day(1)->toCarbon();
-        $m_13 = $v->month(12)->day(30)->toCarbon();
-        $now = Carbon::now();
-
         $from = Carbon::now()->subDays(365);
         $to = Carbon::now();
 
-        $all_devices =  Device::whereBetween('created_at', [$from, $to])->count();
-        $all_actions =  Action::whereBetween('created_at', [$from, $to])->count();
-        $status_device_1 = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->count();
-        $status_device_2 = Device::whereBetween('created_at', [$from, $to])->where('status', 1)->count();
-        $status_device_3 = Device::whereBetween('created_at', [$from, $to])->where('status', 2)->count();
-        $status_device_4 = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->count();
+        $all_actions = Action::whereBetween('created_at', [$from, $to])->count();
+        $devices = Device::whereBetween('created_at', [$from, $to])->get();
+        $all_devices = $devices->count();
+        $status_device_1 = $devices->where('status', 0)->count();
+        $status_device_2 = $devices->where('status', 1)->count();
+        $status_device_3 = $devices->where('status', 2)->count();
+        $status_device_4 = $devices->where('status', 3)->count();
+        //دستگاه ها ی بررسی نشده
+        $status_device_checks = $devices->where('status', 0);
+
         $users = User::role('personnel')->get();
-        //دستگاه ها ی برسسی نشده
-        $status_device_checks = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
 
         $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(3)->get();
         $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
-        // $all_order = Order::whereBetween('created_at', [$from, $to])->count();
 
         // // بر اساس زمان
         $month = 12;
@@ -60,9 +54,8 @@ class DashboardController extends Controller
         // dd(array_values($successDeviceChart));
         return view(
             'admin.page.dashboard'
-             ,
+            ,
             compact(
-
                 'status_device_1',
                 'status_device_2',
                 'status_device_3',
@@ -73,9 +66,9 @@ class DashboardController extends Controller
                 'status_device_checks',
                 'actions',
                 'image'
-                // 'amunt_delivery_orders',
-                // 'successsend_order',
-                // 'returned_order',
+            // 'amunt_delivery_orders',
+            // 'successsend_order',
+            // 'returned_order',
 
             ),
 
@@ -83,30 +76,29 @@ class DashboardController extends Controller
                 'successDevice' => array_values($successDeviceChart),
                 // 'unsuccessDevice' => array_values($unsuccessDeviceChart),
                 'labels' => array_keys($lable),
-            //     'transactionsCount' => [$successDevice->count(), $unsuccessDevice->count()]
+                //     'transactionsCount' => [$successDevice->count(), $unsuccessDevice->count()]
             ]
 
         );
     }
 
 
-
     public function chart($devices, $month)
     {
-        $result =  [
-  "اسفند" => 0,
-  "بهمن" => 0,
-  "دی" => 0,
-  "آذز" => 0,
-  "آبان" => 0,
-  "مهر" => 0,
-  "شهریور" => 0,
-  "مرداد" => 0,
-  "تیر" => 0,
-  "خرداد" => 0,
-  "اردیبهشت" => 0,
-  "فروردین" => 0,
-];
+        $result = [
+            "اسفند" => 0,
+            "بهمن" => 0,
+            "دی" => 0,
+            "آذز" => 0,
+            "آبان" => 0,
+            "مهر" => 0,
+            "شهریور" => 0,
+            "مرداد" => 0,
+            "تیر" => 0,
+            "خرداد" => 0,
+            "اردیبهشت" => 0,
+            "فروردین" => 0,
+        ];
 
         $monthName = $devices->map(function ($item) {
             return verta($item->created_at)->format('%B');

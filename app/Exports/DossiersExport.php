@@ -48,7 +48,6 @@ class DossiersExport implements FromQuery, WithMapping, WithHeadings
     }
     public function map($dossier): array
     {
-
         return [
                 $dossier->id,
                 $dossier->number_dossier,
@@ -72,7 +71,6 @@ class DossiersExport implements FromQuery, WithMapping, WithHeadings
                 $dossier->personal_creator_id,
                 verta($dossier->created_at)->format('Y-n-j H:i'),
                 verta($dossier->updated_at)->format('Y-n-j H:i'),
-
         ];
     }
 

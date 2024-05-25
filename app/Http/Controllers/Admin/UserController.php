@@ -39,28 +39,34 @@ class UserController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('users-create');
-
         $request->validate([
             'name' => 'nullable|string|max:255',
             'role' => 'required|string|exclude_if:role,false|exists:roles,name',
-            'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
+            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf( !in_array($request->role,['company','Super Admin','false']) && is_null(auth()->user()->laboratory_id))],
             'username' => [
                 'nullable',
                 'required_without:cellphone',
                 'string',
                 'max:255',
-                Rule::unique(User::class,'email'),
+                Rule::unique(User::class, 'email'),
             ],
             'cellphone' => 'nullable|required_without:username|numeric|unique:users,cellphone',
             'password' => ['required', Password::min(8)],
         ]);
         try {
             DB::beginTransaction();
+            if (in_array($request->role,['company','Super Admin','false']))
+                $laboratory_id = null;
+            elseif (is_null(auth()->user()->laboratory_id))
+                $laboratory_id = $request->laboratory_id;
+            else
+                $laboratory_id = auth()->user()->laboratory_id;
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->username,
                 'cellphone' => $request->cellphone,
-                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $request->laboratory_id : auth()->user()->laboratory_id,
+                'laboratory_id' => $laboratory_id,
                 'password' => Hash::make($request->password),
             ]);
             $user->syncRoles($request->role != 'false' ? [$request->role] : []);
@@ -76,7 +82,7 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        Gate::authorize('is-same-laboratory',$user->laboratory_id);
+        Gate::authorize('is-same-laboratory', $user->laboratory_id);
         Gate::authorize('users-edit');
 
         $user->load(['roles', 'permissions']);
@@ -87,7 +93,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user, ToastrFactory $flasher)
     {
-        Gate::authorize('is-same-laboratory',$user->laboratory_id);
+        Gate::authorize('is-same-laboratory', $user->laboratory_id);
         Gate::authorize('users-edit');
 
         $data = $request->validate([
@@ -101,9 +107,9 @@ class UserController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $data['email']=$data['username'];
+            $data['email'] = $data['username'];
             $user->update($data['password'] ? Arr::only($data, ['name', 'email', 'cellphone', 'password']) : Arr::only($data, ['name', 'email', 'cellphone']));
-            $user->syncRoles(array_key_exists('role',$data) ? [$data['role']] : []);
+            $user->syncRoles(array_key_exists('role', $data) ? [$data['role']] : []);
             $user->syncPermissions($data['permissions'] ?? []);
             DB::commit();
         } catch (\Exception $ex) {
@@ -118,7 +124,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        Gate::authorize('is-same-laboratory',$user->laboratory_id);
+        Gate::authorize('is-same-laboratory', $user->laboratory_id);
         Gate::authorize('users-show');
 
         $actions = Action::where('user_id', $user->id)->take(10)->get();
