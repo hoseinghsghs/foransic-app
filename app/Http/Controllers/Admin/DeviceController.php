@@ -21,6 +21,7 @@ class DeviceController extends Controller
         return view('admin.page.devices.show', compact('device', 'images', 'actions'));
     }
 
+    // for create device
     public function uploadImage(Request $request)
     {
         $images = $request->file();
@@ -35,9 +36,9 @@ class DeviceController extends Controller
         return response()->json($image_name, 200);
     }
 
+    // for create device
     public function deleteImage(Request $request)
     {
-
         $namefile = $request->name;
         DeviceImage::where('image', $namefile)->delete();
         Storage::delete('test/' . $namefile);

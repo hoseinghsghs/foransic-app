@@ -48,6 +48,8 @@ class PermissionSeeder extends Seeder
 
             ['name' => 'dossiers-list', 'display_name' => 'لیست پرونده ها', 'guard_name' => 'web'],
             ['name' => 'dossiers-archive-list', 'display_name' => 'لیست پرونده ها آرشیوی', 'guard_name' => 'web'],
+            ['name' => 'dossiers-archive-status', 'display_name' => 'تغییر بایگانی پرونده ها', 'guard_name' => 'web'],
+            ['name' => 'dossiers-active-status', 'display_name' => 'تغییر وضعیت پرونده ها', 'guard_name' => 'web'],
             ['name' => 'dossiers-create', 'display_name' => 'ایجاد پرونده', 'guard_name' => 'web'],
             ['name' => 'dossiers-edit', 'display_name' => 'ویرایش پرونده', 'guard_name' => 'web'],
             ['name' => 'dossiers-show', 'display_name' => 'مشاهده پرونده', 'guard_name' => 'web'],
@@ -56,11 +58,15 @@ class PermissionSeeder extends Seeder
 
             ['name' => 'devices-list', 'display_name' => 'لیست شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-archive-list', 'display_name' => 'لیست شواهد بایگانی دیجیتال', 'guard_name' => 'web'],
+            ['name' => 'devices-archive-status', 'display_name' => 'تغییر بایگانی شواهد دیجیتال', 'guard_name' => 'web'],
+            ['name' => 'devices-active-status', 'display_name' => 'تغییر وضعیت شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-create', 'display_name' => 'ایجاد شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-edit', 'display_name' => 'ویرایش شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-show', 'display_name' => 'مشاهده شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-delete', 'display_name' => 'حذف شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-export', 'display_name' => 'خروجی اکسل شواهد دیجیتال', 'guard_name' => 'web'],
+            ['name' => 'device-print', 'display_name' => 'پرینت رسید شواهد دیجیتال', 'guard_name' => 'web'],
+            ['name' => 'device-image-edit', 'display_name' => 'تغییر عکس شواهد دیجیتال', 'guard_name' => 'web'],
 
             ['name' => 'guides-file-create', 'display_name' => 'ایجاد فایل آموزش', 'guard_name' => 'web'],
             ['name' => 'guides-file-edit', 'display_name' => 'ویرایش فایل آموزش', 'guard_name' => 'web'],

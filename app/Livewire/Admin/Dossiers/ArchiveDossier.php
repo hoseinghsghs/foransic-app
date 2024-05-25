@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Dossiers;
 
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use App\Models\Dossier;
 use App\Models\User;
@@ -41,12 +42,16 @@ class ArchiveDossier extends Component
 
     public function mount(Dossier $dossier)
     {
-
+        if (auth()->user()->hasRole('company')) {
+            $this->company_user = auth()->user()->id;
+        }
     }
 
 
     public function ChangeActive_dossier(Dossier $dossier)
     {
+        Gate::authorize('dossier-active-status');
+
         $dossier->update([
             "is_active" => !$dossier->is_active
         ]);
@@ -54,6 +59,8 @@ class ArchiveDossier extends Component
 
     public function ChangeArchive_dossier(Dossier $dossier)
     {
+        Gate::authorize('dossier-archive-status');
+
         $dossier->update([
             "is_archive" => false
         ]);
@@ -66,15 +73,19 @@ class ArchiveDossier extends Component
 
     public function render()
     {
-        $company_users = User::Role('company')->get();
-        $dossiers = Dossier::where('is_archive', true)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
+        $company_users = User::Role('company')->when(auth()->user()->hasRole('company'), function ($query) {
+            $query->where('id', auth()->user()->id);
+        })->get();
+
+        $dossiers = Dossier::where('is_archive', true)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole(['Super Admin', 'company']), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->when($this->company_user != '', function ($query) {
-                $query->where('user_category_id', $this->company_user);
-            })
-            ->when($this->is_active != '', function ($query) {
-                $query->where('is_active', $this->is_active);
-            })->latest()->paginate(10);
+            $query->where('user_category_id', $this->company_user);
+        })->when(auth()->user()->hasRole('company'), function ($query) {
+            $query->where('user_category_id', auth()->user()->id);
+        })->when($this->is_active != '', function ($query) {
+            $query->where('is_active', $this->is_active);
+        })->latest()->paginate(10);
 
         return view('livewire.admin.dossiers.archive-dossier', compact(['dossiers', 'company_users']))->extends('admin.layout.MasterAdmin')->section('Content');
     }

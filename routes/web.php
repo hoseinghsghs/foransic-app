@@ -22,7 +22,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::delete('/timeline/{event}', [EventController::class, 'destroy'])->name('timeline.destroy')->middleware('permission:events');
     Route::resource('galleries', GaleryController::class)->middleware('permission:galleries');
     Route::get('/prnpriview/{device}', [PrintController::class, 'prnpriview'])->name('print.device');
-    Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->name('print.device.show');
+    Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->middleware('permission:device-print')->name('print.device.show');
     Route::get('/print-report/{device}', [PrintController::class, 'printReport'])->name('print.print-report');
 
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices-edit')->name('devices.edit');
@@ -56,12 +56,11 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('actions/action-category', \App\Livewire\Admin\Actions\CategoryAction::class)->name('actions.category')->middleware('permission:actions-category-list');
     Route::get('laboratory', \App\Livewire\Admin\Laboratories\LaboratoryControll::class)->name('laboratory')->middleware(['permission:laboratories-list']);
 
-    Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->name('devices.images.edit');
-    Route::get('/', [DashboardController::class, 'index'])->name('home');
-
     //image routes
     Route::post('/upl', [DeviceController::class, 'uploadImage'])->name('uploade');
     Route::post('/del', [DeviceController::class, 'deleteImage'])->name('del');
+
+    Route::get('/devices/{device}/images-edit',     [ImageController::class, 'edit'])->middleware('permission:device-image-edit')->name('devices.images.edit');
     Route::post('/editupl', [ImageController::class, 'edit_uploadImage'])->name('edit_uploade');
     Route::post('/editdel', [ImageController::class, 'edit_deleteImage'])->name('edit_del');
     Route::post('/add_image', [ImageController::class, 'setPrimary'])->name('device.images.add');
@@ -84,6 +83,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('guides/videos', \App\Livewire\Admin\Guides\GuideVideo::class)->name('guides.videos');
     Route::get('guides/files', \App\Livewire\Admin\Guides\GuideFile::class)->name('guides.files');
 
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
 });
 //end
 Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function () {
