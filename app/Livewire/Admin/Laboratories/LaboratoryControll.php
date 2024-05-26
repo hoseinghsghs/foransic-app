@@ -31,6 +31,19 @@ class LaboratoryControll extends Component
         $this->is_edit = false;
         $this->reset("name");
         $this->reset("display");
+        $this->reset("province");
+        $this->reset("place");
+        $this->reset("internal_number");
+        $this->reset("permanent_personnel_count");
+        $this->reset("temporary_personnel_count");
+        $this->reset("laptop_count");
+        $this->reset("tablet_count");
+        $this->reset("version_ufed_for_pc");
+        $this->reset("version_ufed_analyzer");
+        $this->reset("version_oxygen");
+        $this->reset("version_axiom");
+        $this->reset("version_final_mobile");
+        $this->reset("description");
         $this->resetValidation();
     }
 
