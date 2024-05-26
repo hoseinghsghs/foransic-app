@@ -35,11 +35,12 @@ class ProfileController extends Controller
         $user = auth::user();
         $data = $request->validate([
             'name' => 'nullable|string',
-            'email' => 'required_without:cellphone|nullable|email|unique:users,email,' . $user->id,
+            'username' => 'required_without:cellphone|nullable|string|unique:users,email,' . $user->id,
             'cellphone' => 'required_without:email|nullable|numeric|unique:users,cellphone,' . $user->id,
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png|max:1024'
         ]);
-
+        
+        $data['email'] = $data['username'];
         if (isset($request->avatar)) {
             if (Storage::exists('profile/' . $user->avatar)) {
                 Storage::delete('profile/' . $user->avatar);
