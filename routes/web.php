@@ -77,6 +77,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->middleware('permission:users-export')->name('file-users');
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
     Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:actions-export')->name('file-action');
+    Route::get('/export-Laboratories', [BackupController::class, 'ExportLaboratories'])->middleware('permission:laboratories-export')->name('file-laboratories');
 
     //Guides routes
     Route::get('guides/images', \App\Livewire\Admin\Guides\GuideImage::class)->name('guides.images');
