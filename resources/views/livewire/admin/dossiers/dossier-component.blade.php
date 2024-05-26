@@ -102,9 +102,9 @@
                                         <tr>
                                             <th>#</th>
                                             <th>نام پرونده یا کیس</th>
-                                            @if(auth()->user()->hasRole('Super Admin'))
+                                            @hasanyrole(['Super Admin','company'])
                                                 <th>آزمایشگاه</th>
-                                            @endif
+                                            @endhasanyrole
                                             <th>موضوع</th>
                                             <th>شماره پرونده</th>
                                             <th>مدیریت یا معاونت</th>
@@ -125,9 +125,9 @@
                                                 <td>
                                                     {{ $dossier->name }}
                                                 </td>
-                                                @if(auth()->user()->hasRole('Super Admin'))
+                                                @hasanyrole(['Super Admin','company'])
                                                     <td>{{$dossier->laboratory()->exists()? $dossier->laboratory->name :'-'}}</td>
-                                                @endif
+                                                @endhasanyrole
                                                 <td>
                                                     {{ $dossier->subject }}
                                                 </td>

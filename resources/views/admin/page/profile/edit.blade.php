@@ -52,9 +52,9 @@
                                         </div>
                                     </div>
                                     <div class="col-md-4">
-                                        <label>ایمیل</label>
+                                        <label>نام کاربری</label>
                                         <div class="form-group">
-                                            <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" value="{{$user->email}}" placeholder="">
+                                            <input name="username" type="text" class="form-control @error('username') is-invalid @enderror" value="{{$user->email}}" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
