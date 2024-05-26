@@ -99,6 +99,9 @@
                                             <th>#</th>
                                             <th>عنوان شواهد دیجیتال</th>
                                             <th>کد</th>
+                                            @hasanyrole(['Super Admin','company'])
+                                            <th>آزمایشگاه</th>
+                                            @endhasanyrole
                                             <th>نام تحویل دهنده</th>
                                             <th>نام تحویل گیرنده</th>
                                             <th> تاریخ دریافت</th>
@@ -118,6 +121,9 @@
                                                 <td>
                                                     {{ $device->code }}
                                                 </td>
+                                                @hasanyrole(['Super Admin','company'])
+                                                <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
+                                                @endhasanyrole
                                                 <td>
                                                     {{ $device->delivery_name }}
                                                 </td>
