@@ -14,8 +14,7 @@
         <ul class="list" id="myList">
             <li>
                 <div class="user-info flex-wrap">
-                    <a class="image" href="#"><img alt="profile image"
-                                                   src="{{ auth()->user()->avatar ? asset('storage/profile/' . auth()->user()->avatar) : asset('img/profile.png') }}"></a>
+                    <a class="image" href="#"><img alt="profile image" src="{{ auth()->user()->avatar ? asset('storage/profile/' . auth()->user()->avatar) : asset('img/profile.png') }}"></a>
                     <div class="detail">
                         {{-- {{ auth()->user()->avatar ? asset('storage/profile/' . auth()->user()->avatar) : asset('img/profile.png') }} --}}
                         <h6><strong>{{ auth()->user()->name ?? auth()->user()->cellphone }}</strong></h6>
