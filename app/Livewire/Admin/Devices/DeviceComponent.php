@@ -76,15 +76,13 @@ class DeviceComponent extends Component
         $category_ids = Category::where('title', 'like', '%' . $this->title . '%')->pluck('id')->toArray();
 
         $devices = Device::with(['category','laboratory'])->where('is_archive', false)->when(!auth()->user()->hasRole(['Super Admin','company']), function ($query) {
-            $query->where('laboratory_id', auth()->user()->laboratory_id);
+            $query->where('laboratory_id', auth()->user()->laboratory_id)->where('id', $this->title);
         })->when(auth()->user()->hasRole('company'),function ($query){
             // get devices that refer to dossier of company user
             $user_dossiers=Dossier::where('user_category_id',auth()->user()->id)->get()->pluck('id')->toArray();
             $query->whereIn('dossier_id',$user_dossiers);
         })->when($this->title, function ($query) use ($category_ids) {
             $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
-        })->when($this->title, function ($query) {
-            $query->where('id', 'like', '%' . $this->title . '%');
         })->when($this->status != '', function ($query) {
             $query->where('status', $this->status);
         })->when($this->is_active != '', function ($query) {
