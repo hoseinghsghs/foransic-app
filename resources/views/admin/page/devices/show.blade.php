@@ -41,6 +41,12 @@
                             </div>
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
+                                    <div class="col-6"><strong> کد یکتا:</strong></div>
+                                    <div class="col-6">{{ $device->id }}</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item list-group-item-action">
+                                <div class="row clearfix">
                                     <div class="col-6"><strong>سریال یا شماره اموال شواهد دیجیتال:</strong></div>
                                     <div class="col-6">{{ $device->code }}</div>
                                 </div>
@@ -212,11 +218,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                @if($device->attributes()->exists())
-                <div class="col-lg-6">
-                    <div class="row clearfix">
+                        @if($device->attributes()->exists())
                         <div class="col-lg-12">
                             <div class="card card-body p-0">
                                 <div class=" list-group">
@@ -236,9 +238,10 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     </div>
                 </div>
-                @endif
+
                 <div class="col-lg-12">
                     <div class="row clearfix">
                         <div class="col-lg-12">
