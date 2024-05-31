@@ -34,7 +34,7 @@
                                     <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" class="form-control" wire:model.live.debounce.500ms="id" placeholder="کد یکتا">
+                                                <input type="text" class="form-control" wire:model.live.debounce.500ms="ids" placeholder="کد یکتا">
                                             </div>
                                         </div>
                                     </div>

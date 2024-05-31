@@ -22,7 +22,7 @@ class DeviceComponent extends Component
     public $company_user = '';
     public $status = '';
     public $is_active = '';
-    public $id = '';
+    public $ids = '';
 
     public function updatingTitle()
     {
@@ -86,8 +86,8 @@ class DeviceComponent extends Component
             $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids)->orWhereIn('id', 'like', '%' . $this->title . '%');
         })->when($this->status != '', function ($query) {
             $query->where('status', $this->status);
-        })->when($this->id, function ($query) {
-            $query->where('id', $this->id);
+        })->when($this->ids, function ($query) {
+            $query->where('id', $this->ids);
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
         })->latest()->paginate(10);

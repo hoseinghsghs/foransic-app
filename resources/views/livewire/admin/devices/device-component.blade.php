@@ -37,7 +37,7 @@
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control"
-                                                       wire:model.live.debounce.500ms="id"
+                                                       wire:model.live.debounce.500ms="ids"
                                                        placeholder="کد یکتا">
                                             </div>
                                         </div>
