@@ -31,14 +31,21 @@
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control" wire:model.live.debounce.500ms="id" placeholder="کد یکتا">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" wire:model.live.debounce.500ms="title" placeholder="نام شواهد دیجیتال، کد">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select data-placeholder="وضعیت" wire:model.live="is_active" class="form-control ms">
@@ -49,7 +56,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select data-placeholder="موجودی" wire:model.live="status" class="form-control ms">
