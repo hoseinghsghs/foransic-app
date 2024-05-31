@@ -120,7 +120,7 @@
                                                 {{ $device->category->title }}
                                             </td>
                                             <td>
-                                                {{ $device->category->id }}
+                                                {{ $device->id }}
                                             </td>
                                             <td>
                                                 {{ $device->code }}
