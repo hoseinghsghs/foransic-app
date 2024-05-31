@@ -104,8 +104,9 @@
                                         <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>کد یکتا</th>
                                             <th>عنوان</th>
-                                            <th>کد</th>
+                                            <th>سریال</th>
                                             @hasanyrole(['Super Admin','company'])
                                                 <th>آزمایشگاه</th>
                                             @endhasanyrole
@@ -124,12 +125,16 @@
                                         @foreach ($devices as $key => $device)
                                             <tr wire:key="name_{{ $device->id }}">
                                                 <td scope="row">{{ $devices->firstItem() + $key }}</td>
+                                                  <td>
+                                                    {{ $device->id }}
+                                                </td>
                                                 <td>
                                                     {{ $device->category->title }}
                                                 </td>
                                                 <td>
                                                     {{ $device->code }}
                                                 </td>
+
                                                 @hasanyrole(['Super Admin','company'])
                                                     <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
                                                 @endhasanyrole

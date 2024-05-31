@@ -119,7 +119,7 @@
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>رده:</strong></div>
                                     <div class="col-6">
-                                        {{ \App\Models\User::find($device->dossier->user_category_id)->cellphone }}
+                                        {{ \App\Models\User::find($device->dossier->user_category_id)->cellphone }} -{{ \App\Models\User::find($device->dossier->user_category_id)->name }}
                                     </div>
                                 </div>
                             </div>
