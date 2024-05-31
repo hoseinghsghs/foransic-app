@@ -67,6 +67,8 @@ class ArchiveDevice extends Component
             $query->whereIn('dossier_id',$user_dossiers);
         })->when($this->title, function ($query) use ($category_ids) {
             $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
+        })->when($this->title, function ($query) {
+            $query->where('id', 'like', '%' . $this->id . '%');
         })->when($this->status != '', function ($query) {
             $query->where('status', $this->status);
         })->when($this->is_active != '', function ($query) {
