@@ -60,7 +60,7 @@ class ArchiveDevice extends Component
         $category_ids= Category::where('title' , 'like', '%' . $this->title . '%')->pluck('id')->toArray();
 
         $devices = Device::where('is_archive', true)->when(!auth()->user()->hasRole(['Super Admin','company']), function ($query) {
-            $query->where('laboratory_id', auth()->user()->laboratory_id)->where('id', $this->title);
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->when(auth()->user()->hasRole('company'),function ($query){
             // get devices that refer to dossier of company user
             $user_dossiers=Dossier::where('user_category_id',auth()->user()->id)->get()->pluck('id')->toArray();
