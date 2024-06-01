@@ -35,7 +35,7 @@
                  <h5 class="font-weight-bold">رسید پذیرش آزمایشگاه جرم یابی دیجیتال</h5>
              </div>
              <div class="col-3 text-right">
-                 <h6>شماره رسید: {{ $device->id }}</h6>
+                 <h6> کد یکتا: {{ $device->id }}</h6>
                  <h6>تاریخ : {{ Hekmatinasser\Verta\Verta::instance($device->created_at)->format('Y/n/j') }}</h6>
              </div>
          </div>

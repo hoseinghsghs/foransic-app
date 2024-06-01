@@ -171,10 +171,16 @@
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <h2><strong>لیست آزمایشگاه ها </strong>
+                            <h2 style="display: inline;"><strong>لیست آزمایشگاه ها </strong>
                                 ({{ $laboratories->total() }})
                             </h2>
+                            @can('laboratories-export')
+                                    <a style="float: left" onclick="loadbtn(event)" href="{{ route('admin.file-laboratories') }}"
+                                       class="btn btn-raised btn-warning waves-effect ml-4 ">
+                                        خروجی آزمایشگاه ها <i class="zmdi zmdi-developer-board mr-1"></i></a>
+                                @endcan
                         </div>
+
                         <div class="body">
                             @if (count($laboratories) === 0)
                             <p>هیچ رکوردی وجود ندارد</p>

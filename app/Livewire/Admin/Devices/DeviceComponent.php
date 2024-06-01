@@ -22,6 +22,7 @@ class DeviceComponent extends Component
     public $company_user = '';
     public $status = '';
     public $is_active = '';
+    public $ids = '';
 
     public function updatingTitle()
     {
@@ -82,9 +83,11 @@ class DeviceComponent extends Component
             $user_dossiers=Dossier::where('user_category_id',auth()->user()->id)->get()->pluck('id')->toArray();
             $query->whereIn('dossier_id',$user_dossiers);
         })->when($this->title, function ($query) use ($category_ids) {
-            $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
+            $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids)->orWhereIn('id', 'like', '%' . $this->title . '%');
         })->when($this->status != '', function ($query) {
             $query->where('status', $this->status);
+        })->when($this->ids, function ($query) {
+            $query->where('id', $this->ids);
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
         })->latest()->paginate(10);

@@ -31,11 +31,11 @@ class DashboardController extends Controller
         $status_device_3 = $devices->where('status', 2)->count();
         $status_device_4 = $devices->where('status', 3)->count();
         //دستگاه ها ی بررسی نشده
-        $status_device_checks = $devices->where('status', 0);
+        $status_device_checks = $devices->where('status', 0)->sortBy('desc')->take(5);
 
-        $users = User::role('personnel')->get();
+        $users = User::role('personnel')->latest()->take(5)->get();
 
-        $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(3)->get();
+        $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(5)->get();
         $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
 
         // // بر اساس زمان

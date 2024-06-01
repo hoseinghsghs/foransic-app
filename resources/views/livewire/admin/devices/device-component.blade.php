@@ -33,7 +33,16 @@
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" class="form-control"
+                                                       wire:model.live.debounce.500ms="ids"
+                                                       placeholder="کد یکتا">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control"
@@ -42,7 +51,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select data-placeholder="وضعیت" wire:model.live="is_active"
@@ -54,7 +63,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                    <div class="col-lg-3 col-md-3 col-sm-3">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select data-placeholder="موجودی" wire:model.live="status"
@@ -104,8 +113,9 @@
                                         <thead>
                                         <tr>
                                             <th>#</th>
+                                            <th>کد یکتا</th>
                                             <th>عنوان</th>
-                                            <th>کد</th>
+                                            <th>سریال</th>
                                             @hasanyrole(['Super Admin','company'])
                                                 <th>آزمایشگاه</th>
                                             @endhasanyrole
@@ -124,12 +134,16 @@
                                         @foreach ($devices as $key => $device)
                                             <tr wire:key="name_{{ $device->id }}">
                                                 <td scope="row">{{ $devices->firstItem() + $key }}</td>
+                                                  <td>
+                                                    {{ $device->id }}
+                                                </td>
                                                 <td>
                                                     {{ $device->category->title }}
                                                 </td>
                                                 <td>
                                                     {{ $device->code }}
                                                 </td>
+
                                                 @hasanyrole(['Super Admin','company'])
                                                     <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
                                                 @endhasanyrole

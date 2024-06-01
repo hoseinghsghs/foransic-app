@@ -10,6 +10,14 @@ class ActionsExport implements FromCollection
     /**
     * @return \Illuminate\Support\Collection
     */
+    public function headings(): array
+    {
+        return [
+            '#',
+            'User',
+            'Date',
+        ];
+    }
     public function collection()
     {
         return Action::all();
