@@ -44,7 +44,7 @@
                                         <div class="col-6">{{ $dossier->subject }}</div>
                                     </div>
                                 </div>
-                                @if(auth()->user()->hasRole('Super Admin'))
+                                @hasanyrole(['Super Admin','company'])
                                     <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
                                             <div class="col-6"><strong>آزمایشگاه:</strong></div>
@@ -52,7 +52,7 @@
                                                 class="col-6">{{$dossier->laboratory()->exists()? $dossier->laboratory->name :'-'}}</div>
                                         </div>
                                     </div>
-                                @endif
+                                @endhasanyrole
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نوع پرونده:</strong></div>
@@ -222,9 +222,9 @@
                                                 <th>#</th>
                                                 <th>عنوان</th>
                                                 <th>کد</th>
-                                                @if(auth()->user()->hasRole('Super Admin'))
+                                                @hasanyrole(['Super Admin','company'])
                                                     <th>آزمایشگاه</th>
-                                                @endif
+                                                @endhasanyrole
                                                 <th>شخص تحویل دهنده</th>
                                                 <th>پرسنل تحویل گیرنده</th>
                                                 <th>شخص تحویل گیرنده</th>
@@ -246,9 +246,9 @@
                                                     <td>
                                                         {{ $device->code }}
                                                     </td>
-                                                    @if(auth()->user()->hasRole('Super Admin'))
+                                                    @hasanyrole(['Super Admin','company'])
                                                         <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
-                                                    @endif
+                                                    @endhasanyrole
                                                     <td>
                                                         {{ $device->delivery_name }}
                                                     </td>

@@ -54,7 +54,7 @@
                                     <div class="col-md-4">
                                         <label>نام کاربری</label>
                                         <div class="form-group">
-                                            <input name="username" type="text" class="form-control @error('username') is-invalid @enderror" value="{{$user->email}}" placeholder="">
+                                            <input disabled type="text" class="form-control" value="{{$user->email}}">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
