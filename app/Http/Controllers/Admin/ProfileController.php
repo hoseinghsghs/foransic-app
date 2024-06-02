@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Flasher\Toastr\Prime\ToastrFactory;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class ProfileController extends Controller
 {
@@ -35,12 +36,12 @@ class ProfileController extends Controller
         $user = auth::user();
         $data = $request->validate([
             'name' => 'nullable|string',
-            'username' => 'required_without:cellphone|nullable|string|unique:users,email,' . $user->id,
-            'cellphone' => 'required_without:email|nullable|numeric|unique:users,cellphone,' . $user->id,
+//            'username' => 'required_without:cellphone|nullable|string|unique:users,email,' . $user->id,
+            'cellphone' => ['nullable',Rule::requiredIf(is_null($user->email)),'numeric','unique:users,cellphone,' . $user->id],
             'avatar' => 'nullable|image|mimes:jpeg,jpg,png|max:1024'
         ]);
-        
-        $data['email'] = $data['username'];
+
+//        $data['email'] = $data['username'];
         if (isset($request->avatar)) {
             if (Storage::exists('profile/' . $user->avatar)) {
                 Storage::delete('profile/' . $user->avatar);

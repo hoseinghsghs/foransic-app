@@ -51,14 +51,14 @@
                                     <div class="col-6">{{ $device->code }}</div>
                                 </div>
                             </div>
-                            @if(auth()->user()->hasRole('Super Admin'))
+                            @hasanyrole(['Super Admin','company'])
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>آزمایشگاه:</strong></div>
                                     <div class="col-6">{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</div>
                                 </div>
                             </div>
-                            @endif
+                            @endhasanyrole
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>وضعیت بررسی:</strong></div>
