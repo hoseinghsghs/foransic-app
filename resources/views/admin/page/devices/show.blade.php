@@ -287,7 +287,7 @@
                                     </div>
                                     <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
-                                            <div class="col-6">{!! $device->description !!}</div>
+                                            <div class="col-6">{!! $device->report !!}</div>
                                         </div>
                                     </div>
                                 </div>
