@@ -262,70 +262,77 @@
         </div>
 
         <div class="row clearfix">
-            @can('dossiers-list')
-            <div class="col-lg-3 col-md-6 col-sm-6 ">
-                <a href="{{ route('admin.dossiers.index') }}">
-                    <div class="card info-box-2">
-                        <div class="body bg-red">
-                            <div class="icon col-12">
-                                <div class="chart chart-pie"><i class="zmdi zmdi-file" style="font-size: 4.2rem; padding: 1rem;"></i></div>
-                            </div>
-                            <div class="content col-12">
-                                <div class="number p-3" style="font-size: 1.4rem;">لیست پرونده ها</div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            @endcan
             @can('dossiers-create')
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <a href="{{ route('admin.dossiers.create') }}">
-                    <div class="card info-box-2">
-                        <div class="body bg-green">
+
+                <div class="card info-box-2">
+                    <div class="body bg-green">
+                        <a href="{{ route('admin.dossiers.create') }}">
                             <div class="icon col-12 m-t-10">
                                 <div class="chart chart-bar"><i class="zmdi zmdi-plus-circle-o" style="font-size: 4.2rem; padding: 0.76rem;"></i></div>
                             </div>
                             <div class="content col-12">
-                                <div class="number p-3" style="font-size: 1.4rem;">ثبت پرونده جدید</div>
+                                <div class="number p-3" style="font-size: 1rem;">ثبت پرونده جدید</div>
                             </div>
-                        </div>
+                        </a>
+
                     </div>
+                </div>
+            </div>
+            @endcan
+            @can('dossiers-list')
+            <div class="col-lg-3 col-md-6 col-sm-6 ">
+                <div class="card info-box-2">
+                    <div class="body bg-red">
+                        <a href="{{ route('admin.dossiers.index') }}">
+                            <div class="icon col-12">
+                                <div class="chart chart-pie"><i class="zmdi zmdi-file" style="font-size: 4.2rem; padding: 1rem;"></i></div>
+                            </div>
+                            <div class="content col-12">
+                                <div class="number p-3" style="font-size: 1rem;">لیست پرونده ها</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @endcan
+            @can('devices-create')
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card info-box-2">
+                    <div class="body bg-amber">
+                        <a href="{{ route('admin.devices.create') }}">
+
+                            <div class="icon col-12 m-t-10">
+                                <div class="chart chart-bar"><i class="zmdi zmdi-plus-circle-o" style="font-size: 4.2rem; padding: 0.76rem;"></i></div>
+                            </div>
+                            <div class="content col-12">
+                                <div class="number p-3" style="font-size: 1rem;">ثبت شواهد دیجیتال</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
                 </a>
             </div>
             @endcan
             @can(['devices-list'])
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <a href="{{ route('admin.devices.index') }}">
-                    <div class="card info-box-2">
-                        <div class="body bg-blue">
+
+                <div class="card info-box-2">
+                    <div class="body bg-blue">
+                        <a href="{{ route('admin.devices.index') }}">
                             <div class="icon col-12 m-t-5">
                                 <span class="chart chart-line"><i class="zmdi zmdi-devices" style="font-size: 4.2rem; padding: 0.9rem;"></i></span>
                             </div>
                             <div class="content col-12">
-                                <div class="number p-3" style="font-size: 1.4rem;">لیست شواهد دیجیتال</div>
+                                <div class="number p-3" style="font-size: 1rem;">لیست شواهد دیجیتال</div>
                             </div>
-                        </div>
+                        </a>
                     </div>
+                </div>
                 </a>
             </div>
             @endcan
-            @can('devices-create')
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <a href="{{ route('admin.devices.create') }}">
-                    <div class="card info-box-2">
-                        <div class="body bg-amber">
-                            <div class="icon col-12 m-t-10">
-                                <div class="chart chart-bar"><i class="zmdi zmdi-plus-circle-o" style="font-size: 4.2rem; padding: 0.76rem;"></i></div>
-                            </div>
-                            <div class="content col-12">
-                                <div class="number p-3" style="font-size: 1.4rem;">ثبت شواهد دیجیتال</div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            @endcan
+
         </div>
         <div class="container-fluid">
             <div class="row clearfix">

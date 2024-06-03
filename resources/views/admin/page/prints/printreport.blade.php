@@ -29,11 +29,8 @@
 
  <body class="theme-blush" id="cheack_collapsed" style="width: 80% ; margin: auto;font-size: 1.5rem">
      <div class="container-xl mt-4" style="margin-top: 100px ">
-
          <div class="row m-3">
              <table class="table table-bordered">
-
-
                  <thead>
                      <th class="text-center" colspan="11">
                          <div class="row mt-1">
@@ -43,16 +40,19 @@
                                      {{ $device->category->title }}</p>
                                  <p style="font-family: Titr; font-size: 1rem"> سریال شاهد دیجیتال:
                                      {{ $device->code }}</p>
+
+                                       <p style="font-family: Titr; font-size: 1rem">  نام آزمایشگاه:
+                                     {{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</p>
                              </div>
                              <div class="col-6 text-right" style="float: right;">
-                                 <p style="font-family: Titr; font-size: 1rem">گزارش نهایی تجزیه و تحلیل</p>
+                                 <p style="font-family: Titr; font-size: 1rem">توضیحات تجزیه و تحلیل</p>
                              </div>
 
                          </div>
                      </th>
                  </thead>
                  <tr>
-                     <th class="text-center" colspan="11">{!! $device->report !!}</th>
+                     <th class="text-center" colspan="11" style="font-size: ">{!! $device->report !!}</th>
                  </tr>
              </table>
          </div>

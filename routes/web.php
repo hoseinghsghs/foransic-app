@@ -21,6 +21,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/timeline', [EventController::class, 'index'])->name('timeline')->middleware('permission:events');
     Route::delete('/timeline/{event}', [EventController::class, 'destroy'])->name('timeline.destroy')->middleware('permission:events');
     Route::resource('galleries', GaleryController::class)->middleware('permission:galleries');
+
     Route::get('/prnpriview/{device}', [PrintController::class, 'prnpriview'])->name('print.device');
     Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->middleware('permission:device-print')->name('print.device.show');
     Route::get('/print-report/{device}', [PrintController::class, 'printReport'])->name('print.print-report');

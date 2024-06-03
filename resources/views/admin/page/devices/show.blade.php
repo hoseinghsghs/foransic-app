@@ -51,14 +51,12 @@
                                     <div class="col-6">{{ $device->code }}</div>
                                 </div>
                             </div>
-                            @hasanyrole(['Super Admin','company'])
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>آزمایشگاه:</strong></div>
                                     <div class="col-6">{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</div>
                                 </div>
                             </div>
-                            @endhasanyrole
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>وضعیت بررسی:</strong></div>
@@ -66,24 +64,24 @@
                                         @switch($device->status)
                                         @case('0')
                                         <span class="badge badge-danger badge-pill" style="font-size: 0.75rem;padding-right: 14px;
-    padding-left: 14px;
-    padding-bottom: 7px;">
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
                                             پذیرش شواهد دیجیتال
                                         </span>
                                         @break
 
                                         @case('1')
                                         <span class="badge badge-warning badge-pill" style="font-size: 0.75rem;padding-right: 14px;
-    padding-left: 14px;
-    padding-bottom: 7px;">
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
                                             در حال بررسی
                                         </span>
                                         @break
 
                                         @case('2')
                                         <span class="badge badge-success badge-pill" style="font-size: 0.75rem;padding-right: 14px;
-    padding-left: 14px;
-    padding-bottom: 7px;">
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
                                             تکمیل تجزیه و تحلیل
                                         </span>
                                         @break
@@ -248,10 +246,18 @@
                             <div class="card card-body p-0">
                                 <div class=" list-group">
                                     <div class="list-group-item list-group-item-primary">
-                                        توضیحات تجزیه تحلیل نهایی </div>
+                                        توضیحات تجزیه تحلیل نهایی
+                                        <form action={{route('admin.print.print-report', $device->id)}} style="display: inline;">
+                                            @csrf
+                                            <button type="submit" style="float: left" class="btn btn-raised btn-success waves-effect">
+                                                پرینت توضیحات تجزیه تحلیل
+                                            </button>
+                                    </div>
+
+                                    </form>
                                     <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
-                                            <div class="col-6">{!! $device->report !!}</div>
+                                            <div class="col-12">{!! $device->report !!}</div>
                                         </div>
                                     </div>
                                 </div>
