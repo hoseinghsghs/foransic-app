@@ -7,7 +7,6 @@ use App\Models\Device;
 use App\Models\Dossier;
 use App\Models\Category;
 use App\Models\DeviceImage;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -69,12 +68,14 @@ class CreateDevice extends Component
 
     public function mount()
     {
+        $this->dossier_id = Session::get('dossier');
         Session::forget('images');
         $this->receive_date = verta()->format('Y/m/d');
     }
 
-    public function create()
+    public function create($type_redirect = '1')
     {
+
         $this->validate();
 
         try {
@@ -112,6 +113,7 @@ class CreateDevice extends Component
                 'is_archive' => 0,
             ]);
 
+
             if (count($this->attribute_values) > 0) {
                 $attributesValue = [];
                 foreach ($this->attribute_values as $key => $value) {
@@ -126,7 +128,6 @@ class CreateDevice extends Component
                     'image' => $imageStore
                 ]);
             }
-
             DB::commit();
         } catch (\Exception $ex) {
             toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());
@@ -135,9 +136,19 @@ class CreateDevice extends Component
         }
         Session::forget('images');
 
-//        $this->device = $device;
         flash()->addSuccess('شواهد مورد نظر دریافت شد');
-        return redirect()->route('admin.devices.index')->with('print_device', $device->id);
+
+        switch ($type_redirect) {
+            case '2':
+                return redirect()->route('admin.devices.create')->with('print_device', $device->id);
+                break;
+            case '3':
+                return redirect()->route('admin.dossiers.show', $device->dossier->id)->with('print_device', $device->id);
+                break;
+            default:
+                return redirect()->route('admin.devices.index')->with('print_device', $device->id);
+                break;
+        }
     }
 
     public function render()

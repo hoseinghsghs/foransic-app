@@ -60,7 +60,7 @@ class CreateDossier extends Component
         ];
     }
 
-    public function create()
+    public function create($type_redirect)
     {
         $this->validate();
         try {
@@ -103,8 +103,12 @@ class CreateDossier extends Component
             return redirect()->back();
         }
 
-        toastr()->rtl()->addSuccess('شواهد مورد نظر دریافت شد', ' ');
-        return redirect()->route('admin.dossiers.index');
+        toastr()->rtl()->addSuccess('پرونده مورد نظر دریافت شد', ' ');
+        if ($type_redirect == 1) {
+            return redirect()->route('admin.dossiers.index');
+        } else {
+            return redirect()->route('admin.dossiers.show', $device->id);
+        }
     }
 
     public function render()

@@ -391,7 +391,6 @@
             @this.set('category_id', data);
             });
 
-
             $('#userSelect').on('change', function (e) {
                 let data = $('#userSelect').select2("val");
                 if (data === null) {
