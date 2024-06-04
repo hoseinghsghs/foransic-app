@@ -151,6 +151,7 @@ class LaboratoryControll extends Component
 
     public function render()
     {
-        return view('livewire.admin.laboratories.laboratory-controll', ['laboratories' => Laboratory::latest()->paginate(10)])->extends('admin.layout.MasterAdmin')->section('Content');
+        $laboratories= Laboratory::latest()->paginate(10);
+        return view('livewire.admin.laboratories.laboratory-controll', compact('laboratories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

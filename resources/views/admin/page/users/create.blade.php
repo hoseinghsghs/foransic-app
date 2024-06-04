@@ -88,12 +88,11 @@
                                                 <select id="roleSelect" name="role" data-placeholder="انتخاب نقش"
                                                         class="form-control ms select2">
                                                     <option value='false'>بدون نقش</option>
-                                                    @forelse ($roles as $role)
+                                                    @foreach($roles as $role)
                                                         <option
                                                             value="{{ $role->name }}" @selected(old('role') == $role->name)>
                                                             {{ $role->display_name }}</option>
-                                                    @empty
-                                                    @endforelse
+                                                    @endforeach
                                                 </select>
                                                 @error('role')
                                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -144,7 +143,7 @@
     <script>
         $('#roleSelect').on('change', function (e) {
             let role = $(this).select2("val");
-            if (['company', 'Super Admin', 'false'].indexOf(role) > -1) {
+            if (['viewer','company', 'Super Admin', 'false'].indexOf(role) > -1) {
                 $('#laboratory-box').hide()
             } else
                 $('#laboratory-box').show()

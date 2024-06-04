@@ -49,9 +49,7 @@
                     <th>نام کاربری</th>
                     <th>شماره تلفن</th>
                     <th>نقش</th>
-                    @if(auth()->user()->hasRole('Super Admin'))
                     <th>آزمایشگاه</th>
-                    @endif
                     <th>تاریخ ایجاد حساب</th>
                     <th class="text-center">عملیات</th>
                 </tr>
@@ -64,9 +62,7 @@
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->cellphone }}</td>
                         <td>{{ $user->roles()->exists()?$user->roles()->pluck('display_name')->first():'-' }}</td>
-                        @if(auth()->user()->hasRole('Super Admin'))
                         <td>{{$user->laboratory()->exists()? $user->laboratory->name :'-'}}</td>
-                        @endif
                         <td>{{ verta($user->created_at)->format('H:i Y/n/j') }}</td>
                         <td class="text-center js-sweetalert">
                             <a onclick="loadbtn(event)" href="{{ route('admin.users.show', $user->id) }}"

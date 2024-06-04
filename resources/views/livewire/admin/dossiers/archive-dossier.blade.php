@@ -103,7 +103,7 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>نام پرونده یا کیس</th>
-                                                @hasanyrole(['Super Admin','company'])
+                                                @hasanyrole(['Super Admin','company','viewer'])
                                                 <th>آزمایشگاه</th>
                                                 @endhasanyrole
                                                 <th>موضوع</th>
@@ -125,7 +125,7 @@
                                                     <td>
                                                         {{ $dossier->name }}
                                                     </td>
-                                                    @hasanyrole(['Super Admin','company'])
+                                                    @hasanyrole(['Super Admin','company','viewer'])
                                                     <td>{{$dossier->laboratory()->exists()? $dossier->laboratory->name :'-'}}</td>
                                                     @endhasanyrole
                                                     <td>

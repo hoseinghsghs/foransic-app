@@ -100,7 +100,7 @@
                                             <th>عنوان شواهد دیجیتال</th>
                                             <th>کد یکتا</th>
                                             <th>سریال </th>
-                                            @hasanyrole(['Super Admin','company'])
+                                            @hasanyrole(['Super Admin','company','viewer'])
                                             <th>آزمایشگاه</th>
                                             @endhasanyrole
                                             <th>نام تحویل دهنده</th>
@@ -125,7 +125,7 @@
                                             <td>
                                                 {{ $device->code }}
                                             </td>
-                                            @hasanyrole(['Super Admin','company'])
+                                            @hasanyrole(['Super Admin','company','viewer'])
                                             <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
                                             @endhasanyrole
                                             <td>
