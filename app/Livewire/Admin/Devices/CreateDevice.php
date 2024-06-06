@@ -57,7 +57,7 @@ class CreateDevice extends Component
             'correspondence_date' => 'nullable|string',
             'receive_date' => 'nullable|string',
             'delivery_name' => 'required|string',
-            'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2000',
+            'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:10000',
         ];
     }
 

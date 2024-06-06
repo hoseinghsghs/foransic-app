@@ -80,7 +80,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label> سریال یا شماره اموال شواهد دیجیتال <abbr class="required" title="ضروری"
+                                        <label> مدل<abbr class="required" title="ضروری"
                                                                                          style="color:red;">*</abbr></label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="code" id="code"
@@ -280,7 +280,7 @@
                                     <div class="form-group" wire:ignore>
                                         <input type="file" class="dropify" name="attachment_report"
                                                id="attachment_report" wire:model="attachment_report"
-                                               data-max-file-size="2M"
+                                               data-max-file-size="40M"
                                                value={{ $device->attachment_report ? url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) : null}}
                                             data-default-file={{ $device->attachment_report ? url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) : null}}
                                             data-allowed-file-extensions="docx xlsx pdf csv">

@@ -245,7 +245,7 @@
                                                     png)</small></label>
                                         </div>
                                         <div class="form-group" wire:ignore>
-                                            <input wire:model="Judicial_image" id="Judicial_image" type="file" class="dropify form-control" data-allowed-file-extensions="jpg png" data-max-file-size="2M">
+                                            <input wire:model="Judicial_image" id="Judicial_image" type="file" class="dropify form-control" data-allowed-file-extensions="jpg png" data-max-file-size="10M">
                                         </div>
                                         @error('Judicial_image')
                                         <small class="text-danger">{{ $message }}</small>

@@ -86,7 +86,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group col-md-3">
-                                        <label> سریال یا شماره اموال شواهد دیجیتال <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
+                                        <label> مدل<abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="code" id="code" class="form-control @error('code') is-invalid @enderror" required />
                                             <span id="code-display" class="text-warning"></span>
@@ -245,7 +245,7 @@
                                         </div>
                                         <div class="body @error('primary_image') is-invalid @enderror">
                                             <div class="form-group" wire:ignore>
-                                                <input wire:model="primary_image" id="primary_image" type="file" class="dropify form-control" data-allowed-file-extensions="jpg png" data-max-file-size="2M">
+                                                <input wire:model="primary_image" id="primary_image" type="file" class="dropify form-control" data-allowed-file-extensions="jpg png" data-max-file-size="10M">
                                             </div>
                                             @error('primary_image')
                                             <small class="text-danger">{{ $message }}</small>
