@@ -42,7 +42,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'nullable|string|max:255',
             'role' => 'required|string|exclude_if:role,false|exists:roles,name',
-            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf( !in_array($request->role,['company','Super Admin','false']) && is_null(auth()->user()->laboratory_id))],
+            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf( !in_array($request->role,['viewer','company','Super Admin','false']) && is_null(auth()->user()->laboratory_id))],
             'username' => [
                 'nullable',
                 'required_without:cellphone',
@@ -55,7 +55,7 @@ class UserController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            if (in_array($request->role,['company','Super Admin','false']))
+            if (in_array($request->role,['viewer','company','Super Admin','false']))
                 $laboratory_id = null;
             elseif (is_null(auth()->user()->laboratory_id))
                 $laboratory_id = $request->laboratory_id;
