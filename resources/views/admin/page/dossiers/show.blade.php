@@ -219,18 +219,19 @@
                                 <table class="table table-hover c_table theme-color">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th>
+                                            </th>
+                                            <th>ردیف</th>
+                                            <th>کد یکتا</th>
                                             <th>عنوان</th>
                                             <th>مدل</th>
-                                            @hasanyrole(['Super Admin','company'])
+                                            @hasanyrole(['Super Admin','company','viewer'])
                                             <th>آزمایشگاه</th>
                                             @endhasanyrole
-                                            <th>شخص تحویل دهنده</th>
+                                            <th> تاریخ پذیرش</th>
+                                            <th>پرونده</th>
+                                            <th>وضعیت بررسی</th>
                                             <th>پرسنل تحویل گیرنده</th>
-                                            <th>شخص تحویل گیرنده</th>
-                                            <th>پرسنل تحویل دهنده</th>
-                                            <th> تاریخ دریافت</th>
-                                            <th> تاریخ تحویل</th>
                                             <th>وضعیت</th>
                                             <th>بایگانی</th>
                                             <th class="text-center">عملیات</th>
@@ -239,53 +240,96 @@
                                     <tbody>
                                         @foreach ($devices as $key => $device)
                                         <tr wire:key="name_{{ $device->id }}">
+                                            @canany(['devices-edit','device-image-edit','devices-show','device-print'])
+                                            <td scope="row">
+                                                @can('devices-edit')
+                                                <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}" class="btn btn-warning btn-sm text-right"> <i class="zmdi zmdi-edit"></i></a>
+                                                @endcan
+                                                @can('devices-show')
+                                                <a href="{{ route('admin.devices.show', $device->id) }}" class="btn btn-primary btn-sm  text-right"> <i class="zmdi zmdi-eye"></i></a>
+                                                @endcan
+                                                @if ($device->correspondence_number)
+                                                <i class="zmdi zmdi-email btn btn-success btn-sm"></i>
+                                                @else
+                                                <i class="zmdi zmdi-hourglass-alt btn btn-sm"></i>
+                                                @endif
+                                            </td>
+                                            @endcanany
                                             <td scope="row">{{ $devices->firstItem() + $key }}</td>
+                                            <td>
+                                                {{ $device->id }}
+                                            </td>
                                             <td>
                                                 {{ $device->category->title }}
                                             </td>
                                             <td>
                                                 {{ $device->code }}
                                             </td>
-                                            @hasanyrole(['Super Admin','company'])
+
+                                            @hasanyrole(['Super Admin','company','viewer'])
                                             <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
                                             @endhasanyrole
-                                            <td>
-                                                {{ $device->delivery_name }}
+                                            <td dir="ltr">
+                                                {{ $device->receive_date }}
                                             </td>
+                                            <td>
+                                                {{ $device->dossier->name }}
+                                            </td>
+
+
+                                            <td>
+                                                @switch($device->status)
+                                                @case('0')
+                                                <span class="badge badge-danger badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
+                                                    پذیرش شواهد دیجیتال
+                                                </span>
+                                                @break
+
+                                                @case('1')
+                                                <span class="badge badge-warning badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
+                                                    در حال بررسی
+                                                </span>
+                                                @break
+
+                                                @case('2')
+                                                <span class="badge badge-success badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
+                                                    تکمیل تجزیه و تحلیل
+                                                </span>
+                                                @break
+                                                @case('3')
+                                                <span class="badge badge-primary badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+    padding-left: 14px;
+    padding-bottom: 7px;">
+                                                    تحویل شواهد دیجیتال
+                                                </span>
+                                                @endswitch
+                                            </td>
+
                                             <td>
                                                 @if ($device->receiver_staff_id)
                                                 {{ App\Models\User::find($device->receiver_staff_id)->name }}
                                                 @endif
                                             </td>
                                             <td>
-                                                {{ $device->receiver_name }}
-                                            </td>
-
-                                            <td>
-                                                @if ($device->delivery_staff_id)
-                                                {{ App\Models\User::find($device->delivery_staff_id)->name }}
-                                                @endif
-                                            </td>
-                                            <td dir="ltr">
-                                                {{ $device->receive_date }}
-                                            </td>
-                                            <td dir="ltr">
-                                                {{ $device->delivery_date }}
-                                            </td>
-                                            <td>
-                                                <span @class([ 'badge' ,'p-2', 'badge-success'=> $device->is_active,
-                                                    'badge-danger' => !$device->is_active,
+                                                <button wire:click="ChangeActive_device({{ $device->id }})" wire:loading.attr="disabled" @class([ 'btn btn-raised waves-effect' , 'btn-success'=> $device->is_active,
+                                                    'btn-danger' => !$device->is_active,
                                                     ])>
                                                     {{ $device->is_active ? 'فعال' : 'غیرفعال' }}
-                                                </span>
+                                                </button>
                                             </td>
                                             <td>
-                                                <span @class(['badge','p-2','badge-success'=> !$device->is_archive,'badge-danger' => $device->is_archive])>{{ $device->is_archive ? 'بایگانی' : 'غیر بایگانی' }}
-                                                </span>
+                                                <button wire:click="ChangeArchive_device({{ $device->id }})" wire:loading.attr="disabled" class="btn btn-raised btn-danger waves-effect">بایگانی کردن
+                                                </button>
                                             </td>
                                             <td class="text-center">
                                                 {{-- <a onclick="loadbtn(event)"
-                                                            href="{{ route('admin.devices.edit', $device->id) }}"
+                                                        href="{{ route('admin.devices.edit', $device->id) }}"
                                                 class="btn btn-raised btn-warning waves-effect">
                                                 <i class="zmdi zmdi-edit"></i>
                                                 </a> --}}
