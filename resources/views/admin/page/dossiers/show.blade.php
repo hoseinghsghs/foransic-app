@@ -221,7 +221,7 @@
                                         <tr>
                                             <th>#</th>
                                             <th>عنوان</th>
-                                            <th>کد</th>
+                                            <th>مدل</th>
                                             @hasanyrole(['Super Admin','company'])
                                             <th>آزمایشگاه</th>
                                             @endhasanyrole
