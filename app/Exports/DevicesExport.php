@@ -31,7 +31,7 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
         $head_arry =
             [
                 "id",
-                "سریال یا شماره اموال شواهد دیجیتال",
+            "مدل",
                 "شخص تحویل تحویل دهنده",
                 "کد پرسنلی تحویل دهنده",
                 "نام تحویل گیرنده",

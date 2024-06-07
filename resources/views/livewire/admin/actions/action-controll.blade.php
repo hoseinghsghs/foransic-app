@@ -44,10 +44,7 @@
                                                                     </strong>
                                                                     : {{ $device->category->title }}</a>
                                                                 <a class="ml-3" href="#">
-                                                                    <strong style="color:#e47297">
-                                                                        سریال یا شماره اموال
-                                                                        شواهد
-                                                                        دیجیتال
+                                                                    <strong style="color:#e47297">مدل
                                                                     </strong>
                                                                     : {{ $device->code }}</a>
                                                                 @if ($device->dossier)

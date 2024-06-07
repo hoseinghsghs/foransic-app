@@ -112,7 +112,7 @@
          </thead>
          <tr class="text-center">
              <th>id</th>
-             <th>سریال یا شماره اموال شواهد دیجیتال</th>
+             <th>مدل</th>
              <th>عنوان کالا</th>
              <th> مشخصات </th>
          </tr>

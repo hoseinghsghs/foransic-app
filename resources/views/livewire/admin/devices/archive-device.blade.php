@@ -99,7 +99,7 @@
                                             <th>#</th>
                                             <th>عنوان شواهد دیجیتال</th>
                                             <th>کد یکتا</th>
-                                            <th>سریال </th>
+                                            <th>مدل </th>
                                             @hasanyrole(['Super Admin','company','viewer'])
                                             <th>آزمایشگاه</th>
                                             @endhasanyrole

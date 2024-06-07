@@ -47,7 +47,7 @@
                             </div>
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
-                                    <div class="col-6"><strong>سریال یا شماره اموال شواهد دیجیتال:</strong></div>
+                                    <div class="col-6"><strong>مدل :</strong></div>
                                     <div class="col-6">{{ $device->code }}</div>
                                 </div>
                             </div>

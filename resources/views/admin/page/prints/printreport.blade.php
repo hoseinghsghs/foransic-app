@@ -38,7 +38,7 @@
                              <div class="col-5 text-right mr-4">
                                  <p style="font-family: Titr; font-size: 1rem"> شاهد دیجیتال : {{ $device->id }} -
                                      {{ $device->category->title }}</p>
-                                 <p style="font-family: Titr; font-size: 1rem"> سریال شاهد دیجیتال:
+                                 <p style="font-family: Titr; font-size: 1rem"> مدل شاهد دیجیتال:
                                      {{ $device->code }}</p>
 
                                        <p style="font-family: Titr; font-size: 1rem">  نام آزمایشگاه:

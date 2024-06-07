@@ -169,7 +169,7 @@ return array(
         "attribute_is_filter_ids" => "ویژگی های قابل فیلتر",
         "attribute_is_filter_ids.*" => "ویژگی های قابل فیلتر",
         "parent_id" => "والد",
-        "code" => "سریال یا شماره اموال شواهد",
+        "code" => "مدل",
         "cellphone" => "شماره تماس",
         "province_id" => "استان",
         "city_id" => "شهر",
