@@ -92,21 +92,23 @@
                             @if (count($devices) === 0)
                             <p>هیچ رکوردی وجود ندارد</p>
                             @else
-                            <div class="table-responsive">
+                                                       <div class="table-responsive">
                                 <table class="table table-hover c_table theme-color">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>عنوان شواهد دیجیتال</th>
+                                            <th>
+                                            </th>
+                                            <th>ردیف</th>
                                             <th>کد یکتا</th>
-                                            <th>مدل </th>
+                                            <th>عنوان</th>
+                                            <th>مدل</th>
                                             @hasanyrole(['Super Admin','company','viewer'])
                                             <th>آزمایشگاه</th>
                                             @endhasanyrole
-                                            <th>نام تحویل دهنده</th>
-                                            <th>نام تحویل گیرنده</th>
-                                            <th> تاریخ دریافت</th>
-                                            <th> تاریخ تحویل</th>
+                                            <th> تاریخ پذیرش</th>
+                                            <th>پرونده</th>
+                                            <th>وضعیت بررسی</th>
+                                            <th>پرسنل تحویل گیرنده</th>
                                             <th>وضعیت</th>
                                             <th>بایگانی</th>
                                             <th class="text-center">عملیات</th>
@@ -115,30 +117,81 @@
                                     <tbody>
                                         @foreach ($devices as $key => $device)
                                         <tr wire:key="name_{{ $device->id }}">
-                                            <td scope="row">{{ $devices->firstItem() + $key }}</td>
-                                            <td>
-                                                {{ $device->category->title }}
+                                            @canany(['devices-edit','device-image-edit','devices-show','device-print'])
+                                            <td scope="row">
+                                                @can('devices-edit')
+                                                <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}" class="btn btn-warning btn-sm text-right"> <i class="zmdi zmdi-edit"></i></a>
+                                                @endcan
+                                                @can('devices-show')
+                                                <a href="{{ route('admin.devices.show', $device->id) }}" class="btn btn-primary btn-sm  text-right"> <i class="zmdi zmdi-eye"></i></a>
+                                                @endcan
+                                                @if ($device->correspondence_number)
+                                                <i class="zmdi zmdi-email btn btn-success btn-sm"></i>
+                                                @else
+                                                <i class="zmdi zmdi-hourglass-alt btn btn-sm"></i>
+                                                @endif
                                             </td>
+                                            @endcanany
+                                            <td scope="row">{{ $devices->firstItem() + $key }}</td>
                                             <td>
                                                 {{ $device->id }}
                                             </td>
                                             <td>
+                                                {{ $device->category->title }}
+                                            </td>
+                                            <td>
                                                 {{ $device->code }}
                                             </td>
+
                                             @hasanyrole(['Super Admin','company','viewer'])
                                             <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
                                             @endhasanyrole
-                                            <td>
-                                                {{ $device->delivery_name }}
-                                            </td>
-                                            <td>
-                                                {{ $device->receiver_name }}
-                                            </td>
-                                            <td>
+                                            <td dir="ltr">
                                                 {{ $device->receive_date }}
                                             </td>
                                             <td>
-                                                {{ $device->delivery_date }}
+                                                {{ $device->dossier->name }}
+                                            </td>
+
+
+                                            <td>
+                                                @switch($device->status)
+                                                @case('0')
+                                                <span class="badge badge-danger badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
+                                                    پذیرش شواهد دیجیتال
+                                                </span>
+                                                @break
+
+                                                @case('1')
+                                                <span class="badge badge-warning badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
+                                                    در حال بررسی
+                                                </span>
+                                                @break
+
+                                                @case('2')
+                                                <span class="badge badge-success badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+                                            padding-left: 14px;
+                                            padding-bottom: 7px;">
+                                                    تکمیل تجزیه و تحلیل
+                                                </span>
+                                                @break
+                                                @case('3')
+                                                <span class="badge badge-primary badge-pill" style="font-size: 0.75rem;padding-right: 14px;
+    padding-left: 14px;
+    padding-bottom: 7px;">
+                                                    تحویل شواهد دیجیتال
+                                                </span>
+                                                @endswitch
+                                            </td>
+
+                                            <td>
+                                                @if ($device->receiver_staff_id)
+                                                {{ App\Models\User::find($device->receiver_staff_id)->name }}
+                                                @endif
                                             </td>
                                             <td>
                                                 <button wire:click="ChangeActive_device({{ $device->id }})" wire:loading.attr="disabled" @class([ 'btn btn-raised waves-effect' , 'btn-success'=> $device->is_active,
@@ -148,11 +201,15 @@
                                                 </button>
                                             </td>
                                             <td>
-                                                <button wire:click="ChangeArchive_device({{ $device->id }})" wire:loading.attr="disabled" class="btn btn-raised btn-danger waves-effect">خروج از
-                                                    بایگانی
+                                                <button wire:click="ChangeArchive_device({{ $device->id }})" wire:loading.attr="disabled" class="btn btn-raised btn-danger waves-effect">بایگانی کردن
                                                 </button>
                                             </td>
                                             <td class="text-center">
+                                                {{-- <a onclick="loadbtn(event)"
+                                                        href="{{ route('admin.devices.edit', $device->id) }}"
+                                                class="btn btn-raised btn-warning waves-effect">
+                                                <i class="zmdi zmdi-edit"></i>
+                                                </a> --}}
                                                 @can('actions-create')
                                                 <a onclick="loadbtn(event)" title="اضافه کردن اقدام" data-toggle="tooltip" data-placement="top" href="{{ route('admin.actions.create', ['device' => $device->id]) }}" class="btn btn-raised btn-info waves-effect">
                                                     ایجاد اقدام
@@ -161,7 +218,7 @@
                                                 @canany(['devices-edit','device-image-edit','devices-show','device-print'])
                                                 <div class="btn-group">
                                                     <button type="button" class="btn btn-md btn-warning btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                        <i class="zmdi zmdi-menu" style="font-size: 1.2rem"></i>
+                                                        <i class="zmdi zmdi-menu"></i>
                                                     </button>
                                                     <div class="dropdown-menu">
                                                         @can('devices-edit')

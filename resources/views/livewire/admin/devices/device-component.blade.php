@@ -130,6 +130,11 @@
                                                 @can('devices-show')
                                                 <a href="{{ route('admin.devices.show', $device->id) }}" class="btn btn-primary btn-sm  text-right"> <i class="zmdi zmdi-eye"></i></a>
                                                 @endcan
+                                                @if ($device->correspondence_number)
+                                                <i class="zmdi zmdi-email btn btn-success btn-sm"></i>
+                                                @else
+                                                <i class="zmdi zmdi-hourglass-alt btn btn-sm"></i>
+                                                @endif
                                             </td>
                                             @endcanany
                                             <td scope="row">{{ $devices->firstItem() + $key }}</td>
