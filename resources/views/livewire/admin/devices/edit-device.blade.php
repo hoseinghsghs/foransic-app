@@ -283,7 +283,7 @@
                                                data-max-file-size="40M"
                                                value={{ $device->attachment_report ? url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) : null}}
                                             data-default-file={{ $device->attachment_report ? url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) : null}}
-                                            data-allowed-file-extensions="docx xlsx pdf csv">
+                                            data-allowed-file-extensions="docx xlsx pdf csv zip rar">
                                     </div>
                                     @isset($device->attachment_report)
                                         لینک دانلود :
