@@ -201,7 +201,7 @@
                                                 </button>
                                             </td>
                                             <td>
-                                                <button wire:click="ChangeArchive_device({{ $device->id }})" wire:loading.attr="disabled" class="btn btn-raised btn-danger waves-effect">بایگانی کردن
+                                                <button wire:click="ChangeArchive_device({{ $device->id }})" wire:loading.attr="disabled" class="btn btn-raised btn-danger waves-effect">بایگانی
                                                 </button>
                                             </td>
                                             <td class="text-center">

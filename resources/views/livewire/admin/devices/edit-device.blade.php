@@ -216,7 +216,7 @@
 
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('trait') is-invalid @enderror">
-                                        <label> مشخصات (ظرفیت ، مدل و...)</label>
+                                        <label>  توضیحات شواهد </label>
                                         <div>
                                             <textarea class="form-control" rows="6"
                                                       wire:model.defer="trait">{!! $trait !!}</textarea>

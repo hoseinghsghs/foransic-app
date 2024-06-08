@@ -25,6 +25,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/prnpriview/{device}', [PrintController::class, 'prnpriview'])->name('print.device');
     Route::get('/prnprishow/{device}', [PrintController::class, 'show'])->middleware('permission:device-print')->name('print.device.show');
     Route::get('/print-report/{device}', [PrintController::class, 'printReport'])->name('print.print-report');
+    Route::get('/print-dossier/{dossier}', [PrintController::class, 'printDossier'])->middleware('permission:dossier-print')->name('print.print-dossier');
 
     Route::get('devices/{device}/edit', \App\Livewire\Admin\Devices\EditDevice::class)->middleware('permission:devices-edit')->name('devices.edit');
     Route::get('devices/category', \App\Livewire\Admin\Categories\CategoryController::class)->middleware('permission:categories-list')->name('devices.category');

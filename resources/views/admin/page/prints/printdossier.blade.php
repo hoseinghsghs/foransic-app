@@ -41,7 +41,7 @@
 
  <body class="theme-blush" id="cheack_collapsed" style="width: 50% ; margin: auto;font-size: 1.5rem">
      <div class="container-xl mt-4" style="margin-top: 100px ">
-         <div class="row mt-4">
+         <div class="row">
              <div class="col-3 text-center"><img src="{{ $setting->logo ? asset('storage/logo/' . $setting->logo) : '/images/logo.png' }}" alt="logo" height="130rem" width="260rem" /></div>
              <div class="col-6 text-center">
                  <h5 class="font-weight-bold">رسید پذیرش آزمایشگاه
@@ -49,46 +49,40 @@
                      جرم یابی دیجیتال</h5>
              </div>
              <div class="col-3 text-right">
-                 <h5 class="font-weight-bold">تاریخ : {{ Hekmatinasser\Verta\Verta::instance($device->created_at)->format('Y/n/j') }}</h6>
+                 <h5 class="font-weight-bold">تاریخ : {{ Hekmatinasser\Verta\Verta::instance($dossier->created_at)->format('Y/n/j') }}</h6>
              </div>
          </div>
-         <div class="row m-3">
+         <div class="row">
              <table class="table table-bordered">
-                 <thead>
-                     <tr>
-                         <th class="text-center" colspan="11">
-                             <h5 class="font-weight-bold">مشخصات تحویل دهنده</h5>
-                         </th>
-                     </tr>
-                 </thead>
+
+                 <tr>
+                     <th class="text-center" colspan="11">
+                         <h5 class="font-weight-bold">مشخصات تحویل دهنده</h5>
+                     </th>
+                 </tr>
+
                  <tbody>
                      <tr>
                          <td colspan="11" class="text-right">
                              <div class="row">
-
                                  <div class="col-12">
                                      <p>
                                      <h5 class="font-weight-bold">رده:
-                                         @if($device->dossier()->exists())
-                                         {{ $device->dossier->company->name }}
-                                         @else
-                                         ندارد
-                                         @endif
+                                         {{ $dossier->company->name }}
                                      </h5>
                                      </p>
                                  </div>
 
                                  <div class="col-6">
                                      <p>
-                                     <h5 class="font-weight-bold">نام : {{ $device->delivery_name }} </h5>
+                                     <h5 class="font-weight-bold">نام : {{ $dossier->devices->first()->delivery_name }} </h5>
                                      </p>
                                  </div>
                                  <div class="col-6">
                                      <p>
-                                     <h5 class="font-weight-bold">کد پرسنلی : {{ $device->delivery_code }} </h5>
+                                     <h5 class="font-weight-bold">کد پرسنلی : {{ $dossier->devices->first()->delivery_code }} </h5>
                                      </p>
                                  </div>
-
                              </div>
                              <div class="row">
                                  <div class="col-12">
@@ -98,13 +92,13 @@
                          </td>
                      </tr>
                  </tbody>
-                 <thead>
-                     <tr>
-                         <th class="text-center" colspan="11">
-                             <h5 class="font-weight-bold"> مشخصات تحویل گیرنده </h5>
-                         </th>
-                     </tr>
-                 </thead>
+
+                 <tr>
+                     <th class="text-center" colspan="11">
+                         <h5 class="font-weight-bold"> مشخصات تحویل گیرنده </h5>
+                     </th>
+                 </tr>
+
                  <tbody>
                      <tr>
                          <td colspan="11" class="text-right">
@@ -113,7 +107,7 @@
                                      <p>
                                      <h5 class="font-weight-bold">
                                          آزمایشگاه :
-                                         {{ $device->laboratory->name }}
+                                         {{ $dossier->devices->first()->laboratory->name }}
                                      </h5>
                                      </p>
                                  </div>
@@ -129,15 +123,17 @@
                          </td>
                      </tr>
                  </tbody>
-                 <thead>
-                     <tr>
-                         <th class="text-center" colspan="11">
-                             <h5 class="font-weight-bold">
-                                 شواهد دیجیتال
-                             </h5>
-                         </th>
-                     </tr>
-                 </thead>
+
+
+                 <tr>
+                     <th class="text-center" colspan="11">
+                         <h5 class="font-weight-bold">
+                             شواهد دیجیتال
+                         </h5>
+                     </th>
+                 </tr>
+
+                 @foreach ($dossier->devices as $device )
                  <tr class="text-center">
                      <th>
                          <h5 class="font-weight-bold">عنوان شاهد</h5>
@@ -148,9 +144,7 @@
                      <th>
                          <h5 class="font-weight-bold">کد یکتا</h5>
                      </th>
-
                  </tr>
-
                  <tbody>
                      <tr class="text-center">
                          <td>
@@ -162,9 +156,7 @@
                          <td>
                              <h2 class="font-weight-bold"> {{ $device->id }}</h2>
                          </td>
-
                      </tr>
-
                      <tr>
                          <th colspan="6" class="text-right" style="padding-bottom:5rem ">
                              <h5 class="font-weight-bold">لوازم جانبی:
@@ -173,7 +165,6 @@
                          </th>
                      </tr>
                      <tr>
-
                          <th colspan="6" class="text-right">
                              <h5 class="font-weight-bold">
                                  توضیحات
@@ -182,24 +173,29 @@
                          </th>
                      </tr>
                  </tbody>
-
+                 <tr>
+                     <th colspan="12" style="
+    border: solid 1px #ffffff !important; height: 4rem;
+">
+                     </th>
+                 </tr>
+                 @endforeach
                  </tbody>
              </table>
-
-         </div>
-         <div class="row" dir="rtl" style="width: 100%;margin-bottom: 6rem ; margin-top: 2rem ; border-bottom: 3px dashed #000000 ;">
-             <div class="col-6" style="text-align: center; margin-bottom: 7rem;">
-                 <h5 class="font-weight-bold">
-                     مهر و امضا تحویل گیرنده
-                 </h5>
+             <div class="row" dir="rtl" style="width: 100%; border-bottom: 3px dashed #000000 ; margin-top: 7rem; padding-top: 1rem">
+                 <div class="col-6" style="text-align: center; margin-bottom: 7rem;">
+                     <h5 class="font-weight-bold">
+                         مهر و امضا تحویل گیرنده
+                     </h5>
+                 </div>
+                 <div class="col-6" style="text-align: center; margin-bottom:7rem;">
+                     <h5 class="font-weight-bold">
+                         مهر و امضا تحویل دهنده
+                     </h5>
+                 </div>
              </div>
-             <div class="col-6" style="text-align: center; margin-bottom:7rem;">
-                 <h5 class="font-weight-bold">
-                     مهر و امضا تحویل دهنده
-                 </h5>
-             </div>
-
          </div>
+
      </div>
      <script src="{{ asset('js/admin.js') }}"></script>
 

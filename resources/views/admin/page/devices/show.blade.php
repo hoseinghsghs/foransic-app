@@ -271,8 +271,7 @@
                             <div class="card card-body p-0">
                                 <div class=" list-group">
                                     <div class="list-group-item list-group-item-primary">
-                                        مشخصات (ظرفیت ، مدل و...)
-                                    </div>
+                                        توضیحات شواهد </div>
                                     <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
                                             <div class="col-6">{!! $device->trait !!}</div>

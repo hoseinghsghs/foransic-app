@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Device;
+use App\Models\Dossier;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Gate;
@@ -26,6 +27,11 @@ class PrintController extends Controller
     public function printReport(Device $device)
     {
         return view('admin.page.prints.printreport', compact('device'));
+    }
+    public function printDossier(Dossier $dossier)
+    {
+        $receiver_staff_id = User::find($dossier->devices->first()->receiver_staff_id);
+        return view('admin.page.prints.printdossier', compact('dossier', 'receiver_staff_id'));
     }
 
 }

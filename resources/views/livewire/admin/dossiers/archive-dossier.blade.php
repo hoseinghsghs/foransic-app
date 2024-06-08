@@ -102,6 +102,9 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
+                                                 @canany(['dossiers-edit','dossiers-show'])
+                                                    <th class="text-center">عملیات</th>
+                                                @endcan
                                                 <th>نام پرونده یا کیس</th>
                                                 @hasanyrole(['Super Admin','company','viewer'])
                                                 <th>آزمایشگاه</th>
@@ -113,14 +116,27 @@
                                                 <th> تاریخ ایجاد</th>
                                                 <th>وضعیت</th>
                                                 <th>بایگانی</th>
-                                                @canany(['dossiers-edit','dossiers-show'])
-                                                    <th class="text-center">عملیات</th>
-                                                @endcan
+
                                             </tr>
                                             </thead>
                                             <tbody>
                                             @foreach ($dossiers as $key => $dossier)
                                                 <tr wire:key="name_{{ $dossier->id }}">
+
+                                            @canany(['dossiers-edit','dossiers-show' , 'dossiers-print'])
+                                            <td class="text-center">
+
+                                                @can('dossiers-edit')
+                                                <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}" class="btn btn-sm btn-warning"> <i class="zmdi zmdi-edit" style="padding: 2px;"></i> </a>
+                                                @endcan
+                                                @can('dossiers-show')
+                                                <a href="{{ route('admin.dossiers.show', $dossier->id) }}" class="btn btn-sm btn-primary"> <i class="zmdi zmdi-eye" style="padding: 2px;"></i> </a>
+                                                @endcan
+                                                @can('dossiers-print')
+                                                <a href="{{ route('admin.print.print-dossier', $dossier->id) }}" class="btn btn-sm "> <i class="zmdi zmdi-print" style="padding: 2px;"></i> </a>
+                                                @endcan
+                                            </td>
+                                            @endcanany
                                                     <td scope="row">{{ $dossiers->firstItem() + $key }}</td>
                                                     <td>
                                                         {{ $dossier->name }}
@@ -163,29 +179,6 @@
                                                             بایگانی
                                                         </button>
                                                     </td>
-                                                    @canany(['dossiers-edit','dossiers-show'])
-                                                        <td class="text-center">
-                                                            <div class="btn-group">
-                                                                <button type="button"
-                                                                        class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                                        aria-expanded="false">
-                                                                    <i class="zmdi zmdi-edit"
-                                                                       style="font-size: 1.2rem"></i>
-                                                                </button>
-                                                                <div class="dropdown-menu">
-                                                                    @can('dossiers-edit')
-                                                                        <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}"
-                                                                           class="dropdown-item text-right"> ویرایش </a>
-                                                                    @endcan
-                                                                    @can('dossiers-show')
-                                                                        <a href="{{ route('admin.dossiers.show', $dossier->id) }}"
-                                                                           class="dropdown-item text-right"> مشاهده </a>
-                                                                    @endcan
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    @endcan
                                                 </tr>
                                             @endforeach
                                             </tbody>
