@@ -55,6 +55,7 @@ class PermissionSeeder extends Seeder
             ['name' => 'dossiers-show', 'display_name' => 'مشاهده پرونده', 'guard_name' => 'web'],
             ['name' => 'dossiers-delete', 'display_name' => 'حذف پرونده', 'guard_name' => 'web'],
             ['name' => 'dossiers-export', 'display_name' => 'خروجی اکسل پرونده', 'guard_name' => 'web'],
+            ['name' => 'dossier-print', 'display_name' => 'پرینت پرونده', 'guard_name' => 'web'],
 
             ['name' => 'devices-list', 'display_name' => 'لیست شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-archive-list', 'display_name' => 'لیست شواهد بایگانی دیجیتال', 'guard_name' => 'web'],
