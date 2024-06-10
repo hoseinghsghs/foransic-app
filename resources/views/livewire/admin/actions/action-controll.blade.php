@@ -379,7 +379,7 @@
         Dropzone.options.myDropzone = {
             parallelUploads: 5,
             maxFiles: 5,
-            maxFilesize: 1,
+            maxFilesize: 40,
             acceptedFiles: ".zip,.rar,.jpeg,.jpg,.png,.pdf,.txt,.xlsx,.csv",
             addRemoveLinks: true,
             previewsContainer: ".dropzone",
