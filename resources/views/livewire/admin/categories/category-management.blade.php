@@ -106,7 +106,7 @@
                                                 <tr wire:key="{{ $category->id }}" wire:loading.attr="disabled">
                                                     <td scope="row">{{ $loop->index + 1 }}</td>
                                                     <td>{{ $category->title }}</td>
-                                                    <td>{{ $category->attributes()->pluck('attributes.name')->implode(' / ') }}
+                                                    <td>{{ $category->attributes()->exists()?$category->attributes()->pluck('attributes.name')->implode(' / '):'-' }}
                                                     </td>
                                                     <td class="text-center">
                                                         <button wire:click="edit_category({{ $category->id }})"

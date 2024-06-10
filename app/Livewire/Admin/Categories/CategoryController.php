@@ -4,6 +4,8 @@ namespace App\Livewire\Admin\Categories;
 
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\Device;
+use App\Models\DeviceAttribute;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -41,20 +43,32 @@ class CategoryController extends Component
                 'attribute_ids' => 'required|array',
                 'attribute_ids.*' => 'nullable|exists:attributes,id'
             ]);
+            //check if attributes don't have value
+            $category_attributes_ids = $this->category->attributes()->pluck('attributes.id')->toArray();
+            $res = array_diff($category_attributes_ids, $this->attribute_ids);
+            if (count($res) > 0) {
+                $category_devices_ids = $this->category->devices()->pluck('devices.id')->toArray();
+                $forbidden_attribute = DeviceAttribute::whereIn('device_id', $category_devices_ids)->whereIn('attribute_id', $res)->get();
 
-            try {
-                DB::beginTransaction();
-                $this->category->update([
-                    'title' => $this->title,
-                ]);
-                $this->category->attributes()->sync($this->attribute_ids);
-                DB::commit();
-                // reset variables
-                $this->ref();
-                flash()->addSuccess('تغییرات با موفقیت ذخیره شد');
-            } catch (\Exception $ex) {
-                DB::rollBack();
-                toastr()->rtl()->addError($ex->getMessage());
+                if (count($forbidden_attribute) > 0) {
+                    flash()->addWarning('به علت مقدار دهی ویژگی دسته بندی امکان حذف آن وجود ندارد.');
+                } else {
+
+                    try {
+                        DB::beginTransaction();
+                        $this->category->update([
+                            'title' => $this->title,
+                        ]);
+                        $this->category->attributes()->sync($this->attribute_ids);
+                        DB::commit();
+                        // reset variables
+                        $this->ref();
+                        flash()->addSuccess('تغییرات با موفقیت ذخیره شد');
+                    } catch (\Exception $ex) {
+                        DB::rollBack();
+                        toastr()->rtl()->addError($ex->getMessage());
+                    }
+                }
             }
         } else {
             $this->authorize('categories-create');
