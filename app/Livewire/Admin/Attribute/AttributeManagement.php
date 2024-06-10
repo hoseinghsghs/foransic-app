@@ -4,9 +4,13 @@ namespace App\Livewire\Admin\Attribute;
 
 use App\Models\Attribute;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class AttributeManagement extends Component
 {
+    use WithPagination;
+
+
     protected $paginationTheme = 'bootstrap';
     public $name;
     public Attribute $attribute;

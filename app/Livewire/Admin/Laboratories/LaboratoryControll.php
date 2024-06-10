@@ -4,9 +4,11 @@ namespace App\Livewire\Admin\Laboratories;
 
 use App\Models\Laboratory;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class LaboratoryControll extends Component
 {
+    use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $name;
     public $province = "";

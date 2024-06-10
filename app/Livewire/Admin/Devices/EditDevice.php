@@ -119,7 +119,6 @@ class EditDevice extends Component
         }
 
         $this->validate();
-
         if ($this->attachment_report != null) {
             $AttachmentsController = new AttachmentsController();
             $attachment_report_name = $AttachmentsController->uploadAttachment($this->attachment_report, "attachment_report");

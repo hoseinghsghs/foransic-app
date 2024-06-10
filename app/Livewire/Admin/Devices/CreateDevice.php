@@ -50,7 +50,7 @@ class CreateDevice extends Component
 //            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
-            'code' => 'required|string|unique:devices,code',
+            'code' => 'required|string',
             'delivery_code' => 'nullable|string',
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
@@ -112,8 +112,6 @@ class CreateDevice extends Component
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,
             ]);
-
-
             if (count($this->attribute_values) > 0) {
                 $attributesValue = [];
                 foreach ($this->attribute_values as $key => $value) {

@@ -285,6 +285,9 @@
                                             data-default-file={{ $device->attachment_report ? url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) : null}}
                                             data-allowed-file-extensions="docx xlsx pdf csv zip rar">
                                     </div>
+                                    <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                    <div wire:loading wire:target="attachment_report" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                                    </div>
                                     @isset($device->attachment_report)
                                         لینک دانلود :
                                         <a
@@ -335,7 +338,7 @@
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" wire:loading.attr="disabled"
-                                            class="btn btn-raised btn-success waves-effect"><i wire:loading
+                                            class="btn btn-raised btn-success waves-effect"><i wire:loading wire:loading wire:target="attachment_report"
                                                                                                class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
                                         ذخیره
                                     </button>

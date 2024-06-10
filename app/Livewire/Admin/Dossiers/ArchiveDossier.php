@@ -86,7 +86,6 @@ class ArchiveDossier extends Component
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
         })->latest()->paginate(10);
-
         return view('livewire.admin.dossiers.archive-dossier', compact(['dossiers', 'company_users']))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
