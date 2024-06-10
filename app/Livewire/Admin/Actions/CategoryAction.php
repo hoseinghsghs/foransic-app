@@ -4,9 +4,11 @@ namespace App\Livewire\Admin\Actions;
 
 use App\Models\ActionCategory;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class CategoryAction extends Component
 {
+    use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $title;
     public ActionCategory $action_category;

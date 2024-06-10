@@ -42,7 +42,7 @@
                                     <div class="col-md-4">
                                         <label>نام و نام خانوادگی</label>
                                         <div class="form-group">
-                                            <input name="name" type="text" class="form-control @error('name') is-invalid @enderror" value="{{$user->name}}" placeholder="">
+                                            <input name="name" disabled type="text" class="form-control @error('name') is-invalid @enderror" value="{{$user->name}}" placeholder="">
                                         </div>
                                     </div>
                                     <div class="col-md-4">
