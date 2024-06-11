@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Http\Controllers\Admin\AttachmentsController;
+use Illuminate\Support\Facades\DB;
 use Verta;
 
 class EditDevice extends Component
@@ -54,7 +55,7 @@ class EditDevice extends Component
             'description' => 'nullable|string',
             'report' => 'nullable|string',
             'accessories' => 'nullable|string',
-            'code' => 'required|string|unique:devices,code,' . $this->device->id,
+            'code' => 'required|string',
             'delivery_code' => 'nullable|string',
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
@@ -119,6 +120,8 @@ class EditDevice extends Component
         }
 
         $this->validate();
+        try {
+            DB::beginTransaction();
         if ($this->attachment_report != null) {
             $AttachmentsController = new AttachmentsController();
             $attachment_report_name = $AttachmentsController->uploadAttachment($this->attachment_report, "attachment_report");
@@ -159,6 +162,12 @@ class EditDevice extends Component
                 $attributesValue[] = ['attribute_id' => $key, 'value' => $value];
             }
             $this->device->attributes()->createMany($attributesValue);
+        }
+            DB::commit();
+        } catch (\Exception $ex) {
+            toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());
+            DB::rollBack();
+            return redirect()->back();
         }
         flash()->addSuccess('شواهد مورد نظر ویرایش شد');
         return redirect()->route('admin.devices.index');
