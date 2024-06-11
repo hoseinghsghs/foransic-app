@@ -32,7 +32,7 @@
                                 <h2><strong>اطلاعات اصلی شواهد دیجیتال</strong></h2>
                             </div>
                             <hr>
-                            <form wire:submit.prevent="create" id="submit-device">
+                            <form wire:submit.prevent id="submit-device">
                                 <div class="row clearfix">
                                     <div class="form-group col-sm-6 col-sm-6 @error('category_id') is-invalid @enderror">
                                         <label for="title-device">نام شواهد دیجیتال <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
@@ -257,8 +257,6 @@
                                     <h2><strong>تصاویر شواهد دیجیتال</strong></h2>
                                 </div>
                                 <hr>
-
-
                             </form>
                             <div class="row clearfix">
                                 <div class="col-lg-12 col-md-12" wire:ignore>

@@ -46,7 +46,7 @@ class CreateDevice extends Component
             'category_id' => 'required|integer|exists:categories,id',
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
-            'dossier_id' => ['required','integer',Rule::in($dossiers)],
+            'dossier_id' => ['required', 'integer', Rule::in($dossiers)],
 //            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
@@ -136,17 +136,12 @@ class CreateDevice extends Component
 
         flash()->addSuccess('شواهد مورد نظر دریافت شد');
 
-        switch ($type_redirect) {
-            case '2':
-                return redirect()->route('admin.devices.create')->with('print_device', $device->id);
-                break;
-            case '3':
-                return redirect()->route('admin.dossiers.show', $device->dossier->id)->with('print_device', $device->id);
-                break;
-            default:
-                return redirect()->route('admin.devices.index')->with('print_device', $device->id);
-                break;
-        }
+        if ($type_redirect == '2')
+            return redirect()->route('admin.devices.create')->with('print_device', $device->id);
+        elseif ($type_redirect == '3')
+            return redirect()->route('admin.dossiers.show', $device->dossier->id)->with('print_device', $device->id);
+        else
+            return redirect()->route('admin.devices.index')->with('print_device', $device->id);
     }
 
     public function render()
