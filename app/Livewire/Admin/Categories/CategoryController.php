@@ -36,6 +36,7 @@ class CategoryController extends Component
     public function add_category()
     {
         if ($this->is_edit) {
+            $allow_edit = true;
             $this->authorize('categories-edit');
 
             $this->validate([
@@ -46,28 +47,31 @@ class CategoryController extends Component
             //check if attributes don't have value
             $category_attributes_ids = $this->category->attributes()->pluck('attributes.id')->toArray();
             $res = array_diff($category_attributes_ids, $this->attribute_ids);
+//            dd(count($res));
             if (count($res) > 0) {
                 $category_devices_ids = $this->category->devices()->pluck('devices.id')->toArray();
                 $forbidden_attribute = DeviceAttribute::whereIn('device_id', $category_devices_ids)->whereIn('attribute_id', $res)->get();
 
                 if (count($forbidden_attribute) > 0) {
                     flash()->addWarning('به علت مقدار دهی ویژگی دسته بندی امکان حذف آن وجود ندارد.');
-                } else {
+                    $allow_edit = false;
+                }
+            }
 
-                    try {
-                        DB::beginTransaction();
-                        $this->category->update([
-                            'title' => $this->title,
-                        ]);
-                        $this->category->attributes()->sync($this->attribute_ids);
-                        DB::commit();
-                        // reset variables
-                        $this->ref();
-                        flash()->addSuccess('تغییرات با موفقیت ذخیره شد');
-                    } catch (\Exception $ex) {
-                        DB::rollBack();
-                        toastr()->rtl()->addError($ex->getMessage());
-                    }
+            if ($allow_edit) {
+                try {
+                    DB::beginTransaction();
+                    $this->category->update([
+                        'title' => $this->title,
+                    ]);
+                    $this->category->attributes()->sync($this->attribute_ids);
+                    DB::commit();
+                    // reset variables
+                    $this->ref();
+                    flash()->addSuccess('تغییرات با موفقیت ذخیره شد');
+                } catch (\Exception $ex) {
+                    DB::rollBack();
+                    flash()->addError($ex->getMessage());
                 }
             }
         } else {

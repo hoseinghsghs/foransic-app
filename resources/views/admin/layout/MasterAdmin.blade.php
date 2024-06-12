@@ -66,13 +66,13 @@
     </script>
 
 
-    @flasher_render()
+{{--    @flasher_render()--}}
 
     @livewireScripts()
 
     @stack('scripts')
 
-    @flasher_livewire_render
+{{--    @flasher_livewire_render--}}
 
 </body>
 

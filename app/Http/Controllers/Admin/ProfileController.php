@@ -53,7 +53,7 @@ class ProfileController extends Controller
         }
 
         $user->update($data);
-        $flasher->addSuccess('پروفایل با موفقیت بروزرسانی شد');
+        flash()->addSuccess('پروفایل با موفقیت بروزرسانی شد');
 
         return back();
     }
