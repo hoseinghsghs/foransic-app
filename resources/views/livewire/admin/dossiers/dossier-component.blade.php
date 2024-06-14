@@ -118,14 +118,13 @@
 
                                             @canany(['dossiers-edit','dossiers-show'])
                                             <td class="text-center">
-
                                                 @can('dossiers-edit')
                                                 <a href="{{ route('admin.dossiers.edit', ['dossier' => $dossier->id]) }}" class="btn btn-sm btn-warning"> <i class="zmdi zmdi-edit" style="padding: 2px;"></i> </a>
                                                 @endcan
                                                 @can('dossiers-show')
                                                 <a href="{{ route('admin.dossiers.show', $dossier->id) }}" class="btn btn-sm btn-primary"> <i class="zmdi zmdi-eye" style="padding: 2px;"></i> </a>
                                                 @endcan
-                                                @can('dossiers-print')
+                                                @can('dossier-print')
                                                 <a href="{{ route('admin.print.print-dossier', $dossier->id) }}" class="btn btn-sm "> <i class="zmdi zmdi-print" style="padding: 2px;"></i> </a>
                                                 @endcan
                                             </td>
