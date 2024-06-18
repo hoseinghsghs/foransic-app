@@ -53,7 +53,7 @@
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>نوع پرونده:</strong></div>
-                                    <div class="col-6">{{ $dossier->dossier_type ? 'عملیاتی' : 'فاوایی' }}</div>
+                                    <div class="col-6">{{ $dossier->dossier_type ? 'فاوایی'  : 'عملیاتی'}}</div>
                                 </div>
                             </div>
                             <div class="list-group-item list-group-item-action">

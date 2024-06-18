@@ -198,7 +198,7 @@
 
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('description') is-invalid @enderror">
-                                        <label for="summernote">توضیحات و اظهارات درخواست کننده :</label>
+                                        <label for="summernote">تجربه نگاری کارشناس فارنزیک در اقدامات :</label>
                                         <div wire:ignore>
                                             <textarea class="form-control summernote-editor" id="summernote"></textarea>
                                         </div>

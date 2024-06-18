@@ -282,13 +282,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                <!-- <div class="col-lg-12">
                     <div class="row clearfix">
                         <div class="col-lg-12">
                             <div class="card card-body p-0">
                                 <div class=" list-group">
                                     <div class="list-group-item list-group-item-primary">
-                                        توضیحات و اظهارات درخواست کننده :
+                                        تجربه نگاری کارشناس فارنزیک در اقدامات :
                                     </div>
                                     <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
@@ -299,7 +299,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="header p-0">
