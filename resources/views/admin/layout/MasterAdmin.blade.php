@@ -36,7 +36,7 @@
     {{--    @vite('resources/js/admin.js') --}}
 
     @include('sweetalert::alert')
-    @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])
+{{--    @include('sweetalert::alert', ['cdn' => 'https://cdn.jsdelivr.net/npm/sweetalert2@9'])--}}
 
     <script>
         @if (session('status'))
@@ -65,15 +65,9 @@
         })
     </script>
 
-
-{{--    @flasher_render()--}}
-
     @livewireScripts()
 
     @stack('scripts')
-
-{{--    @flasher_livewire_render--}}
-
 </body>
 
 </html>
