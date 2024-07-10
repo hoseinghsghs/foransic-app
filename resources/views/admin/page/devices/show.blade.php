@@ -429,7 +429,8 @@
                                                 <span dir="ltr">{{ $action->end_date }}</span></button>
                                         </td>
                                     </span>
-                                    <h5 class="mt-5"><a href="#">توسط {{ $action->user->name }}</a></h5>
+                                    <h5 class="mt-5"> نوشته شده توسط:<a href="#" style="color: #f170ff;"> {{ $action->user->name }}</a></h5>
+                                    <h5>عنوان اقدام :<a href="#" style="color: #f170ff;"> {{ $action->category->title }}</a></h5>
                                     <div>
                                         {{ $action->description }}
                                     </div>
