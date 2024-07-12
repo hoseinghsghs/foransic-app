@@ -54,7 +54,7 @@ class DossiersExport implements FromQuery, WithMapping, WithHeadings
                 $dossier->name,
                 $dossier->subject,
                 $dossier->section,
-                $dossier->dossier_type == 2 ? 'عملیاتی' : ' فاوایی',
+            $dossier->dossier_type == 0 ? 'عملیاتی' : ' فاوایی',
                 $dossier->dossier_case,
                 $dossier->expert_phone,
                 $dossier->expert_cellphone,

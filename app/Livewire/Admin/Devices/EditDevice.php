@@ -170,7 +170,7 @@ class EditDevice extends Component
             return redirect()->back();
         }
         flash()->addSuccess('شواهد مورد نظر ویرایش شد');
-        return redirect()->route('admin.devices.index');
+        // return redirect()->route('admin.devices.index');
     }
 
     public function printReport()

@@ -94,29 +94,33 @@ class EditDossier extends Component
             $image_name = $this->image_url;
             $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
         }
+        try {
+            $this->dossier->update([
+                'name' => $this->name,
+                'user_category_id' => $this->user_category_id,
+                'personal_creator_id' => auth()->user()->id,
+                'section' => $this->section,
+                'subject' => $this->subject,
+                'expert' => $this->expert,
+                'number_dossier' => $this->number_dossier,
+                'summary_description' => $this->summary_description,
+                'is_active' => !$this->is_active,
+                'is_archive' => 0,
+                'Judicial_date' => $this->Judicial_date,
+                'dossier_type' => $this->dossier_type,
+                'dossier_case' => $this->dossier_case,
+                'expert_phone' => $this->expert_phone,
+                'expert_cellphone' => $this->expert_cellphone,
+                'Judicial_number' => $this->Judicial_number,
+                'Judicial_image' => $image_name,
+            ]);
+            toastr()->rtl(true)->addInfo('پرونده ویرایش شد', ' ');
+        } catch (\Throwable $th) {
+            toastr()->rtl(true)->addInfo('مشکل در ایجاد پرونده', ' ');
+        }
 
-        $this->dossier->update([
-            'name' => $this->name,
-            'user_category_id' => $this->user_category_id,
-            'personal_creator_id' => auth()->user()->id,
-            'section' => $this->section,
-            'subject' => $this->subject,
-            'expert' => $this->expert,
-            'number_dossier' => $this->number_dossier,
-            'summary_description' => $this->summary_description,
-            'is_active' => !$this->is_active,
-            'is_archive' => 0,
-            'Judicial_date' => $this->Judicial_date,
-            'dossier_type' => $this->dossier_type,
-            'dossier_case' => $this->dossier_case,
-            'expert_phone' => $this->expert_phone,
-            'expert_cellphone' => $this->expert_cellphone,
-            'Judicial_number' => $this->Judicial_number,
-            'Judicial_image' => $image_name,
-        ]);
-        toastr()->rtl(true)->addInfo('پرونده ویرایش شد', ' ');
 //        flash()->addSuccess('شواهد دیجیتال مورد نظر دریافت شد');
-        return redirect()->route('admin.dossiers.index');
+        // return redirect()->route('admin.dossiers.index');
     }
 
 

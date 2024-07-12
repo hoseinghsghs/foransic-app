@@ -251,6 +251,7 @@
                                         <thead>
                                         <tr>
                                             <th>id</th>
+                                            <th>عنوان اقدام</th>
                                             <th>نام پرسنل</th>
                                             <th>تاریخ و زمان شروع</th>
                                             <th>تاریخ و زمان پایان</th>
@@ -261,9 +262,11 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($actions as $key => $action)
+
                                             <tr wire:key="{{ $action->description }} {{ $action->id }}"
                                                 wire:loading.attr="disabled">
                                                 <td scope="row">{{ $action->id }}</td>
+                                                <td scope="row">{{ $action->category->title }}</td>
                                                 <td scope="row">{{ $action->user->name }} -
                                                     {{ $action->user->cellphone }}</td>
                                                 <td dir="ltr">{{ $action->start_date }}</td>
