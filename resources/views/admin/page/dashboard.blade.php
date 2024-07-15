@@ -73,7 +73,7 @@
                                 شواهد دیجیتال تحویل داده شده
                             </small>
                             <div class="progress">
-                                <div class="progress-bar l-purple" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="{{ $all_devices }}" style="width: {{ ($status_device_4 / ($all_devices > 0 ? $all_devices : 1)) * 100 }}%;">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="{{ $all_devices }}" style="width: {{ ($status_device_4 / ($all_devices > 0 ? $all_devices : 1)) * 100 }}%;background : rgb(181, 136, 255)">
                                 </div>
                             </div>
                         </div>
@@ -81,6 +81,33 @@
                 </div>
             </div>
             {{-- بررسی نشده --}}
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong>نمودار</strong>درصد عملکرد</h2>
+                        </div>
+                        <div class="body">
+                            <div id="chart-pie" class="c3_chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-md-12 col-lg-12">
+
+                    <div class="card">
+                        <div class="header">
+                            <h2><strong><i class="zmdi zmdi-chart"></i> گزارش </strong>تعداد عملکرد
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div id="chart-area-spline-device" class="c3_chart d_sales"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @if ($users->count())
             <div class="row clearfix">
                 <div class="col-sm-12">
@@ -158,6 +185,7 @@
                                     <tr style="background-color: #b2e0ff">
                                         <th>id</th>
                                         <th>توسط</th>
+                                        <th>آزمایشگاه</th>
                                         <th>وضعیت</th>
                                         <th>تاریخ ایجاد</th>
                                         <th>توضیح اقدام</th>
@@ -185,6 +213,11 @@
                                             </td>
                                             <td><span class="list-name">
                                                     {{ $action->user->name }}
+                                                </span>
+                                                <span class="text-muted"></span>
+                                            </td>
+                                            <td><span class="list-name">
+                                                    {{ $action->device->laboratory->name}}
                                                 </span>
                                                 <span class="text-muted"></span>
                                             </td>
@@ -222,23 +255,6 @@
             </div>
             @endif
 
-            <div class="row clearfix">
-                <div class="col-md-12 col-lg-12">
-
-                    <div class="card">
-                        <div class="header">
-                            <h2><strong><i class="zmdi zmdi-chart"></i> گزارش </strong> شواهد دریافتی یکسال
-                                گذشته
-                            </h2>
-                        </div>
-                        <div class="body">
-                            <div id="chart-area-spline-device" class="c3_chart d_sales"></div>
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
 
         </div>
     </div>
@@ -354,7 +370,9 @@
             </div>
         </div>
     </div>
+
 </section>
+
 @endhasanyrole
 @endsection
 @push('scripts')
@@ -362,9 +380,17 @@
 <script>
     initC3Chart();
 
+
     function initC3Chart() {
         setTimeout(function() {
             $success = @json($successDevice);
+            $delivery = @json($deliveryDevice);
+            $receive = @json($receiveDevice);
+
+            $status_device_1 = @json($status_device_1);
+            $status_device_2 = @json($status_device_2);
+            $status_device_3 = @json($status_device_3);
+            $status_device_4 = @json($status_device_4);
             $(document).ready(function() {
                 var i;
                 var chart = c3.generate({
@@ -373,18 +399,26 @@
                         columns: [
                             $.each($success, function(key, val) {
                                 $success[key]
-                            })
+                            }),
+                            $.each($receive, function(key, val) {
+                                $delivery[key]
+                            }),
+                            $.each($delivery, function(key, val) {
+                                $delivery[key]
+                            }),
                         ],
-                        axes: {
-                            data2: 'y2'
-                        },
                         type: "bar", // default type of chart
                         colors: {
                             data1: Aero.colors["teal"],
+                            data2: Aero.colors["red"],
+                            data2: Aero.colors["blue"],
+
                         },
                         names: {
                             // name of each serie
-                            data1: "شواهد دریافتی",
+                            data1: "کل شواهد ",
+                            data2: "شواهد تحویل داده شده",
+                            data3: "شواهد در دست اقدام",
                         },
                     },
                     axis: {
@@ -394,7 +428,7 @@
                             categories: @json($labels),
                         },
                         y: {
-                            show: false,
+                            show: true,
                             tick: {
                                 format: function(d) {
                                     return d + ' ' + 'عدد';
@@ -411,7 +445,47 @@
                     },
                 });
             });
+
+            $(document).ready(function() {
+                var chart = c3.generate({
+                    bindto: '#chart-pie', // id of chart wrapper
+                    data: {
+                        columns: [
+                            // each columns data
+                            ['data1', $status_device_1],
+                            ['data2', $status_device_2],
+                            ['data3', $status_device_3],
+                            ['data4', $status_device_4]
+                        ],
+                        type: 'pie', // default type of chart
+                        colors: {
+                            'data1': Aero.colors["blue-darker"],
+                            'data2': Aero.colors["green"],
+                            'data3': Aero.colors["orange"],
+                            'data4': Aero.colors["purple"]
+                        },
+                        names: {
+                            // name of each serie
+                            'data1': 'بررسی نشده',
+                            'data2': 'در حال بررسی',
+                            'data3': 'تکمیل بررسی ',
+                            'data4': 'تحویل داده شده'
+                        }
+                    },
+                    axis: {},
+                    legend: {
+                        show: true, //hide legend
+                    },
+                    padding: {
+                        bottom: 0,
+                        top: 0
+                    },
+                });
+            });
+
         }, 500);
+
+
     }
 </script>
 @endpush

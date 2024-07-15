@@ -83,7 +83,7 @@ class DeviceComponent extends Component
             $user_dossiers=Dossier::where('user_category_id',auth()->user()->id)->get()->pluck('id')->toArray();
             $query->whereIn('dossier_id',$user_dossiers);
         })->when($this->title, function ($query) use ($category_ids) {
-            $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids)->orWhereIn('id', 'like', '%' . $this->title . '%');
+            $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
         })->when($this->status != '', function ($query) {
             $query->where('status', $this->status);
         })->when($this->ids, function ($query) {

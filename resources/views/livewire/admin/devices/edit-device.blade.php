@@ -167,7 +167,7 @@
                                                 @foreach ($dossiers as $dossier)
                                                     <option
                                                         value="{{ $dossier->id }}" @selected($device->dossier_id == $dossier->id)>
-                                                        {{ $dossier->name }} - {{ $dossier->number_dossier }}
+                                                        {{ $dossier->name }} - {{ $dossier->number_dossier }} -{{$dossier->company->name}}
                                                     </option>
                                                 @endforeach
                                             </select>

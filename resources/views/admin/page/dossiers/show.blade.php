@@ -73,9 +73,9 @@
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>وضعیت:</strong></div>
                                     @if ($dossier->is_active)
-                                    <spam class=" badge badge-success badge-pill">فعال</spam>
+                                    <spam class=" badge badge-success badge-pill">مفتوح</spam>
                                     @else
-                                    <spam class=" badge badge-danger badge-pill">غیر فعال</spam>
+                                    <spam class="badge badge-dark badge-pill" style="background-color: #000000">مختومه</spam>
                                     @endif
                                 </div>
                             </div>

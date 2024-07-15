@@ -58,8 +58,8 @@
                                                     <select data-placeholder="وضعیت" wire:model.live="is_active"
                                                             class="form-control ms">
                                                         <option value="">وضعیت</option>
-                                                        <option value="1">فعال</option>
-                                                        <option value="0">غیرفعال</option>
+                                                        <option value="1">مفتوح</option>
+                                                        <option value="0">مختومه</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -166,9 +166,9 @@
                                                             @class([
                                                                 'btn btn-raised waves-effect',
                                                                 'btn-success' => $dossier->is_active,
-                                                                'btn-danger' => !$dossier->is_active,
+                                                                'btn-dark' => !$dossier->is_active,
                                                             ])>
-                                                            {{ $dossier->is_active ? 'فعال' : 'غیرفعال' }}
+                                                            {{ $dossier->is_active ? 'مفتوح' : 'مختومه' }}
                                                         </button>
                                                     </td>
                                                     <td>

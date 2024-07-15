@@ -60,7 +60,7 @@
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select data-placeholder="موجودی" wire:model.live="status" class="form-control ms">
-                                                    <option value="">وضعیت بررسی</option>
+                                                    <option value="">وضعیت بررسی (همه)</option>
                                                     <option value="0">پذیرش شواهد دیجیتال</option>
                                                     <option value="1">در حال بررسی</option>
                                                     <option value="2"> تکمیل تجزیه و تحلیل

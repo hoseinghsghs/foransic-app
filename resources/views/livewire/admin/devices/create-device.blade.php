@@ -132,7 +132,7 @@
                                                 <option></option>
                                                 @foreach ($dossiers as $dossier)
                                                 <option value="{{ $dossier->id }}" @selected(session()->get('dossier') == $dossier->id)>
-                                                    {{ $dossier->name }} - {{ $dossier->number_dossier }}
+                                                    {{ $dossier->name }} - {{ $dossier->number_dossier }}- {{$dossier->company->name}}
                                                 </option>
                                                 @endforeach
                                             </select>

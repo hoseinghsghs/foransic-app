@@ -40,18 +40,19 @@ class DashboardController extends Controller
 
         // // بر اساس زمان
         $month = 12;
-        $successDevice = Device::getData($month, 0);
+        $successDevice = Device::whereBetween('created_at', [$from, $to])->get();
+        $deliveryDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->get();
+        $receiveDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
         // dd( $successDevice);
         $successDeviceChart = $this->chart($successDevice, $month);
+        $deliveryDeviceChart = $this->chart($deliveryDevice, $month);
+        $receiveDeviceChart = $this->chart($receiveDevice, $month);
 
         array_unshift($successDeviceChart, "data1");
+        array_unshift($deliveryDeviceChart, "data2");
+        array_unshift($receiveDeviceChart, "data3");
         $lable = $this->chart($successDevice, $month);
-        // dd ($successDevice,$month);
-        // $unsuccessDevice = Device::getData($month, 0);
-        // $unsuccessDeviceChart = $this->chart($unsuccessDevice, $month);
-        // array_unshift($unsuccessDeviceChart, "data2");
-        //پربازدید ترین صفحات
-        // dd(array_values($successDeviceChart));
+        // $lable2 = $this->chart($deliveryDeviceChart, $month);
         return view(
             'admin.page.dashboard'
             ,
@@ -66,17 +67,14 @@ class DashboardController extends Controller
                 'status_device_checks',
                 'actions',
                 'image'
-            // 'amunt_delivery_orders',
-            // 'successsend_order',
-            // 'returned_order',
-
             ),
 
             [
                 'successDevice' => array_values($successDeviceChart),
-                // 'unsuccessDevice' => array_values($unsuccessDeviceChart),
+                'deliveryDevice' => array_values($deliveryDeviceChart),
+                'receiveDevice' => array_values($receiveDeviceChart),
                 'labels' => array_keys($lable),
-                //     'transactionsCount' => [$successDevice->count(), $unsuccessDevice->count()]
+                // 'labels2' => array_keys($lable2),
             ]
 
         );

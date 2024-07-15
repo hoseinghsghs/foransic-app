@@ -47,6 +47,16 @@
                                                                     <strong style="color:#e47297">مدل
                                                                     </strong>
                                                                     : {{ $device->code }}</a>
+
+
+
+                                                                        <a class="ml-3" href="#">
+                                                                    <strong style="color:#e47297">کد یکتا
+                                                                    </strong>
+                                                                    : {{ $device->id }}</a>
+
+
+
                                                                 @if ($device->dossier)
                                                                     <a class="ml-3" href="#">
                                                                         <strong style="color:#e47297">عنوان پرونده

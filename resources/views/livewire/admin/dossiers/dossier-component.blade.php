@@ -59,8 +59,8 @@
                                             <div class="form-line">
                                                 <select data-placeholder="وضعیت" wire:model.live="is_active" class="form-control ms">
                                                     <option value="">وضعیت</option>
-                                                    <option value="1">فعال</option>
-                                                    <option value="0">غیرفعال</option>
+                                                    <option value="1">مفتوح</option>
+                                                    <option value="0">مختومه</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -125,7 +125,7 @@
                                                 <a href="{{ route('admin.dossiers.show', $dossier->id) }}" class="btn btn-sm btn-primary"> <i class="zmdi zmdi-eye" style="padding: 2px;"></i> </a>
                                                 @endcan
                                                 @can('dossier-print')
-                                                <a href="{{ route('admin.print.print-dossier', $dossier->id) }}" class="btn btn-sm "> <i class="zmdi zmdi-print" style="padding: 2px;"></i> </a>
+                                                <a href="{{ route('admin.print.print-dossier', $dossier->id) }}" class="btn btn-sm " target="_blank"> <i class="zmdi zmdi-print" style="padding: 2px;"></i> </a>
                                                 @endcan
                                             </td>
                                             @endcanany
@@ -156,9 +156,9 @@
                                             </td>
                                             <td>
                                                 <button wire:click="ChangeActive_dossier({{ $dossier->id }})" wire:loading.attr="disabled" @class([ 'btn btn-raised waves-effect' , 'btn-success'=> $dossier->is_active,
-                                                    'btn-danger' => !$dossier->is_active,
+                                                    'btn btn-primary' => !$dossier->is_active,
                                                     ])>
-                                                    {{ $dossier->is_active ? 'فعال' : 'غیرفعال' }}
+                                                    {{ $dossier->is_active ? 'مفتوح' : 'مختومه' }}
                                                 </button>
                                             </td>
                                             <td>
