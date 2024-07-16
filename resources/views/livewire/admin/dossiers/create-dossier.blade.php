@@ -80,16 +80,38 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group col-md-3">
-                                    <label>مدیریت یا معاونت <abbr class="required text-danger" title="ضروری">*</abbr>
-                                    </label>
-                                    <div class="form-group">
-                                        <input type="text" wire:model.defer="section" id="delivery-name" class="form-control @error('section') is-invalid @enderror" required />
-                                        <span id="delivery-name-display" class="text-warning"></span>
-                                        @error('section')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
+                                <div class="form-group col-md-3 col-sm-3 @error('section_id') is-invalid @enderror">
+                                    <label for="sectionSelect">مدیریت یا معاونت <abbr class="required text-danger" title="ضروری">*</abbr></label>
+                                    <div wire:ignore>
+                                        <select id="sectionSelect" name="section_id" data-placeholder="انتخاب مدیریت یا معاونت " class="form-control ms search-select">
+                                            <option></option>
+                                            @foreach ($sections as $section)
+                                            <option value="{{ $section->id }}">
+                                                {{ $section->name }} - {{ $section->code }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
+                                    @error('section_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group col-md-3 col-sm-3 @error('zone_id') is-invalid @enderror">
+                                    <label for="zoneSelect">حوزه اقدام <abbr class="required text-danger" title="ضروری">*</abbr></label>
+                                    <div wire:ignore>
+                                        <select id="zoneSelect" name="zone_id" data-placeholder="انتخاب حوزه اقدام " class="form-control ms search-select">
+                                            <option></option>
+                                            @foreach ($zones as $zone)
+                                            <option value="{{ $zone->id }}">
+                                                {{ $zone->title }} - {{ $zone->cuntry }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('zone_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
                                 </div>
 
                                 <div class="form-group col-md-3 col-sm-3 @error('user_category_id') is-invalid @enderror">
@@ -313,6 +335,23 @@
                 @this.set('user_category_id', null);
             } else {
                 @this.set('user_category_id', data);
+            }
+        });
+        $('#zoneSelect').on('change', function(e) {
+            let data = $('#zoneSelect').select2("val");
+            if (data === '') {
+                @this.set('zone_id', null);
+            } else {
+                @this.set('zone_id', data);
+            }
+        });
+
+        $('#sectionSelect').on('change', function(e) {
+            let data = $('#sectionSelect').select2("val");
+            if (data === '') {
+                @this.set('section_id', null);
+            } else {
+                @this.set('section_id', data);
             }
         });
 

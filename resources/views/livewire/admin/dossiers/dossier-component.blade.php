@@ -104,6 +104,7 @@
                                             <th>موضوع</th>
                                             <th>شماره پرونده</th>
                                             <th>مدیریت یا معاونت</th>
+                                                <th> حوزه اقدام </th>
                                             <th> رده</th>
                                             <th>ثبت کننده</th>
                                             <th> تاریخ ایجاد</th>
@@ -143,7 +144,10 @@
                                                 {{ $dossier->number_dossier }}
                                             </td>
                                             <td>
-                                                {{ $dossier->section }}
+                                                {{ $dossier->section->name }}
+                                            </td>
+                                            <td>
+                                                {{ $dossier->zone->title }}
                                             </td>
                                             <td>
                                                 {{ $dossier->company->name }}

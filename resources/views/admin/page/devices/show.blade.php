@@ -171,6 +171,12 @@
                                     <div class="list-group-item list-group-item-primary">
                                         دریافت و تحویل
                                     </div>
+                                     <div class="list-group-item list-group-item-action">
+                                        <div class="row clearfix">
+                                            <div class="col-6"><strong>تاریخ و زمان ثبت :</strong></div>
+                                            <div class="col-6">{{ verta($device->created_at)->format('Y-n-j H:i') }}</div>
+                                        </div>
+                                    </div>
                                     <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
                                             <div class="col-6"><strong>تاریخ دریافت:</strong></div>
@@ -325,11 +331,39 @@
                     <div class="card card-body p-0">
                         <div class=" list-group">
                             <div class="list-group-item list-group-item-primary">
-                                تاریخ مکاتبه
+                                تاریخ مکاتبه درخواست
                             </div>
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-12">{!! $device->correspondence_date !!}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                   <div class="col-lg-6">
+                    <div class="card card-body p-0">
+                        <div class=" list-group">
+                            <div class="list-group-item list-group-item-primary">
+                                شماره خودکار ساز نامه پاسخ
+                            </div>
+                            <div class="list-group-item list-group-item-action">
+                                <div class="row clearfix">
+                                    <div class="col-12">{!! $device->reply_correspondence_number !!}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-body p-0">
+                        <div class=" list-group">
+                            <div class="list-group-item list-group-item-primary">
+                                 تاریخ مکاتبه پاسخ
+                            </div>
+                            <div class="list-group-item list-group-item-action">
+                                <div class="row clearfix">
+                                    <div class="col-12">{!! $device->reply_correspondence_date !!}</div>
                                 </div>
                             </div>
                         </div>

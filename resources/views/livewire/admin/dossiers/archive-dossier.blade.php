@@ -112,6 +112,7 @@
                                                 <th>موضوع</th>
                                                 <th>شماره پرونده</th>
                                                 <th>مدیریت یا معاونت</th>
+                                                <th> حوزه اقدام </th>
                                                 <th> رده</th>
                                                 <th> تاریخ ایجاد</th>
                                                 <th>وضعیت</th>
@@ -151,7 +152,10 @@
                                                         {{ $dossier->number_dossier }}
                                                     </td>
                                                     <td>
-                                                        {{ $dossier->section }}
+                                                        {{ $dossier->section->name }}
+                                                    </td>
+                                                     <td>
+                                                        {{ $dossier->zone->title }}
                                                     </td>
                                                     <td dir="ltr">
                                                         {{ App\Models\User::find($dossier->user_category_id)->name }}

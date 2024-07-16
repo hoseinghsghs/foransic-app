@@ -70,7 +70,7 @@
                                     </div>
                                     @endif
                                     <div class="form-group col-md-3">
-                                        <label>تاریخ ثبت </label>
+                                        <label>زمان پذیرش </label>
                                         <div class="input-group" wire:ignore>
                                             <div class="input-group-prepend" onclick="$('#createDate').focus();">
                                                 <span class="input-group-text" id="basic-addon1"><i class="zmdi zmdi-calendar-alt"></i></span>
@@ -212,7 +212,7 @@
                                 </div>
                                 <hr>
                                 <div class="row clearfix">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label> شماره خودکار ساز نامه درخواست</label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="correspondence_number" id="correspondence_number" class="form-control @error('correspondence_number') is-invalid @enderror" />
@@ -223,7 +223,7 @@
                                     </div>
 
                                     <div class="form-group col-md-3">
-                                        <label>تاریخ مکاتبه </label>
+                                        <label>تاریخ مکاتبه درخواست </label>
                                         <div class="input-group" wire:ignore>
                                             <div class="input-group-prepend" onclick="$('#correspondenceDate').focus();">
                                                 <span class="input-group-text" id="basic-addon1"><i class="zmdi zmdi-calendar-alt"></i></span>
@@ -238,6 +238,34 @@
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label> شماره خودکار ساز نامه پاسخ</label>
+                                        <div class="form-group">
+                                            <input type="text" wire:model.defer="reply_correspondence_number" id="reply_correspondence_number" class="form-control @error('correspondence_number') is-invalid @enderror" />
+                                            @error('reply_correspondence_number')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label>تاریخ مکاتبه پاسخ </label>
+                                        <div class="input-group" wire:ignore>
+                                            <div class="input-group-prepend" onclick="$('#reply_correspondenceDate').focus();">
+                                                <span class="input-group-text" id="basic-addon1"><i class="zmdi zmdi-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="hidden" id="reply_correspondenceDate-alt" name="reply_correspondence_date">
+                                            <input type="text" class="form-control" id="reply_correspondenceDate" value="{{ $reply_correspondence_date ?? null }}" autocomplete="off">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon1" style="cursor: pointer;" onclick="destroyDatePicker()"><i class="zmdi zmdi-close"></i></span>
+                                            </div>
+                                        </div>
+                                        @error('reply_correspondence_date')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
                                     <div class="form-group col-md-12">
                                         <div class="header">
                                             <label for="primary_image">تصویر مکاتبه <small>(عکس با فرمت jpg و
@@ -460,7 +488,7 @@
         correspondenceDate = $(`#correspondenceDate`).pDatepicker({
             initialValue: false,
             initialValueType: 'persian',
-            format: 'L',
+            format: 'LLLL',
             altField: `#correspondenceDate-alt`,
             altFormat: 'g',
             timePicker: {
@@ -475,7 +503,7 @@
                 if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
                     persianDate.toLocale('en');
                     let p = new persianDate(unixDate).format(
-                        'YYYY/MM/DD');
+                        'YYYY/MM/DD HH:mm');
                     return p;
                 }
                 if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
@@ -494,7 +522,7 @@
         createDate = $(`#createDate`).pDatepicker({
             initialValue: true,
             initialValueType: 'persian',
-            format: 'L',
+            format: 'LLLL',
             altField: `#createDate-alt`,
             altFormat: 'g',
             timePicker: {
@@ -509,7 +537,7 @@
                 if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
                     persianDate.toLocale('en');
                     let p = new persianDate(unixDate).format(
-                        'YYYY/MM/DD');
+                        'YYYY/MM/DD HH:mm');
                     return p;
                 }
                 if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
@@ -522,6 +550,57 @@
             },
             onSelect: function(unix) {
                 @this.set(`receive_date`, $(`#createDate-alt`).val(), true);
+            },
+        });
+    });
+</script>
+
+
+<script>
+    let reply_correspondenceDate;
+
+    function destroyDatePicker() {
+        $(`#reply_correspondenceDate`).val(null);
+        $(`#reply_correspondenceDate-alt`).val(null);
+        reply_correspondenceDate.touched = false;
+        reply_correspondenceDate.options = {
+            initialValue: false
+        }
+        @this.set(`reply_correspondence_date`, null, true);
+    }
+
+    $(document).ready(function() {
+        reply_correspondenceDate = $(`#reply_correspondenceDate`).pDatepicker({
+            initialValue: false,
+            initialValueType: 'persian',
+            format: 'LLLL',
+            altField: `#reply_correspondenceDate-alt`,
+            altFormat: 'g',
+            timePicker: {
+                enabled: true,
+                second: {
+                    enabled: false
+                },
+            },
+            altFieldFormatter: function(unixDate) {
+                var self = this;
+                var thisAltFormat = self.altFormat.toLowerCase();
+                if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
+                    persianDate.toLocale('en');
+                    let p = new persianDate(unixDate).format(
+                        'YYYY/MM/DD HH:mm');
+                    return p;
+                }
+                if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
+                    return unixDate;
+                } else {
+                    let pd = new persianDate(unixDate);
+                    pd.formatPersian = this.persianDigit;
+                    return pd.format(self.altFormat);
+                }
+            },
+            onSelect: function(unix) {
+                @this.set(`reply_correspondence_date`, $(`#reply_correspondenceDate-alt`).val(), true);
             },
         });
     });

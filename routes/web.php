@@ -38,6 +38,8 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('dossiers/create', \App\Livewire\Admin\Dossiers\CreateDossier::class)->middleware('permission:dossiers-create')->name('dossiers.create');
     Route::get('dossiers/{dossier}/edit', \App\Livewire\Admin\Dossiers\EditDossier::class)->middleware('permission:dossiers-edit')->name('dossiers.edit');
     Route::get('dossiers/archives', \App\Livewire\Admin\Dossiers\ArchiveDossier::class)->middleware('permission:dossiers-archive-list')->name('dossiers.archive');
+    Route::get('dossiers/zones', \App\Livewire\Admin\Dossiers\ZoneDossier::class)->middleware('permission:dossiers-zone-list')->name('dossiers.zone');
+    Route::get('dossiers/sections', \App\Livewire\Admin\Dossiers\SectionDossier::class)->middleware('permission:dossiers-section-list')->name('dossiers.section');
     Route::get('dossiers/{dossier}/show', function (\App\Models\Dossier $dossier){
         \Illuminate\Support\Facades\Gate::authorize('is-same-laboratory',$dossier->laboratory_id);
         $devices=$dossier->devices()->paginate(10);

@@ -4,7 +4,9 @@ namespace App\Livewire\Admin\Dossiers;
 
 use App\Http\Controllers\Admin\ImageController;
 use App\Models\Dossier;
+use App\Models\Section;
 use App\Models\User;
+use App\Models\Zone;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +24,8 @@ class EditDossier extends Component
     public string $name = '';
     public string $number_dossier = '';
     public string $subject = '';
-    public string $section = '';
+    public string $section_id = '';
+    public string $zone_id = '';
     public string $expert = '';
     public $user_category_id;
     public bool $is_active = false;
@@ -47,7 +50,8 @@ class EditDossier extends Component
             'user_category_id' => ['required', 'integer', Rule::in($users)],
             'subject' => 'required|string',
             'expert' => 'required|string',
-            'section' => 'required|string',
+            'section_id' => 'required|string',
+            'zone_id' => 'required|string',
             'number_dossier' => 'required|string|unique:dossiers,number_dossier,' . $this->dossier->id,
             'summary_description' => 'required|string',
             'Judicial_date' => 'nullable|string',
@@ -64,7 +68,8 @@ class EditDossier extends Component
         $this->authorize('is-same-laboratory', $this->dossier->laboratory_id);
         $this->name = $this->dossier->name;
         $this->user_category_id = $this->dossier->user_category_id;
-        $this->section = $this->dossier->section;
+        $this->section_id = $this->dossier->section_id;
+        $this->zone_id = $this->dossier->zone_id;
         $this->subject = $this->dossier->subject;
         $this->expert = $this->dossier->expert;
         $this->number_dossier = $this->dossier->number_dossier;
@@ -99,7 +104,8 @@ class EditDossier extends Component
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
-                'section' => $this->section,
+                'section_id' => $this->section_id,
+                'zone_id' => $this->zone_id,
                 'subject' => $this->subject,
                 'expert' => $this->expert,
                 'number_dossier' => $this->number_dossier,
@@ -127,7 +133,9 @@ class EditDossier extends Component
     public function render()
     {
         $users = User::role('company')->get();
-        return view('livewire.admin.dossiers.edit-dossier', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
+        $sections = Section::all();
+        $zones = Zone::all();
+        return view('livewire.admin.dossiers.edit-dossier', compact('users', 'sections', 'zones'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

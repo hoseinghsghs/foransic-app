@@ -17,7 +17,6 @@ class EditDevice extends Component
 {
     use WithFileUploads;
 
-
     public Device $device;
     public string $category_id;
     public $attribute_values = [];
@@ -25,6 +24,8 @@ class EditDevice extends Component
     public string $trait = '';
     public string $correspondence_number = '';
     public string $correspondence_date = '';
+    public string $reply_correspondence_number = '';
+    public string $reply_correspondence_date = '';
     public string $receive_date = '';
     public $dossier_id;
     public string $delivery_code = '';
@@ -38,7 +39,6 @@ class EditDevice extends Component
     public $attachment_report;
     public string $report = '';
     public bool $is_active = false;
-
 
     public function rules(): array
     {
@@ -59,7 +59,9 @@ class EditDevice extends Component
             'delivery_code' => 'nullable|string',
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
+            'reply_correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
+            'reply_correspondence_date' => 'nullable|string',
             'receive_date' => 'nullable|string',
             'delivery_name' => 'required|string',
             'receiver_name' => 'required_if:status,3|string',
@@ -96,7 +98,9 @@ class EditDevice extends Component
         $this->dossier_id = $this->device->dossier_id;
         $this->status = $this->device->status;
         $this->correspondence_number = $this->device->correspondence_number;
+        $this->reply_correspondence_number = $this->device->reply_correspondence_number;
         $this->correspondence_date = $this->device->correspondence_date;
+        $this->reply_correspondence_date = $this->device->reply_correspondence_date;
         $this->delivery_name = $this->device->delivery_name;
         $this->delivery_code = $this->device->delivery_code;
         $this->receiver_name = $this->device->receiver_name;
@@ -141,7 +145,9 @@ class EditDevice extends Component
             'laboratory_id' => Dossier::find($this->dossier_id)->laboratory_id,
             'code' => $this->code,
             'correspondence_number' => $this->correspondence_number,
+                'reply_correspondence_number' => $this->reply_correspondence_number,
             'correspondence_date' => $this->correspondence_date,
+                'reply_correspondence_date' => $this->reply_correspondence_date,
             'receive_date' => $this->receive_date,
             'delivery_code' => $this->delivery_code,
             'delivery_name' => $this->delivery_name,

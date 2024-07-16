@@ -27,4 +27,13 @@ class Dossier extends Model
     public function laboratory(){
         return $this->belongsTo(Laboratory::class,'laboratory_id');
     }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'section_id');
+    }
+    public function zone()
+    {
+        return $this->belongsTo(Zone::class, 'zone_id');
+    }
 }

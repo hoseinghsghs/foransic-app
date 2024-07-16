@@ -23,6 +23,8 @@ class CreateDevice extends Component
     public string $code = '';
     public string $trait = '';
     public string $correspondence_number = '';
+    public string $reply_correspondence_number = '';
+    public string $reply_correspondence_date = '';
     public string $correspondence_date = '';
     public $dossier_id;
     public int|null $laboratory_id = null;
@@ -54,7 +56,9 @@ class CreateDevice extends Component
             'delivery_code' => 'nullable|string',
             'trait' => 'nullable|string',
             'correspondence_number' => 'nullable|string',
+            'reply_correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
+            'reply_correspondence_date' => 'nullable|string',
             'receive_date' => 'nullable|string',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:10000',
@@ -99,7 +103,9 @@ class CreateDevice extends Component
                 'accessories' => $this->accessories,
                 'code' => $this->code,
                 'correspondence_number' => $this->correspondence_number,
+                'reply_correspondence_number' => $this->reply_correspondence_number,
                 'correspondence_date' => $this->correspondence_date,
+                'reply_correspondence_date' => $this->reply_correspondence_date,
                 'delivery_code' => $this->delivery_code,
                 'delivery_name' => $this->delivery_name,
                 'receiver_name' => "-",

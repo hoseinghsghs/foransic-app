@@ -59,7 +59,19 @@
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>مدیریت یا معاونت:</strong></div>
-                                    <div class="col-6">{{ $dossier->section }}</div>
+                                    <div class="col-6">{{ $dossier->section->name }}</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item list-group-item-action">
+                                <div class="row clearfix">
+                                    <div class="col-6"><strong> حوزه اقدام :</strong></div>
+                                    <div class="col-6">{{ $dossier->zone->title }}</div>
+                                </div>
+                            </div>
+                            <div class="list-group-item list-group-item-action">
+                                <div class="row clearfix">
+                                    <div class="col-6"><strong>  کشور حوزه اقدام :</strong></div>
+                                    <div class="col-6">{{$dossier->zone->country ? $dossier->zone->country :'-'}}</div>
                                 </div>
                             </div>
                             <div class="list-group-item list-group-item-action">

@@ -4,7 +4,9 @@ namespace App\Livewire\Admin\Dossiers;
 
 use App\Http\Controllers\Admin\ImageController;
 use App\Models\Dossier;
+use App\Models\Section;
 use App\Models\User;
+use App\Models\Zone;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
@@ -18,7 +20,8 @@ class CreateDossier extends Component
     public string $name = '';
     public string $number_dossier = '';
     public string $subject = '';
-    public string $section = '';
+    public string $section_id = '';
+    public string $zone_id = '';
     public string $expert = '';
     public $user_category_id;
     public int|null $laboratory_id;
@@ -48,7 +51,8 @@ class CreateDossier extends Component
             'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'subject' => 'required|string',
             'expert' => 'required|string',
-            'section' => 'required|string',
+            'section_id' => 'required|string',
+            'zone_id' => 'required|string',
             'number_dossier' => 'required|string|unique:dossiers,number_dossier',
             'summary_description' => 'required|string',
             'Judicial_date' => 'nullable|string',
@@ -80,7 +84,8 @@ class CreateDossier extends Component
                 'user_category_id' => $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
                 'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
-                'section' => $this->section,
+                'section_id' => $this->section_id,
+                'zone_id' => $this->zone_id,
                 'subject' => $this->subject,
                 'expert' => $this->expert,
                 'number_dossier' => $this->number_dossier,
@@ -115,8 +120,10 @@ class CreateDossier extends Component
     {
         // get users from same laboratory that has company role
         $users = User::role('company')->get();
+        $sections = Section::all();
+        $zones = Zone::all();
 
-        return view('livewire.admin.dossiers.create-dossier', compact('users'))->extends('admin.layout.MasterAdmin')->section('Content');
+        return view('livewire.admin.dossiers.create-dossier', compact('users', 'sections', 'zones'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

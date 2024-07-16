@@ -11,10 +11,12 @@ class EventController extends Controller
 {
     public function index()
     {
-       $events= Event::latest()->paginate(10);
-        return view('admin.page.timeline.index' , compact('events'));
+        // dd(auth()->user()->id);
+        $events = Event::where('user_id', auth()->user()->id)->latest()->paginate(10);
+        $all_events = Event::latest()->paginate(10);
+        return view('admin.page.timeline.index', compact('events', 'all_events'));
     }
-    
+
     public function destroy(Event $event,ToastrFactory $flasher)
     {
         $event->delete();
