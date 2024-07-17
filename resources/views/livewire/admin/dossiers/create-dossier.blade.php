@@ -104,7 +104,24 @@
                                             <option></option>
                                             @foreach ($zones as $zone)
                                             <option value="{{ $zone->id }}">
-                                                {{ $zone->title }} - {{ $zone->cuntry }}
+                                                {{ $zone->title }} - {{ $zone->country }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('zone_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group col-md-3 col-sm-3 @error('zone_id') is-invalid @enderror">
+                                    <label for="zoneSelect">کشور <abbr class="required text-danger" title="ضروری">*</abbr></label>
+                                    <div wire:ignore>
+                                        <select id="zoneSelect" name="zone_id" data-placeholder="انتخاب کشور" class="form-control ms search-select">
+                                            <option></option>
+                                            @foreach ($lists_country as $list_country)
+                                            <option value="{{ $zone->id }}">
+                                                {{ $list_country[2] }}
                                             </option>
                                             @endforeach
                                         </select>

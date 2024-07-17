@@ -179,7 +179,7 @@
                                     </div>
                                     <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
-                                            <div class="col-6"><strong>تاریخ دریافت:</strong></div>
+                                            <div class="col-6"><strong>تاریخ و زمان پذیرش:</strong></div>
                                             <div class="col-6">{{ $device->receive_date }}</div>
                                         </div>
                                     </div>

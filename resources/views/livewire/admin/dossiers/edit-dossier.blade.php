@@ -110,7 +110,7 @@
                                             <option></option>
                                             @foreach ($zones as $zone)
                                             <option value="{{ $zone->id }}" @selected($dossier->zone_id==$zone->id)>
-                                                {{ $zone->title }} - {{ $zone->cuntry }}
+                                                {{ $zone->title }} - {{ $zone->country }}
                                             </option>
                                             @endforeach
                                         </select>
