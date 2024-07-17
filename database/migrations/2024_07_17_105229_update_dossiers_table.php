@@ -15,6 +15,7 @@ return new class extends Migration
             $table->dropColumn('section');
             $table->foreignId('zone_id')->after('subject')->nullable()->constrained('zones')->cascadeOnDelete();
             $table->foreignId('section_id')->after('subject')->nullable()->constrained('sections')->cascadeOnDelete();
+            $table->string('country')->after('subject')->nullable();
         });
     }
 

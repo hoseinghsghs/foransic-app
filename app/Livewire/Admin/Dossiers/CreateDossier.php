@@ -23,6 +23,7 @@ class CreateDossier extends Component
     public string $section_id = '';
     public string $zone_id = '';
     public string $expert = '';
+    public string $country = '';
     public $user_category_id;
     public int|null $laboratory_id;
     public bool $is_active = false;
@@ -51,6 +52,7 @@ class CreateDossier extends Component
             'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'subject' => 'required|string',
             'expert' => 'required|string',
+            'country' => 'required|string',
             'section_id' => 'required|string',
             'zone_id' => 'required|string',
             'number_dossier' => 'required|string|unique:dossiers,number_dossier',
@@ -88,6 +90,7 @@ class CreateDossier extends Component
                 'zone_id' => $this->zone_id,
                 'subject' => $this->subject,
                 'expert' => $this->expert,
+                'country' => $this->country,
                 'number_dossier' => $this->number_dossier,
                 'summary_description' => $this->summary_description,
                 'Judicial_date' => $this->Judicial_date,

@@ -33,7 +33,7 @@ class ZoneDossier extends Component
 
             $this->validate([
                 'title' => 'required|unique:zones,title,' . $this->zone->id,
-                'country' => 'string',
+                'country' => 'string|nullable',
             ]);
 
             $this->zone->update([
@@ -51,7 +51,7 @@ class ZoneDossier extends Component
 
             $this->validate([
                 'title' => 'required|unique:zones,title',
-                'country' => 'string'
+                'country' => 'string|nullable'
             ]);
             Zone::create([
                 "title" => $this->title,

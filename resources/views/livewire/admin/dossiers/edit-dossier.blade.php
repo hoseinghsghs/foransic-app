@@ -84,8 +84,6 @@
                                     @enderror
                                 </div>
 
-
-
                                 <div class="form-group col-md-3 col-sm-3 @error('section_id') is-invalid @enderror">
                                     <label for="sectionSelect">مدیریت یا معاونت <abbr class="required text-danger" title="ضروری">*</abbr></label>
                                     <div wire:ignore>
@@ -111,6 +109,23 @@
                                             @foreach ($zones as $zone)
                                             <option value="{{ $zone->id }}" @selected($dossier->zone_id==$zone->id)>
                                                 {{ $zone->title }} - {{ $zone->country }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('zone_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group col-md-3 col-sm-3 @error('zone_id') is-invalid @enderror">
+                                    <label for="countrySelect">کشور <abbr class="required text-danger" title="ضروری">*</abbr></label>
+                                    <div wire:ignore>
+                                        <select id="countrySelect" name="country" data-placeholder="انتخاب کشور" class="form-control ms search-select">
+                                            <option></option>
+                                            @foreach ($lists_country as $list_country)
+                                            <option value="{{ $list_country[2] }}" @selected($list_country[2]==$dossier->country)>
+                                                {{ $list_country[2] }}
                                             </option>
                                             @endforeach
                                         </select>
@@ -373,6 +388,15 @@
                 @this.set('section_id', data);
             }
         });
+                $('#countrySelect').on('change', function(e) {
+            let data = $('#countrySelect').select2("val");
+            if (data === '') {
+                @this.set('country', null);
+            } else {
+                @this.set('country', data);
+            }
+        });
+
             $('#summernote').on('summernote.change', function (we, contents, $editable) {
             @this.set('summary_description', contents);
             });

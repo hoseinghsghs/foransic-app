@@ -115,12 +115,12 @@
                                 </div>
 
                                 <div class="form-group col-md-3 col-sm-3 @error('zone_id') is-invalid @enderror">
-                                    <label for="zoneSelect">کشور <abbr class="required text-danger" title="ضروری">*</abbr></label>
+                                    <label for="countrySelect">کشور <abbr class="required text-danger" title="ضروری">*</abbr></label>
                                     <div wire:ignore>
-                                        <select id="zoneSelect" name="zone_id" data-placeholder="انتخاب کشور" class="form-control ms search-select">
+                                        <select id="countrySelect" name="country" data-placeholder="انتخاب کشور" class="form-control ms search-select">
                                             <option></option>
                                             @foreach ($lists_country as $list_country)
-                                            <option value="{{ $zone->id }}">
+                                            <option value="{{ $list_country[2] }}">
                                                 {{ $list_country[2] }}
                                             </option>
                                             @endforeach
@@ -360,6 +360,14 @@
                 @this.set('zone_id', null);
             } else {
                 @this.set('zone_id', data);
+            }
+        });
+        $('#countrySelect').on('change', function(e) {
+            let data = $('#countrySelect').select2("val");
+            if (data === '') {
+                @this.set('country', null);
+            } else {
+                @this.set('country', data);
             }
         });
 
