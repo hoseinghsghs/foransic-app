@@ -407,12 +407,6 @@
                 format: 'L',
                 altField: `#JudicialDate-alt`,
                 altFormat: 'g',
-                timePicker: {
-                    enabled: true,
-                    second: {
-                        enabled: false
-                    },
-                },
                 altFieldFormatter: function (unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();

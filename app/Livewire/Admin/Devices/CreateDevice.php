@@ -74,7 +74,7 @@ class CreateDevice extends Component
     {
         $this->dossier_id = Session::get('dossier');
         Session::forget('images');
-        $this->receive_date = verta()->format('Y/m/d');
+//        $this->receive_date = verta()->format('Y/m/d H:i');
     }
 
     public function create($type_redirect = '1')

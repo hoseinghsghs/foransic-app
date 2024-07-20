@@ -144,10 +144,10 @@
                                                 {{ $dossier->number_dossier }}
                                             </td>
                                             <td>
-                                                {{ $dossier->section->name }}
+                                                {{ $dossier->section?->name }}
                                             </td>
                                             <td>
-                                                {{ $dossier->zone->title }}
+                                                {{ $dossier->zone?->title }}
                                             </td>
                                             <td>
                                                 {{ $dossier->company->name }}
