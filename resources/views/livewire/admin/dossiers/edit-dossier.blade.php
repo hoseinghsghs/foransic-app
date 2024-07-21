@@ -397,6 +397,7 @@
             }
         });
 
+
             $('#summernote').on('summernote.change', function (we, contents, $editable) {
             @this.set('summary_description', contents);
             });
