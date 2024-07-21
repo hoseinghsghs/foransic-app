@@ -1,5 +1,5 @@
 /* index */
-@import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css";
+@import "../assets/home/css/vendor/fontawesome-free-5.15.1-web/css/all.min.css";
 @import "../assets/admin/plugins/bootstrap/css/bootstrap.min.css";
 @import "../assets/admin/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css";
 @import "../assets/admin/plugins/charts-c3/plugin.css";
@@ -14,7 +14,7 @@
 @import "../assets/admin/plugins/smnote/summernote-lite.min.css";
 
 @import "../assets/admin/css/style.min.css";
-@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+/*@import "https://fonts.googleapis.com/icon?family=Material+Icons";*/
 
 /* select2 */
 .select2-container .select2-search--inline .select2-search__field {
