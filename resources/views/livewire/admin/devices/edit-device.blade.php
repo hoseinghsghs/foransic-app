@@ -67,7 +67,7 @@
                                             </div>
                                             <input type="hidden" id="createDate-alt"
                                                    name="create_date">
-                                            <input type="text" class="form-control" id="createDate"
+                                            <input type="text" class="form-control" id="createDate" dir="ltr"
                                                    value="{{ $receive_date ?? null }}" autocomplete="off">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon1"
@@ -81,7 +81,7 @@
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label> مدل<abbr class="required" title="ضروری"
-                                                                                         style="color:red;">*</abbr></label>
+                                                         style="color:red;">*</abbr></label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="code" id="code"
                                                    class="form-control @error('code') is-invalid @enderror" required/>
@@ -167,7 +167,8 @@
                                                 @foreach ($dossiers as $dossier)
                                                     <option
                                                         value="{{ $dossier->id }}" @selected($device->dossier_id == $dossier->id)>
-                                                        {{ $dossier->name }} - {{ $dossier->number_dossier }} -{{$dossier->company->name}}
+                                                        {{ $dossier->name }} - {{ $dossier->number_dossier }}
+                                                        -{{$dossier->company->name}}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -216,7 +217,7 @@
 
                                 <div class="row clearfix">
                                     <div class="form-group col-md-12 @error('trait') is-invalid @enderror">
-                                        <label>  توضیحات شواهد </label>
+                                        <label> توضیحات شواهد </label>
                                         <div>
                                             <textarea class="form-control" rows="6"
                                                       wire:model.defer="trait">{!! $trait !!}</textarea>
@@ -244,7 +245,8 @@
                                     <div class="form-group col-md-12 @error('description') is-invalid @enderror">
                                         <label for="summernote-2">تجربه نگاری کارشناس فارنزیک در اقدامات :</label>
                                         <div>
-                                            <textarea class="form-control summernote-editor" wire:model.defer="description" rows="5" id="summernote-2">
+                                            <textarea class="form-control summernote-editor"
+                                                      wire:model.defer="description" rows="5" id="summernote-2">
                                             {!! $description !!}
                                         </textarea>
                                         </div>
@@ -285,8 +287,11 @@
                                             data-default-file={{ $device->attachment_report ? url(env('ATTACHMENT_REPORT_UPLOAD_PATCH') . $device->attachment_report) : null}}
                                             data-allowed-file-extensions="docx xlsx pdf csv zip rar">
                                     </div>
-                                    <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                                    <div wire:loading wire:target="attachment_report" class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                                    <div class="progress" role="progressbar" aria-label="Animated striped example"
+                                         aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                        <div wire:loading wire:target="attachment_report"
+                                             class="progress-bar progress-bar-striped progress-bar-animated"
+                                             style="width: 100%"></div>
                                     </div>
                                     @isset($device->attachment_report)
                                         لینک دانلود :
@@ -323,7 +328,7 @@
                                             </div>
                                             <input type="hidden" id="correspondenceDate-alt"
                                                    name="correspondence_date">
-                                            <input type="text" class="form-control" id="correspondenceDate"
+                                            <input type="text" class="form-control" id="correspondenceDate" dir="ltr"
                                                    value="{{ $correspondence_date ?? null }}" autocomplete="off">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon1"
@@ -336,7 +341,7 @@
                                         @enderror
                                     </div>
 
-                                                                        <div class="form-group col-md-3">
+                                    <div class="form-group col-md-3">
                                         <label> شماره خودکار ساز نامه پاسخ</label>
                                         <div class="form-group">
                                             <input type="text" wire:model.defer="reply_correspondence_number"
@@ -359,11 +364,11 @@
                                             </div>
                                             <input type="hidden" id="reply_correspondenceDate-alt"
                                                    name="reply_correspondence_date">
-                                            <input type="text" class="form-control" id="reply_correspondenceDate"
+                                            <input type="text" class="form-control" id="reply_correspondenceDate" dir="ltr"
                                                    value="{{ $reply_correspondence_date ?? null }}" autocomplete="off">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="basic-addon1"
-                                                      style="cursor: pointer;" onclick="destroyDatePicker()"><i
+                                                      style="cursor: pointer;" onclick="destroyDatePicker3()"><i
                                                         class="zmdi zmdi-close"></i></span>
                                             </div>
                                         </div>
@@ -375,7 +380,8 @@
                                 </div>
                                 <div class="col-12">
                                     <button type="submit" wire:loading.attr="disabled"
-                                            class="btn btn-raised btn-success waves-effect"><i wire:loading wire:loading wire:target="attachment_report"
+                                            class="btn btn-raised btn-success waves-effect"><i wire:loading wire:loading
+                                                                                               wire:target="attachment_report"
                                                                                                class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
                                         ذخیره
                                     </button>
@@ -398,6 +404,7 @@
     <!-- dropzone script start -->
     <script>
         let correspondenceDate;
+        let reply_correspondenceDate;
         let createDate;
 
         function destroyDatePicker() {
@@ -420,6 +427,16 @@
         @this.set(`receive_date`, null, true);
         }
 
+        function destroyDatePicker3() {
+            $(`#reply_correspondenceDate`).val(null);
+            $(`#reply_correspondenceDate-alt`).val(null);
+            reply_correspondenceDate.touched = false;
+            reply_correspondenceDate.options = {
+                initialValue: false
+            }
+        @this.set(`reply_correspondence_date`, null, true);
+        }
+
         $(document).ready(function () {
             $('#statusSelect').on('change', function (e) {
                 let data = $('#statusSelect').select2("val");
@@ -439,6 +456,7 @@
                 @this.set('dossier_id', data);
                 }
             });
+
             $('#summernote').on('summernote.change', function (we, contents, $editable) {
             @this.set('report', contents);
             });
@@ -449,21 +467,15 @@
             correspondenceDate = $(`#correspondenceDate`).pDatepicker({
                 initialValue: "{{ $correspondence_date ? true : false }}",
                 initialValueType: 'persian',
-                format: 'LLLL',
+                format: 'L',
                 altField: `#correspondenceDate-alt`,
                 altFormat: 'g',
-                timePicker: {
-                    enabled: true,
-                    second: {
-                        enabled: false
-                    },
-                },
                 altFieldFormatter: function (unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
                         persianDate.toLocale('en');
-                        let p = new persianDate(unixDate).format('YYYY/MM/DD HH:mm');
+                        let p = new persianDate(unixDate).format('YYYY/MM/DD');
                         return p;
                     }
                     if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
@@ -479,24 +491,18 @@
                 },
             });
 
-               reply_correspondenceDate = $(`#reply_correspondenceDate`).pDatepicker({
-                initialValue: "{{ $correspondence_date ? true : false }}",
+            reply_correspondenceDate = $(`#reply_correspondenceDate`).pDatepicker({
+                initialValue: "{{ $reply_correspondence_date ? true : false }}",
                 initialValueType: 'persian',
-                format: 'LLLL',
+                format: 'L',
                 altField: `#reply_correspondenceDate-alt`,
                 altFormat: 'g',
-                timePicker: {
-                    enabled: true,
-                    second: {
-                        enabled: false
-                    },
-                },
                 altFieldFormatter: function (unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
                         persianDate.toLocale('en');
-                        let p = new persianDate(unixDate).format('YYYY/MM/DD HH:mm');
+                        let p = new persianDate(unixDate).format('YYYY/MM/DD');
                         return p;
                     }
                     if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
@@ -508,15 +514,14 @@
                     }
                 },
                 onSelect: function (unix) {
-                @this.set(`correspondence_date`, $(`#reply_correspondenceDate-alt`).val(), true);
+                @this.set(`reply_correspondence_date`, $(`#reply_correspondenceDate-alt`).val(), true);
                 },
             });
-
 
             createDate = $(`#createDate`).pDatepicker({
                 initialValue: "{{ $receive_date ? true : false }}",
                 initialValueType: 'persian',
-                format: 'LLLL',
+                format: 'YYYY/MM/DD HH:mm',
                 altField: `#createDate-alt`,
                 altFormat: 'g',
                 timePicker: {
@@ -545,6 +550,17 @@
                 @this.set(`receive_date`, $(`#createDate-alt`).val(), true);
                 },
             });
+            //change receive date time to unix for read in persian date
+            if ("{!! $receive_date !!}") {
+                let date="{!! $receive_date !!}";
+                let s_string = date.split(' ');
+                let s_date = s_string[0].split('/');
+                let s_time = s_string[1].split(':');
+                let s_dateTime = [...s_date, ...s_time, '0', '0'];
+                s_dateTime = s_dateTime.map((item, index) => Number(item));
+                let s_unix = new persianDate(s_dateTime).valueOf();
+                createDate.setDate(s_unix);
+            }
         });
     </script>
 @endpush

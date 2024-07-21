@@ -24,8 +24,8 @@ class EditDevice extends Component
     public string $trait = '';
     public string $correspondence_number = '';
     public string $correspondence_date = '';
-    public string $reply_correspondence_number = '';
-    public string $reply_correspondence_date = '';
+    public string|null $reply_correspondence_number = '';
+    public string|null $reply_correspondence_date = '';
     public string $receive_date = '';
     public $dossier_id;
     public string $delivery_code = '';
