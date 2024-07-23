@@ -50,7 +50,7 @@ class ArchiveDossier extends Component
 
     public function ChangeActive_dossier(Dossier $dossier)
     {
-        Gate::authorize('dossier-active-status');
+        Gate::authorize('dossiers-active-status');
 
         $dossier->update([
             "is_active" => !$dossier->is_active
@@ -59,7 +59,7 @@ class ArchiveDossier extends Component
 
     public function ChangeArchive_dossier(Dossier $dossier)
     {
-        Gate::authorize('dossier-archive-status');
+        Gate::authorize('dossiers-archive-status');
 
         $dossier->update([
             "is_archive" => false

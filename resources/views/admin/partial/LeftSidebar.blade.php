@@ -64,7 +64,7 @@ $roles = \Spatie\Permission\Models\Role::all()->pluck('name')->toArray();
             </li>
             @endcanany
 
-            @canany(['dossiers-list', 'dossiers-create', 'dossiers-edit', 'dossiers-delete', 'dossiers-archive-list','dossiers-export'])
+            @canany(['dossiers-list', 'dossiers-create', 'dossiers-edit', 'dossiers-delete', 'dossiers-archive-list','dossiers-export','dossiers-section-list','dossiers-zone-list'])
             <li @class([ 'active open'=> request()->routeIs(
                 'admin.dossiers.archive',
                 'admin.dossiers.*'),
