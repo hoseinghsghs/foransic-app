@@ -114,7 +114,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group col-md-3 col-sm-3 @error('zone_id') is-invalid @enderror">
+                                <div class="form-group col-md-3 col-sm-3 @error('country') is-invalid @enderror">
                                     <label for="countrySelect">کشور <abbr class="required text-danger" title="ضروری">*</abbr></label>
                                     <div wire:ignore>
                                         <select id="countrySelect" name="country" data-placeholder="انتخاب کشور" class="form-control ms search-select">
@@ -126,7 +126,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    @error('zone_id')
+                                    @error('country')
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
