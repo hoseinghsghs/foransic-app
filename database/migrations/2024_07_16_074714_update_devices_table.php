@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::table(
             'devices',
             function (Blueprint $table) {
-
                 $table->text('reply_correspondence_number')->after('correspondence_number')->nullable();
                 $table->text('reply_correspondence_date')->after('correspondence_date')->nullable();
+                $table->unsignedInteger('parent_id')->after('id')->default(0);
             }
         );
     }

@@ -171,7 +171,7 @@
                                     <div class="list-group-item list-group-item-primary">
                                         دریافت و تحویل
                                     </div>
-                                     <div class="list-group-item list-group-item-action">
+                                    <div class="list-group-item list-group-item-action">
                                         <div class="row clearfix">
                                             <div class="col-6"><strong>تاریخ و زمان ثبت :</strong></div>
                                             <div class="col-6">{{ verta($device->created_at)->format('Y-n-j H:i') }}</div>
@@ -341,7 +341,7 @@
                         </div>
                     </div>
                 </div>
-                   <div class="col-lg-6">
+                <div class="col-lg-6">
                     <div class="card card-body p-0">
                         <div class=" list-group">
                             <div class="list-group-item list-group-item-primary">
@@ -359,7 +359,7 @@
                     <div class="card card-body p-0">
                         <div class=" list-group">
                             <div class="list-group-item list-group-item-primary">
-                                 تاریخ مکاتبه پاسخ
+                                تاریخ مکاتبه پاسخ
                             </div>
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
@@ -475,6 +475,65 @@
                     @endif
                 </div>
             </div>
+
+
+            <div class="header p-0">
+                <strong style="color:#e47297"> شواهد مرتبط </strong>
+            </div>
+            <hr>
+            <div class="row clearfix">
+                <div class="col-lg-4 col-md-12">
+                    @if ($device->parent_id != 0)
+                    <div class="card">
+                        نوع : شاهد فرعی (زیر مجموعه)
+                        <div class="blogitem mb-5">
+                            <?php
+                            $rel_1 = app\Models\Device::find($device->parent_id);
+                            ?>
+                            <a href="{{ route('admin.devices.show', $rel_1->id) }}">
+                                شاهد اصلی مرتبط :
+                                @if ($rel_1)
+                                {{$rel_1->category->title}}-
+                                {{$rel_1->id}}-
+                                {{$rel_1->code}}
+                                @endif
+                            </a>
+                        </div>
+                    </div>
+                    @else
+                    <div class="card">
+                        نوع : شاهد اصلی (ریشه)
+                        <div class="blogitem mb-5">
+                            <?php
+                            $rels = app\Models\Device::where('parent_id', $device->id)->get();
+                            ?>
+                            شواهد فرعی مرتبط :
+
+                            @foreach ( $rels as $rel )
+                            <div>
+                                <a href="{{ route('admin.devices.show', $rel->id) }}">
+                                    @if ($rel)
+                                    {{$rel->category->title}}-
+                                    {{$rel->id}}-
+                                    {{$rel->code}}
+                                    @endif
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    @endif
+                    <!-- @forelse($images as $item)
+
+                    @empty
+                    <div class="card">
+                        <span>ندارد</span>
+                    </div>
+                    @endforelse -->
+                </div>
+            </div>
+
         </div>
         <!-- پایان لیست -->
     </div>
