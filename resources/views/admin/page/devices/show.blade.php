@@ -478,65 +478,108 @@
 
 
             <div class="header p-0">
-                <strong style="color:#e47297"> شواهد مرتبط </strong>
+                <strong style="color:#e47297"> شواهد مرتبط (شاهد سبز رنگ شاهد فعلی در حال مشاهده است) </strong>
             </div>
             <hr>
             <div class="row clearfix">
-                <div class="col-lg-4 col-md-12">
-                    @if ($device->parent_id != 0)
-                    <div class="card">
-                        نوع : شاهد فرعی (زیر مجموعه)
-                        <div class="blogitem mb-5">
-                            <?php
-                            $rel_1 = app\Models\Device::find($device->parent_id);
-                            ?>
-                            <a href="{{ route('admin.devices.show', $rel_1->id) }}">
-                                شاهد اصلی مرتبط :
-                                @if ($rel_1)
-                                {{$rel_1->category->title}}-
-                                {{$rel_1->id}}-
-                                {{$rel_1->code}}
-                                @endif
-                            </a>
-                        </div>
-                    </div>
-                    @else
-                    <div class="card">
-                        نوع : شاهد اصلی (ریشه)
-                        <div class="blogitem mb-5">
-                            <?php
-                            $rels = app\Models\Device::where('parent_id', $device->id)->get();
-                            ?>
-                            شواهد فرعی مرتبط :
 
-                            @foreach ( $rels as $rel )
-                            <div>
-                                <a href="{{ route('admin.devices.show', $rel->id) }}">
-                                    @if ($rel)
-                                    {{$rel->category->title}}-
-                                    {{$rel->id}}-
-                                    {{$rel->code}}
-                                    @endif
-                                </a>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
+                @if ($device->parent_id != 0)
 
-                    @endif
-                    <!-- @forelse($images as $item)
-
-                    @empty
-                    <div class="card">
-                        <span>ندارد</span>
-                    </div>
-                    @endforelse -->
+                <div class="col-lg-12 col-md-12" style=" text-align: center;">
+                    <?php
+                    $rel_1 = app\Models\Device::find($device->parent_id);
+                    $rels_2 = app\Models\Device::where('parent_id', $rel_1->id)->get();
+                    ?>
+                    <a class="btn bt-sm" href="{{ route('admin.devices.show', $rel_1->id) }}">
+                        {{$rel_1->category->title}}-
+                        {{$rel_1->code}}
+                    </a>
                 </div>
+                <div class="col-lg-12 col-md-12" style="text-align: -webkit-center">
+                    <div class="col-lg-10 col-md-10" width="80%" style=" align-self: center; border-bottom: gray solid 2px;">
+                    </div>
+                </div>
+                @foreach ( $rels_2 as $rel )
+                @if ($rel->id == $device->id)
+
+                <div class=" col " style=" text-align: center; ">
+                    <a class=" btn bt-sm btn-success" href="{{ route('admin.devices.show', $rel->id) }}">
+                        @if ($rel)
+                        {{$rel->category->title}}-
+                        {{$rel->id}}-
+                        {{$rel->code}}
+                        @endif
+                    </a>
+                </div>
+                @else
+                <div class="col" style=" text-align: center;">
+                    <a class="btn bt-sm " href="{{ route('admin.devices.show', $rel->id) }}">
+                        @if ($rel)
+                        {{$rel->category->title}}-
+                        {{$rel->id}}-
+                        {{$rel->code}}
+                        @endif
+                    </a>
+                </div>
+                @endif
+
+                @endforeach
+                @else
+                <div class="col-lg-12 col-md-12" style=" text-align: center;">
+                    <button class="btn bt-sm btn-success">
+                        {{$device->category->title }} - {{$device->code}}
+                    </button>
+                </div>
+                <div class="col-lg-12 col-md-12" style="text-align: -webkit-center">
+                    <div class="col-lg-10 col-md-10" width="80%" style=" align-self: center; border-bottom: gray solid 2px;">
+                    </div>
+                </div>
+                <?php
+                $rels = app\Models\Device::where('parent_id', $device->id)->get();
+                ?>
+                @foreach ( $rels as $rel )
+                <div class="col" style=" text-align: center;">
+                    <a class="btn bt-sm " href="{{ route('admin.devices.show', $rel->id) }}">
+                        @if ($rel)
+                        {{$rel->category->title}}-
+                        {{$rel->id}}-
+                        {{$rel->code}}
+                        @endif
+                    </a>
+                </div>
+                @endforeach
+                @endif
             </div>
 
         </div>
         <!-- پایان لیست -->
     </div>
 </section>
+
+@push('style')
+<style>
+    .zc-html,
+    .zc-body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .chart--container {
+        height: 100%;
+        width: 100%;
+        min-height: 530px;
+    }
+
+    .zc-ref {
+        display: none;
+    }
+
+    select {
+        margin: 10px;
+    }
+</style>
+@endpush
 
 @endsection

@@ -29,7 +29,7 @@
                         <div class="body">
                             <div class="row clearfix">
                                 <div class="col-md-4 col-sm-6">
-                                    <input type="text" placeholder="عنوان دسته بندی" title="title"
+                                    <input type="text" placeholder="عنوان اقدام" title="title"
                                         wire:model.defer="title" class="form-control">
                                     @error('title')
                                         <p class="text-danger">{{ $message }}</p>
