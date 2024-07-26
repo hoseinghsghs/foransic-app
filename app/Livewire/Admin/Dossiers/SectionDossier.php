@@ -33,7 +33,7 @@ class SectionDossier extends Component
 
             $this->validate([
                 'name' => 'required|unique:sections,name,' . $this->section->id,
-                'code' => 'integer',
+                'code' => 'required|string',
             ]);
 
             $this->section->update([
@@ -51,7 +51,7 @@ class SectionDossier extends Component
 
             $this->validate([
                 'name' => 'required|unique:sections,name',
-                'code' => 'integer'
+                'code' => 'required|string'
             ]);
             Section::create([
                 "name" => $this->name,

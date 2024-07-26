@@ -19,6 +19,7 @@ class CreateDevice extends Component
 
     public Device $device;
     public $category_id;
+    public $parent_id;
     public $attribute_values = [];
     public string $code = '';
     public string $trait = '';
@@ -46,6 +47,7 @@ class CreateDevice extends Component
 
         return [
             'category_id' => 'required|integer|exists:categories,id',
+            'parent_id' => 'required|integer',
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
             'dossier_id' => ['required', 'integer', Rule::in($dossiers)],
@@ -94,6 +96,7 @@ class CreateDevice extends Component
             }
             $device = Device::create([
                 'category_id' => $this->category_id,
+                'parent_id' => $this->parent_id,
                 'status' => $this->status,
                 'trait' => $this->trait,
                 'dossier_id' => $this->dossier_id,
@@ -156,7 +159,8 @@ class CreateDevice extends Component
             $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->get();
         $categories = Category::all();
-        return view('livewire.admin.devices.create-device', compact('dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
+        $parent_devices = Device::where('parent_id', 0)->get();
+        return view('livewire.admin.devices.create-device', compact('dossiers', 'categories', 'parent_devices'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

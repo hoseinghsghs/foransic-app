@@ -67,10 +67,10 @@
                 <div class="col-lg-3 col-md-6 col-sm-12">
                     <div class="card widget_2 big_icon domains">
                         <div class="body">
-                            <h6>شواهد دیجیتال تحویل داده شده</h6>
+                            <h6>شواهد دیجیتال خارج شده</h6>
                             <h2>{{ $status_device_4 }} <small class="info">از {{ $all_devices }}</small></h2>
                             <small>{{ (int) (($status_device_4 / ($all_devices > 0 ? $all_devices : 1)) * 100) }}%
-                                شواهد دیجیتال تحویل داده شده
+                                شواهد دیجیتال خارج شده
                             </small>
                             <div class="progress">
                                 <div class="progress-bar" role="progressbar" aria-valuenow="89" aria-valuemin="0" aria-valuemax="{{ $all_devices }}" style="width: {{ ($status_device_4 / ($all_devices > 0 ? $all_devices : 1)) * 100 }}%;background : rgb(181, 136, 255)">
@@ -417,7 +417,7 @@
                         names: {
                             // name of each serie
                             data1: "کل شواهد ",
-                            data2: "شواهد تحویل داده شده",
+                            data2: "شواهد خارج شده",
                             data3: "شواهد در دست اقدام",
                         },
                     },
@@ -469,7 +469,7 @@
                             'data1': 'بررسی نشده',
                             'data2': 'در حال بررسی',
                             'data3': 'تکمیل بررسی ',
-                            'data4': 'تحویل داده شده'
+                            'data4': 'خارج شده'
                         }
                     },
                     axis: {},

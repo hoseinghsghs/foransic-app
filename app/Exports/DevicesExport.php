@@ -92,13 +92,11 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
             $device->delivery_name,
             $device->receiver_code,
             $device->receive_date,
-
             $device->delivery_staff_id ? User::find($device->delivery_staff_id)->name : " ",
             $device->delivery_staff_id,
             $device->receiver_name,
             $device->delivery_code,
             $device->delivery_date,
-
             $device->accessories,
             (new Transformer)->toText($device->description),
             $device->trait,

@@ -19,6 +19,7 @@ class EditDevice extends Component
 
     public Device $device;
     public string $category_id;
+    public $parent_id;
     public $attribute_values = [];
     public string $code = '';
     public string $trait = '';
@@ -48,7 +49,8 @@ class EditDevice extends Component
         })->get()->pluck('id')->toArray();
 
         return [
-            'category_id' => 'required|integer|exists:categories,id',
+            'category_id' => 'required|integer',
+            'parent_id' => 'required|integer',
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
             'dossier_id' => ['required', 'integer', Rule::in($dossiers)],
@@ -89,9 +91,10 @@ class EditDevice extends Component
 
     public function mount()
     {
-        $this->authorize('is-same-laboratory', $this->device->laboratory_id);
+        $this->authorize('is-same-laboratory ', $this->device->laboratory_id);
 
         $this->category_id = $this->device->category_id;
+        $this->parent_id = $this->device->parent_id;
         $this->code = $this->device->code;
         $this->trait = $this->device->trait;
         $this->report = $this->device->report;
@@ -132,9 +135,18 @@ class EditDevice extends Component
         } else {
             $attachment_report_name = $this->device->attachment_report;
         }
+            if ($this->parent_id == $this->device->id) {
+                flash()->addWarning('ارتباط شاهد با خودش امکان پذیر نیست');
+                return redirect()->back();
+            }
+            if ($this->device->parent_id == 0 && Device::where('parent_id', $this->device->id)->exists() && $this->parent_id != 0) {
+                flash()->addWarning('شواهدی با این شاهد مرتبط شده اند امکان تغییر وجود ندارد');
+                return redirect()->back();
+            }
 
         $this->device->update([
             'category_id' => $this->category_id,
+                'parent_id' => $this->parent_id,
             'status' => $this->status,
             'description' => $this->description,
             'accessories' => $this->accessories,
@@ -175,7 +187,7 @@ class EditDevice extends Component
             DB::rollBack();
             return redirect()->back();
         }
-        flash()->addSuccess('شواهد مورد نظر ویرایش شد');
+        flash()->addSuccess('شاهد مورد نظر ویرایش شد');
         // return redirect()->route('admin.devices.index');
     }
 
@@ -194,8 +206,8 @@ class EditDevice extends Component
                 $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->get();
         $categories = Category::all();
-
-        return view('livewire.admin.devices.edit-device', compact('dossiers', 'categories'))->extends('admin.layout.MasterAdmin')->section('Content');
+        $parent_devices = Device::where('parent_id', 0)->get();
+        return view('livewire.admin.devices.edit-device', compact('dossiers', 'categories', 'parent_devices'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

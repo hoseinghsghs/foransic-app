@@ -110,6 +110,31 @@
                                             @enderror
                                         </div>
                                     </div>
+
+
+                                    <div class="form-group col-md-3 col-sm-3 @error('parent_id') is-invalid @enderror">
+                                        <label for="rel"> ارتباط با سایر  شواهد<abbr class="required" title="ضروری"
+                                                                                         style="color:red;">*</abbr></label>
+                                        <div wire:ignore>
+                                            <select id="rel" name="parent_id"
+                                                    data-placeholder="انتخاب پرونده"
+                                                    class="form-control ms search-select">
+                                                <option></option>
+                                                <option value="0">شاهد اصلی </option>
+                                                @foreach ($parent_devices as $parent_device)
+                                                    <option
+                                                        value="{{ $parent_device->id }}">
+                                                       آی دی: {{ $parent_device->id  }} - عنوان: {{ $parent_device->category->title}} - مدل: {{ $parent_device->code  }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('parent_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+
+
                                     <div class="form-group col-md-3 col-sm-3 @error('status') is-invalid @enderror">
                                         <label for="statusSelect">وضعیت بررسی</label>
                                         <div wire:ignore>
@@ -504,6 +529,14 @@
                 @this.set('dossier_id', null);
                 } else {
                 @this.set('dossier_id', data);
+                }
+            });
+            $('#rel').on('change', function (e) {
+                let data = $('#rel').select2("val");
+                if (data === '') {
+                @this.set('parent_id', 0);
+                } else {
+                @this.set('parent_id', data);
                 }
             });
             $('#summernote').on('summernote.change', function (we, contents, $editable) {
