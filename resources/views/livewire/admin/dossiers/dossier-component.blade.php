@@ -31,14 +31,14 @@
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
-                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <input type="text" class="form-control" wire:model.live.debounce.500ms="title" placeholder="نام پرونده، کد">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select class="form-control ms" wire:model.live="company_user">
@@ -54,7 +54,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 <select data-placeholder="وضعیت" wire:model.live="is_active" class="form-control ms">
@@ -64,6 +64,21 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-4 col-sm-6">
+                                        <div class="input-group" wire:ignore>
+                                            <div class="input-group-prepend" onclick="$('#CreateDate').focus();">
+                                                <span class="input-group-text" id="basic-addon1"><i class="zmdi zmdi-calendar-alt"></i></span>
+                                            </div>
+                                            <input type="hidden" id="CreateDate-alt" name="create_date">
+                                            <input type="text" class="form-control" placeholder="تاریخ ایجاد" id="CreateDate" value="{{ $Judicial_date ?? null }}" autocomplete="off">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="basic-addon1" style="cursor: pointer;" onclick="destroyDatePicker()"><i class="zmdi zmdi-close"></i></span>
+                                            </div>
+                                        </div>
+                                        @error('create_date')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -183,3 +198,56 @@
         </div>
     </div>
 </section>
+@push('styles')
+    <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
+    <!-- تاریخ -->
+    <link rel="stylesheet" type="text/css" href="{{asset('vendor/date-time-picker/persian-datepicker.min.css')}}" />
+@endpush
+@push('scripts')
+{{-- دیت پیکر --}}
+<script src="{{asset('vendor/date-time-picker/persian-date.min.js')}}"></script>
+<script src="{{asset('vendor/date-time-picker/persian-datepicker.min.js')}}"></script>
+<script>
+    let createDate;
+
+    function destroyDatePicker() {
+        $(`#CreateDate`).val(null);
+        $(`#CreateDate-alt`).val(null);
+        createDate.touched = false;
+        createDate.options = {
+            initialValue: false
+        }
+    @this.set(`create_date`, '', true);
+    }
+
+    $(document).ready(function() {
+        createDate = $(`#CreateDate`).pDatepicker({
+            initialValue: false,
+            initialValueType: 'persian',
+            format: 'L',
+            altField: `#CreateDate-alt`,
+            altFormat: 'g',
+            altFieldFormatter: function(unixDate) {
+                var self = this;
+                var thisAltFormat = self.altFormat.toLowerCase();
+                if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
+                    persianDate.toLocale('en');
+                    let p = new persianDate(unixDate).format(
+                        'YYYY/MM/DD');
+                    return p;
+                }
+                if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
+                    return unixDate;
+                } else {
+                    let pd = new persianDate(unixDate);
+                    pd.formatPersian = this.persianDigit;
+                    return pd.format(self.altFormat);
+                }
+            },
+            onSelect: function(unix) {
+            @this.set(`create_date`, $(`#CreateDate-alt`).val(), true);
+            },
+        });
+    });
+</script>
+@endpush

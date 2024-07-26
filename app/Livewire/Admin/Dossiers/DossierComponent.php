@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Dossiers;
 
+use Hekmatinasser\Verta\Verta;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use App\Models\Dossier;
@@ -19,6 +20,7 @@ class DossierComponent extends Component
     public $title = '';
     public $company_user = '';
     public $is_active = '';
+    public $create_date = '';
 
     public function updatingTitle()
     {
@@ -31,6 +33,11 @@ class DossierComponent extends Component
     }
 
     public function updatingIsActive()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingCreateDate()
     {
         $this->resetPage();
     }
@@ -64,14 +71,17 @@ class DossierComponent extends Component
             $query->where('id', auth()->user()->id);
         })->get();
 
-        $dossiers = Dossier::with(['company', 'creator'])->where('is_archive', false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole(['Super Admin', 'company','viewer']), function ($query) {
+        $dossiers = Dossier::with(['company', 'creator'])->where('is_archive', false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole(['Super Admin', 'company', 'viewer']), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->when($this->company_user != '', function ($query) {
             $query->where('user_category_id', $this->company_user);
-        })->when(auth()->user()->hasRole('company'),function ($query){
+        })->when(auth()->user()->hasRole('company'), function ($query) {
             $query->where('user_category_id', auth()->user()->id);
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
+        })->when(!empty($this->create_date) , function ($query) {
+            $G_date = Verta::parseFormat('Y/n/j', $this->create_date)->formatGregorian('Y-m-d');
+            $query->where('created_at', 'like', '%' . $G_date . '%');
         })->latest()->paginate(10);
 
         return view('livewire.admin.dossiers.dossier-component', compact(['dossiers', 'company_users']))->extends('admin.layout.MasterAdmin')->section('Content');
