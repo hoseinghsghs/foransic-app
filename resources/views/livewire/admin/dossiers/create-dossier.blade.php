@@ -325,7 +325,7 @@
 
 @push('scripts')
 <script src="{{asset('vendor/date-time-picker/persian-date.min.js')}}"></script>
-<script src="{{asset('vendor/date-time-picker//persian-datepicker.min.js')}}"></script>
+<script src="{{asset('vendor/date-time-picker/persian-datepicker.min.js')}}"></script>
 <script>
     $(document).ready(function() {
         $('#laboratorySelect').on('change', function(e) {

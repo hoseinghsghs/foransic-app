@@ -19,10 +19,10 @@ class DeviceComponent extends Component
 
     protected $paginationTheme = 'bootstrap';
     public $title = '';
-    public $company_user = '';
     public $status = '';
     public $is_active = '';
     public $ids = '';
+    public $receive_date='';
 
     public function updatingTitle()
     {
@@ -35,6 +35,10 @@ class DeviceComponent extends Component
     }
 
     public function updatingIsActive()
+    {
+        $this->resetPage();
+    }
+    public function updatingReceiveDate()
     {
         $this->resetPage();
     }
@@ -90,6 +94,9 @@ class DeviceComponent extends Component
             $query->where('id', $this->ids);
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
+        })->when(!empty($this->receive_date) , function ($query) {
+
+            $query->where('receive_date', 'like', '%' . $this->receive_date . '%');
         })->latest()->paginate(10);
 
         return view('livewire.admin.devices.device-component', compact(['devices']))->extends('admin.layout.MasterAdmin')->section('Content');
