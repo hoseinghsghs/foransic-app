@@ -138,6 +138,22 @@ $roles = \Spatie\Permission\Models\Role::all()->pluck('name')->toArray();
             </li>
             @endcanany
 
+            @canany(['cracks-list', 'cracks-create', 'cracks-edit', 'cracks-delete', 'cracks-archive-list'])
+            <li @class([ 'active open'=> request()->routeIs(
+                'admin.cracks.archive',
+                'admin.cracks.*'),
+                ])>
+                <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-key"></i><span>
+                        مدیریت لایسنس ها</span></a>
+                <ul class="ml-menu">
+                    @can('cracks-create')
+                    <li @class(['active'=> request()->routeIs('admin.cracks.create')])><a href={{ route('admin.cracks.create') }}>ثبت درخواست لایسنس</a></li>
+                    @endcan
+
+                </ul>
+            </li>
+            @endcanany
+
             @canany(['users-list', 'users-create', 'roles', 'permissions','roles'])
             <li @class([ 'active open'=> request()->routeIs(
                 'admin.users.*',

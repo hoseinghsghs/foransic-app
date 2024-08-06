@@ -25,7 +25,6 @@ class AttachmentsController extends Controller
 
             //ساخت نام تصویر از هلپر فانکشن
             $attachment_name = Persian_generateImageName($extension);
-
             if (!Storage::exists($directory)) {
                 // این پوشه را بساز
                 Storage::makeDirectory($directory);

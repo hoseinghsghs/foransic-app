@@ -14,6 +14,8 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permissions = [
+            ['name' => 'cracks-create', 'display_name' => 'درخواست لایسنس', 'guard_name' => 'web'],
+
             ['name' => 'users-list', 'display_name' => 'لیست کاربران', 'guard_name' => 'web'],
             ['name' => 'users-create', 'display_name' => 'ایجاد کاربر', 'guard_name' => 'web'],
             ['name' => 'users-edit', 'display_name' => 'ویرایش کاربر', 'guard_name' => 'web'],

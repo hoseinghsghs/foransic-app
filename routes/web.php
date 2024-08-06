@@ -83,6 +83,9 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:actions-export')->name('file-action');
     Route::get('/export-Laboratories', [BackupController::class, 'ExportLaboratories'])->middleware('permission:laboratories-export')->name('file-laboratories');
 
+    //cracks
+    Route::get('cracks/create', \App\Livewire\Admin\Cracks\CreateCrack::class)->middleware('permission:cracks-create')->name('cracks.create');
+
     //Guides routes
     Route::get('guides/images', \App\Livewire\Admin\Guides\GuideImage::class)->name('guides.images');
     Route::get('guides/videos', \App\Livewire\Admin\Guides\GuideVideo::class)->name('guides.videos');

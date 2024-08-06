@@ -69,5 +69,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function laboratory(){
         return $this->belongsTo(Laboratory::class,'laboratory_id');
     }
+    public function crack()
+    {
+        return $this->hasOne(Crack::class, 'user_id');
+    }
 
 }
