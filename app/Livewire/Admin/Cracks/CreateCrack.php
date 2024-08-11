@@ -13,11 +13,11 @@ class CreateCrack extends Component
 {
     use WithPagination;
     use WithFileUploads;
+
     protected $paginationTheme = 'bootstrap';
     public Crack $crack;
     public $title;
     public $program_version;
-    public $is_seen;
     public $hardware_code;
     public $license_file;
     public $user_id;
@@ -37,9 +37,8 @@ class CreateCrack extends Component
         $this->reset("description_personal");
         $this->reset("description_admin");
         $this->reset("display");
+        $this->reset("crack");
         $this->dispatch('resetfile');
-
-
         $this->resetValidation();
     }
 
@@ -47,14 +46,13 @@ class CreateCrack extends Component
     {
         if ($this->is_edit) {
 
+            $this->authorize('cracks-create');
             if ($this->license_file != null) {
                 $AttachmentsController = new AttachmentsController();
                 $license_file_name = $AttachmentsController->uploadAttachment($this->license_file, "license_files");
             } else {
                 $license_file_name = $this->crack->license_file;
             }
-
-            $this->authorize('cracks-create');
 
             $data = $this->validate([
                 'title' => 'required|string',
@@ -64,14 +62,15 @@ class CreateCrack extends Component
                 'description_personal' => 'nullable|string|max:128',
                 'description_admin' => 'nullable|string|max:128',
             ]);
+
             $data['license_file'] = $license_file_name;
             if (!auth()->user()->hasRole('Super Admin'))
                 array_except($data, ['license_file', 'description_admin']);
             if ($data['license_file']) {
                 $data['is_seen'] = 1;
             }
-            $this->crack->update($data);
 
+            $this->crack->update($data);
             $this->ref();
             flash()->addSuccess('تغییرات با موفقیت ذخیره شد');
         } else {
@@ -86,9 +85,7 @@ class CreateCrack extends Component
                 'description_admin' => 'nullable|string|max:128',
 
             ]);
-
             if ($this->license_file != null) {
-
                 $AttachmentsController = new AttachmentsController();
                 $license_file_name = $AttachmentsController->uploadAttachment($this->license_file, "license_files");
             } elseif (isset($this->crack->license_file)) {
