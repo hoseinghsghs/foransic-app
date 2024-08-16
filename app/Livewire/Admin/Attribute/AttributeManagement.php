@@ -13,6 +13,8 @@ class AttributeManagement extends Component
 
     protected $paginationTheme = 'bootstrap';
     public $name;
+    public $def_values;
+    public $def_value;
     public Attribute $attribute;
     public $is_edit = false;
     public $display;
@@ -22,7 +24,23 @@ class AttributeManagement extends Component
         $this->is_edit = false;
         $this->reset("name");
         $this->reset("display");
+        $this->reset('def_values');
+        $this->reset('def_value');
         $this->resetValidation();
+    }
+
+    public function addDef_values()
+    {
+        $this->validate([
+            'def_value' => 'required',
+        ]);
+        $this->def_values[] = $this->def_value;
+        $this->reset('def_value');
+    }
+
+    public function removeDef_values($index)
+    {
+        array_splice($this->def_values, $index, 1);
     }
 
     public function add_attribute()
@@ -30,30 +48,38 @@ class AttributeManagement extends Component
         if ($this->is_edit) {
             $this->authorize('attributes-edit');
 
-            $this->validate([
+            $this->validate(['def_values' => 'nullable|array',
+                'def_values.*' => 'nullable',
                 'name' => 'required|unique:attributes,name,' . $this->attribute->id,
                 'attribute.id' => 'required|exists:attributes,id',
             ]);
 
+            $this->def_values = json_encode($this->def_values);
+
             $this->attribute->update([
                 'name' => $this->name,
+                'def_values' => $this->def_values,
             ]);
 
             $this->is_edit = false;
-            $this->reset("name");
-            $this->reset("display");
+            $this->ref();
+
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد',' ');
         } else {
             $this->authorize('attributes-create');
 
-            $this->validate([
-                'name' => 'required|unique:attributes,name'
+            $this->validate(['name' => 'required|unique:attributes,name',
+                'def_values' => 'nullable|array',
+                'def_values.*' => 'nullable',
             ]);
+            $this->def_values = json_encode($this->def_values);
 
             Attribute::create([
                 "name" => $this->name,
+                'def_values' => $this->def_values,
+
             ]);
-            $this->reset("name");
+            $this->ref();
             toastr()->rtl()->addSuccess('ویژگی با موفقیت ایجاد شد',' ');
         }
     }
@@ -61,7 +87,7 @@ class AttributeManagement extends Component
     public function edit_attribute(Attribute $attribute)
     {
         $this->authorize('attributes-edit');
-
+        $this->def_values = json_decode($attribute->def_values, true);
         $this->is_edit = true;
         $this->name = $attribute->name;
         $this->attribute = $attribute;

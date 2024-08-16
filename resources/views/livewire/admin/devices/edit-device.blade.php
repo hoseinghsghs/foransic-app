@@ -116,12 +116,28 @@
                                     @foreach ($this->category->attributes as $attribute)
                                     <div class="form-group col-md-3" wire:key="{{ $attribute->id }}">
                                         <label>{{ $attribute->name }}</label>
-                                        <div class="form-group">
-                                            <input type="text" wire:model="attribute_values.{{ $attribute->id }}" id="delivery_code" class="form-control @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror" />
-                                            @error("attribute_values.{{ $attribute->id }}")
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
+
+                                            @if ($attribute->def_values)
+                                                <div>
+                                                    <select id="valueSelect" wire:model="attribute_values.{{ $attribute->id }}"
+                                                        data-placeholder="انتخاب"
+                                                        class="form-control @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror">
+                                                        @foreach (json_decode($attribute->def_values, true) as $def_valuee)
+                                                        <option value="{{$def_valuee}}">
+                                                            {{ $def_valuee }}
+                                                        </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            @else
+                                                <div class="form-group">
+                                                    <input type="text" wire:model="attribute_values.{{ $attribute->id }}" id="delivery_code" class="form-control @error("attribute_values.{{ $attribute->id }}") is-invalid @enderror" />
+                                                    @error("attribute_values.{{ $attribute->id }}")
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                            @endif
+
                                     </div>
                                     @endforeach
                                     @endif
@@ -408,7 +424,6 @@
                 @this.set('dossier_id', data);
             }
         });
-
         $('#rel').on('change', function(e) {
             let data = $('#rel').select2("val");
             if (data === '') {
