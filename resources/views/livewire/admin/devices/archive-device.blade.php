@@ -92,7 +92,7 @@
                             @if (count($devices) === 0)
                             <p>هیچ رکوردی وجود ندارد</p>
                             @else
-                                                       <div class="table-responsive">
+                            <div class="table-responsive">
                                 <table class="table table-hover c_table theme-color">
                                     <thead>
                                         <tr>
@@ -109,6 +109,7 @@
                                             <th>پرونده</th>
                                             <th>وضعیت بررسی</th>
                                             <th>پرسنل تحویل گیرنده</th>
+                                            <th>ارتباط</th>
                                             <th>وضعیت</th>
                                             <th>بایگانی</th>
                                             <th class="text-center">عملیات</th>
@@ -194,6 +195,21 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                @if ($device->parent_id)
+                                                <button type="button" class="btn bg-warning waves-effect"
+                                                    data-toggle="modal"
+                                                    data-target="#defaultModal-{{ $key }}"> فرعی
+                                                </button>
+                                                @else
+                                                <button type="button" class="btn bg-teal waves-effect"
+                                                    data-toggle="modal"
+                                                    data-target="#defaultModal-{{ $key }}"> اصلی
+                                                </button>
+                                                @endif
+
+
+                                            </td>
+                                            <td>
                                                 <button wire:click="ChangeActive_device({{ $device->id }})" wire:loading.attr="disabled" @class([ 'btn btn-raised waves-effect' , 'btn-success'=> $device->is_active,
                                                     'btn-danger' => !$device->is_active,
                                                     ])>
@@ -242,6 +258,91 @@
                                                 @endcanany
                                             </td>
                                         </tr>
+                                        <div class="modal fade" id="defaultModal-{{ $key }}"
+                                            tabindex="-1" role="dialog">
+                                            <div class="modal-dialog modal-xl" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="header p-0">
+                                                            <strong style="color:#e47297"> شواهد مرتبط (شاهد سبز رنگ شاهد فعلی در حال مشاهده است) </strong>
+                                                        </div>
+                                                        <hr>
+                                                        <div class="row clearfix">
+
+                                                            @if ($device->parent_id != 0)
+
+                                                            <div class="col-lg-12 col-md-12" style=" text-align: center;">
+                                                                <?php
+                                                                $rel_1 = app\Models\Device::find($device->parent_id);
+                                                                $rels_2 = app\Models\Device::where('parent_id', $rel_1->id)->get();
+                                                                ?>
+                                                                <a class="btn bt-sm" href="{{ route('admin.devices.show', $rel_1->id) }}">
+                                                                    {{$rel_1->category->title}}-
+                                                                    {{$rel_1->code}}
+                                                                </a>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12" style="text-align: -webkit-center">
+                                                                <div class="col-lg-10 col-md-10" width="80%" style=" align-self: center; border-bottom: gray solid 2px;">
+                                                                </div>
+                                                            </div>
+                                                            @foreach ( $rels_2 as $rel )
+                                                            @if ($rel->id == $device->id)
+
+                                                            <div class=" col " style=" text-align: center; ">
+                                                                <a class=" btn bt-sm btn-success" href="{{ route('admin.devices.show', $rel->id) }}">
+                                                                    @if ($rel)
+                                                                    {{$rel->category->title}}-
+                                                                    {{$rel->id}}-
+                                                                    @endif
+                                                                </a>
+                                                            </div>
+                                                            @else
+                                                            <div class="col" style=" text-align: center;">
+                                                                <a class="btn bt-sm " href="{{ route('admin.devices.show', $rel->id) }}">
+                                                                    @if ($rel)
+                                                                    {{$rel->category->title}}-
+                                                                    {{$rel->id}}
+                                                                    @endif
+                                                                </a>
+                                                            </div>
+                                                            @endif
+
+                                                            @endforeach
+                                                            @else
+                                                            <div class="col-lg-12 col-md-12" style=" text-align: center;">
+                                                                <button class="btn bt-sm btn-success">
+                                                                    {{$device->category->title }} - {{$device->code}}
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12 col-md-12" style="text-align: -webkit-center">
+                                                                <div class="col-lg-10 col-md-10" width="80%" style=" align-self: center; border-bottom: gray solid 2px;">
+                                                                </div>
+                                                            </div>
+                                                            <?php
+                                                            $rels = app\Models\Device::where('parent_id', $device->id)->get();
+                                                            ?>
+                                                            @foreach ( $rels as $rel )
+                                                            <div class="col" style=" text-align: center;">
+                                                                <a class="btn bt-sm " href="{{ route('admin.devices.show', $rel->id) }}">
+                                                                    @if ($rel)
+                                                                    {{$rel->category->title}}-
+                                                                    {{$rel->id}}
+                                                                    @endif
+                                                                </a>
+                                                            </div>
+                                                            @endforeach
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                            class="btn btn-danger waves-effect"
+                                                            data-dismiss="modal">بستن
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         @endforeach
                                     </tbody>
                                 </table>
