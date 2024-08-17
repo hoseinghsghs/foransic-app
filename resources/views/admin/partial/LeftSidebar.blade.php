@@ -143,7 +143,7 @@ $roles = \Spatie\Permission\Models\Role::all()->pluck('name')->toArray();
                 'admin.cracks.archive',
                 'admin.cracks.*'),
                 ])>
-                <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-key"></i><span>
+                <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-attachment"></i><span>
                         مدیریت لایسنس ها</span></a>
                 <ul class="ml-menu">
                     @can('cracks-create')
