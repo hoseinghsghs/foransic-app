@@ -103,7 +103,7 @@
                                                 </option>
                                                 <option value="2" @selected($status=='2' )> تکمیل تجزیه و تحلیل
                                                 </option>
-                                                <option value="3" @selected($status=='3' )>تحویل شواهد دیجیتال
+                                                <option value="3" @selected($status=='3' )>خروج شواهد دیجیتال
                                                 </option>
                                             </select>
                                         </div>

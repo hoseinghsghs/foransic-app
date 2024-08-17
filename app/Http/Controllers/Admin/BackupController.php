@@ -6,6 +6,7 @@ use App\Exports\OrdersExport;
 use App\Exports\DevicesExport;
 use App\Exports\DossiersExport;
 use App\Exports\ActionsExport;
+use App\Exports\CracksExport;
 use App\Exports\LaboratoriesExport;
 use App\Exports\UserExport;
 use App\Http\Controllers\Controller;
@@ -33,6 +34,10 @@ class BackupController extends Controller
     public function ExportActions()
     {
         return Excel::download(new ActionsExport, 'Actions-data.xlsx');
+    }
+    public function CracksExport()
+    {
+        return Excel::download(new CracksExport, 'Cracks-data.xlsx');
     }
     public function ExportLaboratories()
     {

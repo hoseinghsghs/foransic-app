@@ -144,7 +144,7 @@
                                                 <option value="1" disabled>در حال بررسی</option>
                                                 <option value="2" disabled> تکمیل تجزیه و تحلیل
                                                 </option>
-                                                <option value="3" disabled>تحویل شواهد دیجیتال</option>
+                                                <option value="3" disabled>خروج شواهد دیجیتال</option>
                                             </select>
                                         </div>
                                         @error('status')

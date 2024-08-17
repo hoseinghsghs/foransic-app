@@ -1,5 +1,6 @@
 <?php
 
+use App\Exports\CracksExport;
 use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EventController;
@@ -78,6 +79,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 
     //excel exports
     Route::get('/export-Device', [BackupController::class, 'ExportDevices'])->middleware('permission:devices-export')->name('file-device');
+    Route::get('/export-Cracks', [BackupController::class, 'CracksExport'])->middleware('permission:cracks-export')->name('file-cracks');
     Route::get('/export-Users', [BackupController::class, 'ExportUsers'])->middleware('permission:users-export')->name('file-users');
     Route::get('/export-Dossiers', [BackupController::class, 'ExportDossiers'])->middleware('permission:dossiers-export')->name('file-dossier');
     Route::get('/export-Actions', [BackupController::class, 'ExportActions'])->middleware('permission:actions-export')->name('file-action');

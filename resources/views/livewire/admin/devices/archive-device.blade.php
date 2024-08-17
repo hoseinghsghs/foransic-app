@@ -65,7 +65,7 @@
                                                     <option value="1">در حال بررسی</option>
                                                     <option value="2"> تکمیل تجزیه و تحلیل
                                                     </option>
-                                                    <option value="3">تحویل شواهد دیجیتال</option>
+                                                    <option value="3">خروج شواهد دیجیتال</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -183,7 +183,7 @@
                                                 <span class="badge badge-primary badge-pill" style="font-size: 0.75rem;padding-right: 14px;
     padding-left: 14px;
     padding-bottom: 7px;">
-                                                    تحویل شواهد دیجیتال
+                                                    خروج شواهد دیجیتال
                                                 </span>
                                                 @endswitch
                                             </td>

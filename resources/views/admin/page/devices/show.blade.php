@@ -89,7 +89,7 @@
                                         <span class="badge badge-primary badge-pill" style="font-size: 0.75rem;padding-right: 14px;
     padding-left: 14px;
     padding-bottom: 7px;">
-                                            تحویل شواهد دیجیتال
+                                            خروج شواهد دیجیتال
                                         </span>
                                         @endswitch
                                     </div>

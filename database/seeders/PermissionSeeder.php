@@ -15,6 +15,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             ['name' => 'cracks-create', 'display_name' => 'درخواست لایسنس', 'guard_name' => 'web'],
+            ['name' => 'cracks-export', 'display_name' => 'خروجی اکسل کرک ها', 'guard_name' => 'web'],
 
             ['name' => 'users-list', 'display_name' => 'لیست کاربران', 'guard_name' => 'web'],
             ['name' => 'users-create', 'display_name' => 'ایجاد کاربر', 'guard_name' => 'web'],

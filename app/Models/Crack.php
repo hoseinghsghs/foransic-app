@@ -18,6 +18,6 @@ class Crack extends Model
 
     public function laboratory()
     {
-        return $this->belongsTo(Laboratory::class, 'laboratory_id');
+        return $this->belongsTo(Laboratory::class);
     }
 }

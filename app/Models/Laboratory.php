@@ -17,6 +17,6 @@ class Laboratory extends Model
     }
     public function crack()
     {
-        return $this->hasOne(Crack::class, 'user_id');
+        return $this->hasOne(Crack::class);
     }
 }
