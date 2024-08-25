@@ -20,6 +20,7 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
         return Device::query();
     }
     public $device;
+    public $value_arry = [];
 
     public function __construct()
     {
@@ -55,20 +56,21 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
                 "نام پرونده",
                 "id دسته بندی",
                 "تاریخ ایجاد",
-                "آخرین تاریخ بروز رسانی"
+            "آخرین تاریخ بروز رسانی",
+            "ویژگی ها"
             ];
-        foreach ($this->device as $device) {
+        // foreach ($this->device as $device) {
 
-            foreach ($device->category->attributes as $key => $attribute) {
-                $DeviceAttribute = DeviceAttribute::where('attribute_id', $attribute->id)->where('device_id', $device->id)->get();
-                array_push($head_arry, $attribute->name);
-                // array_push($value_arry, $DeviceAttribute[0]->value);
-            };
-            // foreach ($device->actions as $key => $action) {
-            //     // array_push($value_arry, $action->description, $action->start_date, $action->end_date, User::find($action->user_id)->name);
-            //     // array_push($head_arry, "اقدام" . $key + 1, "تاریخ شروع اقدام", "تاریخ پایان اقدام", "پرسنل ثبت کننده");
-            // };
-        }
+        //     foreach ($device->category->attributes as $key => $attribute) {
+
+        //         array_push($head_arry, $attribute->name);
+
+        //     };
+        //     // foreach ($device->actions as $key => $action) {
+        //     //     // array_push($value_arry, $action->description, $action->start_date, $action->end_date, User::find($action->user_id)->name);
+        //     //     // array_push($head_arry, "اقدام" . $key + 1, "تاریخ شروع اقدام", "تاریخ پایان اقدام", "پرسنل ثبت کننده");
+        //     // };
+        // }
         return $head_arry;
     }
     public function map($device): array
@@ -84,7 +86,16 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
          elseif ($device->status == 3){
             $device->status = "خروج شواهد دیجیتال";
         }
-            $value_arry=[
+        $value_arry_1 = [];
+        foreach ($device->category->attributes as $key => $attribute) {
+            $attributes = DeviceAttribute::where('attribute_id', $attribute->id)->where('device_id', $device->id);
+            if ($attributes->exists()) {
+                array_push($value_arry_1, $attributes->first()->value . ":" . $attribute->name);
+            } else {
+                array_push($value_arry_1, 0);
+            }
+        };
+        $value_arry = [
             $device->id,
             $device->code,
             $device->receiver_staff_id ? User::find($device->receiver_staff_id)->name : " ",
@@ -111,7 +122,10 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
             $device->category->title,
             verta($device->created_at)->format('Y-n-j H:i'),
             verta($device->updated_at)->format('Y-n-j H:i'),
+            json_encode($value_arry_1, JSON_UNESCAPED_UNICODE)
+
         ];
+
         // foreach ($device->category->attributes as $key => $attribute) {
         // $DeviceAttribute=DeviceAttribute::where('attribute_id' ,$attribute->id)->where('device_id' ,$device->id )->get();
         // // array_push($head_arry, $attribute->name);
@@ -125,7 +139,7 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
         // };
 
         return [
-        $value_arry,
+            $value_arry,
         ];
     }
 }

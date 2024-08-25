@@ -119,9 +119,10 @@
 
                                             @if ($attribute->def_values)
                                                 <div>
-                                                    <select id="valueSelect" wire:model="attribute_values.{{ $attribute->id }}"
+                                                    <select id="valueSelect"  wire:model="attribute_values.{{ $attribute->id }}"
                                                         data-placeholder="انتخاب"
                                                         class="form-control @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror">
+                                                        <option value=null>انتخاب کنید</option>
                                                         @foreach (json_decode($attribute->def_values, true) as $def_valuee)
                                                         <option value="{{$def_valuee}}">
                                                             {{ $def_valuee }}
