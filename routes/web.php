@@ -93,6 +93,9 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('guides/videos', \App\Livewire\Admin\Guides\GuideVideo::class)->name('guides.videos');
     Route::get('guides/files', \App\Livewire\Admin\Guides\GuideFile::class)->name('guides.files');
 
+    //tools
+    Route::view('/tools/qr', 'admin.page.tools.qr')->name('tools.qr');
+
     Route::get('/{laboratory_id?}', [DashboardController::class, 'index'], function (?string $laboratory_id = null) {
         return $laboratory_id;
     })->name('home');

@@ -154,6 +154,26 @@ $roles = \Spatie\Permission\Models\Role::all()->pluck('name')->toArray();
             </li>
             @endcanany
 
+
+            <li @class([ 'active open'=> request()->routeIs(
+                'admin.tools.*'),
+                ])>
+                <a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-tools"></i><span> ابزار ها
+                    </span></a>
+                <ul class="ml-menu">
+                    <li @class(['active'=> request()->routeIs('admin.tools.qr')])><a href={{ route('admin.tools.qr') }}>
+                            تولید QR کد</a></li>
+                    <li @class(['active'=> request()->routeIs('admin.actions.category')])><a href={{ route('admin.actions.category') }}> اضافه کردن عنوان
+                            اقدام
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+
+
+
             @canany(['users-list', 'users-create', 'roles', 'permissions','roles'])
             <li @class([ 'active open'=> request()->routeIs(
                 'admin.users.*',
