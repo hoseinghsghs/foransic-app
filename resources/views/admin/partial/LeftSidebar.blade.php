@@ -163,10 +163,6 @@ $roles = \Spatie\Permission\Models\Role::all()->pluck('name')->toArray();
                 <ul class="ml-menu">
                     <li @class(['active'=> request()->routeIs('admin.tools.qr')])><a href={{ route('admin.tools.qr') }}>
                             تولید QR کد</a></li>
-                    <li @class(['active'=> request()->routeIs('admin.actions.category')])><a href={{ route('admin.actions.category') }}> اضافه کردن عنوان
-                            اقدام
-                        </a>
-                    </li>
                 </ul>
             </li>
 
