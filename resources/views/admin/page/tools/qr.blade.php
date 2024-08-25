@@ -24,7 +24,7 @@
             <div class="row clearfix">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <input id="text" type="text" class="form-control" value="http://jindo.dev.naver.com/collie" style="width:80%" /><br />
+                        <input id="text" type="text" class="form-control" style="width:80%" /><br />
                     </div>
                     <div id="qrcode" style="width:200px; height:200px; margin-top:15px;"></div>
                 </div>
