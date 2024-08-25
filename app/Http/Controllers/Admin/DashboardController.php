@@ -8,6 +8,7 @@ use App\Models\Device;
 use App\Models\User;
 use App\Models\Action;
 use App\Models\Guide;
+use App\Models\Laboratory;
 use Spatie\Permission\Models\Role;
 use Carbon\Carbon;
 use Spatie\Analytics\Period;
@@ -18,13 +19,23 @@ use function PHPUnit\Framework\isNull;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Laboratory $laboratory_id)
     {
+
+        // $laboratory_ids = $laboratory->id;
+        // dd($laboratory_id->id);
         $from = Carbon::now()->subDays(365);
         $to = Carbon::now();
 
         $all_actions = Action::whereBetween('created_at', [$from, $to])->count();
-        $devices = Device::whereBetween('created_at', [$from, $to])->get();
+        if ($laboratory_id->id) {
+            $devices = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->get();
+        } else {
+            $devices = Device::whereBetween('created_at', [$from, $to])->get();
+        }
+
+        // $devices = Device::whereBetween('created_at', [$from, $to])->get();
+
         $all_devices = $devices->count();
         $status_device_1 = $devices->where('status', 0)->count();
         $status_device_2 = $devices->where('status', 1)->count();
@@ -40,9 +51,17 @@ class DashboardController extends Controller
 
         // // بر اساس زمان
         $month = 12;
-        $successDevice = Device::whereBetween('created_at', [$from, $to])->get();
-        $deliveryDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->get();
-        $receiveDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+        $successDevice = $devices;
+
+        if ($laboratory_id->id) {
+            $deliveryDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 3)->get();
+            $receiveDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+        } else {
+            $deliveryDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->get();
+            $receiveDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+        }
+
+
         // dd( $successDevice);
         $successDeviceChart = $this->chart($successDevice, $month);
         $deliveryDeviceChart = $this->chart($deliveryDevice, $month);
@@ -53,10 +72,13 @@ class DashboardController extends Controller
         array_unshift($receiveDeviceChart, "data3");
         $lable = $this->chart($successDevice, $month);
         // $lable2 = $this->chart($deliveryDeviceChart, $month);
+        $laboratories = Laboratory::all();
+        $lab_id = $laboratory_id->id;
         return view(
             'admin.page.dashboard'
             ,
             compact(
+                'lab_id',
                 'status_device_1',
                 'status_device_2',
                 'status_device_3',
@@ -66,7 +88,9 @@ class DashboardController extends Controller
                 'users',
                 'status_device_checks',
                 'actions',
-                'image'
+                'image',
+                'laboratories',
+
             ),
 
             [

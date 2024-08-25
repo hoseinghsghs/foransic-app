@@ -158,12 +158,12 @@
                                     <div class="form-group col-md-3" wire:key="{{ $attribute->id }}">
                                         <label>{{ $attribute->name }}</label>
                                         <div class="form-group">
-
                                             @if ($attribute->def_values)
                                             <div wire:ignore>
                                                 <select id="valueSelect" wire:model="attribute_values.{{ $attribute->id }}"
                                                     data-placeholder="انتخاب "
-                                                    class="form-control ms search-select @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror">
+                                                    class="form-control ms search-select @error(" attribute_values.{{$attribute->id}}") is-invalid @enderror">
+                                                        <option value=null>انتخاب کنید</option>
                                                     @foreach (json_decode($attribute->def_values, true) as $def_valuee)
                                                     <option value="{{$def_valuee}}">
                                                         {{ $def_valuee }}
@@ -171,7 +171,6 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-
                                             @else
                                             <input type="text"
                                                 wire:model="attribute_values.{{ $attribute->id }}"

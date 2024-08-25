@@ -2,6 +2,9 @@
 @section('title', 'داشبورد')
 @section('Content')
 @hasanyrole(['Super Admin','viewer'])
+<?php
+$laboratory_id = null;
+?>
 <section class="content">
     <div class="">
         <div class="block-header">
@@ -17,8 +20,31 @@
                     <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i class="zmdi zmdi-arrow-right"></i></button>
                 </div>
             </div>
-        </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div id="laboratory-box"
+                        class="form-group @error('laboratory_id') is-invalid @enderror">
+                        <label for="laboratorySelect">نمایش به تفکیک آزمایشگاه ها</label>
+                        <select id="laboratorySelect" name="laboratory_id"
+                            data-placeholder="انتخاب آزمایشگاه"
+                            class="form-control ms search-select">
+                            <option value=all>همه آزمایشگاه ها</option>
 
+                            @foreach ($laboratories as $laboratory)
+                            <option value={{ $laboratory->id }} @selected($laboratory->id == $lab_id)>
+                                {{ $laboratory->name }}
+                            </option>
+                            @endforeach
+                        </select>
+                        @error('laboratory_id')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+
+            <!-- #END# Hover Rows -->
+        </div>
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-lg-3 col-md-6 col-sm-12">
@@ -378,6 +404,14 @@
 @push('scripts')
 <!-- نمودار درصد ترافیک -->
 <script>
+    $('#laboratorySelect').on('change', function(e) {
+        let data = $('#laboratorySelect').select2("val");
+        if (data === 'all') {
+            window.location.href = "{{env('APP_URL')}}" + '/Admin-panel/managment/'
+        } else {
+            window.location.href = "{{env('APP_URL')}}" + '/Admin-panel/managment/' + data
+        }
+    });
     initC3Chart();
 
 

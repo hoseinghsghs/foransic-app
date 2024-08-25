@@ -130,14 +130,16 @@
                                     </div>
                                     {{-- category attributes --}}
                                     @if ($category_id && $this->category->attributes()->exists())
-                                        @foreach ($this->category->attributes as $attribute)
-                                            <div class="form-group col-md-3" wire:key="{{ $attribute->id }}">
-                                                <label>{{ $attribute->name }}</label>
-                                                @if ($attribute->def_values)
-                                                    <select id="valueSelect"
-                                                            wire:model="attribute_values.{{ $attribute->id }}"
-                                                            data-placeholder="انتخاب"
-                                                            class="form-control @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror">
+                                    @foreach ($this->category->attributes as $attribute)
+                                    <div class="form-group col-md-3" wire:key="{{ $attribute->id }}">
+                                        <label>{{ $attribute->name }}</label>
+
+                                            @if ($attribute->def_values)
+                                                <div>
+                                                    <select id="valueSelect"  wire:model="attribute_values.{{ $attribute->id }}"
+                                                        data-placeholder="انتخاب"
+                                                        class="form-control @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror">
+                                                        <option value=null>انتخاب کنید</option>
                                                         @foreach (json_decode($attribute->def_values, true) as $def_valuee)
                                                             <option value="{{$def_valuee}}">
                                                                 {{ $def_valuee }}
