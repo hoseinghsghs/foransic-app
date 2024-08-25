@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Dossiers;
 
 use Hekmatinasser\Verta\Verta;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use App\Models\Dossier;
@@ -18,6 +19,7 @@ class DossierComponent extends Component
 
     protected $paginationTheme = 'bootstrap';
     public $title = '';
+    public $creator = '';
     public $company_user = '';
     public $is_active = '';
     public $create_date = '';
@@ -73,13 +75,17 @@ class DossierComponent extends Component
 
         $dossiers = Dossier::with(['company', 'creator'])->where('is_archive', false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole(['Super Admin', 'company', 'viewer']), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->when(!empty($this->creator), function (Builder $query) {
+            $query->whereHas('creator', function (Builder $query) {
+                $query->where('name', 'like', '%' . $this->creator . '%');
+            });
         })->when($this->company_user != '', function ($query) {
             $query->where('user_category_id', $this->company_user);
         })->when(auth()->user()->hasRole('company'), function ($query) {
             $query->where('user_category_id', auth()->user()->id);
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
-        })->when(!empty($this->create_date) , function ($query) {
+        })->when(!empty($this->create_date), function ($query) {
             $G_date = Verta::parseFormat('Y/n/j', $this->create_date)->formatGregorian('Y-m-d');
             $query->where('created_at', 'like', '%' . $G_date . '%');
         })->latest()->paginate(10);

@@ -31,6 +31,7 @@ class EditDevice extends Component
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
+    public string $delivery_date = '';
     public string $receiver_name = '';
     public string $receiver_code = '';
     public string $status = 'پیش فرض';
@@ -106,6 +107,7 @@ class EditDevice extends Component
         $this->reply_correspondence_date = $this->device->reply_correspondence_date;
         $this->delivery_name = $this->device->delivery_name;
         $this->delivery_code = $this->device->delivery_code;
+        $this->delivery_date=$this->device->delivery_date;
         $this->receiver_name = $this->device->receiver_name;
         $this->receiver_code = $this->device->receiver_code;
         $this->receive_date = $this->device->receive_date;
@@ -120,21 +122,15 @@ class EditDevice extends Component
 
     public function edit()
     {
-        if ($this->status == 3) {
-            $delivery_date = verta()->formatJalaliDatetime();
-        } else {
-            $delivery_date = '-';
-        }
-
         $this->validate();
         try {
             DB::beginTransaction();
-        if ($this->attachment_report != null) {
-            $AttachmentsController = new AttachmentsController();
-            $attachment_report_name = $AttachmentsController->uploadAttachment($this->attachment_report, "attachment_report");
-        } else {
-            $attachment_report_name = $this->device->attachment_report;
-        }
+            if ($this->attachment_report != null) {
+                $AttachmentsController = new AttachmentsController();
+                $attachment_report_name = $AttachmentsController->uploadAttachment($this->attachment_report, "attachment_report");
+            } else {
+                $attachment_report_name = $this->device->attachment_report;
+            }
             if ($this->parent_id == $this->device->id) {
                 flash()->addWarning('ارتباط شاهد با خودش امکان پذیر نیست');
                 return redirect()->back();
@@ -144,43 +140,43 @@ class EditDevice extends Component
                 return redirect()->back();
             }
 
-        $this->device->update([
-            'category_id' => $this->category_id,
+            $this->device->update([
+                'category_id' => $this->category_id,
                 'parent_id' => $this->parent_id,
-            'status' => $this->status,
-            'description' => $this->description,
-            'accessories' => $this->accessories,
-            'trait' => $this->trait,
-            'report' => $this->report,
-            'attachment_report' => $attachment_report_name,
-            'dossier_id' => $this->dossier_id,
-            'laboratory_id' => Dossier::find($this->dossier_id)->laboratory_id,
-            'code' => $this->code,
-            'correspondence_number' => $this->correspondence_number,
+                'status' => $this->status,
+                'description' => $this->description,
+                'accessories' => $this->accessories,
+                'trait' => $this->trait,
+                'report' => $this->report,
+                'attachment_report' => $attachment_report_name,
+                'dossier_id' => $this->dossier_id,
+                'laboratory_id' => Dossier::find($this->dossier_id)->laboratory_id,
+                'code' => $this->code,
+                'correspondence_number' => $this->correspondence_number,
                 'reply_correspondence_number' => $this->reply_correspondence_number,
-            'correspondence_date' => $this->correspondence_date,
+                'correspondence_date' => $this->correspondence_date,
                 'reply_correspondence_date' => $this->reply_correspondence_date,
-            'receive_date' => $this->receive_date,
-            'delivery_code' => $this->delivery_code,
-            'delivery_name' => $this->delivery_name,
-            'receiver_name' => $this->receiver_name,
-            'receiver_code' => $this->receiver_code,
-            'delivery_staff_id' => auth()->user()->id,
-            'delivery_date' => $delivery_date,
-            'is_active' => !$this->is_active,
-        ]);
-        // update device attributes value
-        $this->device->attributes()->delete();
-        $this->attribute_values = array_filter($this->attribute_values, function ($value) {
-            return !empty($value);
-        });
-        if (count($this->attribute_values) > 0) {
-            $attributesValue = [];
-            foreach ($this->attribute_values as $key => $value) {
-                $attributesValue[] = ['attribute_id' => $key, 'value' => $value];
+                'receive_date' => $this->receive_date,
+                'delivery_code' => $this->delivery_code,
+                'delivery_name' => $this->delivery_name,
+                'receiver_name' => $this->receiver_name,
+                'receiver_code' => $this->receiver_code,
+                'delivery_staff_id' => auth()->user()->id,
+                'delivery_date' => $this->delivery_date,
+                'is_active' => !$this->is_active,
+            ]);
+            // update device attributes value
+            $this->device->attributes()->delete();
+            $this->attribute_values = array_filter($this->attribute_values, function ($value) {
+                return !empty($value);
+            });
+            if (count($this->attribute_values) > 0) {
+                $attributesValue = [];
+                foreach ($this->attribute_values as $key => $value) {
+                    $attributesValue[] = ['attribute_id' => $key, 'value' => $value];
+                }
+                $this->device->attributes()->createMany($attributesValue);
             }
-            $this->device->attributes()->createMany($attributesValue);
-        }
             DB::commit();
         } catch (\Exception $ex) {
             toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());

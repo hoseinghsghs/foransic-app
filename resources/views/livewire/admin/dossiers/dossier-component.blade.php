@@ -41,8 +41,14 @@
                                     <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
+                                                <input type="text" class="form-control" wire:model.live.debounce.500ms="creator" placeholder="نام ثبت کننده">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-line">
                                                 <select class="form-control ms" wire:model.live="company_user">
-                                                    @hasnotrole()
                                                     <option value="">نام رده</option>
 
                                                     @foreach ($company_users as $company_user)
