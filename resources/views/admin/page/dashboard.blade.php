@@ -547,6 +547,120 @@ $laboratory_id = null;
 </section>
 
 @endhasanyrole
+
+@hasanyrole(['company'])
+<section class="content">
+    <div class="">
+        <div class="block-header">
+            <div class="row">
+                <div class="col-lg-7 col-md-6 col-sm-12">
+                    <h2>داشبورد</h2>
+                    </br>
+                    <ul class="breadcrumb">
+                    </ul>
+                    <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
+                </div>
+                <div class="col-lg-5 col-md-6 col-sm-12">
+                    <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i class="zmdi zmdi-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row clearfix">
+
+            @can('dossiers-create')
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card info-box-2">
+                    <div class="body bg-green">
+                        <a href="{{ route('admin.dossiers.create') }}">
+                            <div class="icon col-12 m-t-10">
+                                <div class="chart chart-bar"><i class="zmdi zmdi-plus-circle-o" style="font-size: 4.2rem; padding: 0.76rem;"></i></div>
+                            </div>
+                            <div class="content col-12">
+                                <div class="number p-3" style="font-size: 1rem;">ثبت پرونده جدید</div>
+                            </div>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            @endcan
+            @can('dossiers-list')
+            <div class="col-lg-3 col-md-6 col-sm-6 ">
+                <div class="card info-box-2">
+                    <div class="body bg-red">
+                        <a href="{{ route('admin.dossiers.index') }}">
+                            <div class="icon col-12">
+                                <div class="chart chart-pie"><i class="zmdi zmdi-file" style="font-size: 4.2rem; padding: 1rem;"></i></div>
+                            </div>
+                            <div class="content col-12">
+                                <div class="number p-3" style="font-size: 1rem;">لیست پرونده ها</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            @endcan
+            @can('devices-create')
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="card info-box-2">
+                    <div class="body bg-amber">
+                        <a href="{{ route('admin.devices.create') }}">
+
+                            <div class="icon col-12 m-t-10">
+                                <div class="chart chart-bar"><i class="zmdi zmdi-plus-circle-o" style="font-size: 4.2rem; padding: 0.76rem;"></i></div>
+                            </div>
+                            <div class="content col-12">
+                                <div class="number p-3" style="font-size: 1rem;">ثبت شواهد دیجیتال</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                </a>
+            </div>
+            @endcan
+            @can(['devices-list'])
+            <div class="col-lg-3 col-md-6 col-sm-6">
+
+                <div class="card info-box-2">
+                    <div class="body bg-blue">
+                        <a href="{{ route('admin.devices.index') }}">
+                            <div class="icon col-12 m-t-5">
+                                <span class="chart chart-line"><i class="zmdi zmdi-devices" style="font-size: 4.2rem; padding: 0.9rem;"></i></span>
+                            </div>
+                            <div class="content col-12">
+                                <div class="number p-3" style="font-size: 1rem;">لیست شواهد دیجیتال</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                </a>
+            </div>
+            @endcan
+            <div class="container-fluid">
+                <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="body">
+                            <div class="card">
+                                <div class="header mb-2">
+                                    <h2 style="font-size: 1.1rem;"><strong><i class="zmdi zmdi-image" style="font-size:1.6rem;"></i> </strong> بنر امروز
+                                    </h2>
+                                </div>
+                                @if($image)
+                                <div class="blogitem-image">
+                                    <img src="{{ url(env('GUIDE_IMAGES_PATCH') . $image->url) }}" alt="" width="100%" style="border-radius: 0.6rem;">
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endhasanyrole
+
 @endsection
 @push('scripts')
 <!-- نمودار درصد ترافیک -->
