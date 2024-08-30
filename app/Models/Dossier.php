@@ -28,6 +28,11 @@ class Dossier extends Model
         return $this->belongsTo(Laboratory::class,'laboratory_id');
     }
 
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
+
     public function section()
     {
         return $this->belongsTo(Section::class, 'section_id');

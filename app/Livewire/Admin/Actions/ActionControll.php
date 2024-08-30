@@ -10,6 +10,8 @@ use App\Models\Device;
 use App\Models\ActionCategory;
 use App\Http\Controllers\Admin\AttachmentsController;
 use App\Models\ActionAttachment;
+use App\Models\Event;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
 use Livewire\WithPagination;
@@ -115,15 +117,15 @@ class ActionControll extends Component
     {
         if ($this->is_edit) {
             $this->authorize('actions-edit');
-
             $this->validate();
+            try {
+                DB::beginTransaction();
             $this->action->update([
                 "description" => $this->description,
                 'start_date' => $this->start_date,
                 'end_date' => $this->end_date,
                 'status' => $this->status,
                 'is_print' => $this->is_print,
-//                'user_id' => auth()->user()->id,
                 'device_id' => $this->device->id,
                 'action_category_id' => $this->action_category_id,
             ]);
@@ -135,6 +137,21 @@ class ActionControll extends Component
                     'url' => $attachmentStore
                 ]);
             }
+
+                Event::create([
+                    'title' => 'ویرایش اقدام',
+                    'body' => 'ID اقدام ' . " : " . $this->action->id . " " . 'آیدی کاربر' . " : " . auth()->id() . 'ID شاهد : ' . $this->device->id . 'عنوان: ' . $this->device->category->title,
+                    'user_id' => auth()->id(),
+                    'eventable_id' => $this->action->id,
+                    'eventable_type' => Action::class,
+                ]);
+                DB::commit();
+            } catch (\Exception $ex) {
+                flash()->addError($ex->getMessage());
+                DB::rollBack();
+                return redirect()->back();
+            }
+
             Session::forget('attachments');
             $this->ref();
             flash()->addSuccess('تغییرات با موفقیت ذخیره شد');

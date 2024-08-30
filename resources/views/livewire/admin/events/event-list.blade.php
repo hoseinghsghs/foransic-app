@@ -13,14 +13,10 @@
             @foreach ($evorders as $evorder)
                 <li>
                     @php
-                        if ($evorder->eventable_type == 'App\Models\Order') {
+                        if ($evorder->eventable_type == 'App\Models\Action') {
                             $icon = 'zmdi zmdi-case';
                             $bg = 'bg-green';
-                            $url = route('admin.orders.show', $evorder->eventable_id);
-                        } elseif ($evorder->eventable_type == 'App\Models\Comment') {
-                            $icon = 'zmdi zmdi-assignment-o';
-                            $bg = 'bg-blue';
-                            $url = route('admin.comments.edit', $evorder->eventable_id);
+                            $url = route('admin.devices.show', App\Models\Action::find($evorder->eventable_id)->device->id);
                         } elseif ($evorder->eventable_type == 'App\Models\User') {
                             $icon = 'zmdi zmdi-account';
                             $bg = 'bg-yellow';

@@ -42,6 +42,11 @@ class Device extends Model
         return $this->belongsTo(Laboratory::class,'laboratory_id');
     }
 
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
+
     public function scopeGetData($query, $month, $status)
     {
         $v = verta()->startMonth()->subMonth($month - 1);

@@ -30,5 +30,9 @@ class Action extends Model
     {
         return $this->belongsTo(Device::class , 'device_id');
     }
+    public function events()
+    {
+        return $this->morphMany(Event::class, 'eventable');
+    }
 }
 

@@ -95,6 +95,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
 
     //tools
     Route::view('/tools/qr', 'admin.page.tools.qr')->name('tools.qr');
+    Route::view('/tools/convert', 'admin.page.tools.convert')->name('tools.convert');
 
     Route::get('/{laboratory_id?}', [DashboardController::class, 'index'], function (?string $laboratory_id = null) {
         return $laboratory_id;
