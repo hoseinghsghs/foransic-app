@@ -121,7 +121,10 @@
                                      <p>
                                      <h5 class="font-weight-bold">
                                          پرسنل تحویل گیرنده :
+                                         @if ($receiver_staff_id->exists())
+                                          پرسنل تحویل گیرنده :
                                          {{ $receiver_staff_id->name }}
+                                        @endif
                                      </h5>
                                      </p>
                                  </div>

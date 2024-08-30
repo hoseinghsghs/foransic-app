@@ -11,7 +11,7 @@ class ZoneDossier extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $title;
-    public $country;
+    // public $country;
     public Zone $zone;
     public $is_edit = false;
     public $display;
@@ -21,7 +21,7 @@ class ZoneDossier extends Component
 
         $this->is_edit = false;
         $this->reset("title");
-        $this->reset("country");
+        // $this->reset("country");
         $this->reset("display");
         $this->resetValidation();
     }
@@ -33,17 +33,17 @@ class ZoneDossier extends Component
 
             $this->validate([
                 'title' => 'required|unique:zones,title,' . $this->zone->id,
-                'country' => 'string|nullable',
+                // 'country' => 'string|nullable',
             ]);
 
             $this->zone->update([
                 'title' => $this->title,
-                'country' => $this->country,
+                // 'country' => $this->country,
             ]);
 
             $this->is_edit = false;
             $this->reset("title");
-            $this->reset("country");
+            // $this->reset("country");
             $this->reset("display");
             toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
@@ -51,14 +51,14 @@ class ZoneDossier extends Component
 
             $this->validate([
                 'title' => 'required|unique:zones,title',
-                'country' => 'string|nullable'
+                // 'country' => 'string|nullable'
             ]);
             Zone::create([
                 "title" => $this->title,
-                "country" => $this->country,
+                // "country" => $this->country,
             ]);
             $this->reset("title");
-            $this->reset("country");
+            // $this->reset("country");
             toastr()->rtl()->addSuccess('ویژگی با موفقیت ایجاد شد', ' ');
         }
     }
@@ -69,7 +69,7 @@ class ZoneDossier extends Component
 
         $this->is_edit = true;
         $this->title = $zone->title;
-        $this->country = $zone->country;
+        // $this->country = $zone->country;
         $this->zone = $zone;
         $this->display = "disabled";
     }

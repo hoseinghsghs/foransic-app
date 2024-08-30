@@ -9,7 +9,7 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                 خانه</a></li>
-                        <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}>لیست پرونده ها </a>
+                        <li class="breadcrumb-item"><a href={{ route('admin.devices.index') }}> پرونده ها </a>
                         </li>
                         <li class="breadcrumb-item active">ثبت پرونده ها</li>
                     </ul>

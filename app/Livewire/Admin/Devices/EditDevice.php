@@ -179,7 +179,7 @@ class EditDevice extends Component
                 $this->device->attributes()->createMany($attributesValue);
             }
             Event::create([
-                'title' => 'شاهد دیجیتال ویرایش شد ',
+                'title' => 'شاهد  ویرایش شد ' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->device->laboratory->name,
                 'body' => 'ID شاهد ' . " : " . $this->device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'نام شاهد : ' . $this->device->category->title,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $this->device->id,

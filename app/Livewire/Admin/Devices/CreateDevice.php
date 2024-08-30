@@ -136,8 +136,7 @@ class CreateDevice extends Component
                 ]);
             }
 
-            Event::create([
-                'title' => 'شاهد دیجیتال ایجاد شد',
+            Event::create(['title' => 'شاهد جدید ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $device->laboratory->name,
                 'body' => 'ID شاهد ' . " : " . $device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'نام شاهد : ' . $device->category->title,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $device->id,

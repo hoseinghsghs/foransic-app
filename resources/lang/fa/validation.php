@@ -210,5 +210,10 @@ return array(
         "fil" => "فایل",
         "zone_id"=>"حوزه",
         "section_id"=>"معاونت",
+        "tablet_count" => "تعداد تبلت",
+        "laptop_count" => "تعداد لپ تاپ",
+        "permanent_personnel_count" => "تعداد پرسنل ثابت",
+        "internal_number" => "شماره داخلی",
+        "temporary_personnel_count" => "تعداد پرسنل پاره وقت",
     ),
 );

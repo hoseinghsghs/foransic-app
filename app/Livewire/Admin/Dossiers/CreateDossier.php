@@ -105,8 +105,7 @@ class CreateDossier extends Component
                 'is_archive' => 0,
             ]);
 
-            Event::create([
-                'title' => ' پرونده ایجاد شد',
+            Event::create(['title' => ' پرونده ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $dossier->laboratory->name,
                 'body' => 'ID پرونده ' . " : " . $dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'عنوان پرونده  : ' . $dossier->name,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $dossier->id,

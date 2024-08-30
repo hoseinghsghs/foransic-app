@@ -9,8 +9,8 @@
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
                                 خانه</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);"> آزمایشگاه </a></li>
-                        <li class="breadcrumb-item active">مدیریت آزمایشگاه ها</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);"> مدیریت آزمایشگاه ها </a></li>
+                        <li class="breadcrumb-item active"> آزمایشگاه ها</li>
                     </ul>
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
                 </div>
@@ -43,7 +43,7 @@
                                 </div>
 
 
-                                <div class="col-lg-3 col-md-12 col-sm-12">
+                                <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
                                         <label>مکان مستقل</label>
                                         <select data-placeholder="وضعیت" wire:model.live="place" class="form-control ms @error('place') is-invalid @enderror">

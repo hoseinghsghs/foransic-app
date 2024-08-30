@@ -127,8 +127,7 @@ class EditDossier extends Component
                 'Judicial_number' => $this->Judicial_number,
                 'Judicial_image' => $image_name,
             ]);
-            Event::create([
-                'title' => ' پرونده  ویرایش شد',
+            Event::create(['title' => ' پرونده ویرایش شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->dossier->laboratory->name,
                 'body' => 'ID پرونده ' . " : " . $this->dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'عنوان پرونده  : ' . $this->dossier->name,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $this->dossier->id,

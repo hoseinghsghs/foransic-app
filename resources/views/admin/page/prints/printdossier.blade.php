@@ -54,6 +54,8 @@
          </div>
          <div class="row">
              <table class="table table-bordered">
+@if ($dossier->devices->count())
+
 
                  <tr>
                      <th class="text-center" colspan="11">
@@ -182,6 +184,7 @@
                  @endforeach
                  </tbody>
              </table>
+             @endif
              <div class="row" dir="rtl" style="width: 100%; border-bottom: 3px dashed #000000 ; margin-top: 7rem; padding-top: 1rem">
                  <div class="col-6" style="text-align: center; margin-bottom: 7rem;">
                      <h5 class="font-weight-bold">

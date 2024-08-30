@@ -35,13 +35,13 @@
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
                                 </div>
-                                <div class="col-md-4 col-sm-6">
+                                {{-- <div class="col-md-4 col-sm-6">
                                     <input type="text" placeholder="کشور حوزه" title="country"
                                         wire:model.defer="country" class="form-control">
                                     @error('country')
                                         <p class="text-danger">{{ $message }}</p>
                                     @enderror
-                                </div>
+                                </div> --}}
                                 <div class="col-auto">
                                     <button wire:click="add_zone" wire:loading.attr="disabled"
                                         class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
@@ -83,7 +83,6 @@
                                             <tr>
                                                 <th>#</th>
                                                 <th>عنوان</th>
-                                                <th>کشور</th>
                                                 <th class="text-center js-sweetalert">عملیات</th>
                                             </tr>
                                         </thead>
@@ -92,7 +91,6 @@
                                                 <tr wire:key="{{ $zone->id }}" wire:loading.attr="disabled">
                                                     <td scope="row">{{ $loop->index + 1 }}</td>
                                                     <td>{{ $zone->title }}</td>
-                                                    <td>{{ $zone->country }}</td>
                                                     <td class="text-center js-sweetalert">
                                                         <button
                                                             wire:click="edit_zone({{ $zone->id }})"

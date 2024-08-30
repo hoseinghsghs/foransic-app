@@ -57,6 +57,19 @@ class LaboratoryControll extends Component
             $this->validate([
                 'name' => 'required|unique:laboratories,name,' . $this->laboratory->id,
                 'laboratory.id' => 'required|exists:laboratories,id',
+                "province" => 'string',
+                "place" => 'string',
+                "internal_number" => 'string|integer',
+                "permanent_personnel_count" => 'string|integer',
+                "temporary_personnel_count" => 'string|integer',
+                "laptop_count" => 'string|integer',
+                "tablet_count" => 'string|integer',
+                "version_ufed_for_pc" => 'string',
+                "version_ufed_analyzer" => 'string',
+                "version_oxygen" => 'string',
+                "version_axiom" => 'string',
+                "version_final_mobile" => 'string',
+                "description" => 'string',
             ]);
 
             $this->laboratory->update(["name" => $this->name,
@@ -80,8 +93,20 @@ class LaboratoryControll extends Component
         } else {
             $this->authorize('laboratories-create');
 
-            $this->validate([
-                'name' => 'required|unique:laboratories,name'
+            $this->validate(['name' => 'required|unique:laboratories,name',
+                "province" => 'string',
+                "place" => 'string',
+                "internal_number" => 'string|integer',
+                "permanent_personnel_count" => 'string|integer',
+                "temporary_personnel_count" => 'string|integer',
+                "laptop_count" => 'string|integer',
+                "tablet_count" => 'string|integer',
+                "version_ufed_for_pc" => 'string',
+                "version_ufed_analyzer" => 'string',
+                "version_oxygen" => 'string',
+                "version_axiom" => 'string',
+                "version_final_mobile" => 'string',
+                "description" => 'string',
             ]);
             Laboratory::create([
                 "name" => $this->name,

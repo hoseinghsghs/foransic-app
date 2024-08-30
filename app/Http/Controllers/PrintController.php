@@ -20,7 +20,12 @@ class PrintController extends Controller
 
     public function show(Device $device)
     {
-        $receiver_staff_id = User::find($device->receiver_staff_id);
+        if ($device->receiver_staff_id) {
+            $receiver_staff_id = User::find($device->receiver_staff_id);
+        } else {
+            $receiver_staff_id = 0;
+        }
+
         return view('admin.page.prints.printdevice', compact('device', 'receiver_staff_id'));
     }
 
@@ -30,7 +35,11 @@ class PrintController extends Controller
     }
     public function printDossier(Dossier $dossier)
     {
-        $receiver_staff_id = User::find($dossier->devices->first()->receiver_staff_id);
+        if ($dossier->devices->count()) {
+            $receiver_staff_id = User::find($dossier->devices->first()->receiver_staff_id);
+        } else {
+            $receiver_staff_id = 0;
+        }
         return view('admin.page.prints.printdossier', compact('dossier', 'receiver_staff_id'));
     }
 

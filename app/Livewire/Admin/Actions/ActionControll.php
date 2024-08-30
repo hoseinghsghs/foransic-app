@@ -138,12 +138,14 @@ class ActionControll extends Component
             }
 
                 Event::create([
-                    'title' => 'ویرایش اقدام',
-                    'body' => 'ID اقدام ' . " : " . $this->action->id . " " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" .auth()->user()->name  . 'ID شاهد : ' . $this->device->id . 'عنوان: ' . $this->device->category->title,
+                    'title' => 'ویرایش اقدام'. ' '.' | ' .' '. ' آزمایشگاه : ' . $this->device->laboratory->name ,
+                    'body' => 'ID اقدام ' . " : " . $this->action->id .  ' '.' | ' .' ' . 'آیدی کاربر' . " : " . auth()->user()->id . ' '.' - ' .' ' .auth()->user()->name  .  ' '.' | ' .' '.' عنوان شاهد: ' . $this->device->category->title . '-' . $this->device->id,
                     'user_id' => auth()->user()->id,
                     'eventable_id' => $this->action->id,
                     'eventable_type' => Action::class,
                 ]);
+
+
                 DB::commit();
             } catch (\Exception $ex) {
                 flash()->addError($ex->getMessage());
@@ -179,8 +181,8 @@ class ActionControll extends Component
             }
 
                 Event::create([
-                    'title' => 'اقدام ایجاد شد',
-                    'body' => 'ID اقدام ' . " : " . $action->id . " " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" .auth()->user()->name  . 'ID شاهد : ' . $this->device->id . 'عنوان: ' . $this->device->category->title,
+                    'title' => 'ایجاد اقدام'. ' '.' | ' .' '. ' آزمایشگاه : ' . $this->device->laboratory->name ,
+                    'body' => 'ID اقدام ' . " : " . $action->id .  ' '.' | ' .' ' . 'آیدی کاربر' . " : " . auth()->user()->id . ' '.' - ' .' ' .auth()->user()->name  .  ' '.' | ' .' '.' عنوان شاهد: ' . $this->device->category->title . '-' . $this->device->id,
                     'user_id' => auth()->id(),
                     'eventable_id' => $action->id,
                     'eventable_type' => Action::class,
