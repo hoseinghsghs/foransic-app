@@ -7,6 +7,7 @@ use App\Models\Device;
 use App\Models\Dossier;
 use App\Models\Category;
 use App\Models\DeviceImage;
+use App\Models\Event;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -81,7 +82,6 @@ class CreateDevice extends Component
 
     public function create($type_redirect = '1')
     {
-
         $this->validate();
 
         try {
@@ -135,9 +135,18 @@ class CreateDevice extends Component
                     'image' => $imageStore
                 ]);
             }
+
+            Event::create([
+                'title' => 'شاهد دیجیتال ایجاد شد',
+                'body' => 'ID شاهد ' . " : " . $device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'نام شاهد : ' . $device->category->title,
+                'user_id' => auth()->user()->id,
+                'eventable_id' => $device->id,
+                'eventable_type' => Device::class,
+            ]);
+
             DB::commit();
         } catch (\Exception $ex) {
-            toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());
+            flash()->addError($ex->getMessage());
             DB::rollBack();
             return redirect()->back();
         }

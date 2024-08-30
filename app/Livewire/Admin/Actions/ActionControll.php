@@ -103,7 +103,6 @@ class ActionControll extends Component
         $this->authorize('actions-delete');
 
         try {
-//            $this->action = $action;
             $action->delete();
             flash()->addSuccess('اقدام با موفقیت حذف شد');
 
@@ -140,8 +139,8 @@ class ActionControll extends Component
 
                 Event::create([
                     'title' => 'ویرایش اقدام',
-                    'body' => 'ID اقدام ' . " : " . $this->action->id . " " . 'آیدی کاربر' . " : " . auth()->id() . 'ID شاهد : ' . $this->device->id . 'عنوان: ' . $this->device->category->title,
-                    'user_id' => auth()->id(),
+                    'body' => 'ID اقدام ' . " : " . $this->action->id . " " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" .auth()->user()->name  . 'ID شاهد : ' . $this->device->id . 'عنوان: ' . $this->device->category->title,
+                    'user_id' => auth()->user()->id,
                     'eventable_id' => $this->action->id,
                     'eventable_type' => Action::class,
                 ]);
@@ -158,6 +157,8 @@ class ActionControll extends Component
         } else {
             $this->authorize('actions-create');
             $this->validate();
+        try {
+                DB::beginTransaction();
             $action = Action::create([
                 "description" => $this->description,
                 'start_date' => $this->start_date,
@@ -176,6 +177,21 @@ class ActionControll extends Component
                     'url' => $attachmentStore
                 ]);
             }
+
+                Event::create([
+                    'title' => 'اقدام ایجاد شد',
+                    'body' => 'ID اقدام ' . " : " . $action->id . " " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" .auth()->user()->name  . 'ID شاهد : ' . $this->device->id . 'عنوان: ' . $this->device->category->title,
+                    'user_id' => auth()->id(),
+                    'eventable_id' => $action->id,
+                    'eventable_type' => Action::class,
+                ]);
+                    DB::commit();
+            } catch (\Exception $ex) {
+                flash()->addError($ex->getMessage());
+                DB::rollBack();
+                return redirect()->back();
+            }
+
             Session::forget('attachments');
 
             $this->ref();

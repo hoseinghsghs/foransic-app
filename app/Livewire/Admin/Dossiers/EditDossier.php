@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Dossiers;
 
 use App\Http\Controllers\Admin\ImageController;
 use App\Models\Dossier;
+use App\Models\Event;
 use App\Models\Section;
 use App\Models\User;
 use App\Models\Zone;
@@ -90,6 +91,7 @@ class EditDossier extends Component
     public function edit()
     {
         $this->validate();
+
         if ($this->Judicial_image) {
             $ImageController = new ImageController();
             $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
@@ -103,6 +105,7 @@ class EditDossier extends Component
             $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
         }
         try {
+            DB::beginTransaction();
             $this->dossier->update([
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
@@ -124,13 +127,20 @@ class EditDossier extends Component
                 'Judicial_number' => $this->Judicial_number,
                 'Judicial_image' => $image_name,
             ]);
-            toastr()->rtl(true)->addInfo('پرونده ویرایش شد', ' ');
-        } catch (\Throwable $th) {
-            toastr()->rtl(true)->addInfo('مشکل در ایجاد پرونده', ' ');
+            Event::create([
+                'title' => ' پرونده  ویرایش شد',
+                'body' => 'ID پرونده ' . " : " . $this->dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'عنوان پرونده  : ' . $this->dossier->name,
+                'user_id' => auth()->user()->id,
+                'eventable_id' => $this->dossier->id,
+                'eventable_type' => Dossier::class,
+            ]);
+            flash()->addSuccess('پرونده ویرایش شد');
+            DB::commit();
+        } catch (\Exception $ex) {
+            flash()->addError($ex->getMessage());
+            DB::rollBack();
+            return redirect()->back();
         }
-
-//        flash()->addSuccess('شواهد دیجیتال مورد نظر دریافت شد');
-        // return redirect()->route('admin.dossiers.index');
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Dossiers;
 
 use App\Http\Controllers\Admin\ImageController;
 use App\Models\Dossier;
+use App\Models\Event;
 use App\Models\Section;
 use App\Models\User;
 use App\Models\Zone;
@@ -81,7 +82,7 @@ class CreateDossier extends Component
                 $image_name = null;
                 $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
             }
-            $device = Dossier::create([
+            $dossier = Dossier::create([
                 'name' => $this->name,
                 'user_category_id' => $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
@@ -104,18 +105,25 @@ class CreateDossier extends Component
                 'is_archive' => 0,
             ]);
 
+            Event::create([
+                'title' => ' پرونده ایجاد شد',
+                'body' => 'ID پرونده ' . " : " . $dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'عنوان پرونده  : ' . $dossier->name,
+                'user_id' => auth()->user()->id,
+                'eventable_id' => $dossier->id,
+                'eventable_type' => Dossier::class,
+            ]);
+
             DB::commit();
         } catch (\Exception $ex) {
-            toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());
+            flash()->addError($ex->getMessage());
             DB::rollBack();
             return redirect()->back();
         }
-
-        toastr()->rtl()->addSuccess('پرونده مورد نظر دریافت شد', ' ');
+        flash()->addSuccess('پرونده مورد نظر دریافت شد');
         if ($type_redirect == 1) {
             return redirect()->route('admin.dossiers.index');
         } else {
-            return redirect()->route('admin.dossiers.show', $device->id);
+            return redirect()->route('admin.dossiers.show', $dossier->id);
         }
     }
 

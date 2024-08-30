@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Http\Controllers\Admin\AttachmentsController;
+use App\Models\Event;
 use Illuminate\Support\Facades\DB;
 use Verta;
 
@@ -177,9 +178,16 @@ class EditDevice extends Component
                 }
                 $this->device->attributes()->createMany($attributesValue);
             }
+            Event::create([
+                'title' => 'شاهد دیجیتال ویرایش شد ',
+                'body' => 'ID شاهد ' . " : " . $this->device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'نام شاهد : ' . $this->device->category->title,
+                'user_id' => auth()->user()->id,
+                'eventable_id' => $this->device->id,
+                'eventable_type' => Device::class,
+            ]);
             DB::commit();
         } catch (\Exception $ex) {
-            toastr()->rtl(true)->persistent()->closeButton()->addError('خطا', $ex->getMessage());
+            flash()->addError($ex->getMessage());
             DB::rollBack();
             return redirect()->back();
         }
