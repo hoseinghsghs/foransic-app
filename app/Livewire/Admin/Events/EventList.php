@@ -17,6 +17,7 @@ public $evorders;
 
     public function mount(){
         $this->evorders= Event::orderBy('id', 'desc')->take(6)->get();
+
     }
 
     public function notifyNewOrder($payload)
@@ -28,7 +29,8 @@ public $evorders;
 
     public function render()
     {
+        $events = Event::where('user_id', auth()->user()->id)->latest()->paginate(10);
        $evorders =$this->evorders;
-       return view('livewire.admin.events.event-list' , compact('evorders'));
+        return view('livewire.admin.events.event-list', compact('evorders', 'events'));
     }
 }

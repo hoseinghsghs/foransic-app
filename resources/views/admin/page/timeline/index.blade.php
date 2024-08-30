@@ -86,10 +86,31 @@
                         @endforeach
                         @else
                         @foreach ($events as $event)
-                        <li>
-                            <div class="cbp_tmicon"><i class="zmdi zmdi-account"></i></div>
+                                        @php
+                        if ($event->eventable_type == 'App\Models\Action') {
+                        $icon = 'zmdi zmdi-file-plus';
+                        $bg = 'bg-green';
+                        $url = route('admin.devices.show', App\Models\Action::find($event->eventable_id)->device->id);
+                        } elseif ($event->eventable_type == 'App\Models\User') {
+                        $icon = 'zmdi zmdi-account';
+                        $bg = 'bg-blue';
+                        $url = route('admin.users.show', $event->eventable_id);
+                        }elseif ($event->eventable_type == 'App\Models\Device') {
+                            $icon = 'zmdi zmdi-devices';
+                            $bg = 'bg-yellow';
+                            $url = route('admin.devices.show', $event->eventable_id);
+                        }
+                        elseif ($event->eventable_type == 'App\Models\Dossier') {
+                            $icon = 'zmdi zmdi-file';
+                            $bg = 'bg-orange';
+                            $url = route('admin.dossiers.show', $event->eventable_id);
+                        }
+                        @endphp
+
+                        <li >
+                        <div style="top:20px !important" class="cbp_tmicon  {{$bg}}"><i class="{{$icon}}" ></i></div>
                             <div class="cbp_tmlabel empty">
-                                <h5><a href="{{ route('admin.users.show', $event->eventable_id) }}">{{ $event->title }}</a></h5>
+                                <h5><a href="{{$url}}">{{ $event->title }}</a></h5>
                                 <div>
                                     {{ $event->body }}
                                 </div>

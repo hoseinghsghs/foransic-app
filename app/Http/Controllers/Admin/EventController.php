@@ -15,7 +15,6 @@ class EventController extends Controller
         $all_events = Event::latest()->paginate(10);
         return view('admin.page.timeline.index', compact('events', 'all_events'));
     }
-
     public function destroy(Event $event,ToastrFactory $flasher)
     {
         $event->delete();
