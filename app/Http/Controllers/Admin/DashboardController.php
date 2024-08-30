@@ -35,35 +35,52 @@ class DashboardController extends Controller
         }
 
         // $devices = Device::whereBetween('created_at', [$from, $to])->get();
+        if (auth()->user()->hasRole('personnel')) {
+            $p_devices = $devices->where("laboratory_id", auth()->user()->laboratory_id);
+            $all_devices = $p_devices->count();
+            $status_device_1 = $p_devices->where('status', 0)->count();
+            $status_device_2 = $p_devices->where('status', 1)->count();
+            $status_device_3 = $p_devices->where('status', 2)->count();
+            $status_device_4 = $p_devices->where('status', 3)->count();
+            //دستگاه ها ی بررسی نشده
+            $status_device_checks = $p_devices->where('status', 0)->sortBy('desc')->take(5);
 
-        $all_devices = $devices->count();
-        $status_device_1 = $devices->where('status', 0)->count();
-        $status_device_2 = $devices->where('status', 1)->count();
-        $status_device_3 = $devices->where('status', 2)->count();
-        $status_device_4 = $devices->where('status', 3)->count();
-        //دستگاه ها ی بررسی نشده
-        $status_device_checks = $devices->where('status', 0)->sortBy('desc')->take(5);
+            $users = User::role('personnel')->where("laboratory_id", auth()->user()->laboratory_id)->latest()->take(5)->get();
 
-        $users = User::role('personnel')->latest()->take(5)->get();
+            $actions = null;
+            $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
 
-        $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(5)->get();
-        $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
+            // // بر اساس زمان
+            $successDevice=$p_devices->whereBetween('created_at', [$from, $to]);
 
-        // // بر اساس زمان
+            $deliveryDevice = Device::where("laboratory_id", auth()->user()->laboratory_id)->whereBetween('created_at', [$from, $to])->where('status', 3)->get();
+            $receiveDevice = Device::where("laboratory_id", auth()->user()->laboratory_id)->whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+
+        } else{
+            $all_devices = $devices->count();
+            $status_device_1 = $devices->where('status', 0)->count();
+            $status_device_2 = $devices->where('status', 1)->count();
+            $status_device_3 = $devices->where('status', 2)->count();
+            $status_device_4 = $devices->where('status', 3)->count();
+            $status_device_checks = $devices->where('status', 0)->sortBy('desc')->take(5);
+
+            $users = User::role('personnel')->latest()->take(5)->get();
+
+            $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(5)->get();
+            $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
 
 
+            $successDevice = $devices;
 
-        $month = 12;
-        $successDevice = $devices;
-
-        if ($laboratory_id->id) {
-            $deliveryDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 3)->get();
-            $receiveDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 0)->get();
-        } else {
-            $deliveryDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->get();
-            $receiveDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+            if ($laboratory_id->id) {
+                $deliveryDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 3)->get();
+                $receiveDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+            } else {
+                $deliveryDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->get();
+                $receiveDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+            }
         }
-
+        $month = 12;
 
         // dd( $successDevice);
         $successDeviceChart = $this->chart($successDevice, $month);
