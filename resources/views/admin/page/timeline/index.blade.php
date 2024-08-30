@@ -20,16 +20,30 @@
                 </div>
             </div>
         </div>
+
         <div class="container-fluid">
             <div class="row clearfix">
                 <div class="col-sm-12">
                     <ul class="cbp_tmtimeline">
                         @hasanyrole(['Super Admin','viewer'])
                         @foreach ($all_events as $event)
+
+                        @php
+                        if ($event->eventable_type == 'App\Models\Action') {
+                        $icon = 'zmdi zmdi-case';
+                        $bg = 'bg-green';
+                        $url = route('admin.devices.show', App\Models\Action::find($event->eventable_id)->device->id);
+                        } elseif ($event->eventable_type == 'App\Models\User') {
+                        $icon = 'zmdi zmdi-account';
+                        $bg = 'bg-yellow';
+                        $url = route('admin.users.show', $event->eventable_id);
+                        }
+                        @endphp
+
                         <li>
                             <div class="cbp_tmicon"><i class="zmdi zmdi-account"></i></div>
                             <div class="cbp_tmlabel empty">
-                                <h5><a href="{{ route('admin.users.show', $event->eventable_id) }}">{{ $event->title }}</a></h5>
+                                <h5><a href={{$url}}>{{ $event->title }}</a></h5>
                                 <div>
                                     {{ $event->body }}
                                 </div>

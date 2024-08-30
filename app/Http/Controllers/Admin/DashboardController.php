@@ -50,6 +50,9 @@ class DashboardController extends Controller
         $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
 
         // // بر اساس زمان
+
+
+
         $month = 12;
         $successDevice = $devices;
 
