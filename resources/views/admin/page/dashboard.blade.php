@@ -5,11 +5,23 @@
 <?php
 $laboratory_id = null;
 ?>
+
 <section class="content">
     <div class="">
+
         <div class="block-header">
             <div class="row">
-                <div class="col-lg-7 col-md-6 col-sm-12">
+                <div class="col-lg-7 col-md-6 col-sm-10 col-10">
+                    <div class="row" style="float: left;">
+
+                        <!-- <div class="col-5" id="clock"></div> -->
+                        <div class="clock col-7">
+                            <div class="display"></div>
+                        </div>
+
+                    </div>
+
+
                     <h2>داشبورد</h2>
                     </br>
                     <ul class="breadcrumb">
@@ -17,9 +29,12 @@ $laboratory_id = null;
                     <button class="btn btn-primary btn-icon mobile_menu" type="button"><i class="zmdi zmdi-sort-amount-desc"></i></button>
                 </div>
                 <div class="col-lg-5 col-md-6 col-sm-12">
+
                     <button class="btn btn-primary btn-icon float-right right_icon_toggle_btn" type="button"><i class="zmdi zmdi-arrow-right"></i></button>
+
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div id="laboratory-box"
@@ -41,6 +56,7 @@ $laboratory_id = null;
                         @enderror
                     </div>
                 </div>
+
             </div>
 
             <!-- #END# Hover Rows -->
@@ -662,6 +678,36 @@ $laboratory_id = null;
 @endhasanyrole
 
 @endsection
+@push('styles')
+<style>
+    .clock {
+        box-shadow: -3px -3px 7px rgba(255, 255, 255, 0.05),
+            3px 3px 7px rgba(255, 255, 255, 0.05);
+    }
+
+    .display {
+        font-size: 15px;
+
+        display: flex;
+    }
+
+    .display p:last-child {
+        margin-left: 2rem;
+    }
+
+    @media screen and (max-width: 768px) {
+        .display {
+            font-size: 15px;
+        }
+
+
+        .display p:last-child {
+            margin-left: 1rem;
+        }
+    }
+</style>
+
+@endpush
 @push('scripts')
 <!-- نمودار درصد ترافیک -->
 <script>
@@ -784,4 +830,34 @@ $laboratory_id = null;
     }
 </script>
 
+<script>
+    setInterval(() => {
+        const clock = document.querySelector('.display');
+
+        let time = new Date();
+        let sec = time.getSeconds();
+        let min = time.getMinutes();
+        let hr = time.getHours();
+
+        let day = 'صبح';
+        if (hr > 12) {
+            day = 'بعد از ظهر';
+            hr = hr - 12;
+        }
+        if (hr == 0) {
+            hr = 12;
+        }
+        if (sec < 10) {
+            sec = '0' + sec;
+        }
+        if (min < 10) {
+            min = '0' + min;
+        }
+        if (hr < 10) {
+            hr = '0' + hr;
+        }
+        clock.innerHTML = `<p>${sec}</p>:<p>${min}</p>:<p>${hr}</p><p class="mr-2">{{$verta}}</p>`;
+        $('#clock').html(`${day}`)
+    }, 1000);
+</script>
 @endpush

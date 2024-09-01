@@ -94,6 +94,7 @@ class DashboardController extends Controller
         // $lable2 = $this->chart($deliveryDeviceChart, $month);
         $laboratories = Laboratory::all();
         $lab_id = $laboratory_id->id;
+        $verta = verta()->now()->format('Y/n/j');
         return view(
             'admin.page.dashboard'
             ,
@@ -110,6 +111,7 @@ class DashboardController extends Controller
                 'actions',
                 'image',
                 'laboratories',
+                'verta'
 
             ),
 
