@@ -6,6 +6,7 @@ use App\Models\Device;
 use App\Models\User;
 use App\Models\Dossier;
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -48,6 +49,8 @@ class EditDevice extends Component
         // get dossiers in same laboratory
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->when(auth()->user()->hasRole('company'),function (Builder $query){
+            $query->where('user_category_id',auth()->user()->id);
         })->get()->pluck('id')->toArray();
 
         return [
@@ -93,7 +96,7 @@ class EditDevice extends Component
 
     public function mount()
     {
-        $this->authorize('is-same-laboratory ', $this->device->laboratory_id);
+        $this->authorize('is-same-laboratory', $this->device->laboratory_id);
 
         $this->category_id = $this->device->category_id;
         $this->parent_id = $this->device->parent_id;
@@ -151,7 +154,6 @@ class EditDevice extends Component
                 'report' => $this->report,
                 'attachment_report' => $attachment_report_name,
                 'dossier_id' => $this->dossier_id,
-                'laboratory_id' => Dossier::find($this->dossier_id)->laboratory_id,
                 'code' => $this->code,
                 'correspondence_number' => $this->correspondence_number,
                 'reply_correspondence_number' => $this->reply_correspondence_number,
@@ -203,11 +205,10 @@ class EditDevice extends Component
     public function render()
     {
         // get dossiers that were in same laboratory
-        $dossiers = Dossier::when(isset($this->device->laboratory_id) || isset(auth()->user()->laboratory_id), function ($query) {
-            if (isset($this->device->laboratory_id))
-                $query->where('laboratory_id', $this->device->laboratory_id);
-            else
-                $query->where('laboratory_id', auth()->user()->laboratory_id);
+        $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
+            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->when(auth()->user()->hasRole('company'),function (Builder $query){
+            $query->where('user_category_id',auth()->user()->id);
         })->get();
         $categories = Category::all();
         $parent_devices = Device::where('parent_id', 0)->get();

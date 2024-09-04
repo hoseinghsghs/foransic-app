@@ -138,25 +138,29 @@
                                     @enderror
                                 </div>
 
-                                <div
-                                    class="form-group col-md-3 col-sm-3 @error('user_category_id') is-invalid @enderror">
-                                    <label for="userSelect">رده <abbr class="required text-danger"
-                                                                      title="ضروری">*</abbr></label>
-                                    <div wire:ignore>
-                                        <select id="userSelect" name="user_category_id" data-placeholder="انتخاب رده"
-                                                class="form-control ms search-select">
-                                            <option></option>
-                                            @foreach ($users as $user)
-                                                <option value="{{ $user->id }}">
-                                                    {{ $user->name }} - {{ $user->cellphone }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                @if(!auth()->user()->hasRole('company'))
+                                    <div
+                                        class="form-group col-md-3 col-sm-3 @error('user_category_id') is-invalid @enderror">
+                                        <label for="userSelect">رده <abbr class="required text-danger"
+                                                                          title="ضروری">*</abbr></label>
+                                        <div wire:ignore>
+                                            <select id="userSelect" name="user_category_id"
+                                                    data-placeholder="انتخاب رده"
+                                                    class="form-control ms search-select">
+                                                <option></option>
+                                                @foreach ($users as $user)
+                                                    <option value="{{ $user->id }}">
+                                                        {{ $user->name }} - {{ $user->cellphone }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('user_category_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
-                                    @error('user_category_id')
-                                    <small class="text-danger">{{ $message }}</small>
-                                    @enderror
-                                </div>
+                                @endif
+
                                 @if(is_null(auth()->user()->laboratory_id))
                                     @php($laboratories=\App\Models\Laboratory::all())
                                     <div

@@ -134,7 +134,7 @@
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
-
+                                @if(!auth()->user()->hasRole('company'))
                                 <div class="form-group col-md-3 col-sm-3 @error('use_id') is-invalid @enderror">
                                     <label for="userSelect">رده <abbr class="required text-danger" title="ضروری">*</abbr></label>
                                     <div wire:ignore>
@@ -153,6 +153,8 @@
                                     <small class="text-danger">{{ $message }}</small>
                                     @enderror
                                 </div>
+                                @endif
+
                                 <div class="form-group col-md-3 col-auto">
                                     <label for="is_active">وضعیت</label>
                                     <div class="switchToggle">

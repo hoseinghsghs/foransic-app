@@ -49,7 +49,7 @@ class EditDossier extends Component
 
         return [
             'name' => 'required|string|max:100',
-            'user_category_id' => ['required', 'integer', Rule::in($users)],
+            'user_category_id' => ['nullable', 'integer', Rule::in($users), Rule::requiredIf(!auth()->user()->hasRole('company'))],
             'subject' => 'required|string',
             'expert' => 'required|string',
             'country' => 'required|string',
@@ -108,7 +108,7 @@ class EditDossier extends Component
             DB::beginTransaction();
             $this->dossier->update([
                 'name' => $this->name,
-                'user_category_id' => $this->user_category_id,
+                'user_category_id' => auth()->user()->hasRole('company') ? $this->dossier->user_category_id : $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
                 'section_id' => $this->section_id,
                 'zone_id' => $this->zone_id,
@@ -128,7 +128,7 @@ class EditDossier extends Component
                 'Judicial_image' => $image_name,
             ]);
             Event::create(['title' => ' پرونده ویرایش شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->dossier->laboratory->name,
-                'body' => 'ID پرونده ' . " : " . $this->dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'عنوان پرونده  : ' . $this->dossier->name,
+                'body' => 'ID پرونده ' . " : " . $this->dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'عنوان پرونده  : ' . $this->dossier->name,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $this->dossier->id,
                 'eventable_type' => Dossier::class,

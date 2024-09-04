@@ -8,6 +8,7 @@ use App\Models\Dossier;
 use App\Models\Category;
 use App\Models\DeviceImage;
 use App\Models\Event;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -39,11 +40,16 @@ class CreateDevice extends Component
     public bool $is_active = false;
     public $primary_image;
 
+
     public function rules(): array
     {
-        // get dossiers in same laboratory
+        /*
+         just allow dossiers that has same lab for personnel and dossiers that company users that create by themselves
+        */
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->when(auth()->user()->hasRole('company'),function (Builder $query){
+            $query->where('user_category_id',auth()->user()->id);
         })->get()->pluck('id')->toArray();
 
         return [
@@ -52,7 +58,7 @@ class CreateDevice extends Component
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
             'dossier_id' => ['required', 'integer', Rule::in($dossiers)],
-//            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
+            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string',
@@ -75,7 +81,7 @@ class CreateDevice extends Component
 
     public function mount()
     {
-        $this->dossier_id = Session::get('dossier');
+//        $this->dossier_id = Session::get('dossier');
         Session::forget('images');
 //        $this->receive_date = verta()->format('Y/m/d H:i');
     }
@@ -100,7 +106,7 @@ class CreateDevice extends Component
                 'status' => $this->status,
                 'trait' => $this->trait,
                 'dossier_id' => $this->dossier_id,
-                'laboratory_id' => Dossier::find($this->dossier_id)->laboratory_id,
+                'laboratory_id' => auth()->user()->laboratory_id ?? $this->laboratory_id,
                 'primary_image' => $image_name,
                 'description' => $this->description,
                 'accessories' => $this->accessories,
@@ -165,6 +171,8 @@ class CreateDevice extends Component
     {
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
+        })->when(auth()->user()->hasRole('company'),function (Builder $query){
+            $query->where('user_category_id',auth()->user()->id);
         })->get();
         $categories = Category::all();
         $parent_devices = Device::where('parent_id', 0)->get();

@@ -37,11 +37,6 @@ class CreateDossier extends Component
     public string $expert_phone = '';
     public string $expert_cellphone = '';
 
-    protected $listeners = [
-        'sweetalertConfirmed',// only when confirm button is clicked
-        'sweetalertDenied'
-    ];
-
     public function rules(): array
     {
         // get users from same laboratory that has company role
@@ -49,8 +44,8 @@ class CreateDossier extends Component
 
         return [
             'name' => 'required|string|max:100',
-            'user_category_id' => ['required','integer',Rule::in($users)],
-            'laboratory_id' => ['integer','nullable','exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
+            'user_category_id' => ['nullable', 'integer', Rule::in($users), Rule::requiredIf(!auth()->user()->hasRole('company'))],
+            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'subject' => 'required|string',
             'expert' => 'required|string',
             'country' => 'required|string',
@@ -84,7 +79,7 @@ class CreateDossier extends Component
             }
             $dossier = Dossier::create([
                 'name' => $this->name,
-                'user_category_id' => $this->user_category_id,
+                'user_category_id' => auth()->user()->hasRole('company') ? auth()->user()->id : $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
                 'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
                 'section_id' => $this->section_id,
@@ -106,7 +101,7 @@ class CreateDossier extends Component
             ]);
 
             Event::create(['title' => ' پرونده ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $dossier->laboratory->name,
-                'body' => 'ID پرونده ' . " : " . $dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'عنوان پرونده  : ' . $dossier->name,
+                'body' => 'ID پرونده ' . " : " . $dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'عنوان پرونده  : ' . $dossier->name,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $dossier->id,
                 'eventable_type' => Dossier::class,
@@ -129,7 +124,11 @@ class CreateDossier extends Component
     public function render()
     {
         // get users from same laboratory that has company role
-        $users = User::role('company')->get();
+        if (auth()->user()->hasRole('company'))
+            $users = collect([auth()->user()]);
+        else
+            $users = User::role('company')->get();
+
         $sections = Section::all();
         $zones = Zone::all();
         $lists_country = [
@@ -424,7 +423,6 @@ class CreateDossier extends Component
             ["Zambia", "ZM", "زامبیا"],
             ["Zimbabw", "Z", "زیمباوه"],
         ];
-
 
         return view('livewire.admin.dossiers.create-dossier', compact('users', 'sections', 'zones', 'lists_country'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
