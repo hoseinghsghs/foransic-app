@@ -21,7 +21,7 @@ class CreateDevice extends Component
 
     public Device $device;
     public $category_id;
-    public $parent_id;
+    public $parent_id = "0";
     public $attribute_values = [];
     public string $code = '';
     public string $trait = '';
@@ -99,6 +99,12 @@ class CreateDevice extends Component
             } else {
                 $image_name = null;
                 $this->addError('primary_image', 'مشکل در ذخیره سازی عکس');
+            }
+            if (!$this->parent_id == "0") {
+                if (!Device::where('id', $this->parent_id)->where('dossier_id', $this->dossier_id)->exists()) {
+                    flash()->addWarning('فقط شواهد در این پرونده قابل انتخاب هستند');
+                    return redirect()->back();
+                }
             }
             $device = Device::create([
                 'category_id' => $this->category_id,

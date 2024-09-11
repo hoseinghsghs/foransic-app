@@ -135,14 +135,34 @@ class EditDevice extends Component
             } else {
                 $attachment_report_name = $this->device->attachment_report;
             }
+            $parent_devices = Device::where('parent_id', $this->device->id);
+            // dd($parent_devices->where('dossier_id', $this->dossier_id)->exists());
+            if (!$this->parent_id == "0") {
+                if (!Device::where('id', $this->parent_id)->where('dossier_id', $this->dossier_id)->exists()) {
+                    flash()->addWarning('فقط شواهد در این پرونده قابل انتخاب هستند');
+                    return redirect()->back();
+                }
+            } else {
+                if (!$parent_devices->where('dossier_id', $this->dossier_id)->exists()) {
+                    flash()->addWarning('شواهدی که با این شاهد مرتبط شده اند در پرونده دیگری قرار دارند');
+                    return redirect()->back();
+                }
+            }
             if ($this->parent_id == $this->device->id) {
                 flash()->addWarning('ارتباط شاهد با خودش امکان پذیر نیست');
                 return redirect()->back();
             }
-            if ($this->device->parent_id == 0 && Device::where('parent_id', $this->device->id)->exists() && $this->parent_id != 0) {
+            if ($this->device->parent_id == 0 && $parent_devices->exists() && $this->parent_id != 0) {
                 flash()->addWarning('شواهدی با این شاهد مرتبط شده اند امکان تغییر وجود ندارد');
                 return redirect()->back();
             }
+
+
+
+            // if (!$this->device->where('dossier_id', $this->dossier_id)->exists()) {
+            //     flash()->addWarning('فقط شواهد در این پرونده قابل انتخاب هستند');
+            //     return redirect()->back();
+            // }
 
             $this->device->update([
                 'category_id' => $this->category_id,

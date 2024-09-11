@@ -244,6 +244,7 @@
                                             <th>پرونده</th>
                                             <th>وضعیت بررسی</th>
                                             <th>پرسنل تحویل گیرنده</th>
+                                            <th>ارتباط</th>
                                             <th>وضعیت</th>
                                             <th>بایگانی</th>
                                             <th class="text-center">عملیات</th>
@@ -316,8 +317,8 @@
                                                 @break
                                                 @case('3')
                                                 <span class="badge badge-primary badge-pill" style="font-size: 0.75rem;padding-right: 14px;
-    padding-left: 14px;
-    padding-bottom: 7px;">
+                                                    padding-left: 14px;
+                                                    padding-bottom: 7px;">
                                                     خروج شواهد دیجیتال
                                                 </span>
                                                 @endswitch
@@ -327,6 +328,21 @@
                                                 @if ($device->receiver_staff_id)
                                                 {{ App\Models\User::find($device->receiver_staff_id)->name }}
                                                 @endif
+                                            </td>
+                                                                                     <td>
+                                                @if ($device->parent_id)
+                                                <button type="button" class="btn bg-warning waves-effect"
+                                                    data-toggle="modal"
+                                                    data-target="#defaultModal-{{ $key }}"> فرعی
+                                                </button>
+                                                @else
+                                                <button type="button" class="btn bg-teal waves-effect"
+                                                    data-toggle="modal"
+                                                    data-target="#defaultModal-{{ $key }}"> اصلی
+                                                </button>
+                                                @endif
+
+
                                             </td>
                                             <td>
                                                 <button wire:click="ChangeActive_device({{ $device->id }})" wire:loading.attr="disabled" @class([ 'btn btn-raised waves-effect' , 'btn-success'=> $device->is_active,

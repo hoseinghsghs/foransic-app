@@ -112,27 +112,6 @@
                                     </div>
 
 
-                                    <div class="form-group col-md-3 col-sm-3 @error('parent_id') is-invalid @enderror">
-                                        <label for="rel"> ارتباط با سایر شواهد<abbr class="required" title="ضروری"
-                                                style="color:red;">*</abbr></label>
-                                        <div wire:ignore>
-                                            <select id="rel" name="parent_id"
-                                                data-placeholder="انتخاب پرونده"
-                                                class="form-control ms search-select">
-                                                <option></option>
-                                                <option value="0">شاهد اصلی </option>
-                                                @foreach ($parent_devices as $parent_device)
-                                                <option
-                                                    value="{{ $parent_device->id }}">
-                                                    آی دی: {{ $parent_device->id  }} - عنوان: {{ $parent_device->category->title}} - مدل: {{ $parent_device->code  }}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        @error('parent_id')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
 
 
                                     <div class="form-group col-md-3 col-sm-3 @error('status') is-invalid @enderror">
@@ -172,7 +151,7 @@
                                                 <select id="valueSelect" wire:model="attribute_values.{{ $attribute->id }}"
                                                     data-placeholder="انتخاب "
                                                     class="form-control ms search-select @error(" attribute_values.{{$attribute->id}}") is-invalid @enderror">
-                                                        <option value=null>انتخاب کنید</option>
+                                                    <option value=null>انتخاب کنید</option>
                                                     @foreach (json_decode($attribute->def_values, true) as $def_valuee)
                                                     <option value="{{$def_valuee}}">
                                                         {{ $def_valuee }}
@@ -214,7 +193,34 @@
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-
+                                    @isset($dossier_id)
+                                    <?php
+                                    $parent_devices = $parent_devices->where('dossier_id', $dossier_id);
+                                    ?>
+                                    @if ($parent_devices->count())
+                                        <div class="form-group col-md-3 col-sm-3 @error('parent_id') is-invalid @enderror">
+                                            <label for="rel"> ارتباط با سایر شواهد<abbr class="required" title="ضروری"
+                                                    style="color:red;">*</abbr></label>
+                                            <div>
+                                                <select id="rel" name="parent_id" wire:model.defer="parent_id"
+                                                    data-placeholder="انتخاب پرونده"
+                                                    class="form-control ms search-select">
+                                                    <option value="0">شاهد اصلی </option>
+                                                    @foreach ($parent_devices as $parent_device)
+                                                    {{ $parent_device->id  }}
+                                                    <option
+                                                        value="{{ $parent_device->id }}">
+                                                        آی دی: {{ $parent_device->id  }} - عنوان: {{ $parent_device->category->title}} - مدل: {{ $parent_device->code  }}
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('parent_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                            @enderror
+                                        </div>
+                                    @endif
+                                    @endisset
                                     <div class="form-group col-md-4">
                                         <label> نام تحویل دهنده <abbr class="required" title="ضروری" style="color:red;">*</abbr></label>
                                         <div class="form-group">
@@ -546,6 +552,7 @@
         });
         $('#rel').on('change', function(e) {
             let data = $('#rel').select2("val");
+            alert(data);
             if (data === '') {
                 @this.set('parent_id', 0);
             } else {
