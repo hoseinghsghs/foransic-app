@@ -17,6 +17,7 @@ class CreateCrack extends Component
     protected $paginationTheme = 'bootstrap';
     public Crack $crack;
     public $title;
+    public $laboratory_id_search;
     public $program_version;
     public $hardware_code;
     public $license_file;
@@ -124,8 +125,14 @@ class CreateCrack extends Component
 
     public function render()
     {
-        $cracks = Crack::latest()->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
+        $cracks_1 = Crack::latest();
+        // $labs_id = $cracks->pluck('laboratory_id')->toArray();
+        $cracks = $cracks_1->when(!auth()->user()->hasRole('Super Admin'), function ($query) {
             $query->where("user_id", auth()->user()->id);
+        })->when($this->title, function ($query) {
+            $query->where("title", 'like', '%' . $this->title . '%');
+        })->when($this->laboratory_id_search, function ($query) {
+            $query->where('laboratory_id', $this->laboratory_id_search);
         })->paginate(10);
         return view('livewire.admin.cracks.create-crack', compact('cracks'))->extends('admin.layout.MasterAdmin')->section('Content');
     }

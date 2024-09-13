@@ -164,6 +164,45 @@
                             @endcan
                         </div>
 
+                        @hasanyrole(['Super Admin','viewer'])
+                        <div class="header">
+                            <h2>
+                                جست و جو
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="row clearfix">
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" class="form-control"
+                                                wire:model.live="title"
+                                                placeholder="عنوان">
+                                        </div>
+                                    </div>
+                                </div>
+                                @php($laboratories=\App\Models\Laboratory::all())
+                                <div class="form-group col-md-4 col-sm-4 @error('laboratory_id') is-invalid @enderror">
+                                    <div wire:ignore>
+                                        <select id="laboratorySelect" name="laboratory_id" wire:model.live="laboratory_id_search"
+                                            data-placeholder="انتخاب آزمایشگاه"
+                                            class="form-control ms search-select">
+                                            <option></option>
+                                            @foreach ($laboratories as $laboratory)
+                                            <option value={{ $laboratory->id }}>
+                                                {{ $laboratory->name }}
+                                            </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    @error('laboratory_id')
+                                    <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        @endhasanyrole
+
                         <div class="body">
                             @if (count($cracks) === 0)
                             <p>هیچ رکوردی وجود ندارد</p>
@@ -263,6 +302,14 @@
             scrollTop: 0
         }, 600);
         return false;
+    });
+    $('#laboratorySelect').on('change', function(e) {
+        let data = $('#laboratorySelect').select2("val");
+        if (data === '') {
+            @this.set('laboratory_id_search', null);
+        } else {
+            @this.set('laboratory_id_search', data);
+        }
     });
 </script>
 
