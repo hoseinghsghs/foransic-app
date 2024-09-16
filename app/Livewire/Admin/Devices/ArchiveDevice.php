@@ -22,6 +22,8 @@ class ArchiveDevice extends Component
     public $status = '';
     public $is_active = '';
     public $ids = '';
+    public $laboratory_id_search;
+    public $dossier_id_search;
 
     public function updatingTitle()
     {
@@ -74,6 +76,10 @@ class ArchiveDevice extends Component
             $query->where('id', $this->ids);
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
+        })->when(auth()->user()->hasRole('Super Admin') && $this->laboratory_id_search, function ($query) {
+            $query->where('laboratory_id', $this->laboratory_id_search);
+        })->when(auth()->user()->hasRole('Super Admin') && $this->dossier_id_search, function ($query) {
+            $query->where('dossier_id', $this->dossier_id_search);
         })->latest()->paginate(10);
         return view('livewire.admin.devices.archive-device',compact(['devices']))->extends('admin.layout.MasterAdmin')->section('Content');
     }

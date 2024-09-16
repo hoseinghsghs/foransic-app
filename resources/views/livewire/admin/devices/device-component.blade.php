@@ -62,6 +62,38 @@
                                             </div>
                                         </div>
                                     </div>
+                                     @hasanyrole(['Super Admin','viewer'])
+                                  @php($laboratories=\App\Models\Laboratory::all())
+                                    <div class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
+                                        <div wire:ignore>
+                                            <select id="laboratorySelect" wire:model.live="laboratory_id_search"
+                                                data-placeholder="انتخاب آزمایشگاه"
+                                                class="form-control ms search-select">
+                                                <option></option>
+                                                @foreach ($laboratories as $laboratory)
+                                                <option value={{ $laboratory->id }}>
+                                                    {{ $laboratory->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                   @php($dossiers=\App\Models\Dossier::all())
+                                    <div class="form-group col-md-3 col-sm-3 @error('dossier_id') is-invalid @enderror">
+                                        <div wire:ignore>
+                                            <select id="dossierSelect" wire:model.live="dossier_id_search"
+                                                data-placeholder="انتخاب پرونده"
+                                                class="form-control ms search-select">
+                                                <option></option>
+                                                @foreach ($dossiers as $dossier)
+                                                <option value={{ $dossier->id }}>
+                                                    {{ $dossier->name }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                     @endhasanyrole
                                     <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -477,5 +509,19 @@
             },
         });
     });
+        $('#laboratorySelect').on('change', function(e) {
+        let data = $('#laboratorySelect').select2("val");
+        if (data === '') {
+            @this.set('laboratory_id_search', null);
+        } else {
+            @this.set('laboratory_id_search', data);
+        }});
+         $('#dossierSelect').on('change', function(e) {
+        let data = $('#dossierSelect').select2("val");
+        if (data === '') {
+            @this.set('dossier_id_search', null);
+        } else {
+            @this.set('dossier_id_search', data);
+        }});
 </script>
 @endpush

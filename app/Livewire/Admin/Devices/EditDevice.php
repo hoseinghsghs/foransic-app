@@ -143,10 +143,11 @@ class EditDevice extends Component
                     return redirect()->back();
                 }
             } else {
-                if (!$parent_devices->where('dossier_id', $this->dossier_id)->exists()) {
-                    flash()->addWarning('شواهدی که با این شاهد مرتبط شده اند در پرونده دیگری قرار دارند');
-                    return redirect()->back();
-                }
+                // dd($parent_devices->where('dossier_id', $this->dossier_id)->exists());
+                // if (!$parent_devices->where('dossier_id', $this->dossier_id)->exists()) {
+                //     flash()->addWarning('شواهدی که با این شاهد مرتبط شده اند در پرونده دیگری قرار دارند');
+                //     return redirect()->back();
+                // }
             }
             if ($this->parent_id == $this->device->id) {
                 flash()->addWarning('ارتباط شاهد با خودش امکان پذیر نیست');

@@ -23,6 +23,9 @@ class DeviceComponent extends Component
     public $is_active = '';
     public $ids = '';
     public $receive_date='';
+    public $laboratory_id_search;
+    public $dossier_id_search;
+
 
     public function updatingTitle()
     {
@@ -94,9 +97,12 @@ class DeviceComponent extends Component
             $query->where('id', $this->ids);
         })->when($this->is_active != '', function ($query) {
             $query->where('is_active', $this->is_active);
-        })->when(!empty($this->receive_date) , function ($query) {
-
+        })->when(!empty($this->receive_date), function ($query) {
             $query->where('receive_date', 'like', '%' . $this->receive_date . '%');
+        })->when(auth()->user()->hasRole('Super Admin') && $this->laboratory_id_search, function ($query) {
+            $query->where('laboratory_id', $this->laboratory_id_search);
+        })->when(auth()->user()->hasRole('Super Admin') && $this->dossier_id_search, function ($query) {
+            $query->where('dossier_id', $this->dossier_id_search);
         })->latest()->paginate(10);
 
         return view('livewire.admin.devices.device-component', compact(['devices']))->extends('admin.layout.MasterAdmin')->section('Content');
