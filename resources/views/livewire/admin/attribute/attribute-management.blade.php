@@ -112,17 +112,18 @@
                                             <th class="text-center js-sweetalert">عملیات</th>
                                         </tr>
                                     </thead>
+
                                     <tbody>
                                         @foreach ($attributes as $attribute)
                                         <tr wire:key="{{ $attribute->id }}" wire:loading.attr="disabled">
                                             <td scope="row">{{ $loop->index + 1 }}</td>
                                             <td>{{ $attribute->name }}</td>
                                             <td>
-                                                @isset($attribute->def_values)
+                                                @if($attribute->def_values != "null")
                                                 @foreach(json_decode($attribute->def_values, true) as $def_valuee)
                                                 {{$def_valuee}},
                                                 @endforeach
-                                                @endisset
+                                                @endif
                                             </td>
                                             <td class="text-center js-sweetalert">
                                                 <button wire:click="edit_attribute({{ $attribute->id }})"
