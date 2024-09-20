@@ -164,14 +164,13 @@
                                 @if(is_null(auth()->user()->laboratory_id))
                                     @php($laboratories=\App\Models\Laboratory::all())
                                     <div
-                                        class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
-                                        <label for="userSelect">آزمایشگاه <abbr class="required text-danger"
+                                        class="form-group col-md-3 col-sm-3 @if($errors->has('laboratory_id')||$errors->has('laboratory_id.*')) is-invalid @endif">
+                                        <label for="laboratorySelect">آزمایشگاه <abbr class="text-danger"
                                                                                 title="ضروری">*</abbr></label>
                                         <div wire:ignore>
                                             <select id="laboratorySelect" name="laboratory_id"
-                                                    data-placeholder="انتخاب آزمایشگاه"
-                                                    class="form-control ms search-select">
-                                                <option></option>
+                                                    data-placeholder="انتخاب آزمایشگاه" multiple
+                                                    class="form-control ms select2" data-close-on-select="false">
                                                 @foreach ($laboratories as $laboratory)
                                                     <option value={{ $laboratory->id }}>
                                                         {{ $laboratory->name }}
@@ -180,6 +179,9 @@
                                             </select>
                                         </div>
                                         @error('laboratory_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                        @error('laboratory_id.*')
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>

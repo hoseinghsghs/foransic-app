@@ -61,6 +61,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'dossier-print', 'display_name' => 'پرینت پرونده', 'guard_name' => 'web'],
             ['name' => 'dossiers-section-list', 'display_name' => 'مدیریت معاونت', 'guard_name' => 'web'],
             ['name' => 'dossiers-zone-list', 'display_name' => 'مدیریت حوزه اقدام', 'guard_name' => 'web'],
+            ['name' => 'dossier-select-multiple-laboratory', 'display_name' => 'قابلیت انتخاب چندگانه آزمایشگاه برای پرونده', 'guard_name' => 'web'],
+
 
             ['name' => 'devices-list', 'display_name' => 'لیست شواهد دیجیتال', 'guard_name' => 'web'],
             ['name' => 'devices-archive-list', 'display_name' => 'لیست شواهد بایگانی دیجیتال', 'guard_name' => 'web'],

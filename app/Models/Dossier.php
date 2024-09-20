@@ -24,8 +24,8 @@ class Dossier extends Model
         return$this->belongsTo(User::class,'personal_creator_id');
     }
 
-    public function laboratory(){
-        return $this->belongsTo(Laboratory::class,'laboratory_id');
+    public function laboratories(){
+        return $this->belongsToMany(Laboratory::class);
     }
 
     public function events()

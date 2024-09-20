@@ -96,13 +96,15 @@ class EditDossier extends Component
             $ImageController = new ImageController();
             $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
 
-            if (Storage::exists('Judicial-image/' . $this->dossier->Judicial_image)) {
-                Storage::delete('Judicial-image/' . $this->dossier->Judicial_image);
-            }
+            if ($image_name){
+                if (Storage::exists('Judicial-image/' . $this->dossier->Judicial_image)) {
+                    Storage::delete('Judicial-image/' . $this->dossier->Judicial_image);
+                }
+            } else
+                $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
 
         } else {
             $image_name = $this->image_url;
-            $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
         }
         try {
             DB::beginTransaction();
@@ -127,7 +129,7 @@ class EditDossier extends Component
                 'Judicial_number' => $this->Judicial_number,
                 'Judicial_image' => $image_name,
             ]);
-            Event::create(['title' => ' پرونده ویرایش شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->dossier->laboratory->name,
+            Event::create(['title' => ' پرونده ویرایش شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . implode(' , ', $this->dossier->laboratories()->pluck('name')->toArray()),
                 'body' => 'ID پرونده ' . " : " . $this->dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'عنوان پرونده  : ' . $this->dossier->name,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $this->dossier->id,

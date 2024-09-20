@@ -19,4 +19,8 @@ class Laboratory extends Model
     {
         return $this->hasOne(Crack::class);
     }
+    public function dossiers()
+    {
+        return $this->belongsToMany(Dossier::class);
+    }
 }

@@ -26,7 +26,7 @@ class CreateDossier extends Component
     public string $expert = '';
     public string $country = '';
     public $user_category_id;
-    public int|null $laboratory_id;
+    public array $laboratory_id = [];
     public bool $is_active = false;
     public string $summary_description = '';
     public string $Judicial_number = '';
@@ -45,7 +45,8 @@ class CreateDossier extends Component
         return [
             'name' => 'required|string|max:100',
             'user_category_id' => ['nullable', 'integer', Rule::in($users), Rule::requiredIf(!auth()->user()->hasRole('company'))],
-            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
+            'laboratory_id' => ['array', Rule::requiredIf(is_null(auth()->user()->laboratory_id)), Rule::when(!auth()->user()->can('dossier-select-multiple-laboratory'), 'size:1')],
+            'laboratory_id.*' => ['exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
             'subject' => 'required|string',
             'expert' => 'required|string',
             'country' => 'required|string',
@@ -72,16 +73,16 @@ class CreateDossier extends Component
                 $ImageController = new ImageController();
 
                 $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
-
+                if (!$image_name)
+                    $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
             } else {
                 $image_name = null;
-                $this->addError('Judicial_image', 'مشکل در ذخیره سازی عکس');
             }
             $dossier = Dossier::create([
                 'name' => $this->name,
                 'user_category_id' => auth()->user()->hasRole('company') ? auth()->user()->id : $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
-                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
+//                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
                 'section_id' => $this->section_id,
                 'zone_id' => $this->zone_id,
                 'subject' => $this->subject,
@@ -99,8 +100,12 @@ class CreateDossier extends Component
                 'is_active' => !$this->is_active,
                 'is_archive' => 0,
             ]);
+            if (is_null(auth()->user()->laboratory_id))
+                $dossier->laboratories()->attach($this->laboratory_id);
+            else
+                $dossier->laboratories()->attach(auth()->user()->laboratory_id);
 
-            Event::create(['title' => ' پرونده ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $dossier->laboratory->name,
+            Event::create(['title' => ' پرونده ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . implode(' , ', $dossier->laboratories()->pluck('name')->toArray()),
                 'body' => 'ID پرونده ' . " : " . $dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'عنوان پرونده  : ' . $dossier->name,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $dossier->id,
