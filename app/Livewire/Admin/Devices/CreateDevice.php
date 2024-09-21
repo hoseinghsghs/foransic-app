@@ -48,8 +48,8 @@ class CreateDevice extends Component
         */
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
-        })->when(auth()->user()->hasRole('company'),function (Builder $query){
-            $query->where('user_category_id',auth()->user()->id);
+        })->when(auth()->user()->hasRole('company'), function (Builder $query) {
+            $query->where('user_category_id', auth()->user()->id);
         })->get()->pluck('id')->toArray();
 
         return [
@@ -95,10 +95,10 @@ class CreateDevice extends Component
             if ($this->primary_image) {
                 $ImageController = new ImageController();
                 $image_name = $ImageController->UploadeImage($this->primary_image, "primary_image", 900, 800);
-
+                if (!$image_name)
+                    $this->addError('primary_image', 'مشکل در ذخیره سازی عکس');
             } else {
                 $image_name = null;
-                $this->addError('primary_image', 'مشکل در ذخیره سازی عکس');
             }
             if (!$this->parent_id == "0") {
                 if (!Device::where('id', $this->parent_id)->where('dossier_id', $this->dossier_id)->exists()) {
@@ -149,7 +149,7 @@ class CreateDevice extends Component
             }
 
             Event::create(['title' => 'شاهد جدید ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $device->laboratory->name,
-                'body' => 'ID شاهد ' . " : " . $device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'نام شاهد : ' . $device->category->title,
+                'body' => 'ID شاهد ' . " : " . $device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'نام شاهد : ' . $device->category->title,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $device->id,
                 'eventable_type' => Device::class,
@@ -173,16 +173,28 @@ class CreateDevice extends Component
             return redirect()->route('admin.devices.index')->with('print_device', $device->id);
     }
 
+    public function getLabs()
+    {
+        $laboratories=Dossier::find($this->dossier_id)->laboratories()->get();
+        $res=[['id'=>'','text'=>'']];
+        foreach ($laboratories as $laboratory) {
+           $res[]=['id'=>$laboratory->id,'text'=>$laboratory->name];
+        }
+        return json_encode($res);
+    }
     public function render()
     {
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
             $query->where('laboratory_id', auth()->user()->laboratory_id);
-        })->when(auth()->user()->hasRole('company'),function (Builder $query){
-            $query->where('user_category_id',auth()->user()->id);
+        })->when(auth()->user()->hasRole('company'), function (Builder $query) {
+            $query->where('user_category_id', auth()->user()->id);
         })->get();
         $categories = Category::all();
         $parent_devices = Device::where('parent_id', 0)->get();
-        return view('livewire.admin.devices.create-device', compact('dossiers', 'categories', 'parent_devices'))->extends('admin.layout.MasterAdmin')->section('Content');
+        $laboratories=[];
+        if (is_null(auth()->user()->laboratory_id) && !is_null($this->dossier_id))
+            $laboratories=Dossier::find($this->dossier_id)->laboratories()->get();
+        return view('livewire.admin.devices.create-device', compact('dossiers', 'categories', 'parent_devices','laboratories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
 

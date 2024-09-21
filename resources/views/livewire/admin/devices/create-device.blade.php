@@ -37,7 +37,7 @@
                             <form wire:submit.prevent id="submit-device">
                                 <div class="row clearfix">
                                     <div
-                                        class="form-group col-sm-6 col-sm-6 @error('category_id') is-invalid @enderror">
+                                        class="form-group col-sm-6 col-md-4 @error('category_id') is-invalid @enderror">
                                         <label for="title-device">نام شواهد دیجیتال <abbr class="required" title="ضروری"
                                                 style="color:red;">*</abbr></label>
                                         <div wire:ignore>
@@ -55,22 +55,37 @@
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+                                    <div class="form-group col-md-4 col-sm-6 @error('dossier_id') is-invalid @enderror">
+                                        <label for="dossierSelect">الحاق به پرونده <abbr class="required" title="ضروری"
+                                                                                         style="color:red;">*</abbr></label>
+                                        <div wire:ignore>
+                                            <select id="dossierSelect" name="dossier_id"
+                                                    data-placeholder="انتخاب پرونده"
+                                                    class="form-control ms search-select">
+                                                <option></option>
+                                                @foreach ($dossiers as $dossier)
+                                                    <option
+                                                        value="{{ $dossier->id }}" @selected(session()->get('dossier') == $dossier->id)>
+                                                        {{ $dossier->name }} - {{ $dossier->number_dossier }}
+                                                        - {{$dossier->company->name}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('dossier_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                     @if(is_null(auth()->user()->laboratory_id))
-                                    @php($laboratories=\App\Models\Laboratory::all())
                                     <div
-                                        class="form-group col-md-3 col-sm-3 @error('laboratory_id') is-invalid @enderror">
+                                        class="form-group col-md-4 col-sm-6 @error('laboratory_id') is-invalid @enderror">
                                         <label for="userSelect">آزمایشگاه <abbr class="required text-danger"
                                                 title="ضروری">*</abbr></label>
-                                        <div wire:ignore>
+                                        <div class="input-group" wire:ignore>
                                             <select id="laboratorySelect" name="laboratory_id"
                                                 data-placeholder="انتخاب آزمایشگاه"
                                                 class="form-control ms search-select">
                                                 <option></option>
-                                                @foreach ($laboratories as $laboratory)
-                                                <option value={{ $laboratory->id }}>
-                                                    {{ $laboratory->name }}
-                                                </option>
-                                                @endforeach
                                             </select>
                                         </div>
                                         @error('laboratory_id')
@@ -110,10 +125,6 @@
                                             @enderror
                                         </div>
                                     </div>
-
-
-
-
                                     <div class="form-group col-md-3 col-sm-3 @error('status') is-invalid @enderror">
                                         <label for="statusSelect">وضعیت بررسی</label>
                                         <div wire:ignore>
@@ -172,27 +183,7 @@
                                     </div>
                                     @endforeach
                                     @endif
-                                    <div class="form-group col-md-4 col-sm-4 @error('dossier_id') is-invalid @enderror">
-                                        <label for="dossierSelect">الحاق به پرونده <abbr class="required" title="ضروری"
-                                                style="color:red;">*</abbr></label>
-                                        <div wire:ignore>
-                                            <select id="dossierSelect" name="dossier_id"
-                                                data-placeholder="انتخاب پرونده"
-                                                class="form-control ms search-select">
-                                                <option></option>
-                                                @foreach ($dossiers as $dossier)
-                                                <option
-                                                    value="{{ $dossier->id }}" @selected(session()->get('dossier') == $dossier->id)>
-                                                    {{ $dossier->name }} - {{ $dossier->number_dossier }}
-                                                    - {{$dossier->company->name}}
-                                                </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        @error('dossier_id')
-                                        <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
+
                                     @isset($dossier_id)
                                     <?php
                                     $parent_devices = $parent_devices->where('dossier_id', $dossier_id);
@@ -395,12 +386,12 @@
                                     ذخیره
                                 </button>
                                 <button wire:click="create('2')" wire:loading.attr="disabled" type="submit"
-                                    form="submit-device" class="btn btn-raised btn-success waves-effect"><i
+                                    form="submit-device" class="btn btn-raised btn-primary waves-effect"><i
                                         wire:loading class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
                                     ذخیره و جدید
                                 </button>
                                 <button wire:click="create('3')" wire:loading.attr="disabled" type="submit"
-                                    form="submit-device" class="btn btn-raised btn-success waves-effect"><i
+                                    form="submit-device" class="btn btn-raised btn-outline-info waves-effect"><i
                                         wire:loading class='zmdi zmdi-hc-fw zmdi-hc-spin'></i>
                                     ذخیره و مشاهده پرونده
                                 </button>
@@ -542,12 +533,21 @@
             @this.set('category_id', data);
         });
 
-        $('#dossierSelect').on('change', function(e) {
-            let data = $('#dossierSelect').select2("val");
-            if (data === '') {
+        $('#dossierSelect').on('change',async function(e) {
+            let id = $('#dossierSelect').select2("val");
+            if (id === '') {
                 @this.set('dossier_id', null);
             } else {
-                @this.set('dossier_id', data);
+                @this.set('dossier_id', id);
+                let labSelector=$("#laboratorySelect")
+                if (labSelector){
+                    let data=await @this.getLabs();
+                    data=JSON.parse(data);
+                    labSelector.empty()
+                    if(data){
+                        labSelector.select2({placeholder: 'انتخاب آزمایشگاه',allowClear: true, data: data})
+                    }
+                }
             }
         });
         $('#rel').on('change', function(e) {

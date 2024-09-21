@@ -68,7 +68,7 @@ return array(
         "numeric" => ":attribute باید برابر با :size باشد.",
         "file" => ":attribute باید برابر با :size کیلوبایت باشد.",
         "string" => ":attribute باید برابر با :size کاراکتر باشد.",
-        "array" => ":attribute باسد شامل :size آیتم باشد.",
+        "array" => ":attribute باید شامل :size آیتم باشد.",
     ),
     "timezone" => "The :attribute must be a valid zone.",
     "unique" => ":attribute قبلا انتخاب شده است.",

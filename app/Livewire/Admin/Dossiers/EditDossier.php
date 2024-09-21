@@ -20,7 +20,6 @@ class EditDossier extends Component
 {
     use WithFileUploads;
 
-
     public Dossier $dossier;
     public string $name = '';
     public string $number_dossier = '';
@@ -96,7 +95,7 @@ class EditDossier extends Component
             $ImageController = new ImageController();
             $image_name = $ImageController->UploadeImage($this->Judicial_image, "Judicial-image", 900, 800);
 
-            if ($image_name){
+            if ($image_name) {
                 if (Storage::exists('Judicial-image/' . $this->dossier->Judicial_image)) {
                     Storage::delete('Judicial-image/' . $this->dossier->Judicial_image);
                 }
