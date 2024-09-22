@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Dossiers;
 
+use App\Models\Laboratory;
 use Hekmatinasser\Verta\Verta;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Gate;
@@ -23,6 +24,7 @@ class DossierComponent extends Component
     public $company_user = '';
     public $is_active = '';
     public $create_date = '';
+    public $laboratory=null;
 
     public function updatingTitle()
     {
@@ -72,13 +74,18 @@ class DossierComponent extends Component
         $company_users = User::Role('company')->when(auth()->user()->hasRole('company'), function ($query) {
             $query->where('id', auth()->user()->id);
         })->get();
-
+        $laboratories=[];
+        if (auth()->user()->hasRole(['Super Admin','viewer'])){
+            $laboratories = Laboratory::all();
+        }
         $dossiers = Dossier::with(['company', 'creator','laboratories'])->where('is_archive', false)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole(['Super Admin', 'company', 'viewer']), function ($query) {
             $query->whereRelation('laboratories','laboratories.id', auth()->user()->laboratory_id);
         })->when(!empty($this->creator), function (Builder $query) {
             $query->whereHas('creator', function (Builder $query) {
                 $query->where('name', 'like', '%' . $this->creator . '%');
             });
+        })->when($this->laboratory,function($query){
+            $query->whereRelation('laboratories','laboratories.id', $this->laboratory);
         })->when($this->company_user != '', function ($query) {
             $query->where('user_category_id', $this->company_user);
         })->when(auth()->user()->hasRole('company'), function ($query) {
@@ -90,6 +97,7 @@ class DossierComponent extends Component
             $query->where('created_at', 'like', '%' . $G_date . '%');
         })->latest()->paginate(10);
 
-        return view('livewire.admin.dossiers.dossier-component', compact(['dossiers', 'company_users']))->extends('admin.layout.MasterAdmin')->section('Content');
+
+        return view('livewire.admin.dossiers.dossier-component', compact(['dossiers', 'company_users','laboratories']))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }

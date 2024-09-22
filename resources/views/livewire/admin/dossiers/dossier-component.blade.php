@@ -86,6 +86,26 @@
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+                                    @hasanyrole(['Super Admin','viewer'])
+                                    <div
+                                        class="form-group col-md-3 col-sm-3 @error('laboratory') is-invalid @enderror">
+                                        <div wire:ignore>
+                                            <select id="laboratorySelect"
+                                                    data-placeholder="انتخاب آزمایشگاه"
+                                                    class="form-control ms search-select">
+                                                <option></option>
+                                                @foreach ($laboratories as $laboratory)
+                                                    <option value="{{ $laboratory->id }}">
+                                                        {{ $laboratory->name }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @error('laboratory')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                    @endhasanyrole
                                 </div>
                             </div>
                         </form>
@@ -214,6 +234,14 @@
 <script src="{{asset('vendor/date-time-picker/persian-date.min.js')}}"></script>
 <script src="{{asset('vendor/date-time-picker/persian-datepicker.min.js')}}"></script>
 <script>
+    $('#laboratorySelect').on('change', function (e) {
+        let data = $('#laboratorySelect').select2("val");
+        if (data === '') {
+        @this.set('laboratory', null);
+        } else {
+        @this.set('laboratory', data);
+        }
+    });
     let createDate;
 
     function destroyDatePicker() {
