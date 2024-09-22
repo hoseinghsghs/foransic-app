@@ -144,7 +144,7 @@
                                                     {{ $dossier->name }}
                                                 </td>
                                                 @hasanyrole(['Super Admin','company','viewer'])
-                                                <td>{{$dossier->laboratory()->exists()? $dossier->laboratory->name :'-'}}</td>
+                                                <td>{{$dossier->laboratories()->exists()? implode(' , ',$dossier->laboratories()->pluck('name')->toArray()) :'-'}}</td>
                                                 @endhasanyrole
                                                 <td>
                                                     {{ $dossier->subject }}

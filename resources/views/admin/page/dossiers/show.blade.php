@@ -46,7 +46,7 @@
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>آزمایشگاه:</strong></div>
-                                    <div class="col-6">{{$dossier->laboratory()->exists()? $dossier->laboratory->name :'-'}}</div>
+                                    <div class="col-6">{{$dossier->laboratories()->exists()? implode(' , ',$dossier->laboratories()->pluck('name')->toArray()) :'-'}}</div>
                                 </div>
                             </div>
                             @endhasanyrole
@@ -71,7 +71,7 @@
                             <div class="list-group-item list-group-item-action">
                                 <div class="row clearfix">
                                     <div class="col-6"><strong>  کشور حوزه اقدام :</strong></div>
-                                    <div class="col-6">{{$dossier->zone->country ? $dossier->zone->country :'-'}}</div>
+                                    <div class="col-6">{{$dossier->zone->country ?? '-'}}</div>
                                 </div>
                             </div>
                             <div class="list-group-item list-group-item-action">

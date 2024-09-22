@@ -77,8 +77,8 @@ class ArchiveDossier extends Component
             $query->where('id', auth()->user()->id);
         })->get();
 
-        $dossiers = Dossier::where('is_archive', true)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole(['Super Admin', 'company','viewer']), function ($query) {
-            $query->where('laboratory_id', auth()->user()->laboratory_id);
+        $dossiers = Dossier::with(['company', 'creator','laboratories'])->where('is_archive', true)->whereAny(['name', 'number_dossier'], 'like', '%' . $this->title . '%')->when(!auth()->user()->hasRole(['Super Admin', 'company','viewer']), function ($query) {
+            $query->whereRelation('laboratories','laboratories.id', auth()->user()->laboratory_id);
         })->when($this->company_user != '', function ($query) {
             $query->where('user_category_id', $this->company_user);
         })->when(auth()->user()->hasRole('company'), function ($query) {
