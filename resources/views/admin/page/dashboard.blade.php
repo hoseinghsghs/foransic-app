@@ -719,13 +719,14 @@
             let data = $('#laboratorySelect').select2("val");
             if (data === 'all') {
                 window.location.href = "{{env('APP_URL')}}" + '/Admin-panel/managment/'
-            } else {
+            } else if(data === null){
+                window.location.href = "{{env('APP_URL')}}" + '/Admin-panel/managment/'
+            }
+            else{
                 window.location.href = "{{env('APP_URL')}}" + '/Admin-panel/managment/' + data
             }
         });
         initC3Chart();
-
-
         function initC3Chart() {
             setTimeout(function () {
                 $success = @json($successDevice);
