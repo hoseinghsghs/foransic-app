@@ -40,10 +40,14 @@ class AppServiceProvider extends ServiceProvider
         });
         // check if user in same laboratory with model
         Gate::define('is-same-laboratory', function (User $user, $laboratory_id) {
-            if ($user->hasRole(['company','viewer']))
+            if ($user->hasRole(['company', 'viewer']))
                 return true;
-            else
-                return $user->laboratory_id == $laboratory_id;
+            else {
+                if (is_array($laboratory_id))
+                    return in_array($user->laboratory_id, $laboratory_id);
+                else
+                    return $user->laboratory_id == $laboratory_id;
+            }
         });
         // share settings between views
         if (Schema::hasTable('settings'))
