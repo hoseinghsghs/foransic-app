@@ -93,7 +93,7 @@
                                         @enderror
                                     </div>
                                     @endif
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label>زمان پذیرش </label>
                                         <div class="input-group" wire:ignore>
                                             <div class="input-group-prepend" onclick="$('#createDate').focus();">
@@ -113,7 +113,7 @@
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-4">
                                         <label> مدل<abbr class="required" title="ضروری"
                                                 style="color:red;">*</abbr></label>
                                         <div class="form-group">
@@ -125,7 +125,7 @@
                                             @enderror
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-3 col-sm-3 @error('status') is-invalid @enderror">
+                                    <div class="form-group col-md-4 col-sm-6 @error('status') is-invalid @enderror">
                                         <label for="statusSelect">وضعیت بررسی</label>
                                         <div wire:ignore>
                                             <select id="statusSelect" data-placeholder="انتخاب وضعیت"
@@ -141,20 +141,10 @@
                                         <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-3 col-auto">
-                                        <label for="is_active">وضعیت</label>
-                                        <div class="switchToggle">
-                                            <input type="checkbox" wire:model="is_active" id="switch">
-                                            <label for="switch">Toggle</label>
-                                        </div>
-                                        @error('is_active')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
                                     {{-- category attributes --}}
                                     @if ($category_id && $this->category->attributes()->exists())
                                     @foreach ($this->category->attributes as $attribute)
-                                    <div class="form-group col-md-3" wire:key="{{ $attribute->id }}">
+                                    <div class="form-group col-md-4" wire:key="{{ $attribute->id }}">
                                         <label>{{ $attribute->name }}</label>
                                         <div class="form-group">
                                             @if ($attribute->def_values)
@@ -183,13 +173,12 @@
                                     </div>
                                     @endforeach
                                     @endif
-
                                     @isset($dossier_id)
                                     <?php
                                     $parent_devices = $parent_devices->where('dossier_id', $dossier_id);
                                     ?>
                                     @if ($parent_devices->count())
-                                        <div class="form-group col-md-3 col-sm-3 @error('parent_id') is-invalid @enderror">
+                                        <div class="form-group col-md-4 col-sm-6 @error('parent_id') is-invalid @enderror">
                                             <label for="rel"> ارتباط با سایر شواهد<abbr class="required" title="ضروری"
                                                     style="color:red;">*</abbr></label>
                                             <div>
@@ -233,6 +222,16 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+                                    </div>
+                                    <div class="form-group col-md-3 col-auto">
+                                        <label for="is_active">وضعیت</label>
+                                        <div class="switchToggle">
+                                            <input type="checkbox" wire:model="is_active" id="switch">
+                                            <label for="switch">Toggle</label>
+                                        </div>
+                                        @error('is_active')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
 

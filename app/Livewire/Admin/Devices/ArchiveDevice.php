@@ -66,8 +66,7 @@ class ArchiveDevice extends Component
             $query->where('laboratory_id', auth()->user()->laboratory_id);
         })->when(auth()->user()->hasRole('company'),function ($query){
             // get devices that refer to dossier of company user
-            $user_dossiers=Dossier::where('user_category_id',auth()->user()->id)->get()->pluck('id')->toArray();
-            $query->whereIn('dossier_id',$user_dossiers);
+            $query->whereRelation('dossier','user_category_id',auth()->user()->id);
         })->when($this->title, function ($query) use ($category_ids) {
             $query->where('code', 'like', '%' . $this->title . '%')->orWhereIn('category_id', $category_ids);
         })->when($this->status != '', function ($query) {
