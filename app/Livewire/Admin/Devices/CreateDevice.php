@@ -47,7 +47,7 @@ class CreateDevice extends Component
          just allow dossiers that has same lab for personnel and dossiers that company users that create by themselves
         */
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
-            $query->where('laboratory_id', auth()->user()->laboratory_id);
+            $query->whereRelation('laboratories','laboratories.id', auth()->user()->laboratory_id);
         })->when(auth()->user()->hasRole('company'), function (Builder $query) {
             $query->where('user_category_id', auth()->user()->id);
         })->get()->pluck('id')->toArray();
