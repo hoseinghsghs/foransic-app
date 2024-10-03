@@ -67,7 +67,7 @@ class EditDossier extends Component
 
     public function mount()
     {
-        $this->authorize('is-same-laboratory', $this->dossier->laboratories()->pluck('id')->toArray());
+        $this->authorize('is-same-laboratory', $this->dossier->laboratories()->pluck('laboratories.id')->toArray());
         $this->name = $this->dossier->name;
         $this->user_category_id = $this->dossier->user_category_id;
         $this->section_id = $this->dossier->section_id;

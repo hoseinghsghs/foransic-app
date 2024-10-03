@@ -41,12 +41,12 @@ class CreateDossier extends Component
     {
         // get users from same laboratory that has company role
         $users = User::role('company')->get()->pluck('id')->toArray();
-
+        $auth_user=auth()->user();
         return [
             'name' => 'required|string|max:100',
-            'user_category_id' => ['nullable', 'integer', Rule::in($users), Rule::requiredIf(!auth()->user()->hasRole('company'))],
-            'laboratory_id' => ['array', Rule::requiredIf(is_null(auth()->user()->laboratory_id)), Rule::when(!auth()->user()->can('dossier-select-multiple-laboratory'), 'size:1')],
-            'laboratory_id.*' => ['exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
+            'user_category_id' => ['nullable', 'integer', Rule::in($users), Rule::requiredIf(!$auth_user->hasRole('company'))],
+            'laboratory_id' => ['array', Rule::requiredIf(is_null($auth_user->laboratory_id)), Rule::when(is_null($auth_user->laboratory_id) && !$auth_user->can('dossier-select-multiple-laboratory'), 'size:1')],
+            'laboratory_id.*' => ['exists:laboratories,id', Rule::requiredIf(is_null($auth_user->laboratory_id))],
             'subject' => 'required|string',
             'expert' => 'required|string',
             'country' => 'required|string',

@@ -42,7 +42,7 @@ Route::prefix('Admin-panel/managment')->name('admin.')->middleware(['auth', 'has
     Route::get('dossiers/zones', \App\Livewire\Admin\Dossiers\ZoneDossier::class)->middleware('permission:dossiers-zone-list')->name('dossiers.zone');
     Route::get('dossiers/sections', \App\Livewire\Admin\Dossiers\SectionDossier::class)->middleware('permission:dossiers-section-list')->name('dossiers.section');
     Route::get('dossiers/{dossier}/show', function (\App\Models\Dossier $dossier){
-        \Illuminate\Support\Facades\Gate::authorize('is-same-laboratory',$dossier->laboratory_id);
+        \Illuminate\Support\Facades\Gate::authorize('is-same-laboratory',$dossier->laboratories()->pluck('laboratories.id')->toArray());
         $devices=$dossier->devices()->paginate(10);
         return view('admin.page.dossiers.show',compact(['dossier','devices']));
     })->middleware('permission:dossiers-show')->name('dossiers.show');
