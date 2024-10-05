@@ -35658,7 +35658,7 @@ right connector from last child*/
     padding: 5px 10px;
     text-decoration: none;
     color: #666;
-    font-family: arial, verdana, tahoma;
+    font-family: inherit;
     font-size: 13px;
     display: inline-block;
 
