@@ -362,13 +362,13 @@
                                                                     <ul>
                                                                         <li>
                                                                             <a style="background-color: {{$parent->id == $device->id?'#90ee90':'#ffe4c4'}}"
-                                                                               href="{{ route('admin.devices.show', $parent->id) }}"><strong>{{$parent->category->title}}-{{$parent->code}}</strong></a>
+                                                                               href="{{ route('admin.devices.show', $parent->id) }}"><strong>{{$parent->category->title}} - {{$parent->code}} - {{$parent->id}}</strong></a>
                                                                             <ul>
                                                                                 @foreach ( $children as $child )
                                                                                     <li>
                                                                                         <a style="background-color: {{$child->id == $device->id?'#90ee90':'#ffe4c4'}}"
                                                                                            href="{{ route('admin.devices.show', $child->id) }}"><strong>{{$child->category->title}}
-                                                                                                -{{$child->id}}</strong></a>
+                                                                                                 - {{$child->code}} - {{$child->id}}</strong></a>
                                                                                     </li>
                                                                                 @endforeach
                                                                             </ul>

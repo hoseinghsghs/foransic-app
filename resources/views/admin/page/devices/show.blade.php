@@ -481,74 +481,27 @@
                 <strong style="color:#e47297"> شواهد مرتبط (شاهد سبز رنگ شاهد فعلی در حال مشاهده است) </strong>
             </div>
             <hr>
-            <div class="row clearfix">
-
-                @if ($device->parent_id != 0)
-
-                <div class="col-lg-12 col-md-12" style=" text-align: center;">
-                    <?php
-                    $rel_1 = app\Models\Device::find($device->parent_id);
-                    $rels_2 = app\Models\Device::where('parent_id', $rel_1->id)->get();
-                    ?>
-                    <a class="btn bt-sm" href="{{ route('admin.devices.show', $rel_1->id) }}">
-                        {{$rel_1->category->title}}-
-                        {{$rel_1->code}}
-                    </a>
-                </div>
-                <div class="col-lg-12 col-md-12" style="text-align: -webkit-center">
-                    <div class="col-lg-10 col-md-10" width="80%" style=" align-self: center; border-bottom: gray solid 2px;">
-                    </div>
-                </div>
-                @foreach ( $rels_2 as $rel )
-                @if ($rel->id == $device->id)
-
-                <div class=" col " style=" text-align: center; ">
-                    <a class=" btn bt-sm btn-success" href="{{ route('admin.devices.show', $rel->id) }}">
-                        @if ($rel)
-                        {{$rel->category->title}}-
-                        {{$rel->id}}-
-                        {{$rel->code}}
-                        @endif
-                    </a>
-                </div>
-                @else
-                <div class="col" style=" text-align: center;">
-                    <a class="btn bt-sm " href="{{ route('admin.devices.show', $rel->id) }}">
-                        @if ($rel)
-                        {{$rel->category->title}}-
-                        {{$rel->id}}-
-                        {{$rel->code}}
-                        @endif
-                    </a>
-                </div>
-                @endif
-
-                @endforeach
-                @else
-                <div class="col-lg-12 col-md-12" style=" text-align: center;">
-                    <button class="btn bt-sm btn-success">
-                        {{$device->category->title }} - {{$device->code}}
-                    </button>
-                </div>
-                <div class="col-lg-12 col-md-12" style="text-align: -webkit-center">
-                    <div class="col-lg-10 col-md-10" width="80%" style=" align-self: center; border-bottom: gray solid 2px;">
-                    </div>
-                </div>
+            <div class="row clearfix justify-content-center">
                 <?php
-                $rels = app\Models\Device::where('parent_id', $device->id)->get();
+                $parent = $device->parent_id !== 0 ? app\Models\Device::find($device->parent_id) : $device;
+                $children = app\Models\Device::where('parent_id', $parent->id)->get();
                 ?>
-                @foreach ( $rels as $rel )
-                <div class="col" style=" text-align: center;">
-                    <a class="btn bt-sm " href="{{ route('admin.devices.show', $rel->id) }}">
-                        @if ($rel)
-                        {{$rel->category->title}}-
-                        {{$rel->id}}-
-                        {{$rel->code}}
-                        @endif
-                    </a>
+                <div class="tree-graph">
+                    <ul>
+                        <li>
+                            <a style="background-color: {{$parent->id == $device->id?'#90ee90':'#ffe4c4'}}"
+                               href="{{ route('admin.devices.show', $parent->id) }}"><strong>{{$parent->category->title}} - {{$parent->code}} - {{$parent->id}}</strong></a>
+                            <ul>
+                                @foreach ( $children as $child )
+                                    <li>
+                                        <a style="background-color: {{$child->id == $device->id?'#90ee90':'#ffe4c4'}}"
+                                           href="{{ route('admin.devices.show', $child->id) }}"><strong>{{$child->category->title}} - {{$child->code}} - {{$child->id}}</strong></a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    </ul>
                 </div>
-                @endforeach
-                @endif
             </div>
 
         </div>
