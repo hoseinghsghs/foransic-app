@@ -145,8 +145,7 @@
                                             <div class="form-group col-md-4" wire:key="{{ $attribute->id }}">
                                                 <label>{{ $attribute->name }}</label>
                                                 <div class="form-group">
-                                                    @dd($attribute->def_values)
-                                                    @if ($attribute->def_values !== 'null')
+                                                    @if ($attribute->def_values)
                                                         <div wire:ignore>
                                                             <select id="valueSelect"
                                                                 wire:model="attribute_values.{{ $attribute->id }}"

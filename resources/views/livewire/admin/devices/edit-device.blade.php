@@ -119,7 +119,7 @@
                                         @foreach ($this->category->attributes as $attribute)
                                             <div class="form-group col-md-3" wire:key="{{ $attribute->id }}">
                                                 <label>{{ $attribute->name }}</label>
-                                                @if ($attribute->def_values !== 'null')
+                                                @if ($attribute->def_values)
                                                     <select id="valueSelect"
                                                         wire:model="attribute_values.{{ $attribute->id }}"
                                                         data-placeholder="انتخاب"
@@ -132,7 +132,7 @@
                                                         @endforeach
                                                     </select>
                                                 @else
-                                                    <input  type="text"
+                                                    <input type="text"
                                                         wire:model="attribute_values.{{ $attribute->id }}"
                                                         id="delivery_code"
                                                         class="form-control @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror" />
