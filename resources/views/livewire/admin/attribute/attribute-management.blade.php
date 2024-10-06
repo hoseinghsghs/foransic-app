@@ -115,11 +115,11 @@
 
                                     <tbody>
                                         @foreach ($attributes as $attribute)
-                                        <tr wire:key="{{ $attribute->id }}" wire:loading.attr="disabled">
+                                            <tr wire:key="{{ $attribute->id }}" wire:loading.attr="disabled">
                                             <td scope="row">{{ $loop->index + 1 }}</td>
                                             <td>{{ $attribute->name }}</td>
                                             <td>
-                                                @if($attribute->def_values != "null")
+                                                @if($attribute->def_values)
                                                 @foreach(json_decode($attribute->def_values, true) as $def_valuee)
                                                 {{$def_valuee}},
                                                 @endforeach

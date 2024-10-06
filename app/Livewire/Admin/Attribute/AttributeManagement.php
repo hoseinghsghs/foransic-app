@@ -13,7 +13,7 @@ class AttributeManagement extends Component
 
     protected $paginationTheme = 'bootstrap';
     public $name;
-    public $def_values;
+    public $def_values = null;
     public $def_value;
     public Attribute $attribute;
     public $is_edit = false;
@@ -53,8 +53,7 @@ class AttributeManagement extends Component
                 'name' => 'required|unique:attributes,name,' . $this->attribute->id,
                 'attribute.id' => 'required|exists:attributes,id',
             ]);
-
-            $this->def_values = json_encode($this->def_values);
+            $this->def_values = $this->def_values ? json_encode($this->def_values) : null;
 
             $this->attribute->update([
                 'name' => $this->name,
@@ -64,7 +63,7 @@ class AttributeManagement extends Component
             $this->is_edit = false;
             $this->ref();
 
-            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد',' ');
+            toastr()->rtl()->addSuccess('تغییرات با موفقیت ذخیره شد', ' ');
         } else {
             $this->authorize('attributes-create');
 
@@ -72,7 +71,9 @@ class AttributeManagement extends Component
                 'def_values' => 'nullable|array',
                 'def_values.*' => 'nullable',
             ]);
-            $this->def_values = json_encode($this->def_values);
+
+
+            $this->def_values = $this->def_values ? json_encode($this->def_values) : null;
 
             Attribute::create([
                 "name" => $this->name,
@@ -80,7 +81,7 @@ class AttributeManagement extends Component
 
             ]);
             $this->ref();
-            toastr()->rtl()->addSuccess('ویژگی با موفقیت ایجاد شد',' ');
+            toastr()->rtl()->addSuccess('ویژگی با موفقیت ایجاد شد', ' ');
         }
     }
 
@@ -98,9 +99,9 @@ class AttributeManagement extends Component
     {
         $this->authorize('attributes-delete');
 
-        if ($attribute->categories()->exists() || $attribute->attributeValues()->exists()){
+        if ($attribute->categories()->exists() || $attribute->attributeValues()->exists()) {
             toastr()->rtl()->addWarning('به علت الحاق ویژگی به دسته بندی امکان حذف آن وجود ندارد');
-        }else{
+        } else {
             $attribute->delete();
             toastr()->rtl()->addSuccess('ویژگی با موفقیت حذف شد');
         }
