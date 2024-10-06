@@ -132,7 +132,7 @@
                                                         @endforeach
                                                     </select>
                                                 @else
-                                                    <input type="text"
+                                                    <input  type="text"
                                                         wire:model="attribute_values.{{ $attribute->id }}"
                                                         id="delivery_code"
                                                         class="form-control @error(" attribute_values.{{ $attribute->id }}") is-invalid @enderror" />
