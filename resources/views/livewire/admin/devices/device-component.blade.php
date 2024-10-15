@@ -220,7 +220,7 @@
                                                 <td>{{$device->laboratory()->exists()? $device->laboratory->name :'-'}}</td>
                                                 @endhasanyrole
                                                 <td dir="ltr">
-                                                    {{ $device->receive_date }}
+                                                    {{ $device->receive_date ?verta($device->receive_date)->format('Y-n-j H:i'):'' }}
                                                 </td>
                                                 <td>
                                                     {{ $device->dossier->name }}
