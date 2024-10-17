@@ -59,11 +59,6 @@
                                                 class="form-control">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-8" wire:ignore>
-                                        <label class="form-label">نام شواهد دیجیتال</label>
-                                        <input id="device-names" value="{{ $device_names }}" class="form-control"
-                                            data-role="tagsinput">
-                                    </div>
                                     <div class="form-group col-md-6">
                                         <label class="form-label" for="exampleFormControlFile1">آپلود لوگوی پنل<span
                                                 wire:loading wire:target="logo" class="spinner-border spinner-border-sm"

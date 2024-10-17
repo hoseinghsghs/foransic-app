@@ -31,20 +31,20 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
     {
         $head_arry =
             [
-            "id",
-            "مدل",
-            " ورودی -پرسنل آزمایشگاه تحویل گیرنده",
-            "ورودی -آی دی پرسنل آزمایشگاه تحویل گیرنده ",
-            " ورودی - شخص تحویل دهنده",
-            "ورودی - کد پرسنلی تحویل دهنده",
-            " ورودی - تاریخ و زمان تحویل  گرفتن شواهد دیجیتال توسط پرسنل آزمایشگاه",
-            "خروجی - پرسنل آزمایشگاه تحویل دهنده",
-            "خروجی - آی دی پرسنل آزمایشگاه تحویل دهنده  ",
-            "خروجی - نام تحویل گیرنده",
-            "خروجی -کد پرسنلی تحویل گیرنده",
-            "خروجی - تاریخ و زمان تحویل  دادن شواهد دیجیتال توسط پرسنل آزمایشگاه",
-            "لوازم جانبی",
-            "تجربه نگاری کارشناس فارنزیک در اقدامات",
+                "id",
+                "مدل",
+                " ورودی -پرسنل آزمایشگاه تحویل گیرنده",
+                "ورودی -آی دی پرسنل آزمایشگاه تحویل گیرنده ",
+                " ورودی - شخص تحویل دهنده",
+                "ورودی - کد پرسنلی تحویل دهنده",
+                " ورودی - تاریخ و زمان تحویل  گرفتن شواهد دیجیتال توسط پرسنل آزمایشگاه",
+                "خروجی - پرسنل آزمایشگاه تحویل دهنده",
+                "خروجی - آی دی پرسنل آزمایشگاه تحویل دهنده  ",
+                "خروجی - نام تحویل گیرنده",
+                "خروجی -کد پرسنلی تحویل گیرنده",
+                "خروجی - تاریخ و زمان تحویل  دادن شواهد دیجیتال توسط پرسنل آزمایشگاه",
+                "لوازم جانبی",
+                "تجربه نگاری کارشناس فارنزیک در اقدامات",
                 "مشخصات ",
                 "شماره خودکار ساز نامه درخواست",
                 "تاریخ مکاتبه",
@@ -55,9 +55,10 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
                 "id پرونده",
                 "نام پرونده",
                 "id دسته بندی",
+                "تاریخ ثبت",
                 "تاریخ ایجاد",
-            "آخرین تاریخ بروز رسانی",
-            "ویژگی ها"
+                "آخرین تاریخ بروز رسانی",
+                "ویژگی ها"
             ];
         // foreach ($this->device as $device) {
 
@@ -77,13 +78,11 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
     {
         if ($device->status == 0) {
             $device->status = "پذیرش شواهد دیجیتال";
-        } elseif ($device->status == 1){
+        } elseif ($device->status == 1) {
             $device->status = "در حال بررسی";
-        }
-         elseif ($device->status == 2){
+        } elseif ($device->status == 2) {
             $device->status = "تکمیل تجزیه و تحلیل";
-        }
-         elseif ($device->status == 3){
+        } elseif ($device->status == 3) {
             $device->status = "خروج شواهد دیجیتال";
         }
         $value_arry_1 = [];
@@ -115,13 +114,15 @@ class DevicesExport implements FromQuery, WithMapping, WithHeadings
             $device->correspondence_date,
             $device->primary_image,
             $device->status,
-            $device->is_active== 1 ? 'فعال':'غیر فعال',
-            $device->is_archive==1 ? 'فعال':'غیر فعال',
+            $device->is_active == 1 ? 'فعال' : 'غیر فعال',
+            $device->is_archive == 1 ? 'فعال' : 'غیر فعال',
             $device->dossier_id,
             $device->dossier ? $device->dossier->name : "",
             $device->category->title,
+            verta($device->receive_date)->format('Y-n-j H:i'),
             verta($device->created_at)->format('Y-n-j H:i'),
             verta($device->updated_at)->format('Y-n-j H:i'),
+
             json_encode($value_arry_1, JSON_UNESCAPED_UNICODE)
 
         ];

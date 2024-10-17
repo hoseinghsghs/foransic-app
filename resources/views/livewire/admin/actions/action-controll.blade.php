@@ -5,7 +5,7 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>اضافه کردن اقدام</h2>
+                <h2>اضافه نمودن اقدام</h2>
                 </br>
                 <ul class="breadcrumb">
                     <li class="breadcrumb-item"><a href={{ route('admin.home') }}><i class="zmdi zmdi-home"></i>
@@ -38,7 +38,7 @@
                                                     <div class="form-group col-md-12 col-sm-12 mt-2">
                                                         <span>
                                                             <h5 style="font-size:1.1em !important"><a class="ml-3"
-                                                                                                      href="#">
+                                                                    href="#">
                                                                     <strong style="color:#e47297">
                                                                         عنوان
                                                                     </strong>
@@ -50,7 +50,7 @@
 
 
 
-                                                                        <a class="ml-3" href="#">
+                                                                <a class="ml-3" href="#">
                                                                     <strong style="color:#e47297">کد یکتا
                                                                     </strong>
                                                                     : {{ $device->id }}</a>
@@ -88,7 +88,7 @@
                                                                 title="ضروری">*</abbr></label>
                                                         <div wire:ignore>
                                                             <select id="categorySelect" data-placeholder="انتخاب عنوان"
-                                                                    class="form-control ms search-select">
+                                                                class="form-control ms search-select">
                                                                 <option></option>
                                                                 @foreach ($categories as $category)
                                                                     <option value="{{ $category->id }}">
@@ -98,88 +98,85 @@
                                                             </select>
                                                         </div>
                                                         @error('action_category_id')
-                                                        <small class="text-danger">{{ $message }}</small>
+                                                            <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-md-12 col-sm-12">
-                                                        <label for="">توضیحات اقدام <abbr class="required text-danger"
-                                                                                          title="ضروری">*</abbr></label>
+                                                        <label for="">توضیحات اقدام <abbr
+                                                                class="required text-danger"
+                                                                title="ضروری">*</abbr></label>
                                                         @if ($is_edit)
-                                                            <textarea rows="5"
-                                                                      class="form-control @error('description') is-invalid @enderror"
-                                                                      wire:model.defer="description">{!! $action->description !!}</textarea>
+                                                            <textarea rows="5" class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">{!! $action->description !!}</textarea>
                                                         @else
-                                                            <textarea rows="5"
-                                                                      class="form-control @error('description') is-invalid @enderror"
-                                                                      wire:model.defer="description">
+                                                            <textarea rows="5" class="form-control @error('description') is-invalid @enderror" wire:model.defer="description">
                                                                 </textarea>
                                                         @endif
                                                         @error('description')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                            <div class="invalid-feedback">{{ $message }}</div>
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label> تاریخ و زمان شروع <abbr class="required text-danger"
-                                                                                        title="ضروری">*</abbr></label>
+                                                                title="ضروری">*</abbr></label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
-                                                                 onclick="$('#startDate').focus();">
+                                                                onclick="$('#startDate').focus();">
                                                                 <span class="input-group-text" id="basic-addon1"><i
                                                                         class="zmdi zmdi-calendar-alt"></i></span>
                                                             </div>
                                                             <input type="hidden" id="startDate-alt"
-                                                                   name="variation_values" value="">
+                                                                name="variation_values" value="">
                                                             <input type="text" class="form-control" id="startDate"
-                                                                   value="" autocomplete="off">
+                                                                value="" autocomplete="off">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon1"
-                                                                      style="cursor: pointer;"
-                                                                      onclick="destroyDatePicker('from')"><i
+                                                                    style="cursor: pointer;"
+                                                                    onclick="destroyDatePicker('from')"><i
                                                                         class="zmdi zmdi-close"></i></span>
                                                             </div>
                                                             <span id="start_date-display" class="text-warning"></span>
                                                         </div>
                                                         @error('start_date')
-                                                        <small class="text-danger">{{ $message }}</small>
+                                                            <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
 
                                                     <div class="form-group col-md-3">
                                                         <label>تاریخ و زمان پایان <abbr class="required text-danger"
-                                                                                        title="ضروری">*</abbr></label>
+                                                                title="ضروری">*</abbr></label>
                                                         <div class="input-group" wire:ignore>
                                                             <div class="input-group-prepend"
-                                                                 onclick="$('#endDate').focus();">
+                                                                onclick="$('#endDate').focus();">
                                                                 <span class="input-group-text" id="basic-addon1"><i
                                                                         class="zmdi zmdi-calendar-alt"></i></span>
                                                             </div>
                                                             <input type="hidden" id="endDate-alt"
-                                                                   name="variation_values">
+                                                                name="variation_values">
                                                             <input type="text" class="form-control" id="endDate"
-                                                                   value="{{ $end_date ?? null }}" autocomplete="off">
+                                                                value="{{ $end_date ?? null }}" autocomplete="off">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text" id="basic-addon1"
-                                                                      style="cursor: pointer;"
-                                                                      onclick="destroyDatePicker('to')"><i
+                                                                    style="cursor: pointer;"
+                                                                    onclick="destroyDatePicker('to')"><i
                                                                         class="zmdi zmdi-close"></i></span>
                                                             </div>
                                                             <span id="start_date-display" class="text-warning"></span>
                                                         </div>
                                                         @error('end_date')
-                                                        <small class="text-danger">{{ $message }}</small>
+                                                            <small class="text-danger">{{ $message }}</small>
                                                         @enderror
                                                     </div>
                                                     <div class="col-lg-3 col-md-12 col-sm-12">
                                                         <div class="form-group">
                                                             <label>وضعیت</label>
                                                             <select data-placeholder="وضعیت" wire:model.live="status"
-                                                                    class="form-control ms @error('status') is-invalid @enderror">
+                                                                class="form-control ms @error('status') is-invalid @enderror">
                                                                 <option value="1">فعال</option>
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('status')
-                                                            <div class="invalid-feedback">{{ $message }}
-                                                            </div>
+                                                                <div class="invalid-feedback">{{ $message }}
+                                                                </div>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -187,14 +184,14 @@
                                                         <div class="form-group">
                                                             <label>نمایش در گزارش و پرینت</label>
                                                             <select data-placeholder="وضعیت"
-                                                                    wire:model.live="is_print"
-                                                                    class="form-control ms @error('status') is-invalid @enderror">
+                                                                wire:model.live="is_print"
+                                                                class="form-control ms @error('status') is-invalid @enderror">
                                                                 <option value="1">فعال</option>
                                                                 <option value="0">غیرفعال</option>
                                                             </select>
                                                             @error('is_print')
-                                                            <div class="invalid-feedback">{{ $message }}
-                                                            </div>
+                                                                <div class="invalid-feedback">{{ $message }}
+                                                                </div>
                                                             @enderror
                                                         </div>
                                                     </div>
@@ -205,22 +202,22 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <form action="{{ route('admin.attachments_uploade') }}"
-                                                                  id="myDropzone" class="dropzone" method="POST">
+                                                                id="myDropzone" class="dropzone" method="POST">
                                                                 @csrf
                                                             </form>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12 col-sm-12">
                                                         <button wire:click="addAction" onclick="clear()"
-                                                                wire:loading.attr="disabled"
-                                                                class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
+                                                            wire:loading.attr="disabled"
+                                                            class="btn btn-raised {{ $is_edit ? 'btn-warning' : 'btn-primary' }}  waves-effect">
                                                             {{ $is_edit ? 'ویرایش' : 'افزودن' }}
                                                             <span class="spinner-border spinner-border-sm text-light"
-                                                                  wire:loading wire:target="addAction"></span>
+                                                                wire:loading wire:target="addAction"></span>
                                                         </button>
                                                         @if ($is_edit)
                                                             <button class="btn btn-raised btn-info waves-effect"
-                                                                    wire:loading.attr="disabled" wire:click="ref">صرف
+                                                                wire:loading.attr="disabled" wire:click="ref">صرف
                                                                 نظر
                                                                 <span
                                                                     class="spinner-border spinner-border-sm text-light"
@@ -259,88 +256,87 @@
                                 <div class="table-responsive">
                                     <table class="table table-hover c_table theme-color">
                                         <thead>
-                                        <tr>
-                                            <th>id</th>
-                                            <th>عنوان اقدام</th>
-                                            <th>نام پرسنل</th>
-                                            <th>تاریخ و زمان شروع</th>
-                                            <th>تاریخ و زمان پایان</th>
-                                            <th>نمایش در گزارش</th>
-                                            <th>توضیحات - فایل ها</th>
-                                            <th class="text-center js-sweetalert">عملیات</th>
-                                        </tr>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>عنوان اقدام</th>
+                                                <th>نام پرسنل</th>
+                                                <th>تاریخ و زمان شروع</th>
+                                                <th>تاریخ و زمان پایان</th>
+                                                <th>نمایش در گزارش</th>
+                                                <th>توضیحات - فایل ها</th>
+                                                <th class="text-center js-sweetalert">عملیات</th>
+                                            </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach ($actions as $key => $action)
-
-                                            <tr wire:key="{{ $action->description }} {{ $action->id }}"
-                                                wire:loading.attr="disabled">
-                                                <td scope="row">{{ $action->id }}</td>
-                                                <td scope="row">{{ $action->category->title }}</td>
-                                                <td scope="row">{{ $action->user->name }} -
-                                                    {{ $action->user->cellphone }}</td>
-                                                <td dir="ltr">{{ $action->start_date }}</td>
-                                                <td dir="ltr">{{ $action->end_date }}</td>
-                                                <td>
-                                                    @if ($action->is_print)
-                                                        <span class='badge badge-success'> فعال </span>
-                                                    @else
-                                                        <span class='badge badge-danger'>غیر فعال </span>
-                                                    @endif
-                                                </td>
-                                                <td>
-                                                    <button type="button" class="btn bg-teal waves-effect"
+                                            @foreach ($actions as $key => $action)
+                                                <tr wire:key="{{ $action->description }} {{ $action->id }}"
+                                                    wire:loading.attr="disabled">
+                                                    <td scope="row">{{ $action->id }}</td>
+                                                    <td scope="row">{{ $action->category->title }}</td>
+                                                    <td scope="row">{{ $action->user->name }} -
+                                                        {{ $action->user->cellphone }}</td>
+                                                    <td dir="ltr">{{ $action->start_date }}</td>
+                                                    <td dir="ltr">{{ $action->end_date }}</td>
+                                                    <td>
+                                                        @if ($action->is_print)
+                                                            <span class='badge badge-success'> فعال </span>
+                                                        @else
+                                                            <span class='badge badge-danger'>غیر فعال </span>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <button type="button" class="btn bg-teal waves-effect"
                                                             data-toggle="modal"
                                                             data-target="#defaultModal-{{ $key }}"><i
-                                                            class="zmdi zmdi-eye"></i></button>
-                                                </td>
-                                                <td class="text-center js-sweetalert">
-                                                    <button wire:click="edit_action({{ $action->id }})"
+                                                                class="zmdi zmdi-eye"></i></button>
+                                                    </td>
+                                                    <td class="text-center js-sweetalert">
+                                                        <button wire:click="edit_action({{ $action->id }})"
                                                             wire:loading.attr="disabled" {{ $display }}
                                                             class="btn btn-raised btn-info waves-effect scroll">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                        <span class="spinner-border spinner-border-sm text-light"
-                                                              wire:loading
-                                                              wire:target="edit_action({{ $action->id }}) "></span>
-                                                    </button>
-                                                    <button class="btn btn-raised btn-danger waves-effect"
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="edit_action({{ $action->id }}) "></span>
+                                                        </button>
+                                                        <button class="btn btn-raised btn-danger waves-effect"
                                                             wire:loading.attr="disabled"
                                                             wire:confirm="از حذف رکورد مورد نظر اطمینان دارید؟"
                                                             wire:click="del_action({{ $action->id }})"
-                                                        {{ $display }}>
-                                                        <i class="zmdi zmdi-delete"></i>
+                                                            {{ $display }}>
+                                                            <i class="zmdi zmdi-delete"></i>
 
-                                                        <span class="spinner-border spinner-border-sm text-light"
-                                                              wire:loading
-                                                              wire:target="del_action({{ $action->id }})"></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <div class="modal fade" id="defaultModal-{{ $key }}"
-                                                 tabindex="-1" role="dialog">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-body">
-                                                            <h5> توضیحات :</h5>
-                                                            {{ $action->description }}
-                                                            <h5 class="mt-3">فایل های ضمیمه :</h5>
-                                                            @foreach ($action->attachments as $attachment)
-                                                                <div>
-                                                                    <a href="{{ env('APP_URL') }}/storage/attachment_files/{{ $attachment->url }}"
-                                                                       target="_blank">{{ $attachment->url }}</a>
-                                                                </div>
-                                                            @endforeach
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button"
+                                                            <span class="spinner-border spinner-border-sm text-light"
+                                                                wire:loading
+                                                                wire:target="del_action({{ $action->id }})"></span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <div class="modal fade" id="defaultModal-{{ $key }}"
+                                                    tabindex="-1" role="dialog">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-body">
+                                                                <h5> توضیحات :</h5>
+                                                                {{ $action->description }}
+                                                                <h5 class="mt-3">فایل های ضمیمه :</h5>
+                                                                @foreach ($action->attachments as $attachment)
+                                                                    <div>
+                                                                        <a href="{{ env('APP_URL') }}/storage/attachment_files/{{ $attachment->url }}"
+                                                                            target="_blank">{{ $attachment->url }}</a>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button"
                                                                     class="btn btn-danger waves-effect"
                                                                     data-dismiss="modal">بستن
-                                                            </button>
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -356,10 +352,9 @@
 </section>
 @push('styles')
     <!-- تاریخ -->
-    <link rel="stylesheet" type="text/css"
-          href="{{asset('vendor/date-time-picker/persian-datepicker.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('vendor/date-time-picker/persian-datepicker.min.css') }}" />
     <!-- تاریخ پایان-->
-    <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css"/>
+    <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
     <style>
         .dropzone {
             border-radius: 5px;
@@ -372,10 +367,10 @@
 @endpush
 
 @push('scripts')
-    <script src="{{asset('vendor/date-time-picker/persian-date.min.js')}}"></script>
-    <script src="{{asset('vendor/date-time-picker//persian-datepicker.min.js')}}"></script>
+    <script src="{{ asset('vendor/date-time-picker/persian-date.min.js') }}"></script>
+    <script src="{{ asset('vendor/date-time-picker//persian-datepicker.min.js') }}"></script>
     <script>
-        $('.scroll').click(function () {
+        $('.scroll').click(function() {
             $("html, body").animate({
                 scrollTop: 0
             }, 600);
@@ -397,13 +392,13 @@
             addRemoveLinks: true,
             previewsContainer: ".dropzone",
             clickable: ".dropzone",
-            success: function (file, response) {
+            success: function(file, response) {
                 $(file.previewTemplate).append(
                     '<span class="server_file">' + file.name + "</span>"
                 );
             },
 
-            removedfile: function (file) {
+            removedfile: function(file) {
                 var server_file = $(file.previewTemplate)
                     .children(".server_file")
                     .text();
@@ -416,7 +411,7 @@
                             name: server_file,
                             request: 2,
                         },
-                        sucess: function (data) {
+                        sucess: function(data) {
                             console.log("success: " + data);
                         },
                     });
@@ -425,8 +420,7 @@
                     return (_ref = file.previewElement) != null ?
                         _ref.parentNode.removeChild(file.previewElement) :
                         void 0;
-                }
-                ;
+                };
             },
             headers: {
                 "X-CSRF-Token": "{{ csrf_token() }}",
@@ -443,13 +437,13 @@
             dictRemoveFile: "حذف",
             dictRemoveFileConfirmation: null,
             dictMaxFilesExceeded: "You can not upload any more files.",
-            init: function () {
+            init: function() {
                 // Makes sure that 'this' is understood inside the functions below.
                 myDropzone = this;
                 // for Dropzone to process the queue (instead of default form behavior):
                 var el = document.getElementById("submit-all");
                 if (el) {
-                    el.addEventListener("click", function (e) {
+                    el.addEventListener("click", function(e) {
                         // Make sure that the form isn't actually being sent.
                         e.preventDefault();
                         e.stopPropagation();
@@ -457,15 +451,15 @@
                     });
                 }
                 //send all the form data along with the files:
-                this.on("sendingmultiple", function (data, xhr, formData) {
+                this.on("sendingmultiple", function(data, xhr, formData) {
                     formData.append("firstname", jQuery("#firstname").val());
                     formData.append("lastname", jQuery("#lastname").val());
                 });
-                this.on("successmultiple", function (files, response) {
+                this.on("successmultiple", function(files, response) {
                     // Gets triggered when the files have successfully been sent.
                     // Redirect user or notify of success.
                 });
-                this.on("errormultiple", function (files, response) {
+                this.on("errormultiple", function(files, response) {
                     // Gets triggered when there was an error sending the files.
                     // Maybe show form again, and notify user of error
                     alert("error");
@@ -490,7 +484,7 @@
                 myDropzone.emit("addedfile", mockFile);
                 myDropzone.emit("success", mockFile);
                 if (!['jpeg', 'jpg', 'png'].includes(variation.split('.')
-                    .pop())) {
+                        .pop())) {
                     myDropzone.emit("thumbnail", mockFile, "{{ env('APP_URL') }}" +
                         '/images/preview.png')
 
@@ -499,7 +493,7 @@
                         '/storage/attachment_files/' + variation)
                 }
 
-            },)
+            }, )
         })
 
         Livewire.on('upfile', () => {
@@ -515,7 +509,7 @@
                 dateTimePicker.to.options = {
                     initialValue: false
                 }
-            @this.set(`start_date`, null, true);
+                @this.set(`start_date`, null, true);
             } else {
                 $(`#endDate`).val(null);
                 $(`#endDate-alt`).val(null);
@@ -524,7 +518,7 @@
                     maxDate: null,
                     initialValue: false
                 }
-            @this.set(`end_date`, null, true);
+                @this.set(`end_date`, null, true);
             }
         }
 
@@ -555,12 +549,12 @@
 
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             // عنوان اقدام
-            $('#categorySelect').on('change', function (e) {
+            $('#categorySelect').on('change', function(e) {
                 let data = $('#categorySelect').select2("val");
-            @this.set('action_category_id', data);
+                @this.set('action_category_id', data);
             });
             Livewire.on('eselect2', (data) => {
                 $("#categorySelect").select2().val(data.catg).trigger("change");
@@ -581,7 +575,7 @@
                         enabled: false
                     },
                 },
-                altFieldFormatter: function (unixDate) {
+                altFieldFormatter: function(unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
@@ -598,7 +592,7 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function (unix) {
+                onSelect: function(unix) {
                     dateTimePicker.from.touched = true;
                     if (dateTimePicker.to && dateTimePicker.to.options && dateTimePicker.to.options
                         .minDate != unix) {
@@ -610,7 +604,7 @@
                             dateTimePicker.to.setDate(cachedValue);
                         }
                     }
-                @this.set(`start_date`, $(`#startDate-alt`).val(), true);
+                    @this.set(`start_date`, $(`#startDate-alt`).val(), true);
                 },
             });
 
@@ -626,7 +620,7 @@
                         enabled: false
                     },
                 },
-                altFieldFormatter: function (unixDate) {
+                altFieldFormatter: function(unixDate) {
                     var self = this;
                     var thisAltFormat = self.altFormat.toLowerCase();
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
@@ -643,7 +637,7 @@
                         return pd.format(self.altFormat);
                     }
                 },
-                onSelect: function (unix) {
+                onSelect: function(unix) {
                     dateTimePicker.to.touched = true;
                     if (dateTimePicker.from && dateTimePicker.from.options && dateTimePicker.from
                         .options.maxDate != unix) {
@@ -655,7 +649,7 @@
                             dateTimePicker.from.setDate(cachedValue);
                         }
                     }
-                @this.set(`end_date`, $(`#endDate-alt`).val(), true);
+                    @this.set(`end_date`, $(`#endDate-alt`).val(), true);
                 },
             });
 

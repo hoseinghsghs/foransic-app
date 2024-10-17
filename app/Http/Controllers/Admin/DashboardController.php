@@ -29,9 +29,9 @@ class DashboardController extends Controller
 
         $all_actions = Action::whereBetween('created_at', [$from, $to])->count();
         if ($laboratory_id->id) {
-            $devices = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->get();
+            $devices = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('receive_date', [$from, $to])->get();
         } else {
-            $devices = Device::whereBetween('created_at', [$from, $to])->get();
+            $devices = Device::whereBetween('receive_date', [$from, $to])->get();
         }
 
         // $devices = Device::whereBetween('created_at', [$from, $to])->get();
@@ -51,12 +51,11 @@ class DashboardController extends Controller
             $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
 
             // // بر اساس زمان
-            $successDevice=$p_devices->whereBetween('created_at', [$from, $to]);
+            $successDevice = $p_devices->whereBetween('receive_date', [$from, $to]);
 
-            $deliveryDevice = Device::where("laboratory_id", auth()->user()->laboratory_id)->whereBetween('created_at', [$from, $to])->where('status', 3)->get();
-            $receiveDevice = Device::where("laboratory_id", auth()->user()->laboratory_id)->whereBetween('created_at', [$from, $to])->where('status', 0)->get();
-
-        } else{
+            $deliveryDevice = Device::where("laboratory_id", auth()->user()->laboratory_id)->whereBetween('receive_date', [$from, $to])->where('status', 3)->get();
+            $receiveDevice = Device::where("laboratory_id", auth()->user()->laboratory_id)->whereBetween('receive_date', [$from, $to])->where('status', 0)->get();
+        } else {
             $all_devices = $devices->count();
             $status_device_1 = $devices->where('status', 0)->count();
             $status_device_2 = $devices->where('status', 1)->count();
@@ -66,18 +65,18 @@ class DashboardController extends Controller
 
             $users = User::role('personnel')->latest()->take(5)->get();
 
-            $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(5)->get();
+            $actions = Action::whereBetween('receive_date', [$from, $to])->where('status', 1)->latest()->take(5)->get();
             $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
 
 
             $successDevice = $devices;
 
             if ($laboratory_id->id) {
-                $deliveryDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 3)->get();
-                $receiveDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+                $deliveryDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('receive_date', [$from, $to])->where('status', 3)->get();
+                $receiveDevice = Device::where("laboratory_id", $laboratory_id->id)->whereBetween('receive_date', [$from, $to])->where('status', 0)->get();
             } else {
-                $deliveryDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 3)->get();
-                $receiveDevice = Device::whereBetween('created_at', [$from, $to])->where('status', 0)->get();
+                $deliveryDevice = Device::whereBetween('receive_date', [$from, $to])->where('status', 3)->get();
+                $receiveDevice = Device::whereBetween('receive_date', [$from, $to])->where('status', 0)->get();
             }
         }
         $month = 12;
@@ -95,8 +94,7 @@ class DashboardController extends Controller
         $laboratories = Laboratory::all();
         $lab_id = $laboratory_id->id;
         return view(
-            'admin.page.dashboard'
-            ,
+            'admin.page.dashboard',
             compact(
                 'lab_id',
                 'status_device_1',
@@ -143,7 +141,7 @@ class DashboardController extends Controller
         ];
 
         $monthName = $devices->map(function ($item) {
-            return verta($item->created_at)->format('%B');
+            return verta($item->receive_date)->format('%B');
         });
 
         foreach ($monthName as $i => $v) {

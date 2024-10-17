@@ -47,7 +47,7 @@ class CreateDevice extends Component
          just allow dossiers that has same lab for personnel and dossiers that company users that create by themselves
         */
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
-            $query->whereRelation('laboratories','laboratories.id', auth()->user()->laboratory_id);
+            $query->whereRelation('laboratories', 'laboratories.id', auth()->user()->laboratory_id);
         })->when(auth()->user()->hasRole('company'), function (Builder $query) {
             $query->where('user_category_id', auth()->user()->id);
         })->get()->pluck('id')->toArray();
@@ -81,9 +81,13 @@ class CreateDevice extends Component
 
     public function mount()
     {
-//        $this->dossier_id = Session::get('dossier');
+        if (session()->get('dossier')) {
+            $this->dossier_id = Session::get('dossier');
+        }
+
+        //        $this->dossier_id = Session::get('dossier');
         Session::forget('images');
-//        $this->receive_date = verta()->format('Y/m/d H:i');
+        //        $this->receive_date = verta()->format('Y/m/d H:i');
     }
 
     public function create($type_redirect = '1')
@@ -148,7 +152,8 @@ class CreateDevice extends Component
                 ]);
             }
 
-            Event::create(['title' => 'شاهد جدید ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $device->laboratory->name,
+            Event::create([
+                'title' => 'شاهد جدید ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $device->laboratory->name,
                 'body' => 'ID شاهد ' . " : " . $device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'نام شاهد : ' . $device->category->title,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $device->id,
@@ -165,38 +170,38 @@ class CreateDevice extends Component
 
         flash()->addSuccess('شواهد مورد نظر دریافت شد');
 
-        if ($type_redirect == '2')
+        if ($type_redirect == '2') {
             return redirect()->route('admin.devices.create')->with('print_device', $device->id);
-        elseif ($type_redirect == '3')
+        } elseif ($type_redirect == '3') {
+            Session::forget('dossier');
             return redirect()->route('admin.dossiers.show', $device->dossier->id)->with('print_device', $device->id);
-        else
+        } else {
+            Session::forget('dossier');
             return redirect()->route('admin.devices.index')->with('print_device', $device->id);
+        }
     }
 
     public function getLabs()
     {
-        $laboratories=Dossier::find($this->dossier_id)->laboratories()->get();
-        $res=[['id'=>'','text'=>'']];
+        $laboratories = Dossier::find($this->dossier_id)->laboratories()->get();
+        $res = [['id' => '', 'text' => '']];
         foreach ($laboratories as $laboratory) {
-           $res[]=['id'=>$laboratory->id,'text'=>$laboratory->name];
+            $res[] = ['id' => $laboratory->id, 'text' => $laboratory->name];
         }
         return json_encode($res);
     }
     public function render()
     {
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
-            $query->whereRelation('laboratories','laboratories.id', auth()->user()->laboratory_id);
+            $query->whereRelation('laboratories', 'laboratories.id', auth()->user()->laboratory_id);
         })->when(auth()->user()->hasRole('company'), function (Builder $query) {
             $query->where('user_category_id', auth()->user()->id);
         })->get();
         $categories = Category::all();
         $parent_devices = Device::where('parent_id', 0)->get();
-        $laboratories=[];
+        $laboratories = [];
         if (is_null(auth()->user()->laboratory_id) && !is_null($this->dossier_id))
-            $laboratories=Dossier::find($this->dossier_id)->laboratories()->get();
-        return view('livewire.admin.devices.create-device', compact('dossiers', 'categories', 'parent_devices','laboratories'))->extends('admin.layout.MasterAdmin')->section('Content');
+            $laboratories = Dossier::find($this->dossier_id)->laboratories()->get();
+        return view('livewire.admin.devices.create-device', compact('dossiers', 'categories', 'parent_devices', 'laboratories'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
-
-
-
