@@ -33,7 +33,7 @@ class CreateDevice extends Component
     public int|null $laboratory_id = null;
     public string $delivery_code = '';
     public string $delivery_name = '';
-    public string $receive_date = '';
+    public $receive_date = null;
     public string $status = '0';
     public string $description = '';
     public string $accessories = '';
@@ -68,7 +68,7 @@ class CreateDevice extends Component
             'reply_correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
             'reply_correspondence_date' => 'nullable|string',
-            'receive_date' => 'nullable|string',
+            'receive_date' => 'nullable|date',
             'delivery_name' => 'required|string',
             'primary_image' => 'nullable|image|mimes:jpg,jpeg,png,svg|max:10000',
         ];
@@ -93,7 +93,6 @@ class CreateDevice extends Component
     public function create($type_redirect = '1')
     {
         $this->validate();
-
         try {
             DB::beginTransaction();
             if ($this->primary_image) {

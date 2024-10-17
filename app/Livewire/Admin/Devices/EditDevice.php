@@ -29,7 +29,7 @@ class EditDevice extends Component
     public string $correspondence_date = '';
     public string|null $reply_correspondence_number = '';
     public string|null $reply_correspondence_date = '';
-    public string $receive_date = '';
+    public  $receive_date = null;
     public $dossier_id;
     public string $delivery_code = '';
     public string $delivery_name = '';
@@ -69,7 +69,7 @@ class EditDevice extends Component
             'reply_correspondence_number' => 'nullable|string',
             'correspondence_date' => 'nullable|string',
             'reply_correspondence_date' => 'nullable|string',
-            'receive_date' => 'nullable|string',
+            'receive_date' => 'nullable|date',
             'delivery_name' => 'required|string',
             'receiver_name' => 'required_if:status,3|string',
             'receiver_code' => 'nullable|string',
