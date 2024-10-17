@@ -215,306 +215,294 @@
                                                     <td>
                                                         {{ $device->code }}
                                                     </td>
+                                                    <td>
+
+                                                        {{ $device->dossier->company->name }}
+                                                    </td>
+
 
                                                     @hasanyrole(['Super Admin', 'company', 'viewer'])
                                                         <td>{{ $device->laboratory()->exists() ? $device->laboratory->name : '-' }}
                                                         </td>
                                                     @endhasanyrole
                                                     <td dir="ltr">
-                                                        {{ $device->receive_date }}
+                                                        {{ $device->receive_date ? verta($device->receive_date)->format('Y-n-j H:i') : '' }}
                                                     </td>
                                                     <td>
                                                         {{ $device->dossier->name }}
                                                     </td>
-                                                    <td>
-                                                        {{ $device->dossier->company->name }}
-                                                    </td>
+
+
                                                     <td>
                                                         @switch($device->status)
                                                             @case('0')
                                                                 <span class="badge badge-danger badge-pill"
                                                                     style="font-size: 0.75rem;padding-right: 14px;
-                                                @hasanyrole(['Super Admin', 'company', 'viewer'])
-                                                <td>{{ $device->laboratory()->exists() ? $device->laboratory->name : '-' }}</td>
-                                                @endhasanyrole
-                                                <td dir="ltr">
-                                                                    {{ $device->receive_date ? verta($device->receive_date)->format('Y-n-j H:i') : '' }}
-                                                            </td>
-                                                            <td>
-                                                                {{ $device->dossier->name }}
-                                                            </td>
-
-
-                                                            <td>
-                                                                @switch($device->status)
-                                                                    @case('0')
-                                                                        <span class="badge badge-danger badge-pill"
-                                                                            style="font-size: 0.75rem;padding-right: 14px;
                                             padding-left: 14px;
                                             padding-bottom: 7px;">
-                                                                            پذیرش شواهد دیجیتال
-                                                                        </span>
-                                                                    @break
+                                                                    پذیرش شواهد دیجیتال
+                                                                </span>
+                                                            @break
 
-                                                                    @case('1')
-                                                                        <span class="badge badge-warning badge-pill"
-                                                                            style="font-size: 0.75rem;padding-right: 14px;
+                                                            @case('1')
+                                                                <span class="badge badge-warning badge-pill"
+                                                                    style="font-size: 0.75rem;padding-right: 14px;
                                             padding-left: 14px;
                                             padding-bottom: 7px;">
-                                                                            در حال بررسی
-                                                                        </span>
-                                                                    @break
+                                                                    در حال بررسی
+                                                                </span>
+                                                            @break
 
-                                                                    @case('2')
-                                                                        <span class="badge badge-success badge-pill"
-                                                                            style="font-size: 0.75rem;padding-right: 14px;
+                                                            @case('2')
+                                                                <span class="badge badge-success badge-pill"
+                                                                    style="font-size: 0.75rem;padding-right: 14px;
                                             padding-left: 14px;
                                             padding-bottom: 7px;">
-                                                                            تکمیل تجزیه و تحلیل
-                                                                        </span>
-                                                                    @break
+                                                                    تکمیل تجزیه و تحلیل
+                                                                </span>
+                                                            @break
 
-                                                                    @case('3')
-                                                                        <span class="badge badge-primary badge-pill"
-                                                                            style="font-size: 0.75rem;padding-right: 14px;
+                                                            @case('3')
+                                                                <span class="badge badge-primary badge-pill"
+                                                                    style="font-size: 0.75rem;padding-right: 14px;
                                                     padding-left: 14px;
                                                     padding-bottom: 7px;">
-                                                                            خروج شواهد دیجیتال
-                                                                        </span>
-                                                                    @endswitch
-                                                                </td>
+                                                                    خروج شواهد دیجیتال
+                                                                </span>
+                                                            @endswitch
+                                                        </td>
 
-                                                                <td>
-                                                                    @if ($device->receiver_staff_id)
-                                                                        {{ App\Models\User::find($device->receiver_staff_id)->name }}
-                                                                    @endif
-                                                                </td>
-                                                                <td>
-                                                                    @if ($device->parent_id)
-                                                                        <button type="button" class="btn bg-warning waves-effect"
-                                                                            data-toggle="modal"
-                                                                            data-target="#defaultModal-{{ $key }}"> فرعی
-                                                                        </button>
-                                                                    @else
-                                                                        <button type="button" class="btn bg-teal waves-effect"
-                                                                            data-toggle="modal"
-                                                                            data-target="#defaultModal-{{ $key }}"> اصلی
-                                                                        </button>
-                                                                    @endif
+                                                        <td>
+                                                            @if ($device->receiver_staff_id)
+                                                                {{ App\Models\User::find($device->receiver_staff_id)->name }}
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if ($device->parent_id)
+                                                                <button type="button" class="btn bg-warning waves-effect"
+                                                                    data-toggle="modal"
+                                                                    data-target="#defaultModal-{{ $key }}"> فرعی
+                                                                </button>
+                                                            @else
+                                                                <button type="button" class="btn bg-teal waves-effect"
+                                                                    data-toggle="modal"
+                                                                    data-target="#defaultModal-{{ $key }}"> اصلی
+                                                                </button>
+                                                            @endif
 
 
-                                                                </td>
-                                                                <td>
-                                                                    <button wire:click="ChangeActive_device({{ $device->id }})"
-                                                                        wire:loading.attr="disabled" @class([
-                                                                            'btn btn-raised waves-effect',
-                                                                            'btn-success' => $device->is_active,
-                                                                            'btn-danger' => !$device->is_active,
-                                                                        ])>
-                                                                        {{ $device->is_active ? 'فعال' : 'غیرفعال' }}
-                                                                    </button>
-                                                                </td>
-                                                                <td>
-                                                                    <button wire:click="ChangeArchive_device({{ $device->id }})"
-                                                                        wire:loading.attr="disabled"
-                                                                        class="btn btn-raised btn-danger waves-effect">بایگانی
-                                                                    </button>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    {{-- <a onclick="loadbtn(event)"
+                                                        </td>
+                                                        <td>
+                                                            <button wire:click="ChangeActive_device({{ $device->id }})"
+                                                                wire:loading.attr="disabled" @class([
+                                                                    'btn btn-raised waves-effect',
+                                                                    'btn-success' => $device->is_active,
+                                                                    'btn-danger' => !$device->is_active,
+                                                                ])>
+                                                                {{ $device->is_active ? 'فعال' : 'غیرفعال' }}
+                                                            </button>
+                                                        </td>
+                                                        <td>
+                                                            <button wire:click="ChangeArchive_device({{ $device->id }})"
+                                                                wire:loading.attr="disabled"
+                                                                class="btn btn-raised btn-danger waves-effect">بایگانی
+                                                            </button>
+                                                        </td>
+                                                        <td class="text-center">
+                                                            {{-- <a onclick="loadbtn(event)"
                                                                 href="{{ route('admin.devices.edit', $device->id) }}"
                                                     class="btn btn-raised btn-warning waves-effect">
                                                     <i class="zmdi zmdi-edit"></i>
                                                     </a> --}}
-                                                                    @can('actions-create')
-                                                                        <a onclick="loadbtn(event)" title="اضافه نمودن اقدام"
-                                                                            data-toggle="tooltip" data-placement="top"
-                                                                            href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
-                                                                            class="btn btn-raised btn-info waves-effect">
-                                                                            ایجاد اقدام
-                                                                        </a>
-                                                                    @endcan
-                                                                    @canany(['devices-edit', 'device-image-edit', 'devices-show',
-                                                                        'device-print'])
-                                                                        <div class="btn-group">
-                                                                            <button type="button"
-                                                                                class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
-                                                                                data-toggle="dropdown" aria-haspopup="true"
-                                                                                aria-expanded="false">
-                                                                                <i class="zmdi zmdi-menu"></i>
-                                                                            </button>
-                                                                            <div class="dropdown-menu">
-                                                                                @can('devices-edit')
-                                                                                    <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
-                                                                                        class="dropdown-item text-right"> ویرایش </a>
-                                                                                @endcan
-                                                                                @can('device-image-edit')
-                                                                                    <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
-                                                                                        class="dropdown-item text-right"> ویرایش
-                                                                                        تصویر </a>
-                                                                                @endcan
-                                                                                @can('devices-show')
-                                                                                    <a href="{{ route('admin.devices.show', $device->id) }}"
-                                                                                        class="dropdown-item text-right"> مشاهده </a>
-                                                                                @endcan
-                                                                                @can('device-print')
-                                                                                    <a href="{{ route('admin.print.device.show', $device->id) }}"
-                                                                                        class="dropdown-item text-right" target="_blank">
-                                                                                        پرینت
-                                                                                        رسید
-                                                                                    </a>
-                                                                                @endcan
-                                                                            </div>
-                                                                        </div>
-                                                                    @endcanany
-                                                                </td>
-                                                            </tr>
-                                                            <div class="modal fade" id="defaultModal-{{ $key }}"
-                                                                tabindex="-1" role="dialog">
-                                                                <div class="modal-dialog modal-xl" role="document">
-                                                                    <div class="modal-content">
-                                                                        <div class="modal-body">
-                                                                            <div class="header p-0">
-                                                                                <strong style="color:#e47297"> شواهد مرتبط (شاهد
-                                                                                    سبز رنگ
-                                                                                    شاهد فعلی در حال مشاهده است) </strong>
-                                                                            </div>
-                                                                            <hr>
-                                                                            <div class="row clearfix justify-content-center">
-                                                                                <?php
-                                                                                $parent = $device->parent_id !== 0 ? app\Models\Device::find($device->parent_id) : $device;
-                                                                                $children = app\Models\Device::where('parent_id', $parent->id)->get();
-                                                                                ?>
-                                                                                <div class="tree-graph">
+                                                            @can('actions-create')
+                                                                <a onclick="loadbtn(event)" title="اضافه نمودن اقدام"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    href="{{ route('admin.actions.create', ['device' => $device->id]) }}"
+                                                                    class="btn btn-raised btn-info waves-effect">
+                                                                    ایجاد اقدام
+                                                                </a>
+                                                            @endcan
+                                                            @canany(['devices-edit', 'device-image-edit', 'devices-show',
+                                                                'device-print'])
+                                                                <div class="btn-group">
+                                                                    <button type="button"
+                                                                        class="btn btn-md btn-warning btn-outline-primary dropdown-toggle"
+                                                                        data-toggle="dropdown" aria-haspopup="true"
+                                                                        aria-expanded="false">
+                                                                        <i class="zmdi zmdi-menu"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu">
+                                                                        @can('devices-edit')
+                                                                            <a href="{{ route('admin.devices.edit', ['device' => $device->id]) }}"
+                                                                                class="dropdown-item text-right"> ویرایش </a>
+                                                                        @endcan
+                                                                        @can('device-image-edit')
+                                                                            <a href="{{ route('admin.devices.images.edit', ['device' => $device->id]) }}"
+                                                                                class="dropdown-item text-right"> ویرایش
+                                                                                تصویر </a>
+                                                                        @endcan
+                                                                        @can('devices-show')
+                                                                            <a href="{{ route('admin.devices.show', $device->id) }}"
+                                                                                class="dropdown-item text-right"> مشاهده </a>
+                                                                        @endcan
+                                                                        @can('device-print')
+                                                                            <a href="{{ route('admin.print.device.show', $device->id) }}"
+                                                                                class="dropdown-item text-right" target="_blank">
+                                                                                پرینت
+                                                                                رسید
+                                                                            </a>
+                                                                        @endcan
+                                                                    </div>
+                                                                </div>
+                                                            @endcanany
+                                                        </td>
+                                                    </tr>
+                                                    <div class="modal fade" id="defaultModal-{{ $key }}"
+                                                        tabindex="-1" role="dialog">
+                                                        <div class="modal-dialog modal-xl" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-body">
+                                                                    <div class="header p-0">
+                                                                        <strong style="color:#e47297"> شواهد مرتبط (شاهد
+                                                                            سبز رنگ
+                                                                            شاهد فعلی در حال مشاهده است) </strong>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <div class="row clearfix justify-content-center">
+                                                                        <?php
+                                                                        $parent = $device->parent_id !== 0 ? app\Models\Device::find($device->parent_id) : $device;
+                                                                        $children = app\Models\Device::where('parent_id', $parent->id)->get();
+                                                                        ?>
+                                                                        <div class="tree-graph">
+                                                                            <ul>
+                                                                                <li>
+                                                                                    <a style="background-color: {{ $parent->id == $device->id ? '#90ee90' : '#ffe4c4' }}"
+                                                                                        href="{{ route('admin.devices.show', $parent->id) }}"><strong>{{ $parent->category->title }}
+                                                                                            - {{ $parent->code }} -
+                                                                                            {{ $parent->id }}</strong></a>
                                                                                     <ul>
-                                                                                        <li>
-                                                                                            <a style="background-color: {{ $parent->id == $device->id ? '#90ee90' : '#ffe4c4' }}"
-                                                                                                href="{{ route('admin.devices.show', $parent->id) }}"><strong>{{ $parent->category->title }}
-                                                                                                    - {{ $parent->code }} -
-                                                                                                    {{ $parent->id }}</strong></a>
-                                                                                            <ul>
-                                                                                                @foreach ($children as $child)
-                                                                                                    <li>
-                                                                                                        <a style="background-color: {{ $child->id == $device->id ? '#90ee90' : '#ffe4c4' }}"
-                                                                                                            href="{{ route('admin.devices.show', $child->id) }}"><strong>{{ $child->category->title }}
-                                                                                                                -
-                                                                                                                {{ $child->code }}
-                                                                                                                -
-                                                                                                                {{ $child->id }}</strong></a>
-                                                                                                    </li>
-                                                                                                @endforeach
-                                                                                            </ul>
-                                                                                        </li>
+                                                                                        @foreach ($children as $child)
+                                                                                            <li>
+                                                                                                <a style="background-color: {{ $child->id == $device->id ? '#90ee90' : '#ffe4c4' }}"
+                                                                                                    href="{{ route('admin.devices.show', $child->id) }}"><strong>{{ $child->category->title }}
+                                                                                                        -
+                                                                                                        {{ $child->code }}
+                                                                                                        -
+                                                                                                        {{ $child->id }}</strong></a>
+                                                                                            </li>
+                                                                                        @endforeach
                                                                                     </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="modal-footer">
-                                                                            <button type="button"
-                                                                                class="btn btn-danger waves-effect"
-                                                                                data-dismiss="modal">بستن
-                                                                            </button>
+                                                                                </li>
+                                                                            </ul>
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button"
+                                                                        class="btn btn-danger waves-effect"
+                                                                        data-dismiss="modal">بستن
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                        @endforeach
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        @endif
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
-                                </div>
-                                {{ $devices->onEachSide(1)->links() }}
+                                @endif
                             </div>
                         </div>
+                        {{ $devices->onEachSide(1)->links() }}
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+    </section>
 
-            @pushif(session()->has('print_device'),'scripts')
-            <script>
-                Swal.fire({
-                    text: "مایل به پرینت شواهد دیجیتال هستید؟",
-                    icon: "info",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "بله",
-                    cancelButtonText: "انصراف"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.replace("{{ route('admin.print.device.show', session('print_device')) }}");
-                    }
+    @pushif(session()->has('print_device'),'scripts')
+    <script>
+        Swal.fire({
+            text: "مایل به پرینت شواهد دیجیتال هستید؟",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "بله",
+            cancelButtonText: "انصراف"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.replace("{{ route('admin.print.device.show', session('print_device')) }}");
+            }
+        });
+    </script>
+    @endpushif
+    @push('styles')
+        <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
+        <!-- تاریخ -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('vendor/date-time-picker/persian-datepicker.min.css') }}" />
+    @endpush
+    @push('scripts')
+        {{-- دیت پیکر --}}
+        <script src="{{ asset('vendor/date-time-picker/persian-date.min.js') }}"></script>
+        <script src="{{ asset('vendor/date-time-picker/persian-datepicker.min.js') }}"></script>
+        <script>
+            let createDate;
+
+            function destroyDatePicker() {
+                $(`#CreateDate`).val(null);
+                $(`#CreateDate-alt`).val(null);
+                createDate.touched = false;
+                createDate.options = {
+                    initialValue: false
+                }
+                @this.set(`receive_date`, '', true);
+            }
+
+            $(document).ready(function() {
+                createDate = $(`#CreateDate`).pDatepicker({
+                    initialValue: false,
+                    initialValueType: 'persian',
+                    format: 'L',
+                    altField: `#CreateDate-alt`,
+                    altFormat: 'g',
+                    altFieldFormatter: function(unixDate) {
+                        var self = this;
+                        var thisAltFormat = self.altFormat.toLowerCase();
+                        if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
+                            persianDate.toLocale('en');
+                            let p = new persianDate(unixDate).format(
+                                'YYYY/MM/DD');
+                            return p;
+                        }
+                        if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
+                            return unixDate;
+                        } else {
+                            let pd = new persianDate(unixDate);
+                            pd.formatPersian = this.persianDigit;
+                            return pd.format(self.altFormat);
+                        }
+                    },
+                    onSelect: function(unix) {
+                        @this.set(`receive_date`, $(`#CreateDate-alt`).val(), true);
+                    },
                 });
-            </script>
-            @endpushif
-            @push('styles')
-                <link rel=" stylesheet" href={{ asset('assets\admin\css\dropzone.min.css') }} type="text/css" />
-                <!-- تاریخ -->
-                <link rel="stylesheet" type="text/css" href="{{ asset('vendor/date-time-picker/persian-datepicker.min.css') }}" />
-            @endpush
-            @push('scripts')
-                {{-- دیت پیکر --}}
-                <script src="{{ asset('vendor/date-time-picker/persian-date.min.js') }}"></script>
-                <script src="{{ asset('vendor/date-time-picker/persian-datepicker.min.js') }}"></script>
-                <script>
-                    let createDate;
-
-                    function destroyDatePicker() {
-                        $(`#CreateDate`).val(null);
-                        $(`#CreateDate-alt`).val(null);
-                        createDate.touched = false;
-                        createDate.options = {
-                            initialValue: false
-                        }
-                        @this.set(`receive_date`, '', true);
-                    }
-
-                    $(document).ready(function() {
-                        createDate = $(`#CreateDate`).pDatepicker({
-                            initialValue: false,
-                            initialValueType: 'persian',
-                            format: 'L',
-                            altField: `#CreateDate-alt`,
-                            altFormat: 'g',
-                            altFieldFormatter: function(unixDate) {
-                                var self = this;
-                                var thisAltFormat = self.altFormat.toLowerCase();
-                                if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
-                                    persianDate.toLocale('en');
-                                    let p = new persianDate(unixDate).format(
-                                        'YYYY/MM/DD');
-                                    return p;
-                                }
-                                if (thisAltFormat === 'unix' || thisAltFormat === 'u') {
-                                    return unixDate;
-                                } else {
-                                    let pd = new persianDate(unixDate);
-                                    pd.formatPersian = this.persianDigit;
-                                    return pd.format(self.altFormat);
-                                }
-                            },
-                            onSelect: function(unix) {
-                                @this.set(`receive_date`, $(`#CreateDate-alt`).val(), true);
-                            },
-                        });
-                    });
-                    $('#laboratorySelect').on('change', function(e) {
-                        let data = $('#laboratorySelect').select2("val");
-                        if (data === '') {
-                            @this.set('laboratory_id_search', null);
-                        } else {
-                            @this.set('laboratory_id_search', data);
-                        }
-                    });
-                    $('#dossierSelect').on('change', function(e) {
-                        let data = $('#dossierSelect').select2("val");
-                        if (data === '') {
-                            @this.set('dossier_id_search', null);
-                        } else {
-                            @this.set('dossier_id_search', data);
-                        }
-                    });
-                </script>
-            @endpush
+            });
+            $('#laboratorySelect').on('change', function(e) {
+                let data = $('#laboratorySelect').select2("val");
+                if (data === '') {
+                    @this.set('laboratory_id_search', null);
+                } else {
+                    @this.set('laboratory_id_search', data);
+                }
+            });
+            $('#dossierSelect').on('change', function(e) {
+                let data = $('#dossierSelect').select2("val");
+                if (data === '') {
+                    @this.set('dossier_id_search', null);
+                } else {
+                    @this.set('dossier_id_search', data);
+                }
+            });
+        </script>
+    @endpush
