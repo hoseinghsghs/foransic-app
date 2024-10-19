@@ -39,7 +39,7 @@ class ActionControll extends Component
     public function rules(): array
     {
         return [
-            'action_category_id'=>'required|string|exists:action_category,id',
+            'action_category_id' => 'required|string|exists:action_category,id',
             'description' => 'required|string',
             'start_date' => 'required|string',
             'end_date' => 'required|string',
@@ -105,7 +105,6 @@ class ActionControll extends Component
         try {
             $action->delete();
             flash()->addSuccess('اقدام با موفقیت حذف شد');
-
         } catch (\Exception $e) {
 
             redirect('admin.actions.create');
@@ -119,27 +118,34 @@ class ActionControll extends Component
             $this->validate();
             try {
                 DB::beginTransaction();
-            $this->action->update([
-                "description" => $this->description,
-                'start_date' => $this->start_date,
-                'end_date' => $this->end_date,
-                'status' => $this->status,
-                'is_print' => $this->is_print,
-                'device_id' => $this->device->id,
-                'action_category_id' => $this->action_category_id,
-            ]);
-
-            $attachmentsStore = Session::pull('attachments', []);
-            foreach ($attachmentsStore as $attachmentStore) {
-                ActionAttachment::create([
-                    'action_id' => $this->action->id,
-                    'url' => $attachmentStore
+                $this->action->update([
+                    "description" => $this->description,
+                    'start_date' => $this->start_date,
+                    'end_date' => $this->end_date,
+                    'status' => $this->status,
+                    'is_print' => $this->is_print,
+                    'device_id' => $this->device->id,
+                    'action_category_id' => $this->action_category_id,
                 ]);
-            }
 
+                $attachmentsStore = Session::pull('attachments', []);
+                foreach ($attachmentsStore as $attachmentStore) {
+                    ActionAttachment::create([
+                        'action_id' => $this->action->id,
+                        'url' => $attachmentStore
+                    ]);
+                }
+                if (!empty($_SERVER['HTTP_CLIENT_IP']))
+                    //check ip from share internet
+                    $ip = $_SERVER['HTTP_CLIENT_IP'];
+                elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+                    //to check ip is pass from proxy
+                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                else
+                    $ip = $_SERVER['REMOTE_ADDR'];
                 Event::create([
-                    'title' => 'ویرایش اقدام'. ' '.' | ' .' '. ' آزمایشگاه : ' . $this->device->laboratory->name ,
-                    'body' => 'ID اقدام ' . " : " . $this->action->id .  ' '.' | ' .' ' . 'آیدی کاربر' . " : " . auth()->user()->id . ' '.' - ' .' ' .auth()->user()->name  .  ' '.' | ' .' '.' عنوان شاهد: ' . $this->device->category->title . '-' . $this->device->id,
+                    'title' => 'ویرایش اقدام' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->device->laboratory->name  . '___' . ' ip ' . ' : ' . $ip,
+                    'body' => 'ID اقدام ' . " : " . $this->action->id .  ' ' . ' | ' . ' ' . 'آیدی کاربر' . " : " . auth()->user()->id . ' ' . ' - ' . ' ' . auth()->user()->name  .  ' ' . ' | ' . ' ' . ' عنوان شاهد: ' . $this->device->category->title . '-' . $this->device->id,
                     'user_id' => auth()->user()->id,
                     'eventable_id' => $this->action->id,
                     'eventable_type' => Action::class,
@@ -159,35 +165,42 @@ class ActionControll extends Component
         } else {
             $this->authorize('actions-create');
             $this->validate();
-        try {
+            try {
                 DB::beginTransaction();
-            $action = Action::create([
-                "description" => $this->description,
-                'start_date' => $this->start_date,
-                'end_date' => $this->end_date,
-                'status' => $this->status,
-                'is_print' => $this->is_print,
-                'action_category_id' => $this->action_category_id,
-                'user_id' => auth()->user()->id,
-                'device_id' => $this->device->id,
-            ]);
-
-            $attachmentsStore = Session::pull('attachments', []);
-            foreach ($attachmentsStore as $attachmentStore) {
-                ActionAttachment::create([
-                    'action_id' => $action->id,
-                    'url' => $attachmentStore
+                $action = Action::create([
+                    "description" => $this->description,
+                    'start_date' => $this->start_date,
+                    'end_date' => $this->end_date,
+                    'status' => $this->status,
+                    'is_print' => $this->is_print,
+                    'action_category_id' => $this->action_category_id,
+                    'user_id' => auth()->user()->id,
+                    'device_id' => $this->device->id,
                 ]);
-            }
 
+                $attachmentsStore = Session::pull('attachments', []);
+                foreach ($attachmentsStore as $attachmentStore) {
+                    ActionAttachment::create([
+                        'action_id' => $action->id,
+                        'url' => $attachmentStore
+                    ]);
+                }
+                if (!empty($_SERVER['HTTP_CLIENT_IP']))
+                    //check ip from share internet
+                    $ip = $_SERVER['HTTP_CLIENT_IP'];
+                elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+                    //to check ip is pass from proxy
+                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                else
+                    $ip = $_SERVER['REMOTE_ADDR'];
                 Event::create([
-                    'title' => 'ایجاد اقدام'. ' '.' | ' .' '. ' آزمایشگاه : ' . $this->device->laboratory->name ,
-                    'body' => 'ID اقدام ' . " : " . $action->id .  ' '.' | ' .' ' . 'آیدی کاربر' . " : " . auth()->user()->id . ' '.' - ' .' ' .auth()->user()->name  .  ' '.' | ' .' '.' عنوان شاهد: ' . $this->device->category->title . '-' . $this->device->id,
+                    'title' => 'ایجاد اقدام' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->device->laboratory->name  . '___' . ' ip ' . ' : ' . $ip,
+                    'body' => 'ID اقدام ' . " : " . $action->id .  ' ' . ' | ' . ' ' . 'آیدی کاربر' . " : " . auth()->user()->id . ' ' . ' - ' . ' ' . auth()->user()->name  .  ' ' . ' | ' . ' ' . ' عنوان شاهد: ' . $this->device->category->title . '-' . $this->device->id,
                     'user_id' => auth()->id(),
                     'eventable_id' => $action->id,
                     'eventable_type' => Action::class,
                 ]);
-                    DB::commit();
+                DB::commit();
             } catch (\Exception $ex) {
                 flash()->addError($ex->getMessage());
                 DB::rollBack();

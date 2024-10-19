@@ -41,7 +41,7 @@ class CreateDossier extends Component
     {
         // get users from same laboratory that has company role
         $users = User::role('company')->get()->pluck('id')->toArray();
-        $auth_user=auth()->user();
+        $auth_user = auth()->user();
         return [
             'name' => 'required|string|max:100',
             'user_category_id' => ['nullable', 'integer', Rule::in($users), Rule::requiredIf(!$auth_user->hasRole('company'))],
@@ -82,7 +82,7 @@ class CreateDossier extends Component
                 'name' => $this->name,
                 'user_category_id' => auth()->user()->hasRole('company') ? auth()->user()->id : $this->user_category_id,
                 'personal_creator_id' => auth()->user()->id,
-//                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
+                //                'laboratory_id' => is_null(auth()->user()->laboratory_id) ? $this->laboratory_id : auth()->user()->laboratory_id,
                 'section_id' => $this->section_id,
                 'zone_id' => $this->zone_id,
                 'subject' => $this->subject,
@@ -104,8 +104,16 @@ class CreateDossier extends Component
                 $dossier->laboratories()->attach($this->laboratory_id);
             else
                 $dossier->laboratories()->attach(auth()->user()->laboratory_id);
-
-            Event::create(['title' => ' پرونده ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . implode(' , ', $dossier->laboratories()->pluck('name')->toArray()),
+            if (!empty($_SERVER['HTTP_CLIENT_IP']))
+                //check ip from share internet
+                $ip = $_SERVER['HTTP_CLIENT_IP'];
+            elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+                //to check ip is pass from proxy
+                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            else
+                $ip = $_SERVER['REMOTE_ADDR'];
+            Event::create([
+                'title' => ' پرونده ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . implode(' , ', $dossier->laboratories()->pluck('name')->toArray()) . '___' . ' ip ' . ' : ' . $ip,
                 'body' => 'ID پرونده ' . " : " . $dossier->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'عنوان پرونده  : ' . $dossier->name,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $dossier->id,
@@ -142,7 +150,9 @@ class CreateDossier extends Component
             ["Albania", "AL", "آلبانی"],
             ["Algeria", "DZ", "الجزایر"],
             [
-                "American Samoa", "AS", "ساموآی آمریکا"
+                "American Samoa",
+                "AS",
+                "ساموآی آمریکا"
             ],
             ["AndorrA", "AD", "آندورا"],
             ["Angola", "AO", "آنگولا"],
@@ -154,12 +164,16 @@ class CreateDossier extends Component
             ["Australia", "AU", "استرالیا"],
             ["Austria", "AT", "اتریش"],
             [
-                "Azerbaijan", "AZ", "آذربایجان"
+                "Azerbaijan",
+                "AZ",
+                "آذربایجان"
             ],
             ["Bahamas", "BS", "باهاما"],
             ["Bahrain", "BH", "بحرین"],
             [
-                "Bangladesh", "BD", "بنگلادش"
+                "Bangladesh",
+                "BD",
+                "بنگلادش"
             ],
             ["Barbados", "BB", "باربادوس"],
             ["Belarus", "BY", "بلاروس"],
@@ -170,7 +184,9 @@ class CreateDossier extends Component
             ["Bhutan", "BT", "بوتان"],
             ["Bolivia", "BO", "بولیوی"],
             [
-                "Bosnia and Herzegovina", "BA", "بوسنی و هرزگوین"
+                "Bosnia and Herzegovina",
+                "BA",
+                "بوسنی و هرزگوین"
             ],
             ["Botswana", "BW", "بوتسوانا"],
             ["Bouvet Island", "BV", "جزیره بووه"],
@@ -181,14 +197,20 @@ class CreateDossier extends Component
             ["Burkina Faso", "BF", "بورکینافاسو"],
             ["Burundi", "BI", "بوروندی"],
             [
-                "Cambodia", "KH", "کامبوج"
+                "Cambodia",
+                "KH",
+                "کامبوج"
             ],
             [
-                "Cameroon", "CM", "کامرون"
+                "Cameroon",
+                "CM",
+                "کامرون"
             ],
             ["Canada", "CA", "کانادا"],
             [
-                "Cape Verde", "CV", "کیپ ورد"
+                "Cape Verde",
+                "CV",
+                "کیپ ورد"
             ],
             ["Cayman Islands", "KY", "جزایر کیمن"],
             [
@@ -197,13 +219,19 @@ class CreateDossier extends Component
                 "جمهوری آفریقای مرکزی",
             ],
             [
-                "Chad", "TD", "چاد"
+                "Chad",
+                "TD",
+                "چاد"
             ],
             [
-                "Chile", "CL", "شیلی"
+                "Chile",
+                "CL",
+                "شیلی"
             ],
             [
-                "China", "CN", "چین"
+                "China",
+                "CN",
+                "چین"
             ],
             ["Christmas Island", "CX", "جزایر کریسمس"],
             ["Colombia", "CO", "کلمبیا"],
@@ -222,10 +250,14 @@ class CreateDossier extends Component
             ["Czech Republic", "CZ", "جمهوری چک"],
             ["Denmark", "DK", "دانمارک"],
             [
-                "Djibouti", "DJ", "جیبوتی"
+                "Djibouti",
+                "DJ",
+                "جیبوتی"
             ],
             [
-                "Dominica", "DM", "دومینیکا"
+                "Dominica",
+                "DM",
+                "دومینیکا"
             ],
             ["Dominican Republic", "DO", "جمهوری دومینیکن"],
             ["Ecuador", "EC", "اکوادور"],
@@ -246,7 +278,9 @@ class CreateDossier extends Component
             ["France", "FR", "فرانسه"],
             ["French Guiana", "GF", "گویان فرانسه"],
             [
-                "French Polynesia", "PF", "پولینزی فرانسوی"
+                "French Polynesia",
+                "PF",
+                "پولینزی فرانسوی"
             ],
             ["Gabon", "GA", "گابن"],
             ["Gambia", "GM", "گامیا"],
@@ -266,7 +300,9 @@ class CreateDossier extends Component
             ["Hong Kong", "HK", "هنگ‌کنگ"],
             ["Hungary", "HU", "مجارستان"],
             [
-                "Iceland", "IS", "ایسلند"
+                "Iceland",
+                "IS",
+                "ایسلند"
             ],
             ["India", "IN", "هند"],
             ["Indonesia", "ID", "اندونزی"],
@@ -294,7 +330,9 @@ class CreateDossier extends Component
             ["Lesotho", "LS", "لسوتو"],
             ["Liberia", "LR", "لیبریا"],
             [
-                "Libyan Arab Jamahiriya", "LY", "لیبی"
+                "Libyan Arab Jamahiriya",
+                "LY",
+                "لیبی"
             ],
             ["Liechtenstein", "LI", "لیختنشتاین"],
             ["Lithuania", "LT", "لیتوانی"],
@@ -327,7 +365,9 @@ class CreateDossier extends Component
 
             ["Morocco", "MA", "مراکش"],
             [
-                "Mozambique", "MZ", "موزامبیک"
+                "Mozambique",
+                "MZ",
+                "موزامبیک"
             ],
             ["Myanmar", "MM", "میانمار"],
             ["Namibia", "NA", "نامیبیا"],
@@ -335,11 +375,15 @@ class CreateDossier extends Component
             ["Nepal", "NP", "نپال"],
             ["Netherlands", "NL", "هلند"],
             [
-                "Netherlands Antilles", "AN", "آنتیل هلند"
+                "Netherlands Antilles",
+                "AN",
+                "آنتیل هلند"
             ],
             ["New Zealand", "NZ", "نیوزیلند"],
             [
-                "Nicaragua", "NI", "نیکاراگوئه"
+                "Nicaragua",
+                "NI",
+                "نیکاراگوئه"
             ],
             ["Niger", "NE", "نیجر"],
             ["Nigeria", "NG", "نیجریه"],
@@ -349,22 +393,30 @@ class CreateDossier extends Component
                 "جزایر ماریان شمالی",
             ],
             [
-                "Norway", "NO", "نروژ"
+                "Norway",
+                "NO",
+                "نروژ"
             ],
             ["Oman", "OM", "عمان"],
             ["Pakistan", "PK", "پاکستان"],
             [
-                "Palau", "PW", "پالائو"
+                "Palau",
+                "PW",
+                "پالائو"
             ],
             ["Palestinian Territory, Occupied", "PS", "فلسطین"],
             ["Panama", "PA", "پاناما"],
             [
-                "Papua New Guinea", "PG", "پاپوا گینه نو"
+                "Papua New Guinea",
+                "PG",
+                "پاپوا گینه نو"
             ],
             ["Paraguay", "PY", "پاراگوئه"],
             ["Peru", "PE", "پرو"],
             [
-                "Philippines", "PH", "فیلیپین"
+                "Philippines",
+                "PH",
+                "فیلیپین"
             ],
             ["Poland", "PL", "لهستان"],
             ["Portugal", "PT", "پرتغال"],
@@ -390,7 +442,9 @@ class CreateDossier extends Component
 
             ["Spain", "ES", "اسپانیا"],
             [
-                "Sri Lanka", "LK", "سریلانکا"
+                "Sri Lanka",
+                "LK",
+                "سریلانکا"
             ],
             ["Sudan", "SD", "سودان"],
             ["Suriname", "SR", "سورینام"],
@@ -400,7 +454,9 @@ class CreateDossier extends Component
             ["Syrian Arab Republic", "SY", "سوریه"],
             ["Taiwan, Province of China", "TW", "تایوان"],
             [
-                "Tajikistan", "TJ", "تاجیکستان"
+                "Tajikistan",
+                "TJ",
+                "تاجیکستان"
             ],
             ["Tanzania, United Republic of", "TZ", "تانزانیا"],
             ["Thailand", "TH", "تایلند"],

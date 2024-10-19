@@ -27,8 +27,8 @@ class DossiersExport implements FromQuery, WithMapping, WithHeadings
                 'نام پرونده یا کیس',
                 'موصوع',
                 'مدیریت یا معاونت',
-            'حوزه در دست اقدام',
-            'کشور',
+                'حوزه در دست اقدام',
+                'کشور',
                 'نوع پرونده',
                 'کارشناس پرونده',
                 'شماره همراه کارشناس پرونده',
@@ -44,50 +44,69 @@ class DossiersExport implements FromQuery, WithMapping, WithHeadings
                 'رده id',
                 'پرسنل ثبت کننده',
                 'پرسنل ثبت کننده id',
-            'شواهد پذیرش شده',
-            'شواهد در حال بررسی',
-            'شواهد بررسی  تکمیل شده',
-            'شواهد خارج شده',
+                'شواهد پذیرش شده',
+                'شواهد در حال بررسی',
+                'شواهد بررسی  تکمیل شده',
+                'شواهد خارج شده',
                 'تاریخ ایجاد',
                 'آخرین تاریخ بروز رسانی'
             ];
     }
     public function map($dossier): array
     {
+        switch ($dossier->dossier_type) {
+            case 0:
+                $dossier->dossier_type = 'عملیاتی';
+                break;
+
+            case 1:
+                $dossier->dossier_type = 'فاوایی';
+                break;
+
+            case 2:
+                $dossier->dossier_type = 'پردازشی';
+                break;
+
+            case 3:
+                $dossier->dossier_type = 'واپایشی';
+                break;
+
+            case 4:
+                $dossier->dossier_type = 'کنترلی';
+                break;
+        }
         return [
-                $dossier->id,
-                $dossier->number_dossier,
-                $dossier->name,
-                $dossier->subject,
+            $dossier->id,
+            $dossier->number_dossier,
+            $dossier->name,
+            $dossier->subject,
             $dossier->section->name,
             $dossier->zone->title,
             $dossier->country,
-            $dossier->dossier_type == 0 ? 'عملیاتی' : ' فاوایی',
-                $dossier->dossier_case,
-                $dossier->expert_phone,
-                $dossier->expert_cellphone,
-                $dossier->Judicial_number,
-                $dossier->Judicial_image,
-                $dossier->Judicial_date,
-                (new Transformer)->toText($dossier->summary_description),
-                $dossier->expert,
-                $dossier->is_active == 1 ? 'فعال' : 'غیر فعال',
-                $dossier->is_archive1 == 0 ? 'فعال' : 'غیر فعال',
-                $dossier->company->name,
-                $dossier->user_category_id,
-                $dossier->creator->name,
-                $dossier->personal_creator_id,
+
+            $dossier->dossier_type,
+
+            $dossier->dossier_case,
+            $dossier->expert_phone,
+            $dossier->expert_cellphone,
+            $dossier->Judicial_number,
+            $dossier->Judicial_image,
+            $dossier->Judicial_date,
+            (new Transformer)->toText($dossier->summary_description),
+            $dossier->expert,
+            $dossier->is_active == 1 ? 'فعال' : 'غیر فعال',
+            $dossier->is_archive1 == 0 ? 'فعال' : 'غیر فعال',
+            $dossier->company->name,
+            $dossier->user_category_id,
+            $dossier->creator->name,
+            $dossier->personal_creator_id,
             $dossier->devices->where('status', 0)->count(),
             $val1 = $dossier->devices->where('status', 1)->count(),
             $val2 = $dossier->devices->where('status', 2)->count(),
             $val3 = $dossier->devices->where('status', 3)->count(),
             $dossier->personal_creator_id,
-                verta($dossier->created_at)->format('Y-n-j H:i'),
-                verta($dossier->updated_at)->format('Y-n-j H:i'),
+            verta($dossier->created_at)->format('Y-n-j H:i'),
+            verta($dossier->updated_at)->format('Y-n-j H:i'),
         ];
     }
-
-
 }
-
-

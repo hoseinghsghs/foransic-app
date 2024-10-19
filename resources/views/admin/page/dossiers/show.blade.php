@@ -57,7 +57,30 @@
                                 <div class="list-group-item list-group-item-action">
                                     <div class="row clearfix">
                                         <div class="col-6"><strong>نوع پرونده:</strong></div>
-                                        <div class="col-6">{{ $dossier->dossier_type ? 'فاوایی' : 'عملیاتی' }}</div>
+                                        @switch($dossier->dossier_type)
+                                            @case(0)
+                                                <div class="col-6">عملیاتی</div>
+                                            @break
+
+                                            @case(1)
+                                                <div class="col-6">فاوایی</div>
+                                            @break
+
+                                            @case(2)
+                                                <div class="col-6">پردازشی</div>
+                                            @break
+
+                                            @case(3)
+                                                <div class="col-6">واپایشی</div>
+                                            @break
+
+                                            @case(4)
+                                                <div class="col-6">کنترلی</div>
+                                            @break
+
+                                            @default
+                                        @endswitch
+
                                     </div>
                                 </div>
                                 <div class="list-group-item list-group-item-action">

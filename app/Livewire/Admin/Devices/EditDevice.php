@@ -48,9 +48,9 @@ class EditDevice extends Component
     {
         // get dossiers in same laboratory
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
-            $query->whereRelation('laboratories','laboratories.id', auth()->user()->laboratory_id);
-        })->when(auth()->user()->hasRole('company'),function (Builder $query){
-            $query->where('user_category_id',auth()->user()->id);
+            $query->whereRelation('laboratories', 'laboratories.id', auth()->user()->laboratory_id);
+        })->when(auth()->user()->hasRole('company'), function (Builder $query) {
+            $query->where('user_category_id', auth()->user()->id);
         })->get()->pluck('id')->toArray();
 
         return [
@@ -111,7 +111,7 @@ class EditDevice extends Component
         $this->reply_correspondence_date = $this->device->reply_correspondence_date;
         $this->delivery_name = $this->device->delivery_name;
         $this->delivery_code = $this->device->delivery_code;
-        $this->delivery_date=$this->device->delivery_date;
+        $this->delivery_date = $this->device->delivery_date;
         $this->receiver_name = $this->device->receiver_name;
         $this->receiver_code = $this->device->receiver_code;
         $this->receive_date = $this->device->receive_date;
@@ -201,8 +201,17 @@ class EditDevice extends Component
                 }
                 $this->device->attributes()->createMany($attributesValue);
             }
+            if (!empty($_SERVER['HTTP_CLIENT_IP']))
+                //check ip from share internet
+                $ip = $_SERVER['HTTP_CLIENT_IP'];
+            elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+                //to check ip is pass from proxy
+                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            else
+                $ip = $_SERVER['REMOTE_ADDR'];
+
             Event::create([
-                'title' => 'شاهد  ویرایش شد ' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->device->laboratory->name,
+                'title' => 'شاهد  ویرایش شد ' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $this->device->laboratory->name  . '___' . ' ip ' . ' : ' . $ip,
                 'body' => 'ID شاهد ' . " : " . $this->device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name   . " | " . 'نام شاهد : ' . $this->device->category->title,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $this->device->id,
@@ -227,13 +236,12 @@ class EditDevice extends Component
     {
         // get dossiers that were in same laboratory
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
-            $query->whereRelation('laboratories','laboratories.id', auth()->user()->laboratory_id);
-        })->when(auth()->user()->hasRole('company'),function (Builder $query){
-            $query->where('user_category_id',auth()->user()->id);
+            $query->whereRelation('laboratories', 'laboratories.id', auth()->user()->laboratory_id);
+        })->when(auth()->user()->hasRole('company'), function (Builder $query) {
+            $query->where('user_category_id', auth()->user()->id);
         })->get();
         $categories = Category::all();
         $parent_devices = Device::where('parent_id', 0)->get();
         return view('livewire.admin.devices.edit-device', compact('dossiers', 'categories', 'parent_devices'))->extends('admin.layout.MasterAdmin')->section('Content');
     }
 }
-

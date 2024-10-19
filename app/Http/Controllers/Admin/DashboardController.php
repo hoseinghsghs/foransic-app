@@ -65,7 +65,7 @@ class DashboardController extends Controller
 
             $users = User::role('personnel')->latest()->take(5)->get();
 
-            $actions = Action::whereBetween('receive_date', [$from, $to])->where('status', 1)->latest()->take(5)->get();
+            $actions = Action::whereBetween('created_at', [$from, $to])->where('status', 1)->latest()->take(5)->get();
             $image = Guide::where('type', 'image')->where('category', 'banner')->latest()->first();
 
 

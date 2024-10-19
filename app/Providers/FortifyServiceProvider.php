@@ -47,22 +47,21 @@ class FortifyServiceProvider extends ServiceProvider
         $this->app->instance(LoginResponse::class, new class implements LoginResponse {
             public function toResponse($request)
             {
-                $roles=Role::all()->pluck('name')->toArray();
-                if ($request->user()->hasRole($roles)){
-                    if (request()->session()->get('url.intended') && str_contains(request()->session()->get('url.intended'),'Admin-panel/managment')){
-                        $redirect=request()->session()->get('url.intended');
-                    }else{
-                        $redirect=route('admin.home');
+                $roles = Role::all()->pluck('name')->toArray();
+                if ($request->user()->hasRole($roles)) {
+                    if (request()->session()->get('url.intended') && str_contains(request()->session()->get('url.intended'), 'Admin-panel/managment')) {
+                        $redirect = request()->session()->get('url.intended');
+                    } else {
+                        $redirect = route('admin.home');
                     }
-                }else{
-                    $redirect=route('user.home');
+                } else {
+                    $redirect = route('user.home');
                 }
                 return $request->wantsJson()
                     ? response()->json(['two_factor' => false, 'redirect' => $redirect])
                     : (auth()->user()->hasRole($roles) ? redirect()->route('admin.home') : redirect()->route('user.home'));
             }
         });
-
     }
 
     /**
@@ -96,13 +95,24 @@ class FortifyServiceProvider extends ServiceProvider
 
 
         Fortify::authenticateUsing(function (Request $request) {
-            $request->validate(['captcha' => ['required','captcha']]);
+            $request->validate(['captcha' => ['required', 'captcha']]);
             $user = User::where('email', $request->username)->orWhere('cellphone', $request->username)->first();
 
-            if ($user &&
-                Hash::check($request->password, $user->password)) {
+            if (!empty($_SERVER['HTTP_CLIENT_IP']))
+                //check ip from share internet
+                $ip = $_SERVER['HTTP_CLIENT_IP'];
+            elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+                //to check ip is pass from proxy
+                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+            else
+                $ip = $_SERVER['REMOTE_ADDR'];
+
+            if (
+                $user &&
+                Hash::check($request->password, $user->password)
+            ) {
                 $event = Event::create([
-                    'title' => 'کاربر وارد سایت شد',
+                    'title' => ' کاربر وارد سایت شد ' . '___' . ' ip ' . ' : ' . $ip,
                     'body' => 'کاربر' . " : " . $user->email,
                     'user_id' => $user->id,
                     'eventable_id' => $user->id,
@@ -123,6 +133,5 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(PasswordResetResponseContract::class, PasswordResetResponse::class);
-
     }
 }
