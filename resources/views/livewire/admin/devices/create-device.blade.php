@@ -206,6 +206,21 @@
                                             </div>
                                         @endif
                                     @endisset
+                                    <div
+                                        class="form-group col-md-4 col-sm-6 @error('receiver_staff_id') is-invalid @enderror">
+                                        <label for="userSelect">تحویل گیرنده <abbr class="required text-danger"
+                                                                                   title="ضروری">*</abbr></label>
+                                        <div class="input-group" wire:ignore>
+                                            <select id="receiverPersonnelSelect" name="receiver_staff_id"
+                                                    data-placeholder="انتخاب پرسنل"
+                                                    class="form-control ms search-select">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                        @error('receiver_staff_id')
+                                        <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                     <div class="form-group col-md-4">
                                         <label> نام تحویل دهنده <abbr class="required" title="ضروری"
                                                                       style="color:red;">*</abbr></label>
@@ -520,31 +535,20 @@
         };
 
         $(document).ready(function () {
-            $('#laboratorySelect').on('change', function (e) {
-                let data = $('#laboratorySelect').select2("val");
-                if (data === '') {
-                    @this.
-                    set('laboratory_id', null);
-                } else {
-                    @this.
-                    set('laboratory_id', data);
-                }
-            });
-
             $('#statusSelect').on('change', function (e) {
-                let data = $('#statusSelect').select2("val");
+                let data = $(e.target).select2("val");
                 @this.
                 set('status', data);
             });
 
             $('#title-device').on('change', function (e) {
-                let data = $('#title-device').select2("val");
+                let data = $(e.target).select2("val");
                 @this.
                 set('category_id', data);
             });
 
             $('#dossierSelect').on('change', async function (e) {
-                let id = $('#dossierSelect').select2("val");
+                let id = $(e.target).select2("val");
                 if (id === '') {
                     @this.
                     set('dossier_id', null);
@@ -567,8 +571,43 @@
                     }
                 }
             });
+
+            $('#laboratorySelect').on('change', async function (e) {
+                let data = $(e.target).select2("val");
+                if (data === '') {
+                    @this.
+                    set('laboratory_id', null);
+                } else {
+                    @this.
+                    set('laboratory_id', data);
+                    let personnelSelector = $("#receiverPersonnelSelect")
+                    let personnel = await @this.
+                    getLaboratoryPersonnel();
+                    personnel = JSON.parse(personnel);
+                    personnelSelector.empty()
+                    if (personnel) {
+                        personnelSelector.select2({
+                            placeholder: 'انتخاب تحویل گیرنده',
+                            allowClear: true,
+                            data: personnel
+                        })
+                    }
+                }
+            });
+
+            $('#receiverPersonnelSelect').on('change', function (e) {
+                let receiverId = $(e.target).select2("val");
+                if (receiverId === '') {
+                    @this.
+                    set('receiver_staff_id', null);
+                } else {
+                    @this.
+                    set('receiver_staff_id', receiverId);
+                }
+            });
+
             $('#rel').on('change', function (e) {
-                let data = $('#rel').select2("val");
+                let data = $(e.target).select2("val");
                 alert(data);
                 if (data === '') {
                     @this.

@@ -8,6 +8,7 @@ use App\Models\Dossier;
 use App\Models\Category;
 use App\Models\DeviceImage;
 use App\Models\Event;
+use App\Models\Laboratory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -31,6 +32,7 @@ class CreateDevice extends Component
     public string $correspondence_date = '';
     public $dossier_id;
     public int|null $laboratory_id = null;
+    public int|null $receiver_staff_id = null;
     public string $delivery_code = '';
     public string $delivery_name = '';
     public $receive_date = null;
@@ -58,7 +60,8 @@ class CreateDevice extends Component
             'attribute_values' => $this->category_id && $this->category->attributes()->exists() ? 'array:' . $this->category->attributes()->pluck('attributes.id')->implode(',') : 'array',
             'status' => 'required|integer',
             'dossier_id' => ['required', 'integer', Rule::in($dossiers)],
-            'laboratory_id' => ['integer', 'nullable', 'exists:laboratories,id', Rule::requiredIf(is_null(auth()->user()->laboratory_id))],
+            'laboratory_id' => ['required','integer', 'exists:laboratories,id'],
+            'receiver_staff_id' => ['required','integer', 'exists:users,id'],
             'description' => 'nullable|string',
             'accessories' => 'nullable|string',
             'code' => 'required|string',
@@ -84,10 +87,10 @@ class CreateDevice extends Component
         if (session()->get('dossier')) {
             $this->dossier_id = Session::get('dossier');
         }
-
+        if (auth()->user()->laboratory_id)
+            $this->laboratory_id = auth()->user()->laboratory_id;
         //        $this->dossier_id = Session::get('dossier');
         Session::forget('images');
-        //        $this->receive_date = verta()->format('Y/m/d H:i');
     }
 
     public function create($type_redirect = '1')
@@ -115,7 +118,7 @@ class CreateDevice extends Component
                 'status' => $this->status,
                 'trait' => $this->trait,
                 'dossier_id' => $this->dossier_id,
-                'laboratory_id' => auth()->user()->laboratory_id ?? $this->laboratory_id,
+                'laboratory_id' => $this->laboratory_id,
                 'primary_image' => $image_name,
                 'description' => $this->description,
                 'accessories' => $this->accessories,
@@ -130,7 +133,7 @@ class CreateDevice extends Component
                 'receiver_code' => "-",
                 'report' => "-",
                 'delivery_staff_id' => 0,
-                'receiver_staff_id' => auth()->user()->id,
+                'receiver_staff_id' => $this->receiver_staff_id,
                 'delivery_date' => "-",
                 'receive_date' => $this->receive_date,
                 'is_active' => !$this->is_active,
@@ -159,7 +162,7 @@ class CreateDevice extends Component
             else
                 $ip = $_SERVER['REMOTE_ADDR'];
             Event::create([
-                'title' => 'شاهد جدید ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $device->laboratory->name  . '___' . ' ip ' . ' : ' . $ip,
+                'title' => 'شاهد جدید ایجاد شد' . ' ' . ' | ' . ' ' . ' آزمایشگاه : ' . $device->laboratory->name . '___' . ' ip ' . ' : ' . $ip,
                 'body' => 'ID شاهد ' . " : " . $device->id . " | " . 'آیدی کاربر' . " : " . auth()->user()->id . "-" . auth()->user()->name . " | " . 'نام شاهد : ' . $device->category->title,
                 'user_id' => auth()->user()->id,
                 'eventable_id' => $device->id,
@@ -196,6 +199,19 @@ class CreateDevice extends Component
         }
         return json_encode($res);
     }
+
+    public function getLaboratoryPersonnel()
+    {
+        $res = [['id' => '', 'text' => '']];
+        if (empty($this->laboratories)) {
+            $personnel = Laboratory::find($this->laboratory_id)->users()->role('personnel')->get();
+            foreach ($personnel as $user) {
+                $res[] = ['id' => $user->id, 'text' => $user->name.' - '.$user->email.' - '.$user->cellphone];
+            }
+        }
+        return json_encode($res);
+    }
+
     public function render()
     {
         $dossiers = Dossier::when(isset(auth()->user()->laboratory_id), function ($query) {
