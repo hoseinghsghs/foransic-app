@@ -139,6 +139,36 @@
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
+                                    @isset($dossier_id)
+                                        <?php
+                                        $parent_devices = $parent_devices->where('dossier_id', $dossier_id);
+                                        ?>
+                                        @if ($parent_devices->count())
+                                            <div
+                                                class="form-group col-md-4 col-sm-6 @error('parent_id') is-invalid @enderror">
+                                                <label for="rel"> ارتباط با سایر شواهد<abbr class="required"
+                                                        title="ضروری" style="color:red;">*</abbr></label>
+                                                <div>
+                                                    <select id="rel" name="parent_id" wire:model.defer="parent_id"
+                                                        data-placeholder="انتخاب پرونده"
+                                                        class="form-control ms search-select">
+                                                        <option value="0">شاهد اصلی</option>
+                                                        @foreach ($parent_devices as $parent_device)
+                                                            {{ $parent_device->id }}
+                                                            <option value="{{ $parent_device->id }}">
+                                                                آی دی: {{ $parent_device->id }} - عنوان:
+                                                                {{ $parent_device->category->title }} - مدل:
+                                                                {{ $parent_device->code }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @error('parent_id')
+                                                    <small class="text-danger">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                        @endif
+                                    @endisset
                                     {{-- category attributes --}}
                                     @if ($category_id && $this->category->attributes()->exists())
                                         @foreach ($this->category->attributes as $attribute)
@@ -172,36 +202,21 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                    @isset($dossier_id)
-                                        <?php
-                                        $parent_devices = $parent_devices->where('dossier_id', $dossier_id);
-                                        ?>
-                                        @if ($parent_devices->count())
-                                            <div
-                                                class="form-group col-md-4 col-sm-6 @error('parent_id') is-invalid @enderror">
-                                                <label for="rel"> ارتباط با سایر شواهد<abbr class="required"
-                                                        title="ضروری" style="color:red;">*</abbr></label>
-                                                <div>
-                                                    <select id="rel" name="parent_id" wire:model.defer="parent_id"
-                                                        data-placeholder="انتخاب پرونده"
-                                                        class="form-control ms search-select">
-                                                        <option value="0">شاهد اصلی</option>
-                                                        @foreach ($parent_devices as $parent_device)
-                                                            {{ $parent_device->id }}
-                                                            <option value="{{ $parent_device->id }}">
-                                                                آی دی: {{ $parent_device->id }} - عنوان:
-                                                                {{ $parent_device->category->title }} - مدل:
-                                                                {{ $parent_device->code }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                @error('parent_id')
-                                                    <small class="text-danger">{{ $message }}</small>
-                                                @enderror
-                                            </div>
-                                        @endif
-                                    @endisset
+
+                                    <div
+                                        class="form-group col-md-4 col-sm-6 @error('receiver_staff_id') is-invalid @enderror">
+                                        <label for="userSelect">تحویل گیرنده <abbr class="required text-danger"
+                                                title="ضروری">*</abbr></label>
+                                        <div class="input-group" wire:ignore>
+                                            <select id="receiverPersonnelSelect" name="receiver_staff_id"
+                                                data-placeholder="انتخاب پرسنل" class="form-control ms search-select">
+                                                <option></option>
+                                            </select>
+                                        </div>
+                                        @error('receiver_staff_id')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
                                     <div class="form-group col-md-4">
                                         <label> نام تحویل دهنده <abbr class="required" title="ضروری"
                                                 style="color:red;">*</abbr></label>
@@ -515,31 +530,20 @@
         };
 
         $(document).ready(function() {
-            $('#laboratorySelect').on('change', function(e) {
-                let data = $('#laboratorySelect').select2("val");
-                if (data === '') {
-                    @this.
-                    set('laboratory_id', null);
-                } else {
-                    @this.
-                    set('laboratory_id', data);
-                }
-            });
-
             $('#statusSelect').on('change', function(e) {
-                let data = $('#statusSelect').select2("val");
+                let data = $(e.target).select2("val");
                 @this.
                 set('status', data);
             });
 
             $('#title-device').on('change', function(e) {
-                let data = $('#title-device').select2("val");
+                let data = $(e.target).select2("val");
                 @this.
                 set('category_id', data);
             });
 
             $('#dossierSelect').on('change', async function(e) {
-                let id = $('#dossierSelect').select2("val");
+                let id = $(e.target).select2("val");
                 if (id === '') {
                     @this.
                     set('dossier_id', null);
@@ -562,8 +566,43 @@
                     }
                 }
             });
+
+            $('#laboratorySelect').on('change', async function(e) {
+                let data = $(e.target).select2("val");
+                if (data === '') {
+                    @this.
+                    set('laboratory_id', null);
+                } else {
+                    @this.
+                    set('laboratory_id', data);
+                    let personnelSelector = $("#receiverPersonnelSelect")
+                    let personnel = await @this.
+                    getLaboratoryPersonnel();
+                    personnel = JSON.parse(personnel);
+                    personnelSelector.empty()
+                    if (personnel) {
+                        personnelSelector.select2({
+                            placeholder: 'انتخاب تحویل گیرنده',
+                            allowClear: true,
+                            data: personnel
+                        })
+                    }
+                }
+            });
+
+            $('#receiverPersonnelSelect').on('change', function(e) {
+                let receiverId = $(e.target).select2("val");
+                if (receiverId === '') {
+                    @this.
+                    set('receiver_staff_id', null);
+                } else {
+                    @this.
+                    set('receiver_staff_id', receiverId);
+                }
+            });
+
             $('#rel').on('change', function(e) {
-                let data = $('#rel').select2("val");
+                let data = $(e.target).select2("val");
                 alert(data);
                 if (data === '') {
                     @this.
@@ -693,7 +732,7 @@
                     if (thisAltFormat === 'gregorian' || thisAltFormat === 'g') {
                         const date1 = new Date(unixDate);
                         const pad = (num) => String(num).padStart(2,
-                        '0'); // Helper to pad single digits
+                            '0'); // Helper to pad single digits
                         const year = date1.getFullYear();
                         const month = pad(date1.getMonth() + 1); // Months are zero-indexed
                         const day = pad(date1.getDate());
