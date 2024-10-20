@@ -169,6 +169,19 @@
                                             </div>
                                         @endif
                                     @endisset
+
+                                    <div class="form-group col-md-4">
+                                        <label> نام تحویل دهنده <abbr class="required" title="ضروری"
+                                                style="color:red;">*</abbr></label>
+                                        <div class="form-group">
+                                            <input type="text" wire:model.defer="delivery_name" id="delivery-name"
+                                                class="form-control @error('delivery_name') is-invalid @enderror"
+                                                required />
+                                            @error('delivery_name')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                     {{-- category attributes --}}
                                     @if ($category_id && $this->category->attributes()->exists())
                                         @foreach ($this->category->attributes as $attribute)
@@ -216,18 +229,6 @@
                                         @error('receiver_staff_id')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label> نام تحویل دهنده <abbr class="required" title="ضروری"
-                                                style="color:red;">*</abbr></label>
-                                        <div class="form-group">
-                                            <input type="text" wire:model.defer="delivery_name" id="delivery-name"
-                                                class="form-control @error('delivery_name') is-invalid @enderror"
-                                                required />
-                                            @error('delivery_name')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
                                     </div>
 
                                     <div class="form-group col-md-4">
