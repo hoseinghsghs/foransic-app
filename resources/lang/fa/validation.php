@@ -215,5 +215,6 @@ return array(
         "permanent_personnel_count" => "تعداد پرسنل ثابت",
         "internal_number" => "شماره داخلی",
         "temporary_personnel_count" => "تعداد پرسنل پاره وقت",
+        "receiver_staff_id" => "تحویل گیرنده"
     ),
 );
